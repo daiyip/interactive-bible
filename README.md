@@ -1,3 +1,10 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="img/logo-white.svg">
+    <img src="img/logo.svg" width="112" alt="Interactive Bible logo: an open book with a map pin on its right page">
+  </picture>
+</p>
+
 # Interactive Bible
 
 **Live at [bible.daiyip.com](https://bible.daiyip.com)**
@@ -55,6 +62,12 @@ The arrow keys change chapter, `/` opens search, and Esc closes the context pane
 ```sh
 python3 -m http.server 8000   # then open http://localhost:8000/#John.3.16
 ```
+
+## Logo
+
+`img/logo.svg` (black) and `img/logo-white.svg` (white) are the logo: an open book with a map pin, drawn in the same
+line style as the atlas's folded map. `img/favicon.svg` is the browser icon (it turns white in dark mode), with
+`img/icon-32.png` and `img/icon-180.png` for browsers and phones that need a PNG.
 
 ## Data
 
