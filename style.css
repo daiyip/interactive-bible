@@ -141,6 +141,11 @@ a { color: var(--accent); }
 
 .note.small { font-size: 13px; margin: 0 0 8px; }
 .map { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; border-radius: 10px; border: 1px solid var(--line); }
+.map-box { position: relative; aspect-ratio: 4 / 3; }
+.map-box iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 1px solid var(--line); border-radius: 10px; opacity: 0; pointer-events: none; transition: opacity .3s; background: var(--sea); }
+.map-box.live iframe { opacity: 1; pointer-events: auto; }
+.map-box.live #map-fallback { visibility: hidden; }
+.map-box[hidden] { display: none; }
 .map .sea { fill: var(--sea); }
 .map .land { fill: var(--land); stroke: var(--coast); stroke-width: 1; }
 .map .lake { fill: var(--sea); stroke: var(--water); stroke-width: .8; }

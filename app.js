@@ -198,7 +198,8 @@ function renderLinks(b, c, v) {
     `<li><a href="${href}" target="_blank" rel="noopener">${t} ↗</a><span>${d}</span></li>`).join("")}</ul>`;
 }
 
-// Places named in the verse (or, if none, in the chapter) on a small map, and the events the verse belongs to.
+// Places named in the verse (or, if none, in the chapter) on the atlas map, and the events the verse belongs to.
+// Until the atlas has loaded (or if it can't), a small SVG map stands in for it.
 async function renderPlaces(b, c, v, key) {
   const [places, { places: vp, events: ve }, base] = await Promise.all([
     loadJSON("data/places.json"), bookContext(b.id), loadJSON("data/basemap.json")]);
@@ -209,18 +210,20 @@ async function renderPlaces(b, c, v, key) {
     ids = [...new Set(Object.entries(vp).filter(([k]) => k.startsWith(c + ".")).flatMap(([, l]) => l))];
     scope = "chapter";
   }
+  const pts = ids.map((i) => places[i]), evs = ve[`${c}.${v}`] || [];
   $("places-count").textContent = here.length || "";
-  const pane = $("tab-places");
+  $("places-note").textContent = !ids.length ? `No places are named in ${b.name} ${c}.`
+    : scope === "verse" ? "Named in this verse" : `No places named in this verse. Places in ${b.name} ${c}:`;
+  $("map-fallback").replaceChildren(...(pts.length ? [drawMap(pts, base)] : []));
+  $("map-box").hidden = !pts.length && !atlas.ready && !state.tour;
+  syncAtlas(pts, evs);
+
+  const pane = $("places-body");
   pane.innerHTML = "";
   if (ids.length) {
-    const note = document.createElement("p");
-    note.className = "note small";
-    note.textContent = scope === "verse" ? "Named in this verse" : `No places named in this verse. Places in ${b.name} ${c}:`;
-    pane.append(note, drawMap(ids.map((i) => places[i]), base));
     const ul = document.createElement("ul");
     ul.className = "places";
-    for (const i of ids) {
-      const [, name, lon, lat, kind] = places[i];
+    for (const [, name, lon, lat, kind] of pts) {
       const li = document.createElement("li");
       li.innerHTML = `<b></b> <span></span>`;
       li.firstChild.textContent = name;
@@ -228,10 +231,7 @@ async function renderPlaces(b, c, v, key) {
       ul.append(li);
     }
     pane.append(ul);
-  } else {
-    pane.innerHTML = `<p class="note">No places are named in ${b.name} ${c}.</p>`;
   }
-  const evs = ve[`${c}.${v}`] || [];
   if (evs.length) {
     const h = document.createElement("h3");
     h.textContent = "Part of";
@@ -240,13 +240,62 @@ async function renderPlaces(b, c, v, key) {
     for (const [title, year] of evs) {
       const li = document.createElement("li");
       li.innerHTML = `<span class="yr"></span> `;
-      li.firstChild.textContent = year == null ? "" : year < 0 ? `${-year} BC` : `AD ${year}`;
+      li.firstChild.textContent = year == null ? "" : fmtYear(year);
       li.append(title);
       ul.append(li);
     }
     pane.append(h, ul);
   }
 }
+
+// --- The atlas map ------------------------------------------------------------
+
+// The atlas runs in an iframe (?embed=1) with this site's pack. The pack's bridge plugin (atlas/plugins/bridge.js)
+// takes the messages below and reports tour steps and verse links back. ?atlas=<url> points at another atlas build.
+const ATLAS = new URLSearchParams(location.search).get("atlas") || "https://atlas.daiyip.com/";
+const atlas = { frame: null, ready: false, want: null, last: null };
+
+// Show the open tour step if the reader is on it, else this verse's places.
+function syncAtlas(pts, evs) {
+  const t = state.tour, step = t && parseRef(t.tr.steps[t.i].ref);
+  const onStep = step && step.book === state.book && step.chapter === state.chapter && step.verse === state.verse;
+  atlasSend(onStep ? { type: "tour", id: t.tr.id, step: t.i }
+    : { type: "places", places: pts.map(([, name, lon, lat]) => [name, lon, lat]), year: evs.find((e) => e[1] != null)?.[1] ?? null });
+}
+function atlasSend(msg) {
+  atlas.want = msg;
+  if (!atlas.frame && (state.tab === "places" || state.tour)) openAtlas();
+  const key = JSON.stringify(msg);
+  if (!atlas.ready || key === atlas.last) return;
+  atlas.last = key;
+  atlas.frame.contentWindow.postMessage({ bible: 1, ...msg }, new URL(ATLAS).origin);
+}
+function openAtlas() {
+  const pack = new URL("atlas/manifest.json", location.href).href;
+  const f = document.createElement("iframe");
+  f.title = "Atlas map";
+  f.src = `${ATLAS}?pack=${encodeURIComponent(pack)}&packonly=1&embed=1&lang=en`;
+  f.allow = "fullscreen";
+  atlas.frame = f;
+  $("map-box").append(f);
+}
+addEventListener("message", (e) => {
+  const m = e.data;
+  if (!atlas.frame || e.source !== atlas.frame.contentWindow || e.origin !== new URL(ATLAS).origin || m?.bible !== 1) return;
+  if (m.type === "ready") {
+    atlas.ready = true;
+    atlas.last = null;
+    $("map-box").classList.add("live");
+    $("map-box").hidden = false;
+    if (atlas.want) atlasSend(atlas.want);
+  } else if (m.type === "tour-step") {
+    // A step taken on the map: follow it, without sending it back.
+    atlas.last = JSON.stringify({ type: "tour", id: m.id, step: m.index });
+    if (!state.tour || state.tour.tr.id !== m.id || state.tour.i !== m.index) startTour(m.id, m.index);
+  } else if (m.type === "ref" && typeof m.ref === "string" && parseRef(m.ref)) {
+    location.hash = m.ref;
+  }
+});
 
 const LANDMARKS = [["Jerusalem", 35.234, 31.777], ["Damascus", 36.309, 33.512], ["Babylon", 44.421, 32.536],
   ["Nineveh", 43.161, 36.348], ["Memphis", 31.255, 29.845], ["Antioch", 36.165, 36.201], ["Athens", 23.727, 37.972],
@@ -313,7 +362,6 @@ function drawMap(pts, base) {
 // --- Tours ------------------------------------------------------------------
 
 // Guided journeys, shared with the atlas pack (atlas/tours.json). Each step opens its verses in the reader.
-const ATLAS = "https://atlas.daiyip.com/";
 const PACK = "https://bible.daiyip.com/atlas/manifest.json";
 const loadTours = () => loadJSON("atlas/tours.json");
 const fmtYear = (y) => (y < 0 ? `${-y} BC` : `AD ${y}`);
@@ -344,11 +392,12 @@ async function startTour(id, i) {
   const tr = (await loadTours()).find((t) => t.id === id);
   if (!tr) return endTour();
   i = Math.max(0, Math.min(tr.steps.length - 1, i));
+  if (!state.tour) state.tab = "places"; // a tour starts on the map
   state.tour = { tr, i };
   store.set("bible-tour", [id, i]);
   if ($("picker").open) $("picker").close();
   const ref = tr.steps[i].ref;
-  if (decodeURIComponent(location.hash.slice(1)) === ref) renderTour();
+  if (decodeURIComponent(location.hash.slice(1)) === ref) { renderTour(); renderContext(); }
   else location.hash = ref;
 }
 function endTour() {

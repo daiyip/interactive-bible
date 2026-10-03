@@ -6,12 +6,15 @@ A Bible reader with the context of every verse beside it. The text is on the lef
 on the right with three tabs:
 
 - **Cross-references**: the verses most often linked to this one, strongest first.
-- **Places**: a map of the places the verse names, and the events it belongs to.
+- **Places**: the [atlas](https://atlas.daiyip.com) map with the places the verse names pinned, and the events it
+  belongs to. The map is the atlas itself, embedded with this site's pack; a small built-in map stands in while it
+  loads.
 - **Links**: the verse in NKJV on Bible Gateway, other translations side by side, and a Wikipedia search.
 
 **Tours** walk through a journey one step at a time, with no verse to pick first: Abraham, Joseph, the Exodus,
 David, Elijah, Jonah, the exile and return, Jesus, and Paul's journeys. Open them from **Tours** in the top bar, or
-from the list in the empty context panel. Each step opens its verses and links to the same step on the atlas map.
+from the list in the empty context panel. Each step opens its verses and flies the map to it, tracing the journey;
+stepping on the map moves the reader along too.
 
 It is a static site with no build step and no backend, served by GitHub Pages.
 

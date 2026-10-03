@@ -21,3 +21,9 @@ the Jordan) are a rough centre point.
 Sources and licences: [Theographic Bible Metadata](https://github.com/robertrouse/theographic-bible-metadata)
 (CC BY-SA 4.0, so this folder is shared under CC BY-SA 4.0 too); King James Version and 和合本 (both public domain)
 via [scrollmapper/bible_databases](https://github.com/scrollmapper/bible_databases).
+
+`plugins/` holds the pack's atlas plugins. `journey.js` traces each leg of a tour on the map (copied from the atlas's
+demo pack). `bridge.js` lets the reader drive the atlas it embeds in its Places tab (`?embed=1`) with `postMessage`:
+the reader starts tours and pins a verse's places, and the atlas reports tour steps and clicked verses back. The
+messages are listed at the top of the file.
+
