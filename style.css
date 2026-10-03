@@ -209,3 +209,22 @@ select.badge { font-family: inherit; background: var(--panel); cursor: pointer; 
   .tabs { top: 18px; }
   body.sheet-open .reader { padding-bottom: 64vh; }
 }
+
+/* Search */
+.search .picker-head { gap: 8px; }
+#search-q { flex: 1; min-width: 0; font: inherit; font-size: 16px; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; background: var(--bg); color: var(--ink); }
+#search-q:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+.search-results { padding: 8px 16px 20px; }
+.search-results > .note { margin: 12px 0; }
+.results { list-style: none; padding: 0; margin: 0 0 14px; }
+.results button { display: grid; gap: 1px; width: 100%; text-align: left; border: 0; background: none; padding: 7px 8px; margin: 0 -8px; border-radius: 8px; }
+.results button:hover, .results button:focus-visible { background: var(--accent-soft); }
+.results b { font-weight: 600; }
+.results span { font-size: 12px; color: var(--muted); }
+.results small { font-family: "Source Serif 4", "Noto Serif SC", serif; font-size: 14px; line-height: 1.5; color: var(--ink); }
+.results mark { background: var(--sel); color: inherit; border-radius: 2px; }
+/* Narrow phones: the title keeps its room; text size is left to pinch zoom */
+@media (max-width: 400px) {
+  #smaller, #larger { display: none; }
+  select.badge { max-width: 66px; }
+}

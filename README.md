@@ -16,6 +16,9 @@ David, Elijah, Jonah, the exile and return, Jesus, and Paul's journeys. Open the
 from the list in the empty context panel. Each step opens its verses and flies the map to it, tracing the journey;
 stepping on the map moves the reader along too.
 
+**Search** (the magnifier, or `/`) finds references ("John 3:16", "约翰福音 3"), books, places, events, tours and
+words in the text.
+
 **Translations**: the switch in the top bar picks the King James Version, 和合本 (the Chinese Union Version, in
 simplified characters), or both side by side, verse by verse. With 和合本 first, the whole app is in Chinese: book
 names, places, events, tours and the atlas map.
@@ -43,7 +46,7 @@ References use OSIS-style ids in the hash:
 | [`#John.3.16`](https://bible.daiyip.com/#John.3.16) | a chapter with a verse selected |
 | [`#Acts.13.4-5`](https://bible.daiyip.com/#Acts.13.4-5) | a range of verses, with the first one selected (the links from the atlas look like this) |
 
-The arrow keys change chapter, and Esc closes the context panel.
+The arrow keys change chapter, `/` opens search, and Esc closes the context panel.
 
 ## Run it locally
 
@@ -61,6 +64,7 @@ python3 -m http.server 8000   # then open http://localhost:8000/#John.3.16
 | `data/xref/<id>.json` | Cross-references keyed `"chapter.verse"`, each `[target, votes]`, strongest first. |
 | `data/places.json` | 1,220 places as `[id, name, lon, lat, kind, name_zh]`; the index is the place number. |
 | `data/vctx/<id>.json` | Per verse: `places` (place numbers named in it) and `events` (`[title, year, title_zh]` it belongs to). |
+| `data/search.json` | For the search box: every place and event with its Chinese name, first verse and verse count. |
 | `data/basemap.json` | Land, lakes and main rivers of the Bible lands for the Places map (Natural Earth, simplified). |
 | `atlas/` | The atlas data pack (see above). |
 

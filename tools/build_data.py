@@ -6,7 +6,7 @@ Writes
   data/text/kjv/<id>.json    [[verse text, ...] per chapter]
   data/text/cuv/<id>.json    the same for 和合本 (Chinese Union Version), in simplified characters, on KJV verse numbers
   data/xref/<id>.json        {"chapter.verse": [[target, votes], ...]} strongest first
-  data/places.json, data/vctx/, data/basemap.json   see build_places() and build_basemap()
+  data/places.json, data/vctx/, data/search.json, data/basemap.json   see build_places(), build_search(), build_basemap()
 Book ids are OSIS (Gen, Exod, ... Rev), as in the OpenBible cross-references.
 """
 import json, os, re
@@ -146,7 +146,28 @@ def build_places():
             vevents.setdefault(b, {})[f"{c}.{n}"] = es
     for b in set(vplaces) | set(vevents):
         write(os.path.join(DATA, "vctx", b + ".json"), {"places": vplaces.get(b, {}), "events": vevents.get(b, {})})
+    build_search(out, verses, index, events, year)
     return len(out), sum(map(len, vplaces.values())), sum(map(len, vevents.values()))
+
+
+def build_search(places, verses, index, events, year):
+    """data/search.json  {"places": [[name, name_zh, kind, first verse, verse count], ...] (as data/places.json),
+                          "events": [[title, title_zh, year, first verse, verse count], ...]}  for the search box"""
+    order = {b[0]: i for i, b in enumerate(BOOKS)}
+    key = lambda ref: (order[ref.split(".")[0]], *map(int, ref.split(".")[1:]))
+    pref, eref = {}, {}
+    for v in sorted(verses.values(), key=lambda v: key(v["osisRef"])):
+        for p in v.get("places", []):
+            if p in index:
+                pref.setdefault(index[p], []).append(v["osisRef"])
+        for e in v.get("event", []):
+            if e in events:
+                eref.setdefault(e, []).append(v["osisRef"])
+    ps = [[p[1], p[5], p[4], pref[i][0], len(pref[i])] if i in pref else [p[1], p[5], p[4], None, 0]
+          for i, p in enumerate(places)]
+    es = [[events[e]["title"], ZH["event_titles"].get(events[e]["title"], ""), year(events[e]["startDate"]), r[0], len(r)]
+          for e, r in sorted(eref.items(), key=lambda kv: key(kv[1][0]))]
+    write(os.path.join(DATA, "search.json"), {"places": ps, "events": es})
 
 
 def build_basemap():

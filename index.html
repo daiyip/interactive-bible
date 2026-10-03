@@ -17,6 +17,7 @@
     <button id="next" class="icon" data-i18n-title="nextCh" title="Next chapter (→)" aria-label="Next chapter (→)">›</button>
   </div>
   <span class="spacer"></span>
+  <button id="search-btn" class="icon" data-i18n-title="search" title="Search (/)" aria-label="Search (/)" aria-haspopup="dialog"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M10.4 10.4L14 14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button>
   <button id="tours-btn" class="text-btn" aria-haspopup="dialog" data-i18n="tours">Tours</button>
   <select id="version" class="badge" data-i18n-title="version" title="Translation" aria-label="Translation">
     <option value="kjv">KJV</option>
@@ -86,6 +87,14 @@
     <button id="picker-x" class="icon" data-i18n-title="close" aria-label="Close">×</button>
   </div>
   <div id="picker-body"></div>
+</dialog>
+
+<dialog id="search" class="picker search">
+  <div class="picker-head">
+    <input id="search-q" type="search" autocomplete="off" spellcheck="false" enterkeyhint="search" data-i18n-ph="searchPh" placeholder="Search" aria-label="Search">
+    <button id="search-x" class="icon" data-i18n-title="close" aria-label="Close">×</button>
+  </div>
+  <div id="search-results" class="search-results" aria-live="polite"></div>
 </dialog>
 
 <script src="app.js"></script>

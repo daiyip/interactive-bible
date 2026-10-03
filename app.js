@@ -32,6 +32,11 @@ const L = {
     inChapter: (r) => `No places named in this verse. Places in ${r}:`, partOf: "Part of",
     error: "Could not load this chapter. Check your connection and reload.", site: "Bible", atlas: "Atlas map",
     year: (y) => (y < 0 ? `${-y} BC` : `AD ${y}`),
+    search: "Search (/)", searchPh: "Search the Bible",
+    searchHint: "A reference, a word, a place, an event or a tour. Try “John 3:16”, “Bethlehem” or “shepherd”.",
+    goTo: "Go to", events: "Events", verses: "Verses", nVerses: (n) => `${n.toLocaleString("en")} ${n === 1 ? "verse" : "verses"}`,
+    more: (n) => `${n.toLocaleString("en")} more verses not shown. Add a word to narrow it down.`, none: "Nothing found.",
+    searching: "Searching the text…",
     credit: `King James Version and 和合本 (Chinese Union Version), public domain. Cross-references from
       <a href="https://www.openbible.info/labs/cross-references/" target="_blank" rel="noopener">OpenBible.info</a> (CC BY).
       Places and events from <a href="https://github.com/robertrouse/theographic-bible-metadata" target="_blank" rel="noopener">Theographic</a>
@@ -51,6 +56,11 @@ const L = {
     inChapter: (r) => `本节没有提到地名。${r} 中的地点：`, partOf: "所属事件",
     error: "无法载入这一章。请检查网络后重新载入。", site: "圣经", atlas: "地图",
     year: (y) => (y < 0 ? `公元前${-y}年` : `公元${y}年`),
+    search: "搜索 (/)", searchPh: "搜索圣经",
+    searchHint: "经文出处、字词、地点、事件或导览。试试“约翰福音 3:16”“伯利恒”或“牧人”。",
+    goTo: "前往", events: "事件", verses: "经文", nVerses: (n) => `${n} 节`,
+    more: (n) => `还有 ${n} 节没有列出。再加一个词可以缩小范围。`, none: "没有找到。",
+    searching: "正在搜索经文…",
     credit: `和合本与英王钦定本（KJV）均为公有领域。串珠来自
       <a href="https://www.openbible.info/labs/cross-references/" target="_blank" rel="noopener">OpenBible.info</a>（CC BY）。
       地点与事件来自 <a href="https://github.com/robertrouse/theographic-bible-metadata" target="_blank" rel="noopener">Theographic</a>
@@ -73,6 +83,7 @@ function applyLang() {
     el.title = t(el.dataset.i18nTitle);
     if (el.hasAttribute("aria-label")) el.setAttribute("aria-label", el.title);
   });
+  document.querySelectorAll("[data-i18n-ph]").forEach((el) => (el.placeholder = el.ariaLabel = t(el.dataset.i18nPh)));
   $("credit").innerHTML = t("credit");
   $("version").value = state.version;
 }
@@ -548,8 +559,114 @@ function showChapters(b) {
   $("picker-body").replaceChildren(grid);
 }
 function go(book, chapter, verse) {
-  $("picker").close();
+  if ($("picker").open) $("picker").close();
   location.hash = hashFor(book, chapter, verse);
+}
+
+// --- Search -------------------------------------------------------------------
+
+// One box for references ("John 3:16", "约翰福音 3"), books, tours, events, places, and words in the text of the
+// translation being read. The whole text loads on the first word search (66 files, cached after).
+let searchSeq = 0, searchTimer = 0;
+// Lower case, without accents, hyphens or the KJV's dashes ("Beth–lehem" is found as "bethlehem").
+const SKIP = /[\u0300-\u036f\-–—‧·]/;
+const norm = (s) => s.normalize("NFD").toLowerCase().split("").filter((c) => !SKIP.test(c)).join("");
+const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+
+function openSearch() {
+  $("search").showModal();
+  $("search-q").select();
+  runSearch();
+}
+// "John 3:16", "1 cor 13", "约翰福音 3:16" → {book, chapter, verse}
+function queryRef(q) {
+  const m = /^(.+?)\s*(\d+)(?:\s*[:：.]\s*(\d+))?$/.exec(q.trim());
+  if (!m) return null;
+  const name = norm(m[1]).replace(/\s+/g, "");
+  if (!name) return null;
+  const books = state.books.filter((b) => [b.name, b.name_zh, b.id].some((n) => norm(n).replace(/\s+/g, "").startsWith(name)));
+  const b = books.find((b) => [b.name, b.name_zh, b.id].some((n) => norm(n).replace(/\s+/g, "") === name)) || books[0];
+  if (!b || +m[2] < 1 || +m[2] > b.chapters.length) return null;
+  const v = m[3] && +m[3] >= 1 && +m[3] <= b.chapters[+m[2] - 1] ? +m[3] : null;
+  return { book: b.id, chapter: +m[2], verse: v };
+}
+// Text with the first match of the query in <mark>, mapped back through norm().
+function marked(text, q) {
+  const t0 = text.normalize("NFD"), at = [];
+  let n = "";
+  for (let i = 0; i < t0.length; i++) if (!SKIP.test(t0[i])) { n += t0[i].toLowerCase(); at.push(i); }
+  const i = n.indexOf(norm(q));
+  if (i < 0) return esc(t0);
+  const a = at[i], z = at[i + norm(q).length - 1] + 1;
+  return esc(t0.slice(0, a)) + "<mark>" + esc(t0.slice(a, z)) + "</mark>" + esc(t0.slice(z));
+}
+async function runSearch() {
+  const q = $("search-q").value.trim(), seq = ++searchSeq, out = $("search-results");
+  if (!q) { out.innerHTML = `<p class="note">${t("searchHint")}</p>`; return; }
+  const nq = norm(q), groups = [];
+  const has = (...xs) => xs.some((x) => x && norm(x).includes(nq));
+  const item = (title, sub, act, html) => ({ title, sub, act, html });
+  const add = (label, items) => items.length && groups.push([label, items]);
+  const ref = queryRef(q);
+  if (ref) {
+    const b = state.byId[ref.book];
+    add(t("goTo"), [item(`${bname(b)} ${ref.chapter}${ref.verse ? ":" + ref.verse : ""}`, "", () => go(ref.book, ref.chapter, ref.verse))]);
+  }
+  add(t("books"), state.books.filter((b) => has(b.name, b.name_zh)).map((b) => item(bname(b), "", () => go(b.id, 1))));
+  const [tours, idx] = await Promise.all([loadTours(), loadJSON("data/search.json")]);
+  if (seq !== searchSeq) return;
+  const label = (en, zhName) => (zh() && zhName) || en;
+  add(t("events"), idx.events.filter(([title, titleZh]) => has(title, titleZh)).slice(0, 30)
+    .map(([title, titleZh, year, first]) => item(label(title, titleZh), [year != null && fmtYear(year), refLabel(first)].filter(Boolean).join(" · "), () => go(...first.split("."))))); 
+  // Places: names that start with the query first.
+  const places = idx.places.filter(([name, nameZh, , first]) => first && has(name, nameZh))
+    .sort((a, b) => (norm(label(b[0], b[1])).startsWith(nq) - norm(label(a[0], a[1])).startsWith(nq)) || b[4] - a[4]).slice(0, 30);
+  add(t("places"), places.map(([name, nameZh, kind, first, n]) =>
+    item(label(name, nameZh), [(zh() && KINDS_ZH[kind]) || kind, t("nVerses", n)].filter(Boolean).join(" · "), () => go(...first.split(".")))));
+  add(t("tours"), tours.filter((tr) => has(tr.title, tr.title_zh, tx(tr, "summary")))
+    .map((tr) => item(tx(tr, "title"), tx(tr, "summary"), () => { $("search").close(); startTour(tr.id, 0); })));
+  draw(out, groups, t("searching"));
+
+  // Words in the text: needs at least two letters (or one Chinese character).
+  if (q.length < (/[\u3400-\u9fff]/.test(q) ? 1 : 2) || ref) return draw(out, groups, groups.length ? "" : t("none"));
+  const tr = versions()[0], hits = [];
+  const texts = await Promise.all(state.books.map((b) => bookText(b.id, tr)));
+  if (seq !== searchSeq) return;
+  let total = 0;
+  texts.forEach((chapters, bi) => chapters.forEach((verses, ci) => verses.forEach((text, vi) => {
+    if (!norm(text).includes(nq)) return;
+    if (++total <= 100) hits.push([state.books[bi], ci + 1, vi + 1, text]);
+  })));
+  add(`${t("verses")} · ${t("nVerses", total)}`, hits.map(([b, c, v, text]) =>
+    item(`${bname(b)} ${c}:${v}`, "", () => go(b.id, c, v), marked(text, q))));
+  draw(out, groups, total > 100 ? t("more", total - 100) : groups.length ? "" : t("none"));
+}
+function draw(out, groups, note) {
+  out.replaceChildren();
+  for (const [label, items] of groups) {
+    const h = document.createElement("div");
+    h.className = "testament";
+    h.textContent = label;
+    const ul = document.createElement("ul");
+    ul.className = "results";
+    for (const it of items) {
+      const li = document.createElement("li"), btn = document.createElement("button");
+      btn.innerHTML = `<b></b>${it.sub ? "<span></span>" : ""}${it.html ? "<small></small>" : ""}`;
+      btn.querySelector("b").textContent = it.title;
+      if (it.sub) btn.querySelector("span").textContent = it.sub;
+      if (it.html) btn.querySelector("small").innerHTML = it.html;
+      btn.onclick = () => { if ($("search").open) $("search").close(); it.act(); };
+      li.append(btn);
+      ul.append(li);
+    }
+    out.append(h, ul);
+  }
+  if (note) {
+    const p = document.createElement("p");
+    p.className = "note";
+    p.textContent = note;
+    out.append(p);
+  }
 }
 
 // --- Routing and setup ---------------------------------------------------------
@@ -615,12 +732,20 @@ async function init() {
   $("picker-back").onclick = showBooks;
   $("picker").addEventListener("click", (e) => { if (e.target === $("picker")) $("picker").close(); });
   addEventListener("keydown", (e) => {
-    if ($("picker").open || e.metaKey || e.ctrlKey || e.altKey) return;
+    if ($("picker").open || $("search").open || e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.key === "/" && !/^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName)) { e.preventDefault(); openSearch(); return; }
     if (e.key === "ArrowLeft") step(-1);
     else if (e.key === "ArrowRight") step(1);
     else if (e.key === "Escape" && state.verse) location.hash = hashFor(state.book, state.chapter);
   });
   $("tours-btn").onclick = () => { showTours(); $("picker").showModal(); };
+  $("search-btn").onclick = openSearch;
+  $("search-x").onclick = () => $("search").close();
+  $("search").addEventListener("click", (e) => { if (e.target === $("search")) $("search").close(); });
+  $("search-q").addEventListener("input", () => { clearTimeout(searchTimer); searchTimer = setTimeout(runSearch, 200); });
+  $("search-q").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") { e.preventDefault(); $("search-results").querySelector("button")?.click(); }
+  });
   $("tour-prev").onclick = () => startTour(state.tour.tr.id, state.tour.i - 1);
   $("tour-next").onclick = () => (state.tour.i === state.tour.tr.steps.length - 1 ? endTour() : startTour(state.tour.tr.id, state.tour.i + 1));
   $("tour-x").onclick = endTour;
