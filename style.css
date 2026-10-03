@@ -45,6 +45,7 @@ a { color: var(--accent); }
   display: flex; align-items: center; gap: 6px; padding: 8px 16px;
   border-bottom: 1px solid var(--line); background: var(--panel); flex: none;
 }
+.bar-logo { flex: none; color: var(--ink); margin: 0 2px 0 4px; }
 .title-btn {
   display: flex; align-items: center; gap: 6px; border: 0; background: none;
   font-weight: 600; font-size: 17px; padding: 6px 8px; border-radius: 8px;
@@ -219,6 +220,7 @@ select.badge { font-family: inherit; background: var(--panel); cursor: pointer; 
   .reader { padding: 20px 16px 40px; }
   .tour { top: -12px; margin-top: -8px; }
   .bar { gap: 2px; }
+  .bar-logo { width: 22px; margin: 0 2px 0 2px; }
   .title-btn { white-space: nowrap; padding: 6px 4px; min-width: 0; font-size: 16px; }
   #ref-title { overflow: hidden; text-overflow: ellipsis; }
   .icon { min-width: 30px; }
