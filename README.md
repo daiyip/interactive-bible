@@ -1,7 +1,7 @@
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="img/logo-white.svg">
-    <img src="img/logo.svg" width="112" alt="Interactive Bible logo: an open book with a map pin on its right page">
+    <img src="img/logo.svg" width="112" alt="Interactive Bible logo: an open book with lines of text on both pages">
   </picture>
 </p>
 

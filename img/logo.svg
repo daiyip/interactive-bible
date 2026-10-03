@@ -1,7 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Open book with a map pin">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Open book with lines of text on both pages">
 <path d="M50 28C40 21 25 19 12 21V79C25 77 40 79 50 86Z" fill="#000" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/>
 <path d="M50 28C60 21 75 19 88 21V79C75 77 60 79 50 86" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/>
 <path d="M20 36C29 35.5 36 37 42 40M20 49C29 48.5 36 50 42 53M20 62C29 61.5 36 63 42 66" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
-<path d="M69 70C62 61 58 54 58 48A11 11 0 0 1 80 48C80 54 76 61 69 70Z" fill="#000"/>
-<circle cx="69" cy="48" r="4.2" fill="#fff"/>
+<path d="M80 36C71 35.5 64 37 58 40M80 49C71 48.5 64 50 58 53M80 62C71 61.5 64 63 58 66" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/>
 </svg>
