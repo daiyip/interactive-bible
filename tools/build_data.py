@@ -6,6 +6,7 @@ Writes
   data/text/kjv/<id>.json    [[verse text, ...] per chapter]
   data/text/cuv/<id>.json    the same for 和合本 (Chinese Union Version), in simplified characters, on KJV verse numbers
   data/xref/<id>.json        {"chapter.verse": [[target, votes], ...]} strongest first
+  data/people.json, data/people/                                       see build_people()
   data/places.json, data/vctx/, data/search.json, data/basemap.json   see build_places(), build_search(), build_basemap()
 Book ids are OSIS (Gen, Exod, ... Rev), as in the OpenBible cross-references.
 """
@@ -40,6 +41,12 @@ NAMES_ZH = ("创世记 出埃及记 利未记 民数记 申命记 约书亚记 �
 assert len(NAMES_ZH) == len(BOOKS)
 # Chinese names of places and events (和合本 spellings, AI-drafted), shared with tools/build_atlas.py.
 ZH = json.load(open(os.path.join(ROOT, "tools", "atlas_zh.json"), encoding="utf-8"))
+# Chinese names of people (和合本 spellings, AI-drafted from the verses that name them): "names" by name, and
+# "titles" for the people Theographic tells apart with a display title ("Joseph (son of Jacob)").
+PEOPLE_ZH = json.load(open(os.path.join(ROOT, "tools", "people_zh.json"), encoding="utf-8"))
+ORDER = {b[0]: i for i, b in enumerate(BOOKS)}
+ref_key = lambda ref: (ORDER[ref.split(".")[0]], *map(int, ref.split(".")[1:]))
+load_theographic = lambda n: {r["id"]: r["fields"] for r in json.load(open(os.path.join(SRC, "theographic", n), encoding="utf-8"))}
 
 
 def write(path, obj):
@@ -116,15 +123,72 @@ def build_xref(counts):
 
 
 
+# --- People (Theographic Bible Metadata, CC BY-SA 4.0; biographies from Easton's Bible Dictionary, public domain) ----
+
+PEOPLE_CHUNK = 256
+
+
+def bio(text):
+    """The first paragraph of an Easton's entry, cut at a sentence end near 700 characters.
+    Its links ([Ex. 6:20](/exod#Exod.6.20)) become reader links ([Ex. 6:20](#Exod.6.20))."""
+    text = re.sub(r"\]\(/[^)#]*#([^)]+)\)", r"](#\1)", text.strip().split("\n\n")[0].strip())
+    if len(text) > 800:
+        # sentence ends outside links and brackets, not after an abbreviation such as "Ex." or "i.e."
+        cut = [m.end() for m in re.finditer(r"(\w+)\.\s+(?=[A-Z])", text[:700])
+               if len(m.group(1)) > 3 and text[:m.start()].count("(") == text[:m.start()].count(")")
+               and text[:m.start()].count("[") == text[:m.start()].count("]")]
+        text = text[:cut[-1]].strip() + " …" if cut else text
+    return text
+
+
+def aliases(f):
+    """Other names for search ("Cephas,Simeon"). God's, Jesus's and the Holy Spirit's are titles ("Lord", "Light"), left out."""
+    if f["personLookup"] in ("god_1324", "jesus_905", "holy_spirit_7400"):
+        return ""
+    return ",".join(a for a in f.get("alsoCalled", "").split(",") if a[:1].isupper() and not a.isupper())
+
+
+def build_people(verses):
+    """data/people.json  [[name, name_zh, gender, father, mother, [partners], [children], [siblings], verse count,
+                          first verse, other names], ...]
+                         (index = person number; family members are person numbers or null; other names are
+                          English, comma-separated, for search)
+       data/people/<n>.json  for persons n*256 .. n*256+255: [[biography, [verse, ...]], ...]  (loaded on demand)
+       Returns {Theographic id: person number}."""
+    people = load_theographic("people.json")
+    refs = {}
+    for v in verses.values():
+        for p in v.get("people", []):
+            refs.setdefault(p, []).append(v["osisRef"])
+    ids = sorted((p for p in people if p in refs), key=lambda p: (people[p]["name"], -len(refs[p])))
+    index = {p: i for i, p in enumerate(ids)}
+    one = lambda f, k: index.get((f.get(k) or [None])[0])
+    many = lambda f, k: [index[x] for x in f.get(k, []) if x in index]
+    out, more = [], []
+    for p in ids:
+        f, r = people[p], sorted(refs[p], key=ref_key)
+        name = f.get("displayTitle") or f["name"]
+        zh = PEOPLE_ZH["titles"].get(name) or PEOPLE_ZH["names"].get(f["name"], "")
+        # Jesus is "the son (as was supposed) of Joseph" (Luke 3:23): his line names Mary.
+        father = None if f["personLookup"] == "jesus_905" else one(f, "father")
+        out.append([name, zh, f["gender"][0], father, one(f, "mother"), many(f, "partners"), many(f, "children"),
+                    many(f, "siblings"), len(r), r[0], aliases(f)])
+        more.append([bio(f["dictText"][0]) if f.get("dictText") else "", r])
+    write(os.path.join(DATA, "people.json"), out)
+    for n in range(0, len(more), PEOPLE_CHUNK):
+        write(os.path.join(DATA, "people", f"{n // PEOPLE_CHUNK}.json"), more[n:n + PEOPLE_CHUNK])
+    return index
+
+
 # --- Places (Theographic Bible Metadata, CC BY-SA 4.0) and a base map (Natural Earth, public domain) ---------
 
-def build_places():
+def build_places(verses, people):
     """data/places.json   [[id, name, lon, lat, kind, name_zh], ...]   (index = place number)
        data/vctx/<id>.json  {"places": {"chapter.verse": [place numbers]},
+                             "people": {"chapter.verse": [person numbers]}  (see build_people()),
                              "events": {"chapter.verse": [[title, year, title_zh], ...]}}  (events this verse belongs to)
        Chinese names are "" where tools/atlas_zh.json has none."""
-    load = lambda n: {r["id"]: r["fields"] for r in json.load(open(os.path.join(SRC, "theographic", n), encoding="utf-8"))}
-    places, verses, events = load("places.json"), load("verses.json"), load("events.json")
+    places, events = load_theographic("places.json"), load_theographic("events.json")
     index, out = {}, []
     for pid, p in places.items():
         if p.get("latitude") and p.get("longitude") and not p.get("duplicate_of"):
@@ -133,19 +197,22 @@ def build_places():
                         round(float(p["latitude"]), 3), p.get("featureType", "")])
             out[-1].append(ZH["place_names"].get(out[-1][1], ""))
     write(os.path.join(DATA, "places.json"), out)
-    vplaces, vevents = {}, {}
+    vplaces, vpeople, vevents = {}, {}, {}
     year = lambda s: int(re.match(r"^-?\d+", s).group()) if re.match(r"^-?\d+", s) else None
     for v in verses.values():
         b, c, n = v["osisRef"].split(".")
         ps = [index[p] for p in v.get("places", []) if p in index]
         if ps:
             vplaces.setdefault(b, {})[f"{c}.{n}"] = ps
+        if v.get("people"):
+            vpeople.setdefault(b, {})[f"{c}.{n}"] = [people[p] for p in v["people"] if p in people]
         es = [[events[e]["title"], year(events[e]["startDate"]), ZH["event_titles"].get(events[e]["title"], "")]
               for e in v.get("event", []) if e in events]
         if es:
             vevents.setdefault(b, {})[f"{c}.{n}"] = es
-    for b in set(vplaces) | set(vevents):
-        write(os.path.join(DATA, "vctx", b + ".json"), {"places": vplaces.get(b, {}), "events": vevents.get(b, {})})
+    for b in set(vplaces) | set(vpeople) | set(vevents):
+        write(os.path.join(DATA, "vctx", b + ".json"),
+              {"places": vplaces.get(b, {}), "people": vpeople.get(b, {}), "events": vevents.get(b, {})})
     build_search(out, verses, index, events, year)
     return len(out), sum(map(len, vplaces.values())), sum(map(len, vevents.values()))
 
@@ -153,8 +220,7 @@ def build_places():
 def build_search(places, verses, index, events, year):
     """data/search.json  {"places": [[name, name_zh, kind, first verse, verse count], ...] (as data/places.json),
                           "events": [[title, title_zh, year, first verse, verse count], ...]}  for the search box"""
-    order = {b[0]: i for i, b in enumerate(BOOKS)}
-    key = lambda ref: (order[ref.split(".")[0]], *map(int, ref.split(".")[1:]))
+    key = ref_key
     pref, eref = {}, {}
     for v in sorted(verses.values(), key=lambda v: key(v["osisRef"])):
         for p in v.get("places", []):
@@ -204,5 +270,8 @@ if __name__ == "__main__":
     counts = build_text()
     print("books:", len(counts), "verses:", sum(sum(c) for c in counts.values()))
     print("cross-references kept:", build_xref(counts))
-    print("places, verses with places, verses with events:", build_places())
+    verses = load_theographic("verses.json")
+    people = build_people(verses)
+    print("people:", len(people))
+    print("places, verses with places, verses with events:", build_places(verses, people))
     build_basemap()
