@@ -8,7 +8,7 @@ const NT_START = 39; // index of Matthew in books.json
 
 const state = {
   books: [], byId: {},
-  book: "Gen", chapter: 1, verse: null,
+  book: "Gen", chapter: 1, verse: null, to: null,
   tab: "xref",
   size: 19,
 };
@@ -36,12 +36,19 @@ const store = {
 
 // "John.3.16" or "John.3" → {book, chapter, verse}; null if it names no real chapter.
 function parseRef(s) {
-  const m = /^([1-3]?[A-Za-z]+)\.(\d+)(?:\.(\d+))?$/.exec(s || "");
+  // A range ("Acts.13.4-5", "Gen.8.22-Gen.9.2") selects its first verse and marks the rest of it in that chapter.
+  const m = /^([1-3]?[A-Za-z]+)\.(\d+)(?:\.(\d+)(?:-(?:([1-3]?[A-Za-z]+)\.)?(?:(\d+)\.)?(\d+))?)?$/.exec(s || "");
   if (!m || !state.byId[m[1]]) return null;
   const b = state.byId[m[1]], c = +m[2], v = m[3] ? +m[3] : null;
   if (c < 1 || c > b.chapters.length) return null;
-  if (v !== null && (v < 1 || v > b.chapters[c - 1])) return { book: b.id, chapter: c, verse: null };
-  return { book: b.id, chapter: c, verse: v };
+  if (v !== null && (v < 1 || v > b.chapters[c - 1])) return { book: b.id, chapter: c, verse: null, to: null };
+  let to = null;
+  if (v !== null && m[6]) {
+    const same = (!m[4] || m[4] === m[1]) && (!m[5] || +m[5] === c);
+    to = same ? Math.min(+m[6], b.chapters[c - 1]) : b.chapters[c - 1];
+    if (to <= v) to = null;
+  }
+  return { book: b.id, chapter: c, verse: v, to };
 }
 // "Prov.8.22-Prov.8.30" → "Proverbs 8:22–30"
 function refLabel(s) {
@@ -111,7 +118,8 @@ async function renderChapter() {
     $("next").disabled = !neighbour(1);
     if (!state.verse) $("reader").scrollTo({ top: 0, behavior: "instant" });
   }
-  document.querySelectorAll(".v.sel").forEach((el) => el.classList.remove("sel"));
+  document.querySelectorAll(".v.sel, .v.rng").forEach((el) => el.classList.remove("sel", "rng"));
+  for (let i = state.verse + 1; state.verse && i <= (state.to || 0); i++) document.querySelector(`.v[data-v="${i}"]`)?.classList.add("rng");
   if (state.verse) {
     const el = document.querySelector(`.v[data-v="${state.verse}"]`);
     el.classList.add("sel");
@@ -345,7 +353,7 @@ function go(book, chapter, verse) {
 // --- Routing and setup ---------------------------------------------------------
 
 function route() {
-  const r = parseRef(decodeURIComponent(location.hash.slice(1))) || parseRef(store.get("bible-pos")) || { book: "Gen", chapter: 1, verse: null };
+  const r = parseRef(decodeURIComponent(location.hash.slice(1))) || parseRef(store.get("bible-pos")) || { book: "Gen", chapter: 1, verse: null, to: null };
   Object.assign(state, r);
   store.set("bible-pos", [r.book, r.chapter, r.verse].filter((x) => x != null).join("."));
   renderChapter().then(renderContext).catch(showError);
