@@ -43,6 +43,19 @@ const L = {
     goTo: "Go to", events: "Events", verses: "Verses", nVerses: (n) => `${n.toLocaleString("en")} ${n === 1 ? "verse" : "verses"}`,
     more: (n) => `${n.toLocaleString("en")} more verses not shown. Add a word to narrow it down.`, none: "Nothing found.",
     searching: "Searching the text…",
+    mine: "My reading", plan: "Plan", marks: "Highlights", readingPlan: "Reading plan",
+    planStart: "Read the Bible in a year", planPitch: "A few chapters a day, Genesis to Revelation in 365 days. Your progress stays in this browser.",
+    planStartToday: "Start today", today: "Today", dayOf: (d, n) => `Day ${d} of ${n}`,
+    chaptersRead: (a, n) => `${a.toLocaleString("en")} of ${n.toLocaleString("en")} chapters read`,
+    catchUp: (n) => `Catch up · ${n} ${n === 1 ? "day" : "days"} behind`, allDays: (n) => `All ${n} days`, markRead: "Read",
+    planReset: "Stop this plan", planResetAsk: "Stop the plan and clear which chapters you have read?",
+    noMarks: "No highlights or notes yet. Tap a verse, then pick a colour or add a note.",
+    nMarks: (n) => `${n} ${n === 1 ? "verse" : "verses"} highlighted or noted, kept in this browser.`,
+    export: "Export", import: "Import", importFailed: "Could not import that file.",
+    hl: { y: "Yellow", g: "Green", b: "Blue", p: "Pink" }, addNote: "+ Note", editNote: "Note", notePh: "Your note, kept in this browser",
+    offline: "Offline", offlineNote: "Chapters you open stay available offline. Save the rest of the Bible to read anywhere, and add this site to your home screen to use it like an app.",
+    saveOffline: (v, mb) => `Save ${v} for offline (about ${mb} MB)`, saving: (p) => `Saving… ${p}%`,
+    saved: (v) => `${v} saved for offline ✓`, savedSome: (n) => `${n} files did not save. Try again.`,
     credit: `King James Version and 和合本 (Chinese Union Version), public domain. Cross-references from
       <a href="https://www.openbible.info/labs/cross-references/" target="_blank" rel="noopener">OpenBible.info</a> (CC BY).
       People, places and events from <a href="https://github.com/robertrouse/theographic-bible-metadata" target="_blank" rel="noopener">Theographic</a>
@@ -72,6 +85,19 @@ const L = {
     goTo: "前往", events: "事件", verses: "经文", nVerses: (n) => `${n} 节`,
     more: (n) => `还有 ${n} 节没有列出。再加一个词可以缩小范围。`, none: "没有找到。",
     searching: "正在搜索经文…",
+    mine: "我的读经", plan: "计划", marks: "标记", readingPlan: "读经计划",
+    planStart: "一年读完圣经", planPitch: "每天几章，365 天从创世记读到启示录。进度保存在这个浏览器里。",
+    planStartToday: "今天开始", today: "今天", dayOf: (d, n) => `第 ${d} 天，共 ${n} 天`,
+    chaptersRead: (a, n) => `已读 ${a} / ${n} 章`,
+    catchUp: (n) => `补读 · 落后 ${n} 天`, allDays: (n) => `全部 ${n} 天`, markRead: "已读",
+    planReset: "停止这个计划", planResetAsk: "停止计划并清除已读记录吗？",
+    noMarks: "还没有标记或笔记。点选一节经文，再选一种颜色或写笔记。",
+    nMarks: (n) => `已标记 ${n} 节经文，保存在这个浏览器里。`,
+    export: "导出", import: "导入", importFailed: "无法导入这个文件。",
+    hl: { y: "黄色", g: "绿色", b: "蓝色", p: "粉色" }, addNote: "+ 笔记", editNote: "笔记", notePh: "你的笔记，保存在这个浏览器里",
+    offline: "离线阅读", offlineNote: "打开过的章节离线也能读。保存整本圣经即可随处阅读；把本站添加到主屏幕，就能像应用一样使用。",
+    saveOffline: (v, mb) => `保存${v}供离线阅读（约 ${mb} MB）`, saving: (p) => `正在保存… ${p}%`,
+    saved: (v) => `${v}已可离线阅读 ✓`, savedSome: (n) => `有 ${n} 个文件没有保存，请重试。`,
     credit: `和合本与英王钦定本（KJV）均为公有领域。串珠来自
       <a href="https://www.openbible.info/labs/cross-references/" target="_blank" rel="noopener">OpenBible.info</a>（CC BY）。
       人物、地点与事件来自 <a href="https://github.com/robertrouse/theographic-bible-metadata" target="_blank" rel="noopener">Theographic</a>
@@ -208,6 +234,8 @@ async function renderChapter() {
     $("prev").disabled = !neighbour(-1);
     $("next").disabled = !neighbour(1);
     if (!state.verse) $("reader").scrollTo({ top: 0, behavior: "instant" });
+    paintMarks();
+    requestAnimationFrame(checkChapterEnd);
   }
   document.querySelectorAll(".v.sel, .v.rng").forEach((el) => el.classList.remove("sel", "rng"));
   for (let i = state.verse + 1; state.verse && i <= (state.to || 0); i++) document.querySelector(`.v[data-v="${i}"]`)?.classList.add("rng");
@@ -247,6 +275,7 @@ async function renderContext() {
   const vs = versions(), texts = await Promise.all(vs.map((tr) => bookText(b.id, tr)));
   $("ctx-text").lang = vs[0] === "cuv" ? "zh-CN" : "en";
   $("ctx-text").replaceChildren(texts[0][state.chapter - 1][v - 1], ...(vs[1] ? [secondLine(texts[1][state.chapter - 1][v - 1], vs[1])] : []));
+  renderMarkTools(key);
   document.querySelectorAll(".tabs button").forEach((t) => t.setAttribute("aria-selected", t.dataset.tab === state.tab));
   for (const t of TABS) $("tab-" + t).hidden = t !== state.tab;
   renderLinks(b, state.chapter, v);
@@ -633,6 +662,7 @@ async function startTour(id, i) {
   state.tour = { tr, i };
   store.set("bible-tour", [id, i]);
   if ($("picker").open) $("picker").close();
+  if ($("mine").open) $("mine").close();
   const ref = tr.steps[i].ref;
   if (decodeURIComponent(location.hash.slice(1)) === ref) { renderTour(); renderContext(); }
   else location.hash = ref;
@@ -811,6 +841,296 @@ function draw(out, groups, note) {
   }
 }
 
+// --- My reading: a Bible-in-a-year plan, highlights and notes -----------------------------------------
+// Kept in this browser only (localStorage): "bible-plan" {start: "YYYY-MM-DD"}, "bible-read" ["Gen.1", ...],
+// "bible-marks" {"John.3.16": {c: colour, n: note, t: time}}. Export and import move them to another browser.
+
+const PLAN_DAYS = 365;
+const COLORS = ["y", "g", "b", "p"]; // highlight colours: yellow, green, blue, pink
+const mine = {
+  plan: store.get("bible-plan"),
+  read: new Set(store.get("bible-read") || []),
+  marks: store.get("bible-marks") || {},
+  tab: "plan",
+};
+const saveRead = () => store.set("bible-read", [...mine.read]);
+const saveMarks = () => store.set("bible-marks", mine.marks);
+
+// The whole Bible in 365 days of whole chapters, each day about the same number of verses.
+let planDays = null;
+function readingPlan() {
+  if (planDays) return planDays;
+  const chapters = state.books.flatMap((b) => b.chapters.map((n, i) => [`${b.id}.${i + 1}`, n]));
+  const total = chapters.reduce((s, [, n]) => s + n, 0);
+  planDays = Array.from({ length: PLAN_DAYS }, () => []);
+  let sum = 0;
+  for (const [ch, n] of chapters) {
+    // A chapter goes to the day its middle verse falls in.
+    planDays[Math.min(PLAN_DAYS - 1, Math.floor(((sum + n / 2) / total) * PLAN_DAYS))].push(ch);
+    sum += n;
+  }
+  return planDays;
+}
+// ["Gen.1", "Gen.2", "Gen.3"] → "Genesis 1–3"; across books, "Genesis 50 – Exodus 2".
+function chaptersLabel(chs) {
+  if (!chs.length) return "";
+  const [a, z] = [chs[0], chs[chs.length - 1]].map((c) => c.split("."));
+  const name = (id) => bname(state.byId[id]);
+  if (chs.length === 1) return `${name(a[0])} ${a[1]}`;
+  return a[0] === z[0] ? `${name(a[0])} ${a[1]}–${z[1]}` : `${name(a[0])} ${a[1]} – ${name(z[0])} ${z[1]}`;
+}
+const today = () => new Date().toLocaleDateString("sv"); // YYYY-MM-DD, local time
+const dayNumber = () => {
+  const days = Math.round((new Date(today()) - new Date(mine.plan.start)) / 864e5);
+  return Math.max(0, Math.min(PLAN_DAYS - 1, days));
+};
+const dayDone = (d) => readingPlan()[d].every((c) => mine.read.has(c));
+
+// With a plan running, a chapter counts as read once its end (the footer under it) has been on screen.
+function checkChapterEnd() {
+  if (!mine.plan || !rendered) return;
+  const ch = `${state.book}.${state.chapter}`;
+  if (mine.read.has(ch)) return;
+  const foot = document.querySelector(".chapter-foot").getBoundingClientRect(), box = $("reader").getBoundingClientRect();
+  if (foot.top < box.bottom && foot.bottom > box.top) { mine.read.add(ch); saveRead(); renderTodayHint(); }
+}
+
+// The empty context panel: today's reading, or an invitation to start.
+function renderTodayHint() {
+  const box = $("ctx-today");
+  box.replaceChildren();
+  const btn = document.createElement("button");
+  btn.className = "tour-item today";
+  if (!mine.plan) {
+    btn.innerHTML = "<b></b><small></small>";
+    btn.children[0].textContent = t("planStart");
+    btn.children[1].textContent = t("planPitch");
+    btn.onclick = () => openMine("plan");
+  } else {
+    const d = dayNumber(), chs = readingPlan()[d];
+    btn.innerHTML = "<b></b><span></span>";
+    btn.children[0].textContent = chaptersLabel(chs);
+    btn.children[1].textContent = `${t("today")} · ${t("dayOf", d + 1, PLAN_DAYS)}${dayDone(d) ? " · ✓" : ""}`;
+    const next = chs.find((c) => !mine.read.has(c)) || chs[0];
+    btn.onclick = () => go(...next.split("."));
+  }
+  box.append(btn);
+}
+
+function openMine(tab) {
+  if (tab) mine.tab = tab;
+  renderMine();
+  $("mine").showModal();
+}
+function renderMine() {
+  document.querySelectorAll("#mine .seg button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.mine === mine.tab));
+  const body = $("mine-body");
+  body.replaceChildren();
+  if (mine.tab === "tours") { // on narrow phones, where the bar has no room for a Tours button
+    const list = el("div", "tour-list");
+    body.append(list);
+    fillTourList(list).catch(showError);
+    return;
+  }
+  (mine.tab === "plan" ? renderPlan : renderMarks)(body);
+  renderOffline(body);
+}
+const el = (tag, cls, text) => Object.assign(document.createElement(tag), cls ? { className: cls } : {}, text != null ? { textContent: text } : {});
+function chapterLink(ch) {
+  const [b, c] = ch.split("."), a = el("a", "", `${bname(state.byId[b])} ${c}`);
+  a.href = hashFor(b, c);
+  a.onclick = () => $("mine").close();
+  return a;
+}
+function check(ch) {
+  const box = el("input");
+  box.type = "checkbox";
+  box.checked = mine.read.has(ch);
+  box.ariaLabel = t("markRead");
+  box.onchange = () => { box.checked ? mine.read.add(ch) : mine.read.delete(ch); saveRead(); renderMine(); renderTodayHint(); };
+  return box;
+}
+
+function renderPlan(body) {
+  if (!mine.plan) {
+    const start = el("button", "pill primary", t("planStartToday"));
+    start.onclick = () => { mine.plan = { start: today() }; store.set("bible-plan", mine.plan); renderMine(); renderTodayHint(); };
+    body.append(el("p", "plan-day", t("planStart")), el("p", "", t("planPitch")), start);
+    return;
+  }
+  const days = readingPlan(), d = dayNumber();
+  const all = days.flat(), done = all.filter((c) => mine.read.has(c)).length;
+  const bar = el("div", "progress");
+  bar.append(el("i"));
+  bar.firstChild.style.width = `${(100 * done) / all.length}%`;
+  body.append(el("p", "plan-day", t("dayOf", d + 1, PLAN_DAYS)), bar,
+    el("p", "note small", t("chaptersRead", done, all.length)));
+  // Today, and the earliest day not finished if that is earlier.
+  const behind = days.findIndex((_, i) => !dayDone(i));
+  for (const [label, i] of [[t("today"), d], ...(behind >= 0 && behind < d ? [[t("catchUp", d - behind), behind]] : [])]) {
+    body.append(el("h4", "", `${label} · ${t("dayOf", i + 1, PLAN_DAYS)}`));
+    const ul = el("ul", "plan-chapters");
+    for (const ch of days[i]) {
+      const li = el("li");
+      const lab = el("label");
+      lab.append(check(ch));
+      li.append(lab, chapterLink(ch));
+      ul.append(li);
+    }
+    body.append(ul);
+  }
+  // Every day, folded away.
+  const det = el("details", "plan-all");
+  det.append(el("summary", "", t("allDays", PLAN_DAYS)));
+  const ol = el("ol", "plan-days");
+  days.forEach((chs, i) => {
+    const li = el("li", (i === d ? "on " : "") + (dayDone(i) ? "done" : ""));
+    const a = el("a", "", chaptersLabel(chs));
+    a.href = hashFor(...chs[0].split("."));
+    a.onclick = () => $("mine").close();
+    li.append(el("span", "n", String(i + 1)), a, el("span", "tick", dayDone(i) ? "✓" : ""));
+    ol.append(li);
+  });
+  det.append(ol);
+  const stop = el("button", "pill", t("planReset"));
+  stop.onclick = () => {
+    if (!confirm(t("planResetAsk"))) return;
+    mine.plan = null; mine.read.clear();
+    store.set("bible-plan", null); saveRead(); renderMine(); renderTodayHint();
+  };
+  body.append(det, stop);
+}
+
+// Highlights and notes, in Bible order.
+function renderMarks(body) {
+  const refs = Object.keys(mine.marks).sort((a, b) => {
+    const [x, y] = [a, b].map((r) => r.split("."));
+    return state.books.indexOf(state.byId[x[0]]) - state.books.indexOf(state.byId[y[0]]) || x[1] - y[1] || x[2] - y[2];
+  });
+  const tools = el("div", "mark-tools");
+  const exp = el("button", "pill", t("export")), imp = el("button", "pill", t("import"));
+  exp.onclick = exportMine;
+  imp.onclick = importMine;
+  tools.append(exp, imp);
+  if (!refs.length) { body.append(el("p", "note", t("noMarks")), tools); return; }
+  const ul = el("ul", "marks");
+  body.append(el("p", "note small", t("nMarks", refs.length)), ul, tools);
+  for (const ref of refs) {
+    const m = mine.marks[ref], [b, c, v] = ref.split(".");
+    const li = el("li", m.c ? "hl-" + m.c : "");
+    const a = el("a", "", `${bname(state.byId[b])} ${c}:${v}`);
+    a.href = hashFor(b, c, v);
+    a.onclick = () => $("mine").close();
+    const xt = el("div", "xt", "…");
+    xt.lang = versions()[0] === "cuv" ? "zh-CN" : "en";
+    bookText(b).then((tx) => (xt.textContent = tx[c - 1][v - 1])).catch(() => (xt.textContent = ""));
+    li.append(a, xt);
+    if (m.n) li.append(el("p", "mark-note", m.n));
+    ul.append(li);
+  }
+}
+function exportMine() {
+  const data = { app: "bible.daiyip.com", version: 1, plan: mine.plan, read: [...mine.read], marks: mine.marks };
+  const a = el("a");
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 1)], { type: "application/json" }));
+  a.download = `bible-${today()}.json`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+function importMine() {
+  const f = el("input");
+  f.type = "file";
+  f.accept = "application/json,.json";
+  f.onchange = async () => {
+    try {
+      const data = JSON.parse(await f.files[0].text());
+      if (data.app !== "bible.daiyip.com") throw new Error("not a backup from this site");
+      // Merge: the backup adds to what is here; a verse in both keeps the backup's highlight and note.
+      Object.assign(mine.marks, data.marks || {});
+      for (const c of data.read || []) mine.read.add(c);
+      if (data.plan && !mine.plan) mine.plan = data.plan;
+      saveMarks(); saveRead(); store.set("bible-plan", mine.plan);
+      rendered = ""; route(); renderMine(); renderTodayHint();
+    } catch (e) { alert(t("importFailed") + " " + e.message); }
+  };
+  f.click();
+}
+
+// The verse's highlight and note, under its text in the context panel.
+function renderMarkTools(key) {
+  const box = $("ctx-mark"), m = mine.marks[key] || {};
+  box.replaceChildren();
+  const row = el("div", "swatches");
+  for (const c of COLORS) {
+    const s = el("button", "swatch hl-" + c);
+    s.title = s.ariaLabel = t("hl")[c];
+    s.setAttribute("aria-pressed", m.c === c);
+    s.onclick = () => setMark(key, { c: m.c === c ? null : c });
+    row.append(s);
+  }
+  const note = el("button", "pill small-pill", m.n ? t("editNote") : t("addNote"));
+  row.append(note);
+  box.append(row);
+  const area = el("textarea", "note-box");
+  area.placeholder = t("notePh");
+  area.value = m.n || "";
+  area.hidden = !m.n;
+  area.oninput = () => setMark(key, { n: area.value }, false);
+  note.onclick = () => { area.hidden = false; area.focus(); };
+  box.append(area);
+}
+function setMark(key, change, redraw = true) {
+  const m = { ...mine.marks[key], ...change, t: Date.now() };
+  if (!m.c) delete m.c;
+  if (!m.n?.trim()) delete m.n;
+  if (m.c || m.n) mine.marks[key] = m; else delete mine.marks[key];
+  saveMarks();
+  paintMarks();
+  if (redraw) renderMarkTools(key);
+}
+// Highlight colours and note dots on the open chapter.
+function paintMarks() {
+  document.querySelectorAll("#chapter .v").forEach((v) => {
+    const m = mine.marks[`${state.book}.${state.chapter}.${v.dataset.v}`];
+    v.classList.remove(...COLORS.map((c) => "hl-" + c), "noted");
+    if (m?.c) v.classList.add("hl-" + m.c);
+    if (m?.n) v.classList.add("noted");
+  });
+}
+
+// --- Offline ----------------------------------------------------------------------------------------
+// sw.js keeps every file the app has loaded. This loads the rest, so the whole Bible reads offline.
+
+const OFFLINE_CACHE = "bible-data"; // shared with sw.js
+function renderOffline(body) {
+  if (!("serviceWorker" in navigator) || !window.caches) return;
+  const vs = versions(), names = vs.map((v) => (v === "cuv" ? "和合本" : "KJV")).join(" + ");
+  const box = el("div", "offline"), note = el("p", "note small", t("offlineNote"));
+  const btn = el("button", "pill", t("saveOffline", names, Math.round(3.8 * vs.length + 9)));
+  if ((store.get("bible-offline") || []).includes(state.version)) { btn.textContent = t("saved", names); btn.disabled = true; }
+  btn.onclick = async () => {
+    btn.disabled = true;
+    const files = ["data/books.json", "data/places.json", "data/search.json", "data/people.json", "data/basemap.json", "atlas/tours.json",
+      ...Array.from({ length: 12 }, (_, i) => `data/people/${i}.json`),
+      ...state.books.flatMap((b) => [...vs.map((v) => `data/text/${v}/${b.id}.json`), `data/xref/${b.id}.json`, `data/vctx/${b.id}.json`])];
+    let failed = 0;
+    try {
+      const cache = await caches.open(OFFLINE_CACHE);
+      for (let i = 0; i < files.length; i += 8) {
+        await Promise.all(files.slice(i, i + 8).map(async (f) => {
+          if (!(await cache.match(f))) await cache.add(f).catch(() => failed++);
+        }));
+        btn.textContent = t("saving", Math.round((100 * Math.min(files.length, i + 8)) / files.length));
+      }
+    } catch { failed++; }
+    if (failed) { btn.textContent = t("savedSome", failed); btn.disabled = false; return; }
+    btn.textContent = t("saved", names);
+    store.set("bible-offline", [...new Set([...(store.get("bible-offline") || []), state.version])]);
+  };
+  box.append(el("h4", "", t("offline")), note, btn);
+  body.append(box);
+}
+
 // --- Routing and setup ---------------------------------------------------------
 
 function route() {
@@ -847,6 +1167,8 @@ async function init() {
     store.set("bible-version", state.version);
     applyLang();
     fillTourList($("ctx-tours")).catch((e) => console.error(e));
+    renderTodayHint();
+    if ($("mine").open) renderMine();
     route();
   };
   if (TABS.includes(store.get("bible-tab"))) state.tab = store.get("bible-tab");
@@ -875,13 +1197,21 @@ async function init() {
   $("picker-back").onclick = showBooks;
   $("picker").addEventListener("click", (e) => { if (e.target === $("picker")) $("picker").close(); });
   addEventListener("keydown", (e) => {
-    if ($("picker").open || $("search").open || e.metaKey || e.ctrlKey || e.altKey) return;
-    if (e.key === "/" && !/^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName)) { e.preventDefault(); openSearch(); return; }
+    if ($("picker").open || $("search").open || $("mine").open || e.metaKey || e.ctrlKey || e.altKey) return;
+    if (/^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName)) return; // typing a note or picking a translation
+    if (e.key === "/") { e.preventDefault(); openSearch(); return; }
     if (e.key === "ArrowLeft") step(-1);
     else if (e.key === "ArrowRight") step(1);
     else if (e.key === "Escape" && state.verse) location.hash = hashFor(state.book, state.chapter);
   });
   $("tours-btn").onclick = () => { showTours(); $("picker").showModal(); };
+  $("mine-btn").onclick = () => openMine();
+  $("mine-x").onclick = () => $("mine").close();
+  $("mine").addEventListener("click", (e) => { if (e.target === $("mine")) $("mine").close(); });
+  document.querySelectorAll("#mine .seg button").forEach((b) => (b.onclick = () => { mine.tab = b.dataset.mine; renderMine(); }));
+  let endCheck = 0;
+  $("reader").addEventListener("scroll", () => { cancelAnimationFrame(endCheck); endCheck = requestAnimationFrame(checkChapterEnd); }, { passive: true });
+  renderTodayHint();
   $("search-btn").onclick = openSearch;
   $("search-x").onclick = () => $("search").close();
   $("search").addEventListener("click", (e) => { if (e.target === $("search")) $("search").close(); });
@@ -900,6 +1230,8 @@ async function init() {
   }
   addEventListener("hashchange", route);
   route();
+  // Works offline once loaded (sw.js), and can be installed from the browser's menu.
+  if ("serviceWorker" in navigator && location.protocol !== "file:") navigator.serviceWorker.register("sw.js").catch((e) => console.error(e));
 }
 
 init().catch(showError);

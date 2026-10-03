@@ -7,6 +7,9 @@
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="img/icon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="img/icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#fefefc" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1c1d21" media="(prefers-color-scheme: dark)">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
@@ -22,6 +25,7 @@
   </div>
   <span class="spacer"></span>
   <button id="search-btn" class="icon" data-i18n-title="search" title="Search (/)" aria-label="Search (/)" aria-haspopup="dialog"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M10.4 10.4L14 14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button>
+  <button id="mine-btn" class="icon" data-i18n-title="mine" title="My reading" aria-label="My reading" aria-haspopup="dialog"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M4 2.5h8v11.2L8 10.6l-4 3.1Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></button>
   <button id="tours-btn" class="text-btn" aria-haspopup="dialog" data-i18n="tours">Tours</button>
   <select id="version" class="badge" data-i18n-title="version" title="Translation" aria-label="Translation">
     <option value="kjv">KJV</option>
@@ -64,6 +68,8 @@
       </picture>
       <p class="hint-title" data-i18n="tapVerse">Tap a verse</p>
       <p data-i18n="tapHint">Its cross-references, people, places and links show up here.</p>
+      <p class="hint-title tours-hint" data-i18n="readingPlan">Reading plan</p>
+      <div id="ctx-today" class="tour-list"></div>
       <p class="hint-title tours-hint" data-i18n="orTour">Or take a tour</p>
       <div id="ctx-tours" class="tour-list"></div>
     </div>
@@ -71,6 +77,7 @@
       <div class="ctx-head">
         <h2 id="ctx-ref"></h2>
         <blockquote id="ctx-text"></blockquote>
+        <div id="ctx-mark" class="ctx-mark"></div>
       </div>
       <nav class="tabs" role="tablist">
         <button role="tab" data-tab="xref" aria-selected="true"><span data-i18n="xref">Cross-references</span> <span id="xref-count" class="count"></span></button>
@@ -105,6 +112,19 @@
     <button id="search-x" class="icon" data-i18n-title="close" aria-label="Close">×</button>
   </div>
   <div id="search-results" class="search-results" aria-live="polite"></div>
+</dialog>
+
+<dialog id="mine" class="picker mine">
+  <div class="picker-head">
+    <div class="seg" role="group">
+      <button data-mine="plan" data-i18n="plan" aria-pressed="true">Plan</button>
+      <button data-mine="marks" data-i18n="marks" aria-pressed="false">Highlights</button>
+      <button data-mine="tours" data-i18n="tours" aria-pressed="false" class="narrow-only">Tours</button>
+    </div>
+    <span class="spacer"></span>
+    <button id="mine-x" class="icon" data-i18n-title="close" aria-label="Close">×</button>
+  </div>
+  <div id="mine-body"></div>
 </dialog>
 
 <script src="app.js"></script>

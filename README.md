@@ -32,7 +32,22 @@ and words in the text.
 simplified characters), or both side by side, verse by verse. With 和合本 first, the whole app is in Chinese: book
 names, people, places, events, tours and the atlas map.
 
-It is a static site with no build step and no backend, served by GitHub Pages.
+**My reading** (the bookmark in the top bar) holds three things, all kept in the browser with nothing sent anywhere:
+
+- **Plan**: the Bible in a year, Genesis to Revelation in 365 days of whole chapters, each day about the same
+  length. It shows today's chapters, how far along you are, and what to catch up on. A chapter counts as read once
+  you reach its end, or tick it off by hand. Today's reading also sits in the empty context panel.
+- **Highlights**: the verses you have coloured (yellow, green, blue or pink) or written a note on, in Bible order.
+  Colour a verse or add a note under its text in the context panel. **Export** saves the plan, highlights and notes
+  to a file; **Import** merges one back, for moving to another browser.
+- **Offline**: every chapter you open stays readable offline. **Save for offline** keeps the rest of the Bible in
+  the current translation too (about 13 MB, or 17 MB for both). Add the site to the home screen to use it as an
+  app. The atlas map needs a connection; offline, the small built-in map stands in.
+
+On narrow phones, **Tours** moves into My reading to give the chapter title room.
+
+It is a static site with no build step and no backend, served by GitHub Pages. `sw.js` is the service worker that
+keeps it working offline, and `manifest.webmanifest` makes it installable.
 
 ## The Bible on the atlas
 
