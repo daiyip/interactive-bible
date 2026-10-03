@@ -16,6 +16,10 @@ David, Elijah, Jonah, the exile and return, Jesus, and Paul's journeys. Open the
 from the list in the empty context panel. Each step opens its verses and flies the map to it, tracing the journey;
 stepping on the map moves the reader along too.
 
+**Translations**: the switch in the top bar picks the King James Version, 和合本 (the Chinese Union Version, in
+simplified characters), or both side by side, verse by verse. With 和合本 first, the whole app is in Chinese: book
+names, places, events, tours and the atlas map.
+
 It is a static site with no build step and no backend, served by GitHub Pages.
 
 ## The Bible on the atlas
@@ -51,11 +55,12 @@ python3 -m http.server 8000   # then open http://localhost:8000/#John.3.16
 
 | Path | What it holds |
 | --- | --- |
-| `data/books.json` | 66 books: OSIS id, English name, verse count per chapter. |
+| `data/books.json` | 66 books: OSIS id, English and Chinese name, verse count per chapter. |
 | `data/text/kjv/<id>.json` | KJV text, one array of verses per chapter. |
+| `data/text/cuv/<id>.json` | 和合本 text in simplified characters, on the KJV's verse numbers. |
 | `data/xref/<id>.json` | Cross-references keyed `"chapter.verse"`, each `[target, votes]`, strongest first. |
-| `data/places.json` | 1,220 places as `[id, name, lon, lat, kind]`; the index is the place number. |
-| `data/vctx/<id>.json` | Per verse: `places` (place numbers named in it) and `events` (`[title, year]` it belongs to). |
+| `data/places.json` | 1,220 places as `[id, name, lon, lat, kind, name_zh]`; the index is the place number. |
+| `data/vctx/<id>.json` | Per verse: `places` (place numbers named in it) and `events` (`[title, year, title_zh]` it belongs to). |
 | `data/basemap.json` | Land, lakes and main rivers of the Bible lands for the Places map (Natural Earth, simplified). |
 | `atlas/` | The atlas data pack (see above). |
 
@@ -64,7 +69,7 @@ To rebuild, run `tools/fetch_sources.sh` to download the sources into `tools/src
 
 ## Translation
 
-The text is the King James Version for now. NKJV will become the default once it is licensed from HarperCollins
+The English text is the King James Version for now. NKJV will become the default once it is licensed from HarperCollins
 Christian Publishing. Until then, the Links tab opens each verse in NKJV on Bible Gateway. The text layer is one
 folder per translation (`data/text/<translation>/`), so adding one does not change the reader.
 
@@ -78,4 +83,5 @@ folder per translation (`data/text/<translation>/`), so adding one does not chan
 - **Base map** from [Natural Earth](https://www.naturalearthdata.com/): public domain.
 
 Years follow a traditional chronology, with the Exodus in 1490 BC; many scholars date the early periods later. The
-tours were drafted with AI from the biblical text.
+tours were drafted with AI from the biblical text, and the Chinese names of places and events (`tools/atlas_zh.json`,
+和合本 spellings) were drafted with AI from the 和合本 verses that name them.

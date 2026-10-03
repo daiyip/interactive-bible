@@ -2,7 +2,6 @@
 // Interactive Bible: a reading panel and a context panel. Static site, data in data/ (see tools/build_data.py).
 
 const $ = (id) => document.getElementById(id);
-const TRANSLATION = "kjv";
 const XREF_FIRST = 12; // cross-references shown before "Show all"
 const NT_START = 39; // index of Matthew in books.json
 
@@ -12,7 +11,71 @@ const state = {
   tab: "xref",
   tour: null, // {tr, i}: the open tour and step
   size: 19,
+  version: "kjv", // "kjv", "cuv", or two of them for side by side ("kjv+cuv"); the first sets the interface language
+  lang: "en",
 };
+
+// --- Interface language ---------------------------------------------------------
+
+const L = {
+  en: {
+    xref: "Cross-references", places: "Places", links: "Links", tours: "Tours", books: "Books",
+    ot: "Old Testament", nt: "New Testament", version: "Translation",
+    tapVerse: "Tap a verse", tapHint: "Its cross-references, places and links show up here.", orTour: "Or take a tour",
+    prevCh: "Previous chapter (←)", nextCh: "Next chapter (→)", smaller: "Smaller text", larger: "Larger text",
+    close: "Close", backBooks: "Back to books", endTour: "End tour",
+    back: "‹ Back", next: "Next ›", finish: "Finish", map: "Map ↗", mapTitle: "Follow this step on the atlas map",
+    stepOf: (i, n) => `${i} of ${n}`, steps: (n) => `${n} steps`,
+    noXref: "No cross-references for this verse.", votes: "Votes on OpenBible.info: how many readers found this link helpful",
+    showAll: (n) => `Show all ${n}`,
+    noPlaces: (r) => `No places are named in ${r}.`, named: "Named in this verse",
+    inChapter: (r) => `No places named in this verse. Places in ${r}:`, partOf: "Part of",
+    error: "Could not load this chapter. Check your connection and reload.", site: "Bible", atlas: "Atlas map",
+    year: (y) => (y < 0 ? `${-y} BC` : `AD ${y}`),
+    credit: `King James Version and 和合本 (Chinese Union Version), public domain. Cross-references from
+      <a href="https://www.openbible.info/labs/cross-references/" target="_blank" rel="noopener">OpenBible.info</a> (CC BY).
+      Places and events from <a href="https://github.com/robertrouse/theographic-bible-metadata" target="_blank" rel="noopener">Theographic</a>
+      (CC BY-SA). Map from <a href="https://atlas.daiyip.com" target="_blank" rel="noopener">Atlas</a> and Natural Earth.`,
+  },
+  zh: {
+    xref: "串珠", places: "地点", links: "链接", tours: "导览", books: "书卷",
+    ot: "旧约", nt: "新约", version: "译本",
+    tapVerse: "点选一节经文", tapHint: "它的串珠、地点和链接会显示在这里。", orTour: "或者跟随导览",
+    prevCh: "上一章 (←)", nextCh: "下一章 (→)", smaller: "缩小字体", larger: "放大字体",
+    close: "关闭", backBooks: "返回书卷", endTour: "结束导览",
+    back: "‹ 上一步", next: "下一步 ›", finish: "完成", map: "地图 ↗", mapTitle: "在历代地图上查看这一步",
+    stepOf: (i, n) => `${i} / ${n}`, steps: (n) => `${n} 站`,
+    noXref: "这节经文没有串珠。", votes: "OpenBible.info 上认为这条串珠有帮助的读者人数",
+    showAll: (n) => `显示全部 ${n} 条`,
+    noPlaces: (r) => `${r} 没有提到地名。`, named: "本节提到的地点",
+    inChapter: (r) => `本节没有提到地名。${r} 中的地点：`, partOf: "所属事件",
+    error: "无法载入这一章。请检查网络后重新载入。", site: "圣经", atlas: "地图",
+    year: (y) => (y < 0 ? `公元前${-y}年` : `公元${y}年`),
+    credit: `和合本与英王钦定本（KJV）均为公有领域。串珠来自
+      <a href="https://www.openbible.info/labs/cross-references/" target="_blank" rel="noopener">OpenBible.info</a>（CC BY）。
+      地点与事件来自 <a href="https://github.com/robertrouse/theographic-bible-metadata" target="_blank" rel="noopener">Theographic</a>
+      （CC BY-SA）。地图来自<a href="https://atlas.daiyip.com" target="_blank" rel="noopener">历代地图</a>与 Natural Earth。`,
+  },
+};
+const KINDS_ZH = { City: "城", Island: "岛", Landmark: "地标", Mountain: "山", Path: "道路", Region: "地区", Valley: "谷", Water: "水域" };
+const t = (k, ...a) => { const v = L[state.lang][k] ?? L.en[k]; return typeof v === "function" ? v(...a) : v; };
+const zh = () => state.lang === "zh";
+const bname = (b) => (zh() ? b.name_zh : b.name);
+const tx = (o, k) => (zh() && o[k + "_zh"]) || o[k]; // a field in the interface language
+const fmtYear = (y) => t("year", y);
+
+function applyLang() {
+  const [first] = state.version.split("+");
+  state.lang = first === "cuv" ? "zh" : "en";
+  document.documentElement.lang = zh() ? "zh-CN" : "en";
+  document.querySelectorAll("[data-i18n]").forEach((el) => (el.textContent = t(el.dataset.i18n)));
+  document.querySelectorAll("[data-i18n-title]").forEach((el) => {
+    el.title = t(el.dataset.i18nTitle);
+    if (el.hasAttribute("aria-label")) el.setAttribute("aria-label", el.title);
+  });
+  $("credit").innerHTML = t("credit");
+  $("version").value = state.version;
+}
 const cache = new Map();
 
 function loadJSON(url) {
@@ -24,7 +87,8 @@ function loadJSON(url) {
   }
   return cache.get(url);
 }
-const bookText = (id) => loadJSON(`data/text/${TRANSLATION}/${id}.json`);
+const versions = () => state.version.split("+");
+const bookText = (id, tr = versions()[0]) => loadJSON(`data/text/${tr}/${id}.json`);
 const bookXref = (id) => loadJSON(`data/xref/${id}.json`).catch(() => ({}));
 const bookContext = (id) => loadJSON(`data/vctx/${id}.json`).catch(() => ({ places: {}, events: {} }));
 
@@ -51,11 +115,11 @@ function parseRef(s) {
   }
   return { book: b.id, chapter: c, verse: v, to };
 }
-// "Prov.8.22-Prov.8.30" → "Proverbs 8:22–30"
+// "Prov.8.22-Prov.8.30" → "Proverbs 8:22–30" (or "箴言 8:22–30")
 function refLabel(s) {
   const [a, z] = s.split("-").map((x) => x.split("."));
-  let out = `${state.byId[a[0]].name} ${a[1]}:${a[2]}`;
-  if (z) out += z[0] !== a[0] ? `–${state.byId[z[0]].name} ${z[1]}:${z[2]}` : z[1] !== a[1] ? `–${z[1]}:${z[2]}` : `–${z[2]}`;
+  let out = `${bname(state.byId[a[0]])} ${a[1]}:${a[2]}`;
+  if (z) out += z[0] !== a[0] ? `–${bname(state.byId[z[0]])} ${z[1]}:${z[2]}` : z[1] !== a[1] ? `–${z[1]}:${z[2]}` : `–${z[2]}`;
   return out;
 }
 // The text of a reference or range (ranges within one book; longer ones are cut with an ellipsis).
@@ -71,7 +135,7 @@ async function refText(s) {
     if (out.length === 4) { out.push("…"); break; }
     v++;
   }
-  return out.join(" ");
+  return out.join(zh() ? "" : " ");
 }
 const hashFor = (b, c, v) => "#" + [b, c, v].filter((x) => x != null).join(".");
 
@@ -88,24 +152,28 @@ function neighbour(dir) {
 let rendered = "";
 async function renderChapter() {
   const b = state.byId[state.book];
-  const key = `${b.id}.${state.chapter}`;
-  $("ref-title").textContent = `${b.name} ${state.chapter}`;
-  document.title = `${b.name} ${state.chapter} · Bible`;
+  const key = `${b.id}.${state.chapter}.${state.version}`;
+  $("ref-title").textContent = `${bname(b)} ${state.chapter}`;
+  document.title = `${bname(b)} ${state.chapter} · ${t("site")}`;
   if (rendered !== key) {
-    const text = await bookText(b.id);
-    if (`${state.book}.${state.chapter}` !== key) return; // navigated away meanwhile
+    const vs = versions();
+    const texts = await Promise.all(vs.map((tr) => bookText(b.id, tr)));
+    if (`${state.book}.${state.chapter}.${state.version}` !== key) return; // navigated away meanwhile
     const art = $("chapter");
     art.innerHTML = "";
+    art.classList.toggle("both", vs.length > 1);
+    art.lang = vs[0] === "cuv" ? "zh-CN" : "en";
     const h = document.createElement("h1");
-    h.innerHTML = `<small>${state.books.indexOf(b) >= NT_START ? "New Testament" : "Old Testament"}</small>`;
-    h.append(`${b.name} ${state.chapter}`);
+    h.innerHTML = `<small>${t(state.books.indexOf(b) >= NT_START ? "nt" : "ot")}</small>`;
+    h.append(`${bname(b)} ${state.chapter}`);
     const p = document.createElement("p");
-    text[state.chapter - 1].forEach((t, i) => {
+    texts[0][state.chapter - 1].forEach((verse, i) => {
       const s = document.createElement("span");
       s.className = "v";
       s.dataset.v = i + 1;
       s.innerHTML = `<sup>${i + 1}</sup>`;
-      s.append(t + " ");
+      s.append(verse + (vs[0] === "cuv" ? "" : " "));
+      if (vs[1]) s.append(secondLine(texts[1][state.chapter - 1][i], vs[1]));
       p.append(s);
     });
     art.append(h, p);
@@ -113,7 +181,7 @@ async function renderChapter() {
     for (const [id, dir] of [["prev2", -1], ["next2", 1]]) {
       const n = neighbour(dir);
       $(id).hidden = !n;
-      if (n) $(id).querySelector("span").textContent = `${state.byId[n.book].name} ${n.chapter}`;
+      if (n) $(id).querySelector("span").textContent = `${bname(state.byId[n.book])} ${n.chapter}`;
     }
     $("prev").disabled = !neighbour(-1);
     $("next").disabled = !neighbour(1);
@@ -132,6 +200,15 @@ async function renderChapter() {
   }
 }
 
+// The second translation of a verse, side by side.
+function secondLine(text, tr) {
+  const el = document.createElement("span");
+  el.className = "v2";
+  el.lang = tr === "cuv" ? "zh-CN" : "en";
+  el.textContent = text || "";
+  return el;
+}
+
 // --- Context panel ----------------------------------------------------------
 
 async function renderContext() {
@@ -142,8 +219,10 @@ async function renderContext() {
   document.body.classList.toggle("sheet-open", open);
   if (!open) return;
   const b = state.byId[state.book], v = state.verse, key = `${b.id}.${state.chapter}.${v}`;
-  $("ctx-ref").textContent = `${b.name} ${state.chapter}:${v}`;
-  $("ctx-text").textContent = (await bookText(b.id))[state.chapter - 1][v - 1];
+  $("ctx-ref").textContent = `${bname(b)} ${state.chapter}:${v}`;
+  const vs = versions(), texts = await Promise.all(vs.map((tr) => bookText(b.id, tr)));
+  $("ctx-text").lang = vs[0] === "cuv" ? "zh-CN" : "en";
+  $("ctx-text").replaceChildren(texts[0][state.chapter - 1][v - 1], ...(vs[1] ? [secondLine(texts[1][state.chapter - 1][v - 1], vs[1])] : []));
   document.querySelectorAll(".tabs button").forEach((t) => t.setAttribute("aria-selected", t.dataset.tab === state.tab));
   for (const t of ["xref", "places", "links"]) $("tab-" + t).hidden = t !== state.tab;
   renderLinks(b, state.chapter, v);
@@ -157,7 +236,7 @@ async function renderContext() {
 function renderXref(refs, limit) {
   const pane = $("tab-xref");
   pane.innerHTML = "";
-  if (!refs.length) { pane.innerHTML = `<p class="note">No cross-references for this verse.</p>`; return; }
+  if (!refs.length) { pane.innerHTML = `<p class="note">${t("noXref")}</p>`; return; }
   const ul = document.createElement("ul");
   ul.className = "xref";
   for (const [ref, votes] of refs.slice(0, limit)) {
@@ -168,10 +247,11 @@ function renderXref(refs, limit) {
     a.textContent = refLabel(ref);
     const vt = document.createElement("span");
     vt.className = "votes";
-    vt.title = "Votes on OpenBible.info: how many readers found this link helpful";
+    vt.title = t("votes");
     vt.textContent = `${votes} ▲`;
     const xt = document.createElement("div");
     xt.className = "xt loading";
+    xt.lang = versions()[0] === "cuv" ? "zh-CN" : "en";
     xt.textContent = "…";
     refText(ref).then((t) => { xt.textContent = t; xt.classList.remove("loading"); }).catch(() => (xt.textContent = ""));
     li.append(vt, a, xt);
@@ -181,7 +261,7 @@ function renderXref(refs, limit) {
   if (refs.length > limit) {
     const more = document.createElement("button");
     more.className = "pill more";
-    more.textContent = `Show all ${refs.length}`;
+    more.textContent = t("showAll", refs.length);
     more.onclick = () => renderXref(refs, refs.length);
     pane.append(more);
   }
@@ -189,7 +269,11 @@ function renderXref(refs, limit) {
 
 function renderLinks(b, c, v) {
   const q = encodeURIComponent(`${b.name} ${c}:${v}`);
-  const links = [
+  const links = zh() ? [
+    [`https://www.biblegateway.com/passage/?search=${q}&version=CUVS`, "在 Bible Gateway 读和合本", "和合本（简体）"],
+    [`https://www.biblegateway.com/passage/?search=${q}&version=NKJV`, "读英文 NKJV", "新钦定本（New King James Version）"],
+    [`https://zh.wikipedia.org/w/index.php?search=${encodeURIComponent(b.name_zh)}`, `关于${b.name_zh}`, "维基百科"],
+  ] : [
     [`https://www.biblegateway.com/passage/?search=${q}&version=NKJV`, "Read in NKJV", "Bible Gateway, New King James Version"],
     [`https://www.biblegateway.com/verse/en/${q}`, "Compare translations", "This verse in every English version on Bible Gateway"],
     [`https://en.wikipedia.org/w/index.php?search=${encodeURIComponent(`${b.name} book of the Bible`)}`, `About ${b.name}`, "Wikipedia"],
@@ -210,10 +294,12 @@ async function renderPlaces(b, c, v, key) {
     ids = [...new Set(Object.entries(vp).filter(([k]) => k.startsWith(c + ".")).flatMap(([, l]) => l))];
     scope = "chapter";
   }
-  const pts = ids.map((i) => places[i]), evs = ve[`${c}.${v}`] || [];
+  // Places as [id, name, lon, lat, kind], with the name in the interface language where there is one.
+  const pts = ids.map((i) => places[i]).map(([id, name, lon, lat, kind, nameZh]) => [id, (zh() && nameZh) || name, lon, lat, kind]);
+  const evs = ve[`${c}.${v}`] || [];
   $("places-count").textContent = here.length || "";
-  $("places-note").textContent = !ids.length ? `No places are named in ${b.name} ${c}.`
-    : scope === "verse" ? "Named in this verse" : `No places named in this verse. Places in ${b.name} ${c}:`;
+  $("places-note").textContent = !ids.length ? t("noPlaces", `${bname(b)} ${c}`)
+    : scope === "verse" ? t("named") : t("inChapter", `${bname(b)} ${c}`);
   $("map-fallback").replaceChildren(...(pts.length ? [drawMap(pts, base)] : []));
   $("map-box").hidden = !pts.length && !atlas.ready && !state.tour;
   syncAtlas(pts, evs);
@@ -227,21 +313,21 @@ async function renderPlaces(b, c, v, key) {
       const li = document.createElement("li");
       li.innerHTML = `<b></b> <span></span>`;
       li.firstChild.textContent = name;
-      li.lastChild.textContent = [kind, `${Math.abs(lat).toFixed(2)}°${lat < 0 ? "S" : "N"} ${Math.abs(lon).toFixed(2)}°${lon < 0 ? "W" : "E"}`].filter(Boolean).join(" · ");
+      li.lastChild.textContent = [(zh() && KINDS_ZH[kind]) || kind, `${Math.abs(lat).toFixed(2)}°${lat < 0 ? "S" : "N"} ${Math.abs(lon).toFixed(2)}°${lon < 0 ? "W" : "E"}`].filter(Boolean).join(" · ");
       ul.append(li);
     }
     pane.append(ul);
   }
   if (evs.length) {
     const h = document.createElement("h3");
-    h.textContent = "Part of";
+    h.textContent = t("partOf");
     const ul = document.createElement("ul");
     ul.className = "events";
-    for (const [title, year] of evs) {
+    for (const [title, year, titleZh] of evs) {
       const li = document.createElement("li");
       li.innerHTML = `<span class="yr"></span> `;
       li.firstChild.textContent = year == null ? "" : fmtYear(year);
-      li.append(title);
+      li.append((zh() && titleZh) || title);
       ul.append(li);
     }
     pane.append(h, ul);
@@ -264,6 +350,11 @@ function syncAtlas(pts, evs) {
 }
 function atlasSend(msg) {
   atlas.want = msg;
+  if (atlas.frame && atlas.lang !== state.lang) { // the atlas takes its language at load: start it again
+    atlas.frame.remove();
+    Object.assign(atlas, { frame: null, ready: false, last: null });
+    $("map-box").classList.remove("live");
+  }
   if (!atlas.frame && (state.tab === "places" || state.tour)) openAtlas();
   const key = JSON.stringify(msg);
   if (!atlas.ready || key === atlas.last) return;
@@ -273,8 +364,9 @@ function atlasSend(msg) {
 function openAtlas() {
   const pack = new URL("atlas/manifest.json", location.href).href;
   const f = document.createElement("iframe");
-  f.title = "Atlas map";
-  f.src = `${ATLAS}?pack=${encodeURIComponent(pack)}&packonly=1&embed=1&lang=en`;
+  f.title = t("atlas");
+  f.src = `${ATLAS}?pack=${encodeURIComponent(pack)}&packonly=1&embed=1&lang=${state.lang}`;
+  atlas.lang = state.lang;
   f.allow = "fullscreen";
   atlas.frame = f;
   $("map-box").append(f);
@@ -364,7 +456,6 @@ function drawMap(pts, base) {
 // Guided journeys, shared with the atlas pack (atlas/tours.json). Each step opens its verses in the reader.
 const PACK = "https://bible.daiyip.com/atlas/manifest.json";
 const loadTours = () => loadJSON("atlas/tours.json");
-const fmtYear = (y) => (y < 0 ? `${-y} BC` : `AD ${y}`);
 
 async function fillTourList(list) {
   const tours = await loadTours();
@@ -372,16 +463,16 @@ async function fillTourList(list) {
     const btn = document.createElement("button");
     btn.className = "tour-item";
     const [b, span, small] = ["b", "span", "small"].map((t) => document.createElement(t));
-    b.textContent = tr.title;
-    span.textContent = `${fmtYear(tr.start)}${tr.end !== tr.start ? "–" + fmtYear(tr.end) : ""} · ${tr.steps.length} steps`;
-    small.textContent = tr.summary;
+    b.textContent = tx(tr, "title");
+    span.textContent = `${fmtYear(tr.start)}${tr.end !== tr.start ? "–" + fmtYear(tr.end) : ""} · ${t("steps", tr.steps.length)}`;
+    small.textContent = tx(tr, "summary");
     btn.append(b, span, small);
     btn.onclick = () => startTour(tr.id, 0);
     return btn;
   }));
 }
 function showTours() {
-  $("picker-title").textContent = "Tours";
+  $("picker-title").textContent = t("tours");
   $("picker-back").hidden = true;
   const list = document.createElement("div");
   list.className = "tour-list";
@@ -406,27 +497,27 @@ function endTour() {
   renderTour();
 }
 function renderTour() {
-  const t = state.tour;
-  $("tour").hidden = !t;
-  if (!t) return;
-  const { tr, i } = t, s = tr.steps[i], last = i === tr.steps.length - 1;
-  $("tour-title").textContent = tr.title;
-  $("tour-count").textContent = `${i + 1} of ${tr.steps.length}`;
+  const tour = state.tour;
+  $("tour").hidden = !tour;
+  if (!tour) return;
+  const { tr, i } = tour, s = tr.steps[i], last = i === tr.steps.length - 1;
+  $("tour-title").textContent = tx(tr, "title");
+  $("tour-count").textContent = t("stepOf", i + 1, tr.steps.length);
   $("tour-year").textContent = fmtYear(s.year);
-  $("tour-text").textContent = s.text;
+  $("tour-text").textContent = tx(s, "text");
   $("tour-prev").disabled = i === 0;
-  $("tour-next").textContent = last ? "Finish" : "Next ›";
-  $("tour-map").href = `${ATLAS}?pack=${encodeURIComponent(PACK)}#tour=${tr.id}&s=${i + 1}`;
+  $("tour-next").textContent = t(last ? "finish" : "next");
+  $("tour-map").href = `${ATLAS}?pack=${encodeURIComponent(PACK)}&lang=${state.lang}#tour=${tr.id}&s=${i + 1}`;
 }
 
 // --- Book and chapter picker -------------------------------------------------
 
 function showBooks() {
-  $("picker-title").textContent = "Books";
+  $("picker-title").textContent = t("books");
   $("picker-back").hidden = true;
   const body = $("picker-body");
   body.innerHTML = "";
-  for (const [label, list] of [["Old Testament", state.books.slice(0, NT_START)], ["New Testament", state.books.slice(NT_START)]]) {
+  for (const [label, list] of [[t("ot"), state.books.slice(0, NT_START)], [t("nt"), state.books.slice(NT_START)]]) {
     const h = document.createElement("div");
     h.className = "testament";
     h.textContent = label;
@@ -434,7 +525,7 @@ function showBooks() {
     grid.className = "grid";
     for (const b of list) {
       const btn = document.createElement("button");
-      btn.textContent = b.name;
+      btn.textContent = bname(b);
       if (b.id === state.book) btn.classList.add("cur");
       btn.onclick = () => (b.chapters.length === 1 ? go(b.id, 1) : showChapters(b));
       grid.append(btn);
@@ -443,7 +534,7 @@ function showBooks() {
   }
 }
 function showChapters(b) {
-  $("picker-title").textContent = b.name;
+  $("picker-title").textContent = bname(b);
   $("picker-back").hidden = false;
   const grid = document.createElement("div");
   grid.className = "grid nums";
@@ -472,7 +563,7 @@ function route() {
 }
 function showError(e) {
   console.error(e);
-  $("chapter").innerHTML = `<p class="note">Could not load this chapter. Check your connection and reload.</p>`;
+  $("chapter").innerHTML = `<p class="note">${t("error")}</p>`;
 }
 function setSize(px) {
   state.size = Math.max(14, Math.min(28, px));
@@ -488,6 +579,17 @@ async function init() {
   state.books = await loadJSON("data/books.json");
   for (const b of state.books) state.byId[b.id] = b;
   setSize(store.get("bible-size") || 19);
+  // The translation: remembered, or 和合本 for a browser set to Chinese.
+  const v = store.get("bible-version");
+  state.version = ["kjv", "cuv", "kjv+cuv", "cuv+kjv"].includes(v) ? v : /^zh\b/i.test(navigator.language) ? "cuv" : "kjv";
+  applyLang();
+  $("version").onchange = () => {
+    state.version = $("version").value;
+    store.set("bible-version", state.version);
+    applyLang();
+    fillTourList($("ctx-tours")).catch((e) => console.error(e));
+    route();
+  };
   if (["xref", "places", "links"].includes(store.get("bible-tab"))) state.tab = store.get("bible-tab");
 
   $("chapter").addEventListener("click", (e) => {
