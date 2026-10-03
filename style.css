@@ -62,6 +62,7 @@ a { color: var(--accent); }
   font-size: 12px; font-weight: 600; letter-spacing: .04em; color: var(--accent);
   border: 1px solid var(--accent); border-radius: 6px; padding: 1px 6px; margin-right: 6px;
 }
+select.badge { font-family: inherit; background: var(--panel); cursor: pointer; padding: 3px 4px; max-width: 128px; }
 
 /* Panels */
 .panels { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, 420px); min-height: 0; }
@@ -77,6 +78,13 @@ a { color: var(--accent); }
 .v:hover { background: var(--accent-soft); }
 .v.sel { background: var(--sel); }
 .v.rng { background: var(--accent-soft); }
+/* 和合本, and two translations side by side: each verse its own block, the second under the first */
+.chapter:lang(zh), .ctx-head blockquote:lang(zh), .v2:lang(zh), .xt:lang(zh) { font-family: "Source Serif 4", "Noto Serif SC", "Songti SC", serif; }
+.chapter:lang(zh) h1 small, .chapter:lang(zh) sup { font-family: "IBM Plex Sans", sans-serif; }
+.chapter.both .v { display: block; padding: 4px 6px; margin: 0 -6px 6px; }
+.v2 { display: block; color: var(--muted); font-size: .9em; line-height: 1.65; margin-top: 2px; }
+.chapter.both .v2:lang(zh), .ctx-head .v2:lang(zh) { font-size: .95em; }
+.ctx-head .v2 { margin-top: 8px; }
 .v sup { font: 600 .55em "IBM Plex Sans", sans-serif; color: var(--accent); margin: 0 .25em 0 .1em; vertical-align: .55em; }
 .chapter-foot { max-width: 680px; margin: 40px auto 0; display: flex; justify-content: space-between; gap: 8px; }
 .pill { border: 1px solid var(--line); background: var(--panel); border-radius: 999px; padding: 6px 14px; color: var(--muted); }
@@ -141,6 +149,11 @@ a { color: var(--accent); }
 
 .note.small { font-size: 13px; margin: 0 0 8px; }
 .map { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; border-radius: 10px; border: 1px solid var(--line); }
+.map-box { position: relative; aspect-ratio: 4 / 3; }
+.map-box iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 1px solid var(--line); border-radius: 10px; opacity: 0; pointer-events: none; transition: opacity .3s; background: var(--sea); }
+.map-box.live iframe { opacity: 1; pointer-events: auto; }
+.map-box.live #map-fallback { visibility: hidden; }
+.map-box[hidden] { display: none; }
 .map .sea { fill: var(--sea); }
 .map .land { fill: var(--land); stroke: var(--coast); stroke-width: 1; }
 .map .lake { fill: var(--sea); stroke: var(--water); stroke-width: .8; }
@@ -183,7 +196,7 @@ a { color: var(--accent); }
   #ref-title { overflow: hidden; text-overflow: ellipsis; }
   .icon { min-width: 30px; }
   .text-btn { padding: 6px 6px; margin-right: 0; }
-  .badge { display: none; }
+  select.badge { max-width: 74px; margin-right: 0; }
   .context {
     position: fixed; left: 0; right: 0; bottom: 0; max-height: 62vh; border-left: 0;
     border-top: 1px solid var(--line); border-radius: 16px 16px 0 0; box-shadow: var(--shadow);
@@ -195,4 +208,23 @@ a { color: var(--accent); }
   .ctx-empty { display: none; }
   .tabs { top: 18px; }
   body.sheet-open .reader { padding-bottom: 64vh; }
+}
+
+/* Search */
+.search .picker-head { gap: 8px; }
+#search-q { flex: 1; min-width: 0; font: inherit; font-size: 16px; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; background: var(--bg); color: var(--ink); }
+#search-q:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+.search-results { padding: 8px 16px 20px; }
+.search-results > .note { margin: 12px 0; }
+.results { list-style: none; padding: 0; margin: 0 0 14px; }
+.results button { display: grid; gap: 1px; width: 100%; text-align: left; border: 0; background: none; padding: 7px 8px; margin: 0 -8px; border-radius: 8px; }
+.results button:hover, .results button:focus-visible { background: var(--accent-soft); }
+.results b { font-weight: 600; }
+.results span { font-size: 12px; color: var(--muted); }
+.results small { font-family: "Source Serif 4", "Noto Serif SC", serif; font-size: 14px; line-height: 1.5; color: var(--ink); }
+.results mark { background: var(--sel); color: inherit; border-radius: 2px; }
+/* Narrow phones: the title keeps its room; text size is left to pinch zoom */
+@media (max-width: 400px) {
+  #smaller, #larger { display: none; }
+  select.badge { max-width: 66px; }
 }

@@ -22,7 +22,7 @@
  {
   "id": "babylon_151",
   "name": "Babylon",
-  "name_zh": "",
+  "name_zh": "巴比伦",
   "lon": 44.4208,
   "lat": 32.5362,
   "kind": "City",
@@ -72,7 +72,7 @@
  {
   "id": "gilead_475",
   "name": "Gilead",
-  "name_zh": "",
+  "name_zh": "基列",
   "lon": 35.75,
   "lat": 32.75,
   "kind": "Region",
@@ -82,7 +82,7 @@
  {
   "id": "edom_357",
   "name": "Edom",
-  "name_zh": "",
+  "name_zh": "以东",
   "lon": 34.75,
   "lat": 31.25,
   "kind": "Region",
@@ -152,7 +152,7 @@
  {
   "id": "lebanon_720",
   "name": "Lebanon",
-  "name_zh": "",
+  "name_zh": "黎巴嫩",
   "lon": 35.899,
   "lat": 33.9215,
   "kind": "Region",
@@ -172,7 +172,7 @@
  {
   "id": "bashan_159",
   "name": "Bashan",
-  "name_zh": "",
+  "name_zh": "巴珊",
   "lon": 35.9373,
   "lat": 32.8001,
   "kind": "Region",
@@ -222,7 +222,7 @@
  {
   "id": "gibeah_466",
   "name": "Gibeah",
-  "name_zh": "",
+  "name_zh": "基比亚",
   "lon": 35.231,
   "lat": 31.8238,
   "kind": "",
@@ -242,7 +242,7 @@
  {
   "id": "heshbon_565",
   "name": "Heshbon",
-  "name_zh": "",
+  "name_zh": "希实本",
   "lon": 35.8099,
   "lat": 31.7982,
   "kind": "City",
@@ -262,7 +262,7 @@
  {
   "id": "gibeon_470",
   "name": "Gibeon",
-  "name_zh": "",
+  "name_zh": "基遍",
   "lon": 35.1852,
   "lat": 31.8467,
   "kind": "City",
@@ -272,7 +272,7 @@
  {
   "id": "gilgal_476",
   "name": "Gilgal",
-  "name_zh": "",
+  "name_zh": "吉甲",
   "lon": 34.9537,
   "lat": 32.1547,
   "kind": "City",
@@ -282,7 +282,7 @@
  {
   "id": "beersheba_170",
   "name": "Beersheba",
-  "name_zh": "",
+  "name_zh": "别是巴",
   "lon": 34.8407,
   "lat": 31.245,
   "kind": "City",
@@ -302,7 +302,7 @@
  {
   "id": "euphrates_421",
   "name": "Euphrates",
-  "name_zh": "",
+  "name_zh": "幼发拉底河",
   "lon": 40.9364,
   "lat": 34.7494,
   "kind": "Water",
@@ -312,7 +312,7 @@
  {
   "id": "gath_442",
   "name": "Gath",
-  "name_zh": "",
+  "name_zh": "迦特",
   "lon": 34.8439,
   "lat": 31.6935,
   "kind": "City",
@@ -332,7 +332,7 @@
  {
   "id": "mizpah_811",
   "name": "Mizpah",
-  "name_zh": "",
+  "name_zh": "米斯巴",
   "lon": 35.1802,
   "lat": 31.8327,
   "kind": "City",
@@ -342,7 +342,7 @@
  {
   "id": "nile_895",
   "name": "Nile",
-  "name_zh": "",
+  "name_zh": "尼罗河",
   "lon": 30.5673,
   "lat": 19.2114,
   "kind": "Water",
@@ -352,7 +352,7 @@
  {
   "id": "shiloh_1081",
   "name": "Shiloh",
-  "name_zh": "",
+  "name_zh": "示罗",
   "lon": 35.2899,
   "lat": 32.0562,
   "kind": "City",
@@ -392,7 +392,7 @@
  {
   "id": "persia_938",
   "name": "Persia",
-  "name_zh": "",
+  "name_zh": "波斯",
   "lon": 48.515,
   "lat": 34.7983,
   "kind": "Region",
@@ -402,7 +402,7 @@
  {
   "id": "seir_1042",
   "name": "Seir",
-  "name_zh": "",
+  "name_zh": "西珥",
   "lon": 35.6063,
   "lat": 30.7347,
   "kind": "Region",
@@ -422,7 +422,7 @@
  {
   "id": "hamath_516",
   "name": "Hamath",
-  "name_zh": "",
+  "name_zh": "哈马",
   "lon": 36.7495,
   "lat": 35.1359,
   "kind": "City",
@@ -432,7 +432,7 @@
  {
   "id": "carmel_278",
   "name": "Carmel",
-  "name_zh": "",
+  "name_zh": "迦密",
   "lon": 35.133,
   "lat": 31.4229,
   "kind": "City",
@@ -442,7 +442,7 @@
  {
   "id": "jezreel_643",
   "name": "Jezreel",
-  "name_zh": "",
+  "name_zh": "耶斯列",
   "lon": 35.502,
   "lat": 32.5021,
   "kind": "",
@@ -452,7 +452,7 @@
  {
   "id": "lachish_711",
   "name": "Lachish",
-  "name_zh": "",
+  "name_zh": "拉吉",
   "lon": 34.8491,
   "lat": 31.5652,
   "kind": "City",
@@ -472,7 +472,7 @@
  {
   "id": "mount_zion_860",
   "name": "Mount Zion",
-  "name_zh": "",
+  "name_zh": "锡安山",
   "lon": 35.2342,
   "lat": 31.7767,
   "kind": "Mountain",
@@ -482,7 +482,7 @@
  {
   "id": "dan_323",
   "name": "Dan",
-  "name_zh": "",
+  "name_zh": "但",
   "lon": 35.6525,
   "lat": 33.2486,
   "kind": "Region",
@@ -492,7 +492,7 @@
  {
   "id": "ekron_364",
   "name": "Ekron",
-  "name_zh": "",
+  "name_zh": "以革伦",
   "lon": 34.8509,
   "lat": 31.7776,
   "kind": "City",
@@ -512,7 +512,7 @@
  {
   "id": "ramoth-gilead_984",
   "name": "Ramoth-gilead",
-  "name_zh": "",
+  "name_zh": "基列的拉末",
   "lon": 36.0056,
   "lat": 32.5653,
   "kind": "City",
@@ -522,7 +522,7 @@
  {
   "id": "susa_1118",
   "name": "Susa",
-  "name_zh": "",
+  "name_zh": "书珊",
   "lon": 48.2485,
   "lat": 32.192,
   "kind": "City",
@@ -532,7 +532,7 @@
  {
   "id": "tarshish_1139",
   "name": "Tarshish",
-  "name_zh": "",
+  "name_zh": "他施",
   "lon": -6.3793,
   "lat": 36.953,
   "kind": "",
@@ -542,7 +542,7 @@
  {
   "id": "ashdod_101",
   "name": "Ashdod",
-  "name_zh": "",
+  "name_zh": "亚实突",
   "lon": 34.6561,
   "lat": 31.756,
   "kind": "City",
@@ -562,7 +562,7 @@
  {
   "id": "amalek_53",
   "name": "Amalek",
-  "name_zh": "",
+  "name_zh": "亚玛力",
   "lon": 34.8356,
   "lat": 30.6598,
   "kind": "Region",
@@ -592,7 +592,7 @@
  {
   "id": "beth-shemesh_234",
   "name": "Beth-shemesh",
-  "name_zh": "",
+  "name_zh": "伯·示麦",
   "lon": 34.9929,
   "lat": 31.7307,
   "kind": "City",
@@ -612,7 +612,7 @@
  {
   "id": "ramah_972",
   "name": "Ramah",
-  "name_zh": "",
+  "name_zh": "拉玛",
   "lon": 35.2042,
   "lat": 31.8996,
   "kind": "City",
@@ -622,7 +622,7 @@
  {
   "id": "sheba_1067",
   "name": "Sheba",
-  "name_zh": "",
+  "name_zh": "示巴",
   "lon": 38.7468,
   "lat": 9.0227,
   "kind": "Region",
@@ -652,7 +652,7 @@
  {
   "id": "cush_312",
   "name": "Cush",
-  "name_zh": "",
+  "name_zh": "古实",
   "lon": 31.3436,
   "lat": 21.9598,
   "kind": "Region",
@@ -662,7 +662,7 @@
  {
   "id": "river_244",
   "name": "River",
-  "name_zh": "",
+  "name_zh": "大河",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "Region",
@@ -672,7 +672,7 @@
  {
   "id": "anathoth_63",
   "name": "Anathoth",
-  "name_zh": "",
+  "name_zh": "亚拿突",
   "lon": 35.2635,
   "lat": 31.8129,
   "kind": "City",
@@ -682,7 +682,7 @@
  {
   "id": "arabah_79",
   "name": "Arabah",
-  "name_zh": "",
+  "name_zh": "亚拉巴",
   "lon": 35.521,
   "lat": 32.0297,
   "kind": "",
@@ -692,7 +692,7 @@
  {
   "id": "keilah_681",
   "name": "Keilah",
-  "name_zh": "",
+  "name_zh": "基伊拉",
   "lon": 35.0028,
   "lat": 31.6142,
   "kind": "City",
@@ -702,7 +702,7 @@
  {
   "id": "kiriath-jearim_701",
   "name": "Kiriath-jearim",
-  "name_zh": "",
+  "name_zh": "基列·耶琳",
   "lon": 34.9938,
   "lat": 31.7711,
   "kind": "City",
@@ -712,7 +712,7 @@
  {
   "id": "libnah_728",
   "name": "Libnah",
-  "name_zh": "",
+  "name_zh": "立拿",
   "lon": 34.8467,
   "lat": 31.5649,
   "kind": "City",
@@ -732,7 +732,7 @@
  {
   "id": "elam_365",
   "name": "Elam",
-  "name_zh": "",
+  "name_zh": "以拦",
   "lon": 49.5,
   "lat": 31.5,
   "kind": "Region",
@@ -742,7 +742,7 @@
  {
   "id": "geba_447",
   "name": "Geba",
-  "name_zh": "",
+  "name_zh": "迦巴",
   "lon": 35.2598,
   "lat": 31.8579,
   "kind": "City",
@@ -752,7 +752,7 @@
  {
   "id": "gezer_463",
   "name": "Gezer",
-  "name_zh": "",
+  "name_zh": "基色",
   "lon": 34.9205,
   "lat": 31.8596,
   "kind": "City",
@@ -762,7 +762,7 @@
  {
   "id": "holy_place_575",
   "name": "Holy Place",
-  "name_zh": "",
+  "name_zh": "圣所",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "",
@@ -782,7 +782,7 @@
  {
   "id": "rabbah_966",
   "name": "Rabbah",
-  "name_zh": "",
+  "name_zh": "拉巴",
   "lon": 35.945,
   "lat": 31.9552,
   "kind": "",
@@ -792,7 +792,7 @@
  {
   "id": "mahanaim_756",
   "name": "Mahanaim",
-  "name_zh": "",
+  "name_zh": "玛哈念",
   "lon": 35.6329,
   "lat": 32.2147,
   "kind": "City",
@@ -802,7 +802,7 @@
  {
   "id": "ramah_975",
   "name": "Ramah",
-  "name_zh": "",
+  "name_zh": "拉玛",
   "lon": 35.0216,
   "lat": 32.0406,
   "kind": "City",
@@ -812,7 +812,7 @@
  {
   "id": "tirzah_1170",
   "name": "Tirzah",
-  "name_zh": "",
+  "name_zh": "得撒",
   "lon": 35.2943,
   "lat": 32.2714,
   "kind": "City",
@@ -822,7 +822,7 @@
  {
   "id": "ammon_58",
   "name": "Ammon",
-  "name_zh": "",
+  "name_zh": "亚扪",
   "lon": 35.945,
   "lat": 31.9552,
   "kind": "",
@@ -832,7 +832,7 @@
  {
   "id": "arnon_92",
   "name": "Arnon",
-  "name_zh": "",
+  "name_zh": "亚嫩河",
   "lon": 35.75,
   "lat": 31.25,
   "kind": "Water",
@@ -852,7 +852,7 @@
  {
   "id": "great_sea_493",
   "name": "Great Sea",
-  "name_zh": "",
+  "name_zh": "大海",
   "lon": 17.1154,
   "lat": 36.5802,
   "kind": "Water",
@@ -862,7 +862,7 @@
  {
   "id": "jabesh-gilead_611",
   "name": "Jabesh-gilead",
-  "name_zh": "",
+  "name_zh": "基列·雅比",
   "lon": 35.6116,
   "lat": 32.3798,
   "kind": "City",
@@ -872,7 +872,7 @@
  {
   "id": "jazer_628",
   "name": "Jazer",
-  "name_zh": "",
+  "name_zh": "雅谢",
   "lon": 35.7278,
   "lat": 31.9435,
   "kind": "City",
@@ -892,7 +892,7 @@
  {
   "id": "most_holy_place_827",
   "name": "Most Holy Place",
-  "name_zh": "",
+  "name_zh": "至圣所",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "",
@@ -902,7 +902,7 @@
  {
   "id": "ziklag_1259",
   "name": "Ziklag",
-  "name_zh": "",
+  "name_zh": "洗革拉",
   "lon": 34.8668,
   "lat": 31.3826,
   "kind": "City",
@@ -912,7 +912,7 @@
  {
   "id": "ashkelon_103",
   "name": "Ashkelon",
-  "name_zh": "",
+  "name_zh": "亚实基伦",
   "lon": 34.5473,
   "lat": 31.6643,
   "kind": "City",
@@ -932,7 +932,7 @@
  {
   "id": "goshen_490",
   "name": "Goshen",
-  "name_zh": "",
+  "name_zh": "歌珊",
   "lon": 31.8047,
   "lat": 30.7285,
   "kind": "Region",
@@ -962,7 +962,7 @@
  {
   "id": "riblah_1001",
   "name": "Riblah",
-  "name_zh": "",
+  "name_zh": "利比拉",
   "lon": 36.5453,
   "lat": 34.4317,
   "kind": "City",
@@ -972,7 +972,7 @@
  {
   "id": "river_of_arnon_1225",
   "name": "River of Arnon",
-  "name_zh": "",
+  "name_zh": "亚嫩河",
   "lon": 35.677,
   "lat": 31.4288,
   "kind": "Water",
@@ -982,7 +982,7 @@
  {
   "id": "zobah_1272",
   "name": "Zobah",
-  "name_zh": "",
+  "name_zh": "琐巴",
   "lon": 36.9255,
   "lat": 34.3126,
   "kind": "Region",
@@ -1012,7 +1012,7 @@
  {
   "id": "kadesh-barnea_663",
   "name": "Kadesh-barnea",
-  "name_zh": "",
+  "name_zh": "加低斯·巴尼亚",
   "lon": 34.4226,
   "lat": 30.6481,
   "kind": "",
@@ -1022,7 +1022,7 @@
  {
   "id": "lebo-hamath_723",
   "name": "Lebo-hamath",
-  "name_zh": "",
+  "name_zh": "哈马口",
   "lon": 36.342,
   "lat": 34.1974,
   "kind": "",
@@ -1032,7 +1032,7 @@
  {
   "id": "mount_hor_842",
   "name": "Mount Hor",
-  "name_zh": "",
+  "name_zh": "何珥山",
   "lon": 35.4464,
   "lat": 30.3274,
   "kind": "Mountain",
@@ -1042,7 +1042,7 @@
  {
   "id": "mount_seir_852",
   "name": "Mount Seir",
-  "name_zh": "",
+  "name_zh": "西珥山",
   "lon": 35.6063,
   "lat": 30.7347,
   "kind": "Mountain",
@@ -1052,7 +1052,7 @@
  {
   "id": "ophir_911",
   "name": "Ophir",
-  "name_zh": "",
+  "name_zh": "俄斐",
   "lon": 67.5,
   "lat": 27.5,
   "kind": "Region",
@@ -1062,7 +1062,7 @@
  {
   "id": "paddan-aram_916",
   "name": "Paddan-aram",
-  "name_zh": "",
+  "name_zh": "巴旦·亚兰",
   "lon": 39.0322,
   "lat": 36.8639,
   "kind": "",
@@ -1072,7 +1072,7 @@
  {
   "id": "river_1010",
   "name": "River",
-  "name_zh": "",
+  "name_zh": "大河",
   "lon": 40.9364,
   "lat": 34.7494,
   "kind": "Water",
@@ -1092,7 +1092,7 @@
  {
   "id": "aijalon_40",
   "name": "Aijalon",
-  "name_zh": "",
+  "name_zh": "亚雅仑",
   "lon": 35.0313,
   "lat": 31.8449,
   "kind": "City",
@@ -1102,7 +1102,7 @@
  {
   "id": "aroer_93",
   "name": "Aroer",
-  "name_zh": "",
+  "name_zh": "亚罗珥",
   "lon": 35.8219,
   "lat": 31.4715,
   "kind": "City",
@@ -1112,7 +1112,7 @@
  {
   "id": "chaldea_282",
   "name": "Chaldea",
-  "name_zh": "",
+  "name_zh": "迦勒底",
   "lon": 46.1037,
   "lat": 30.9621,
   "kind": "Region",
@@ -1122,7 +1122,7 @@
  {
   "id": "debir_325",
   "name": "Debir",
-  "name_zh": "",
+  "name_zh": "底璧",
   "lon": 34.9667,
   "lat": 31.4167,
   "kind": "",
@@ -1132,7 +1132,7 @@
  {
   "id": "dibon_331",
   "name": "Dibon",
-  "name_zh": "",
+  "name_zh": "底本",
   "lon": 35.7805,
   "lat": 31.4992,
   "kind": "City",
@@ -1142,7 +1142,7 @@
  {
   "id": "gerar_459",
   "name": "Gerar",
-  "name_zh": "",
+  "name_zh": "基拉耳",
   "lon": 34.607,
   "lat": 31.3818,
   "kind": "City",
@@ -1152,7 +1152,7 @@
  {
   "id": "geshur_461",
   "name": "Geshur",
-  "name_zh": "",
+  "name_zh": "基述",
   "lon": 36.4167,
   "lat": 33.0,
   "kind": "Region",
@@ -1162,7 +1162,7 @@
  {
   "id": "hormah_580",
   "name": "Hormah",
-  "name_zh": "",
+  "name_zh": "何珥玛",
   "lon": 34.6306,
   "lat": 30.8809,
   "kind": "",
@@ -1172,7 +1172,7 @@
  {
   "id": "kedar_674",
   "name": "Kedar",
-  "name_zh": "",
+  "name_zh": "基达",
   "lon": 37.7,
   "lat": 27.4,
   "kind": "",
@@ -1182,7 +1182,7 @@
  {
   "id": "kedesh_676",
   "name": "Kedesh",
-  "name_zh": "",
+  "name_zh": "基低斯",
   "lon": 35.5287,
   "lat": 33.1131,
   "kind": "City",
@@ -1192,7 +1192,7 @@
  {
   "id": "kidron_687",
   "name": "Kidron",
-  "name_zh": "",
+  "name_zh": "汲沦溪",
   "lon": 34.7759,
   "lat": 31.8261,
   "kind": "Valley",
@@ -1202,7 +1202,7 @@
  {
   "id": "michmash_793",
   "name": "Michmash",
-  "name_zh": "",
+  "name_zh": "密抹",
   "lon": 35.2769,
   "lat": 31.8713,
   "kind": "City",
@@ -1222,7 +1222,7 @@
  {
   "id": "salt_sea_1021",
   "name": "Salt Sea",
-  "name_zh": "",
+  "name_zh": "盐海",
   "lon": 35.5239,
   "lat": 31.5779,
   "kind": "Water",
@@ -1232,7 +1232,7 @@
  {
   "id": "zoar_1271",
   "name": "Zoar",
-  "name_zh": "",
+  "name_zh": "琐珥",
   "lon": 35.4191,
   "lat": 30.9265,
   "kind": "City",
@@ -1242,7 +1242,7 @@
  {
   "id": "zorah_1275",
   "name": "Zorah",
-  "name_zh": "",
+  "name_zh": "琐拉",
   "lon": 34.9693,
   "lat": 31.7621,
   "kind": "City",
@@ -1252,7 +1252,7 @@
  {
   "id": "adullam_31",
   "name": "Adullam",
-  "name_zh": "",
+  "name_zh": "亚杜兰",
   "lon": 34.9992,
   "lat": 31.6574,
   "kind": "City",
@@ -1262,7 +1262,7 @@
  {
   "id": "chebar_283",
   "name": "Chebar",
-  "name_zh": "",
+  "name_zh": "迦巴鲁河",
   "lon": 44.0629,
   "lat": 33.1591,
   "kind": "Water",
@@ -1282,7 +1282,7 @@
  {
   "id": "edrei_358",
   "name": "Edrei",
-  "name_zh": "",
+  "name_zh": "以得来",
   "lon": 36.099,
   "lat": 32.6241,
   "kind": "City",
@@ -1292,7 +1292,7 @@
  {
   "id": "eglon_361",
   "name": "Eglon",
-  "name_zh": "",
+  "name_zh": "伊矶伦",
   "lon": 34.7667,
   "lat": 31.5,
   "kind": "City",
@@ -1302,7 +1302,7 @@
  {
   "id": "egypt_259",
   "name": "Brook of Egypt",
-  "name_zh": "",
+  "name_zh": "埃及小河",
   "lon": 33.855,
   "lat": 31.032,
   "kind": "Water",
@@ -1312,7 +1312,7 @@
  {
   "id": "jabesh_610",
   "name": "Jabesh",
-  "name_zh": "",
+  "name_zh": "雅比",
   "lon": 35.6116,
   "lat": 32.3798,
   "kind": "",
@@ -1322,7 +1322,7 @@
  {
   "id": "jezreel_642",
   "name": "Jezreel",
-  "name_zh": "",
+  "name_zh": "耶斯列",
   "lon": 35.502,
   "lat": 32.5021,
   "kind": "City",
@@ -1332,7 +1332,7 @@
  {
   "id": "makkedah_760",
   "name": "Makkedah",
-  "name_zh": "",
+  "name_zh": "玛基大",
   "lon": 34.7813,
   "lat": 31.9351,
   "kind": "City",
@@ -1342,7 +1342,7 @@
  {
   "id": "media_776",
   "name": "Media",
-  "name_zh": "",
+  "name_zh": "米底亚",
   "lon": 46.5,
   "lat": 34.5,
   "kind": "Region",
@@ -1352,7 +1352,7 @@
  {
   "id": "memphis_779",
   "name": "Memphis",
-  "name_zh": "",
+  "name_zh": "挪弗",
   "lon": 31.2543,
   "lat": 29.8497,
   "kind": "City",
@@ -1362,7 +1362,7 @@
  {
   "id": "paran_921",
   "name": "Paran",
-  "name_zh": "",
+  "name_zh": "巴兰",
   "lon": 33.6096,
   "lat": 28.7175,
   "kind": "",
@@ -1382,7 +1382,7 @@
  {
   "id": "timnah_1164",
   "name": "Timnah",
-  "name_zh": "",
+  "name_zh": "亭拿",
   "lon": 34.9097,
   "lat": 31.7844,
   "kind": "City",
@@ -1392,7 +1392,7 @@
  {
   "id": "topheth_1176",
   "name": "Topheth",
-  "name_zh": "",
+  "name_zh": "陀斐特",
   "lon": 35.228,
   "lat": 31.7691,
   "kind": "",
@@ -1402,7 +1402,7 @@
  {
   "id": "valley_of_rephaim_1214",
   "name": "Valley of Rephaim",
-  "name_zh": "",
+  "name_zh": "利乏音谷",
   "lon": 35.2231,
   "lat": 31.7563,
   "kind": "Valley",
@@ -1412,7 +1412,7 @@
  {
   "id": "valley_of_the_son_of_hinnom_1226",
   "name": "Valley of the Son of Hinnom",
-  "name_zh": "",
+  "name_zh": "欣嫩子谷",
   "lon": 35.228,
   "lat": 31.7691,
   "kind": "Valley",
@@ -1422,7 +1422,7 @@
  {
   "id": "azekah_128",
   "name": "Azekah",
-  "name_zh": "",
+  "name_zh": "亚西加",
   "lon": 34.9362,
   "lat": 31.7006,
   "kind": "City",
@@ -1432,7 +1432,7 @@
  {
   "id": "beth-aven_191",
   "name": "Beth-aven",
-  "name_zh": "",
+  "name_zh": "伯·亚文",
   "lon": 35.2531,
   "lat": 31.8957,
   "kind": "",
@@ -1442,7 +1442,7 @@
  {
   "id": "beth-horon_214",
   "name": "Beth-horon",
-  "name_zh": "",
+  "name_zh": "伯·和仑",
   "lon": 35.1241,
   "lat": 31.8792,
   "kind": "City",
@@ -1462,7 +1462,7 @@
  {
   "id": "bozrah_256",
   "name": "Bozrah",
-  "name_zh": "",
+  "name_zh": "波斯拉",
   "lon": 35.6098,
   "lat": 30.7318,
   "kind": "City",
@@ -1472,7 +1472,7 @@
  {
   "id": "eshtaol_411",
   "name": "Eshtaol",
-  "name_zh": "",
+  "name_zh": "以实陶",
   "lon": 35.009,
   "lat": 31.7824,
   "kind": "City",
@@ -1482,7 +1482,7 @@
  {
   "id": "ezion-geber_423",
   "name": "Ezion-geber",
-  "name_zh": "",
+  "name_zh": "以旬·迦别",
   "lon": 35.0,
   "lat": 29.5307,
   "kind": "City",
@@ -1492,7 +1492,7 @@
  {
   "id": "jabbok_609",
   "name": "Jabbok",
-  "name_zh": "",
+  "name_zh": "雅博河",
   "lon": 35.6763,
   "lat": 32.1932,
   "kind": "Water",
@@ -1502,7 +1502,7 @@
  {
   "id": "kiriath-arba_697",
   "name": "Kiriath-arba",
-  "name_zh": "",
+  "name_zh": "基列·亚巴",
   "lon": 35.1085,
   "lat": 31.5244,
   "kind": "",
@@ -1532,7 +1532,7 @@
  {
   "id": "nebo_883",
   "name": "Nebo",
-  "name_zh": "",
+  "name_zh": "尼波",
   "lon": 35.7262,
   "lat": 31.7677,
   "kind": "",
@@ -1542,7 +1542,7 @@
  {
   "id": "taanach_1124",
   "name": "Taanach",
-  "name_zh": "",
+  "name_zh": "他纳",
   "lon": 35.2195,
   "lat": 32.5219,
   "kind": "City",
@@ -1552,7 +1552,7 @@
  {
   "id": "tekoa_1142",
   "name": "Tekoa",
-  "name_zh": "",
+  "name_zh": "提哥亚",
   "lon": 35.2154,
   "lat": 31.6361,
   "kind": "",
@@ -1562,7 +1562,7 @@
  {
   "id": "zin_1261",
   "name": "Zin",
-  "name_zh": "",
+  "name_zh": "寻",
   "lon": 34.4948,
   "lat": 30.6877,
   "kind": "Region",
@@ -1572,7 +1572,7 @@
  {
   "id": "zoan_1270",
   "name": "Zoan",
-  "name_zh": "",
+  "name_zh": "琐安",
   "lon": 31.8842,
   "lat": 30.9746,
   "kind": "City",
@@ -1582,7 +1582,7 @@
  {
   "id": "ar_77",
   "name": "Ar",
-  "name_zh": "",
+  "name_zh": "亚珥",
   "lon": 35.594,
   "lat": 31.4498,
   "kind": "",
@@ -1592,7 +1592,7 @@
  {
   "id": "arabia_80",
   "name": "Arabia",
-  "name_zh": "",
+  "name_zh": "阿拉伯",
   "lon": 37.7,
   "lat": 27.4,
   "kind": "Region",
@@ -1602,7 +1602,7 @@
  {
   "id": "aroer_94",
   "name": "Aroer",
-  "name_zh": "",
+  "name_zh": "亚罗珥",
   "lon": 35.9115,
   "lat": 31.9617,
   "kind": "City",
@@ -1612,7 +1612,7 @@
  {
   "id": "arpad_96",
   "name": "Arpad",
-  "name_zh": "",
+  "name_zh": "亚珥拔",
   "lon": 37.0947,
   "lat": 36.4723,
   "kind": "City",
@@ -1622,7 +1622,7 @@
  {
   "id": "ashtaroth_106",
   "name": "Ashtaroth",
-  "name_zh": "",
+  "name_zh": "亚斯他录",
   "lon": 36.0294,
   "lat": 32.8374,
   "kind": "City",
@@ -1632,7 +1632,7 @@
  {
   "id": "babylonia_152",
   "name": "Babylonia",
-  "name_zh": "",
+  "name_zh": "巴比伦",
   "lon": 44.5,
   "lat": 32.5,
   "kind": "Region",
@@ -1642,7 +1642,7 @@
  {
   "id": "bahurim_154",
   "name": "Bahurim",
-  "name_zh": "",
+  "name_zh": "巴户琳",
   "lon": 35.3885,
   "lat": 31.8247,
   "kind": "",
@@ -1652,7 +1652,7 @@
  {
   "id": "beeroth_168",
   "name": "Beeroth",
-  "name_zh": "",
+  "name_zh": "比录",
   "lon": 35.2167,
   "lat": 31.9001,
   "kind": "City",
@@ -1672,7 +1672,7 @@
  {
   "id": "cyrene_317",
   "name": "Cyrene",
-  "name_zh": "",
+  "name_zh": "古利奈",
   "lon": 21.8562,
   "lat": 32.8187,
   "kind": "City",
@@ -1682,7 +1682,7 @@
  {
   "id": "dedan_329",
   "name": "Dedan",
-  "name_zh": "",
+  "name_zh": "底但",
   "lon": 37.9228,
   "lat": 26.6127,
   "kind": "",
@@ -1692,7 +1692,7 @@
  {
   "id": "east_348",
   "name": "East",
-  "name_zh": "",
+  "name_zh": "东方",
   "lon": 35.9241,
   "lat": 31.9502,
   "kind": "",
@@ -1702,7 +1702,7 @@
  {
   "id": "engedi_389",
   "name": "Engedi",
-  "name_zh": "",
+  "name_zh": "隐·基底",
   "lon": 35.389,
   "lat": 31.4602,
   "kind": "City",
@@ -1732,7 +1732,7 @@
  {
   "id": "jarmuth_624",
   "name": "Jarmuth",
-  "name_zh": "",
+  "name_zh": "耶末",
   "lon": 34.97,
   "lat": 31.7093,
   "kind": "City",
@@ -1742,7 +1742,7 @@
  {
   "id": "laodicea_716",
   "name": "Laodicea",
-  "name_zh": "",
+  "name_zh": "老底嘉",
   "lon": 29.1079,
   "lat": 37.8369,
   "kind": "City",
@@ -1752,7 +1752,7 @@
  {
   "id": "luz_737",
   "name": "Luz",
-  "name_zh": "",
+  "name_zh": "路斯",
   "lon": 35.221,
   "lat": 31.9305,
   "kind": "City",
@@ -1792,7 +1792,7 @@
  {
   "id": "mareshah_767",
   "name": "Mareshah",
-  "name_zh": "",
+  "name_zh": "玛利沙",
   "lon": 34.8982,
   "lat": 31.593,
   "kind": "City",
@@ -1812,7 +1812,7 @@
  {
   "id": "millo_802",
   "name": "Millo",
-  "name_zh": "",
+  "name_zh": "米罗",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "",
@@ -1822,7 +1822,7 @@
  {
   "id": "mizpah_809",
   "name": "Mizpah",
-  "name_zh": "",
+  "name_zh": "米斯巴",
   "lon": 36.0056,
   "lat": 32.5653,
   "kind": "",
@@ -1832,7 +1832,7 @@
  {
   "id": "netophah_890",
   "name": "Netophah",
-  "name_zh": "",
+  "name_zh": "尼陀法",
   "lon": 35.2205,
   "lat": 31.7355,
   "kind": "City",
@@ -1842,7 +1842,7 @@
  {
   "id": "nob_900",
   "name": "Nob",
-  "name_zh": "",
+  "name_zh": "挪伯",
   "lon": 35.233,
   "lat": 31.7996,
   "kind": "City",
@@ -1852,7 +1852,7 @@
  {
   "id": "philistia_943",
   "name": "Philistia",
-  "name_zh": "",
+  "name_zh": "非利士",
   "lon": 35.3663,
   "lat": 33.5632,
   "kind": "Region",
@@ -1872,7 +1872,7 @@
  {
   "id": "sepharvaim_1050",
   "name": "Sepharvaim",
-  "name_zh": "",
+  "name_zh": "西法瓦音",
   "lon": 44.4594,
   "lat": 33.7897,
   "kind": "City",
@@ -1882,7 +1882,7 @@
  {
   "id": "shephelah_1074",
   "name": "Shephelah",
-  "name_zh": "",
+  "name_zh": "高原",
   "lon": 34.75,
   "lat": 31.75,
   "kind": "Region",
@@ -1902,7 +1902,7 @@
  {
   "id": "teman_1150",
   "name": "Teman",
-  "name_zh": "",
+  "name_zh": "提幔",
   "lon": 35.7326,
   "lat": 30.2038,
   "kind": "Region",
@@ -1932,7 +1932,7 @@
  {
   "id": "ziph_1266",
   "name": "Ziph",
-  "name_zh": "",
+  "name_zh": "西弗",
   "lon": 35.1405,
   "lat": 31.4783,
   "kind": "City",
@@ -1942,7 +1942,7 @@
  {
   "id": "abarim_2",
   "name": "Abarim",
-  "name_zh": "",
+  "name_zh": "亚巴琳",
   "lon": 35.7461,
   "lat": 31.7614,
   "kind": "Region",
@@ -1952,7 +1952,7 @@
  {
   "id": "admah_27",
   "name": "Admah",
-  "name_zh": "",
+  "name_zh": "押玛",
   "lon": 35.4125,
   "lat": 31.1194,
   "kind": "City",
@@ -1962,7 +1962,7 @@
  {
   "id": "aram_82",
   "name": "Aram",
-  "name_zh": "",
+  "name_zh": "亚兰",
   "lon": 39.12,
   "lat": 34.85,
   "kind": "",
@@ -1982,7 +1982,7 @@
  {
   "id": "beth-shean_233",
   "name": "Beth-shean",
-  "name_zh": "",
+  "name_zh": "伯·善",
   "lon": 35.5031,
   "lat": 32.5042,
   "kind": "City",
@@ -1992,7 +1992,7 @@
  {
   "id": "corner_gate_307",
   "name": "Corner Gate",
-  "name_zh": "",
+  "name_zh": "角门",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "",
@@ -2012,7 +2012,7 @@
  {
   "id": "elealeh_368",
   "name": "Elealeh",
-  "name_zh": "",
+  "name_zh": "以利亚利",
   "lon": 35.8243,
   "lat": 31.8138,
   "kind": "",
@@ -2022,7 +2022,7 @@
  {
   "id": "gibbethon_465",
   "name": "Gibbethon",
-  "name_zh": "",
+  "name_zh": "基比顿",
   "lon": 35.0049,
   "lat": 31.9766,
   "kind": "City",
@@ -2032,7 +2032,7 @@
  {
   "id": "gihon_473",
   "name": "Gihon",
-  "name_zh": "",
+  "name_zh": "基训",
   "lon": 35.2372,
   "lat": 31.7731,
   "kind": "",
@@ -2042,7 +2042,7 @@
  {
   "id": "gozan_492",
   "name": "Gozan",
-  "name_zh": "",
+  "name_zh": "歌散",
   "lon": 40.0689,
   "lat": 36.84,
   "kind": "Region",
@@ -2062,7 +2062,7 @@
  {
   "id": "hazeroth_544",
   "name": "Hazeroth",
-  "name_zh": "",
+  "name_zh": "哈洗录",
   "lon": 34.5,
   "lat": 28.9167,
   "kind": "",
@@ -2072,7 +2072,7 @@
  {
   "id": "jahaz_617",
   "name": "Jahaz",
-  "name_zh": "",
+  "name_zh": "雅杂",
   "lon": 35.9206,
   "lat": 31.501,
   "kind": "City",
@@ -2082,7 +2082,7 @@
  {
   "id": "kibroth-hattaavah_685",
   "name": "Kibroth-hattaavah",
-  "name_zh": "",
+  "name_zh": "基博罗·哈他瓦",
   "lon": 34.5,
   "lat": 28.9167,
   "kind": "",
@@ -2092,7 +2092,7 @@
  {
   "id": "kir_693",
   "name": "Kir",
-  "name_zh": "",
+  "name_zh": "吉珥",
   "lon": 35.7021,
   "lat": 31.1813,
   "kind": "",
@@ -2102,7 +2102,7 @@
  {
   "id": "kiriathaim_695",
   "name": "Kiriathaim",
-  "name_zh": "",
+  "name_zh": "基列亭",
   "lon": 35.7,
   "lat": 31.5833,
   "kind": "City",
@@ -2112,7 +2112,7 @@
  {
   "id": "kishon_705",
   "name": "Kishon",
-  "name_zh": "",
+  "name_zh": "基顺河",
   "lon": 35.0641,
   "lat": 32.7619,
   "kind": "Water",
@@ -2122,7 +2122,7 @@
  {
   "id": "medeba_775",
   "name": "Medeba",
-  "name_zh": "",
+  "name_zh": "米底巴",
   "lon": 35.792,
   "lat": 31.7205,
   "kind": "City",
@@ -2132,7 +2132,7 @@
  {
   "id": "meshech_788",
   "name": "Meshech",
-  "name_zh": "",
+  "name_zh": "米设",
   "lon": 47.0,
   "lat": 46.0,
   "kind": "",
@@ -2142,7 +2142,7 @@
  {
   "id": "mount_carmel_831",
   "name": "Mount Carmel",
-  "name_zh": "",
+  "name_zh": "迦密山",
   "lon": 35.0498,
   "lat": 32.7294,
   "kind": "Mountain",
@@ -2152,7 +2152,7 @@
  {
   "id": "mount_ebal_832",
   "name": "Mount Ebal",
-  "name_zh": "",
+  "name_zh": "以巴路山",
   "lon": 35.273,
   "lat": 32.2329,
   "kind": "Mountain",
@@ -2172,7 +2172,7 @@
  {
   "id": "naioth_873",
   "name": "Naioth",
-  "name_zh": "",
+  "name_zh": "拿约",
   "lon": 35.1802,
   "lat": 31.8327,
   "kind": "",
@@ -2182,7 +2182,7 @@
  {
   "id": "ono_909",
   "name": "Ono",
-  "name_zh": "",
+  "name_zh": "阿挪",
   "lon": 34.8667,
   "lat": 32.0222,
   "kind": "City",
@@ -2192,7 +2192,7 @@
  {
   "id": "ophel_910",
   "name": "Ophel",
-  "name_zh": "",
+  "name_zh": "俄斐勒",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "",
@@ -2202,7 +2202,7 @@
  {
   "id": "ophrah_914",
   "name": "Ophrah",
-  "name_zh": "",
+  "name_zh": "俄弗拉",
   "lon": 35.2883,
   "lat": 32.6087,
   "kind": "City",
@@ -2222,7 +2222,7 @@
  {
   "id": "pathros_925",
   "name": "Pathros",
-  "name_zh": "",
+  "name_zh": "巴忒罗",
   "lon": 30.6923,
   "lat": 28.3224,
   "kind": "Region",
@@ -2232,7 +2232,7 @@
  {
   "id": "penuel_931",
   "name": "Penuel",
-  "name_zh": "",
+  "name_zh": "毘努伊勒",
   "lon": 35.7029,
   "lat": 32.1844,
   "kind": "City",
@@ -2242,7 +2242,7 @@
  {
   "id": "pisgah_950",
   "name": "Pisgah",
-  "name_zh": "",
+  "name_zh": "毘斯迦",
   "lon": 35.7186,
   "lat": 31.765,
   "kind": "",
@@ -2272,7 +2272,7 @@
  {
   "id": "sibmah_1091",
   "name": "Sibmah",
-  "name_zh": "",
+  "name_zh": "西比玛",
   "lon": 35.7667,
   "lat": 31.8153,
   "kind": "City",
@@ -2282,7 +2282,7 @@
  {
   "id": "tabor_1128",
   "name": "Tabor (Mountain)",
-  "name_zh": "",
+  "name_zh": "他泊（山）",
   "lon": 35.3904,
   "lat": 32.6871,
   "kind": "Mountain",
@@ -2292,7 +2292,7 @@
  {
   "id": "tahpanhes_1133",
   "name": "Tahpanhes",
-  "name_zh": "",
+  "name_zh": "答比匿",
   "lon": 32.1714,
   "lat": 30.8606,
   "kind": "",
@@ -2312,7 +2312,7 @@
  {
   "id": "thebes_1156",
   "name": "Thebes",
-  "name_zh": "",
+  "name_zh": "挪",
   "lon": 32.6394,
   "lat": 25.7,
   "kind": "",
@@ -2322,7 +2322,7 @@
  {
   "id": "tubal_1183",
   "name": "Tubal",
-  "name_zh": "",
+  "name_zh": "土巴",
   "lon": 37.8,
   "lat": 40.9052,
   "kind": "Region",
@@ -2332,7 +2332,7 @@
  {
   "id": "valley_of_achor_1196",
   "name": "Valley of Achor",
-  "name_zh": "",
+  "name_zh": "亚割谷",
   "lon": 35.3997,
   "lat": 31.8369,
   "kind": "Valley",
@@ -2342,7 +2342,7 @@
  {
   "id": "zeboiim_1244",
   "name": "Zeboiim",
-  "name_zh": "",
+  "name_zh": "洗扁",
   "lon": 35.4125,
   "lat": 31.1194,
   "kind": "City",
@@ -2352,7 +2352,7 @@
  {
   "id": "ain_42",
   "name": "Ain",
-  "name_zh": "",
+  "name_zh": "亚延",
   "lon": 34.8607,
   "lat": 31.3708,
   "kind": "",
@@ -2372,7 +2372,7 @@
  {
   "id": "arad_81",
   "name": "Arad",
-  "name_zh": "",
+  "name_zh": "亚拉得",
   "lon": 35.1264,
   "lat": 31.281,
   "kind": "City",
@@ -2382,7 +2382,7 @@
  {
   "id": "argob_88",
   "name": "Argob",
-  "name_zh": "",
+  "name_zh": "亚珥歌伯",
   "lon": 36.136,
   "lat": 33.144,
   "kind": "Region",
@@ -2392,7 +2392,7 @@
  {
   "id": "ashan_100",
   "name": "Ashan",
-  "name_zh": "",
+  "name_zh": "亚珊",
   "lon": 34.9365,
   "lat": 31.8099,
   "kind": "",
@@ -2402,7 +2402,7 @@
  {
   "id": "asshur_109",
   "name": "Asshur",
-  "name_zh": "",
+  "name_zh": "亚述",
   "lon": 43.1529,
   "lat": 36.3594,
   "kind": "City",
@@ -2412,7 +2412,7 @@
  {
   "id": "beth-horon_733",
   "name": "Beth-horon",
-  "name_zh": "",
+  "name_zh": "伯·和仑",
   "lon": 35.1236,
   "lat": 31.8789,
   "kind": "City",
@@ -2422,7 +2422,7 @@
  {
   "id": "beth-jeshimoth_215",
   "name": "Beth-jeshimoth",
-  "name_zh": "",
+  "name_zh": "伯·耶施末",
   "lon": 35.5987,
   "lat": 31.7769,
   "kind": "City",
@@ -2432,7 +2432,7 @@
  {
   "id": "beth-peor_228",
   "name": "Beth-peor",
-  "name_zh": "",
+  "name_zh": "伯·毘珥",
   "lon": 35.7119,
   "lat": 31.6561,
   "kind": "",
@@ -2442,7 +2442,7 @@
  {
   "id": "bezer_247",
   "name": "Bezer",
-  "name_zh": "",
+  "name_zh": "比悉",
   "lon": 36.4883,
   "lat": 32.5161,
   "kind": "City",
@@ -2452,7 +2452,7 @@
  {
   "id": "brook_eshcol_1202",
   "name": "Brook Eshcol",
-  "name_zh": "",
+  "name_zh": "以实各谷",
   "lon": 35.0936,
   "lat": 31.5491,
   "kind": "Valley",
@@ -2472,7 +2472,7 @@
  {
   "id": "chephirah_285",
   "name": "Chephirah",
-  "name_zh": "",
+  "name_zh": "基非拉",
   "lon": 35.0953,
   "lat": 31.8364,
   "kind": "City",
@@ -2492,7 +2492,7 @@
  {
   "id": "dor_341",
   "name": "Dor",
-  "name_zh": "",
+  "name_zh": "多珥",
   "lon": 34.9189,
   "lat": 32.6132,
   "kind": "City",
@@ -2502,7 +2502,7 @@
  {
   "id": "dung_gate_346",
   "name": "Dung Gate",
-  "name_zh": "",
+  "name_zh": "粪厂门",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "Landmark",
@@ -2522,7 +2522,7 @@
  {
   "id": "en-rogel_395",
   "name": "En-rogel",
-  "name_zh": "",
+  "name_zh": "隐·罗结",
   "lon": 35.2344,
   "lat": 31.7678,
   "kind": "Landmark",
@@ -2542,7 +2542,7 @@
  {
   "id": "ethiopia_419",
   "name": "Ethiopia",
-  "name_zh": "",
+  "name_zh": "古实",
   "lon": 31.3436,
   "lat": 21.9598,
   "kind": "Region",
@@ -2552,7 +2552,7 @@
  {
   "id": "gaash_429",
   "name": "Gaash",
-  "name_zh": "",
+  "name_zh": "迦实",
   "lon": 35.1504,
   "lat": 32.1215,
   "kind": "",
@@ -2562,7 +2562,7 @@
  {
   "id": "gate_of_benjamin_175",
   "name": "Gate of Benjamin",
-  "name_zh": "",
+  "name_zh": "便雅悯门",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "Landmark",
@@ -2572,7 +2572,7 @@
  {
   "id": "golan_486",
   "name": "Golan",
-  "name_zh": "",
+  "name_zh": "哥兰",
   "lon": 35.9373,
   "lat": 32.8001,
   "kind": "City",
@@ -2582,7 +2582,7 @@
  {
   "id": "havvoth-jair_535",
   "name": "Havvoth-jair",
-  "name_zh": "",
+  "name_zh": "哈倭特·睚珥",
   "lon": 35.7242,
   "lat": 32.0425,
   "kind": "",
@@ -2592,7 +2592,7 @@
  {
   "id": "hazar-enan_537",
   "name": "Hazar-enan",
-  "name_zh": "",
+  "name_zh": "哈萨·以难",
   "lon": 37.2401,
   "lat": 34.2295,
   "kind": "City",
@@ -2602,7 +2602,7 @@
  {
   "id": "hazar-shual_539",
   "name": "Hazar-shual",
-  "name_zh": "",
+  "name_zh": "哈萨·书亚",
   "lon": 34.943,
   "lat": 31.2154,
   "kind": "City",
@@ -2612,7 +2612,7 @@
  {
   "id": "horesh_578",
   "name": "Horesh",
-  "name_zh": "",
+  "name_zh": "何列斯",
   "lon": 35.0884,
   "lat": 31.4511,
   "kind": "",
@@ -2622,7 +2622,7 @@
  {
   "id": "horonaim_581",
   "name": "Horonaim",
-  "name_zh": "",
+  "name_zh": "何罗念",
   "lon": 35.515,
   "lat": 31.2881,
   "kind": "City",
@@ -2642,7 +2642,7 @@
  {
   "id": "jattir_626",
   "name": "Jattir",
-  "name_zh": "",
+  "name_zh": "雅提珥",
   "lon": 35.0694,
   "lat": 31.4014,
   "kind": "City",
@@ -2652,7 +2652,7 @@
  {
   "id": "jeshimon_639",
   "name": "Jeshimon",
-  "name_zh": "",
+  "name_zh": "耶示门",
   "lon": 35.3924,
   "lat": 31.4615,
   "kind": "",
@@ -2662,7 +2662,7 @@
  {
   "id": "kedemoth_675",
   "name": "Kedemoth",
-  "name_zh": "",
+  "name_zh": "基底莫",
   "lon": 35.8945,
   "lat": 31.6461,
   "kind": "City",
@@ -2672,7 +2672,7 @@
  {
   "id": "kiriath-sepher_703",
   "name": "Kiriath-sepher",
-  "name_zh": "",
+  "name_zh": "基列·西弗",
   "lon": 34.9667,
   "lat": 31.4167,
   "kind": "",
@@ -2682,7 +2682,7 @@
  {
   "id": "laish_713",
   "name": "Laish",
-  "name_zh": "",
+  "name_zh": "拉亿",
   "lon": 35.6525,
   "lat": 33.2487,
   "kind": "City",
@@ -2692,7 +2692,7 @@
  {
   "id": "lod_731",
   "name": "Lod",
-  "name_zh": "",
+  "name_zh": "罗德",
   "lon": 34.8953,
   "lat": 31.9514,
   "kind": "",
@@ -2702,7 +2702,7 @@
  {
   "id": "lud_735",
   "name": "Lud",
-  "name_zh": "",
+  "name_zh": "路德",
   "lon": 34.8953,
   "lat": 31.9514,
   "kind": "",
@@ -2712,7 +2712,7 @@
  {
   "id": "maacah_743",
   "name": "Maacah",
-  "name_zh": "",
+  "name_zh": "玛迦",
   "lon": 36.5,
   "lat": 33.2,
   "kind": "Region",
@@ -2722,7 +2722,7 @@
  {
   "id": "maon_764",
   "name": "Maon",
-  "name_zh": "",
+  "name_zh": "玛云",
   "lon": 35.1167,
   "lat": 31.4167,
   "kind": "City",
@@ -2742,7 +2742,7 @@
  {
   "id": "mephaath_780",
   "name": "Mephaath",
-  "name_zh": "",
+  "name_zh": "米法押",
   "lon": 35.9333,
   "lat": 31.85,
   "kind": "City",
@@ -2752,7 +2752,7 @@
  {
   "id": "meribah_782",
   "name": "Meribah (of Kadesh)",
-  "name_zh": "",
+  "name_zh": "米利巴（加低斯）",
   "lon": 34.4948,
   "lat": 30.6877,
   "kind": "Landmark",
@@ -2762,7 +2762,7 @@
  {
   "id": "moladah_816",
   "name": "Moladah",
-  "name_zh": "",
+  "name_zh": "摩拉大",
   "lon": 35.0571,
   "lat": 31.1623,
   "kind": "City",
@@ -2772,7 +2772,7 @@
  {
   "id": "mount_gerizim_836",
   "name": "Mount Gerizim",
-  "name_zh": "",
+  "name_zh": "基利心山",
   "lon": 35.2729,
   "lat": 32.1996,
   "kind": "Mountain",
@@ -2782,7 +2782,7 @@
  {
   "id": "mount_of_esau_835",
   "name": "Mount of Esau",
-  "name_zh": "",
+  "name_zh": "以扫山",
   "lon": 35.6063,
   "lat": 30.7347,
   "kind": "Mountain",
@@ -2792,7 +2792,7 @@
  {
   "id": "oboth_906",
   "name": "Oboth",
-  "name_zh": "",
+  "name_zh": "阿伯",
   "lon": 35.7828,
   "lat": 31.4968,
   "kind": "",
@@ -2802,7 +2802,7 @@
  {
   "id": "on_908",
   "name": "On",
-  "name_zh": "",
+  "name_zh": "安",
   "lon": 31.3382,
   "lat": 30.1081,
   "kind": "City",
@@ -2812,7 +2812,7 @@
  {
   "id": "peor_933",
   "name": "Peor",
-  "name_zh": "",
+  "name_zh": "毘珥",
   "lon": 35.7186,
   "lat": 31.765,
   "kind": "Mountain",
@@ -2832,7 +2832,7 @@
  {
   "id": "pirathon_949",
   "name": "Pirathon",
-  "name_zh": "",
+  "name_zh": "比拉顿",
   "lon": 35.0229,
   "lat": 32.286,
   "kind": "",
@@ -2842,7 +2842,7 @@
  {
   "id": "rameses_980",
   "name": "Rameses",
-  "name_zh": "",
+  "name_zh": "兰塞",
   "lon": 31.8342,
   "lat": 30.7994,
   "kind": "City",
@@ -2852,7 +2852,7 @@
  {
   "id": "rehob_989",
   "name": "Rehob",
-  "name_zh": "",
+  "name_zh": "利合",
   "lon": 35.212,
   "lat": 32.9554,
   "kind": "City",
@@ -2862,7 +2862,7 @@
  {
   "id": "rimmon_1004",
   "name": "Rimmon",
-  "name_zh": "",
+  "name_zh": "临门",
   "lon": 36.3857,
   "lat": 34.3531,
   "kind": "",
@@ -2872,7 +2872,7 @@
  {
   "id": "rock_1011",
   "name": "Rock",
-  "name_zh": "",
+  "name_zh": "磐石",
   "lon": 35.1167,
   "lat": 31.4167,
   "kind": "",
@@ -2882,7 +2882,7 @@
  {
   "id": "salecah_1017",
   "name": "Salecah",
-  "name_zh": "",
+  "name_zh": "撒迦",
   "lon": 36.7103,
   "lat": 32.4939,
   "kind": "City",
@@ -2892,7 +2892,7 @@
  {
   "id": "senir_1047",
   "name": "Senir",
-  "name_zh": "",
+  "name_zh": "示尼珥",
   "lon": 35.8573,
   "lat": 33.4162,
   "kind": "",
@@ -2902,7 +2902,7 @@
  {
   "id": "sheep_gate_1070",
   "name": "Sheep Gate",
-  "name_zh": "",
+  "name_zh": "羊门",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "Landmark",
@@ -2912,7 +2912,7 @@
  {
   "id": "shittim_1086",
   "name": "Shittim",
-  "name_zh": "",
+  "name_zh": "什亭",
   "lon": 35.6416,
   "lat": 31.8583,
   "kind": "",
@@ -2942,7 +2942,7 @@
  {
   "id": "thyatira_1160",
   "name": "Thyatira",
-  "name_zh": "",
+  "name_zh": "推雅推喇",
   "lon": 27.8405,
   "lat": 38.9229,
   "kind": "City",
@@ -2952,7 +2952,7 @@
  {
   "id": "tower_1177",
   "name": "Tower",
-  "name_zh": "",
+  "name_zh": "哈米亚楼",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "Landmark",
@@ -2972,7 +2972,7 @@
  {
   "id": "valley_of_salt_1215",
   "name": "Valley of Salt",
-  "name_zh": "",
+  "name_zh": "盐谷",
   "lon": 35.3837,
   "lat": 31.0873,
   "kind": "Valley",
@@ -2982,7 +2982,7 @@
  {
   "id": "water_gate_1230",
   "name": "Water Gate",
-  "name_zh": "",
+  "name_zh": "水门",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "Landmark",
@@ -2992,7 +2992,7 @@
  {
   "id": "zarephath_1242",
   "name": "Zarephath",
-  "name_zh": "",
+  "name_zh": "撒勒法",
   "lon": 35.3,
   "lat": 33.4333,
   "kind": "",
@@ -3002,7 +3002,7 @@
  {
   "id": "abel_4",
   "name": "Abel",
-  "name_zh": "",
+  "name_zh": "亚比拉",
   "lon": 35.578,
   "lat": 33.2685,
   "kind": "",
@@ -3012,7 +3012,7 @@
  {
   "id": "abel-meholah_8",
   "name": "Abel-meholah",
-  "name_zh": "",
+  "name_zh": "亚伯·米何拉",
   "lon": 35.5369,
   "lat": 32.356,
   "kind": "City",
@@ -3022,7 +3022,7 @@
  {
   "id": "achshaph_17",
   "name": "Achshaph",
-  "name_zh": "",
+  "name_zh": "押煞",
   "lon": 35.1738,
   "lat": 32.9518,
   "kind": "City",
@@ -3032,7 +3032,7 @@
  {
   "id": "ahava_34",
   "name": "Ahava",
-  "name_zh": "",
+  "name_zh": "亚哈瓦",
   "lon": 42.7866,
   "lat": 33.6252,
   "kind": "Water",
@@ -3042,7 +3042,7 @@
  {
   "id": "akrabbim_44",
   "name": "Akrabbim",
-  "name_zh": "",
+  "name_zh": "亚克拉滨",
   "lon": 35.2632,
   "lat": 30.6883,
   "kind": "Region",
@@ -3062,7 +3062,7 @@
  {
   "id": "aphek_72",
   "name": "Aphek",
-  "name_zh": "",
+  "name_zh": "亚弗",
   "lon": 34.932,
   "lat": 32.1047,
   "kind": "City",
@@ -3072,7 +3072,7 @@
  {
   "id": "aphek_73",
   "name": "Aphek",
-  "name_zh": "",
+  "name_zh": "亚弗",
   "lon": 35.6987,
   "lat": 32.7783,
   "kind": "City",
@@ -3092,7 +3092,7 @@
  {
   "id": "ariel_89",
   "name": "Ariel",
-  "name_zh": "",
+  "name_zh": "亚利伊勒",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "City",
@@ -3102,7 +3102,7 @@
  {
   "id": "arimathea_90",
   "name": "Arimathea",
-  "name_zh": "",
+  "name_zh": "亚利马太",
   "lon": 35.1802,
   "lat": 31.8327,
   "kind": "City",
@@ -3112,7 +3112,7 @@
  {
   "id": "azmon_130",
   "name": "Azmon",
-  "name_zh": "",
+  "name_zh": "押们",
   "lon": 34.3805,
   "lat": 30.9585,
   "kind": "",
@@ -3122,7 +3122,7 @@
  {
   "id": "baal-gad_140",
   "name": "Baal-gad",
-  "name_zh": "",
+  "name_zh": "巴力·迦得",
   "lon": 35.8573,
   "lat": 33.4162,
   "kind": "City",
@@ -3132,7 +3132,7 @@
  {
   "id": "baal-meon_144",
   "name": "Baal-meon",
-  "name_zh": "",
+  "name_zh": "巴力·免",
   "lon": 35.7349,
   "lat": 31.6795,
   "kind": "City",
@@ -3142,7 +3142,7 @@
  {
   "id": "baal-peor_145",
   "name": "Baal-peor",
-  "name_zh": "",
+  "name_zh": "巴力·毘珥",
   "lon": 35.7186,
   "lat": 31.765,
   "kind": "",
@@ -3162,7 +3162,7 @@
  {
   "id": "baalah_135",
   "name": "Baalah",
-  "name_zh": "",
+  "name_zh": "巴拉",
   "lon": 34.9938,
   "lat": 31.7711,
   "kind": "City",
@@ -3172,7 +3172,7 @@
  {
   "id": "besor_181",
   "name": "Besor",
-  "name_zh": "",
+  "name_zh": "比梭溪",
   "lon": 34.4367,
   "lat": 31.3981,
   "kind": "Valley",
@@ -3182,7 +3182,7 @@
  {
   "id": "beth-arabah_188",
   "name": "Beth-arabah",
-  "name_zh": "",
+  "name_zh": "伯·亚拉巴",
   "lon": 35.5065,
   "lat": 31.8433,
   "kind": "City",
@@ -3192,7 +3192,7 @@
  {
   "id": "beth-hoglah_213",
   "name": "Beth-hoglah",
-  "name_zh": "",
+  "name_zh": "伯·曷拉",
   "lon": 35.5132,
   "lat": 31.8371,
   "kind": "",
@@ -3202,7 +3202,7 @@
  {
   "id": "beth-shan_232",
   "name": "Beth-shan",
-  "name_zh": "",
+  "name_zh": "伯·珊",
   "lon": 35.5031,
   "lat": 32.5042,
   "kind": "",
@@ -3212,7 +3212,7 @@
  {
   "id": "beth-zur_242",
   "name": "Beth-zur",
-  "name_zh": "",
+  "name_zh": "伯·夙",
   "lon": 35.1026,
   "lat": 31.5961,
   "kind": "",
@@ -3222,7 +3222,7 @@
  {
   "id": "bethphage_229",
   "name": "Bethphage",
-  "name_zh": "",
+  "name_zh": "伯法其",
   "lon": 35.2567,
   "lat": 31.7904,
   "kind": "City",
@@ -3232,7 +3232,7 @@
  {
   "id": "caphtor_275",
   "name": "Caphtor",
-  "name_zh": "",
+  "name_zh": "迦斐托",
   "lon": 25.0072,
   "lat": 35.1712,
   "kind": "",
@@ -3242,7 +3242,7 @@
  {
   "id": "carchemish_277",
   "name": "Carchemish",
-  "name_zh": "",
+  "name_zh": "迦基米施",
   "lon": 38.0158,
   "lat": 36.8293,
   "kind": "City",
@@ -3252,7 +3252,7 @@
  {
   "id": "daberath_319",
   "name": "Daberath",
-  "name_zh": "",
+  "name_zh": "大比拉",
   "lon": 35.3717,
   "lat": 32.6917,
   "kind": "City",
@@ -3272,7 +3272,7 @@
  {
   "id": "ebenezer_350",
   "name": "Ebenezer",
-  "name_zh": "",
+  "name_zh": "以便以谢",
   "lon": 35.1802,
   "lat": 31.8327,
   "kind": "",
@@ -3282,7 +3282,7 @@
  {
   "id": "elath_366",
   "name": "Elath",
-  "name_zh": "",
+  "name_zh": "以拉他",
   "lon": 35.0057,
   "lat": 29.5285,
   "kind": "City",
@@ -3292,7 +3292,7 @@
  {
   "id": "eloth_375",
   "name": "Eloth",
-  "name_zh": "",
+  "name_zh": "以禄",
   "lon": 35.0057,
   "lat": 29.5285,
   "kind": "",
@@ -3302,7 +3302,7 @@
  {
   "id": "en-dor_385",
   "name": "En-dor",
-  "name_zh": "",
+  "name_zh": "隐·多珥",
   "lon": 35.3857,
   "lat": 32.6257,
   "kind": "",
@@ -3322,7 +3322,7 @@
  {
   "id": "esau_408",
   "name": "Esau",
-  "name_zh": "",
+  "name_zh": "以扫",
   "lon": 35.6063,
   "lat": 30.7347,
   "kind": "",
@@ -3332,7 +3332,7 @@
  {
   "id": "eshtemoa_412",
   "name": "Eshtemoa",
-  "name_zh": "",
+  "name_zh": "以实提莫",
   "lon": 35.0746,
   "lat": 31.3735,
   "kind": "City",
@@ -3342,7 +3342,7 @@
  {
   "id": "ezem_422",
   "name": "Ezem",
-  "name_zh": "",
+  "name_zh": "以森",
   "lon": 35.7334,
   "lat": 32.05,
   "kind": "",
@@ -3352,7 +3352,7 @@
  {
   "id": "field_1229",
   "name": "Field",
-  "name_zh": "",
+  "name_zh": "漂布地",
   "lon": 35.228,
   "lat": 31.7691,
   "kind": "Landmark",
@@ -3362,7 +3362,7 @@
  {
   "id": "fish_gate_426",
   "name": "Fish Gate",
-  "name_zh": "",
+  "name_zh": "鱼门",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "",
@@ -3372,7 +3372,7 @@
  {
   "id": "gate_of_the_fountain_428",
   "name": "Gate of the Fountain",
-  "name_zh": "",
+  "name_zh": "泉门",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "Landmark",
@@ -3382,7 +3382,7 @@
  {
   "id": "gath-rimmon_444",
   "name": "Gath-rimmon",
-  "name_zh": "",
+  "name_zh": "迦特·临门",
   "lon": 34.8831,
   "lat": 32.0697,
   "kind": "City",
@@ -3392,7 +3392,7 @@
  {
   "id": "gebal_449",
   "name": "Gebal",
-  "name_zh": "",
+  "name_zh": "迦巴勒",
   "lon": 35.6461,
   "lat": 34.1191,
   "kind": "City",
@@ -3402,7 +3402,7 @@
  {
   "id": "gederah_452",
   "name": "Gederah",
-  "name_zh": "",
+  "name_zh": "基底拉",
   "lon": 34.7778,
   "lat": 31.8233,
   "kind": "City",
@@ -3422,7 +3422,7 @@
  {
   "id": "gilboa_474",
   "name": "Gilboa",
-  "name_zh": "",
+  "name_zh": "基利波",
   "lon": 35.4,
   "lat": 32.5167,
   "kind": "Region",
@@ -3442,7 +3442,7 @@
  {
   "id": "goshen_491",
   "name": "Goshen",
-  "name_zh": "",
+  "name_zh": "歌珊",
   "lon": 34.9167,
   "lat": 31.45,
   "kind": "Region",
@@ -3452,7 +3452,7 @@
  {
   "id": "habor_499",
   "name": "Habor",
-  "name_zh": "",
+  "name_zh": "哈博河",
   "lon": 40.7893,
   "lat": 36.345,
   "kind": "Water",
@@ -3462,7 +3462,7 @@
  {
   "id": "hachilah_500",
   "name": "Hachilah",
-  "name_zh": "",
+  "name_zh": "哈基拉",
   "lon": 35.2167,
   "lat": 31.4666,
   "kind": "Mountain",
@@ -3472,7 +3472,7 @@
  {
   "id": "hadid_503",
   "name": "Hadid",
-  "name_zh": "",
+  "name_zh": "哈第",
   "lon": 34.9525,
   "lat": 31.9636,
   "kind": "",
@@ -3482,7 +3482,7 @@
  {
   "id": "halah_508",
   "name": "Halah",
-  "name_zh": "",
+  "name_zh": "哈腊",
   "lon": 40.7893,
   "lat": 36.345,
   "kind": "Region",
@@ -3492,7 +3492,7 @@
  {
   "id": "harosheth-hagoyim_530",
   "name": "Harosheth-hagoyim",
-  "name_zh": "",
+  "name_zh": "外邦人的夏罗设",
   "lon": 35.11,
   "lat": 32.6912,
   "kind": "City",
@@ -3502,7 +3502,7 @@
  {
   "id": "hena_560",
   "name": "Hena",
-  "name_zh": "",
+  "name_zh": "希拿",
   "lon": 41.965,
   "lat": 34.4677,
   "kind": "City",
@@ -3512,7 +3512,7 @@
  {
   "id": "ibleam_589",
   "name": "Ibleam",
-  "name_zh": "",
+  "name_zh": "以伯莲",
   "lon": 35.2833,
   "lat": 32.45,
   "kind": "City",
@@ -3522,7 +3522,7 @@
  {
   "id": "ijon_594",
   "name": "Ijon",
-  "name_zh": "",
+  "name_zh": "以云",
   "lon": 35.6119,
   "lat": 33.328,
   "kind": "City",
@@ -3532,7 +3532,7 @@
  {
   "id": "ivvah_605",
   "name": "Ivvah",
-  "name_zh": "",
+  "name_zh": "以瓦",
   "lon": 41.965,
   "lat": 34.4677,
   "kind": "City",
@@ -3542,7 +3542,7 @@
  {
   "id": "jokneam_649",
   "name": "Jokneam",
-  "name_zh": "",
+  "name_zh": "约念",
   "lon": 35.1089,
   "lat": 32.6645,
   "kind": "City",
@@ -3552,7 +3552,7 @@
  {
   "id": "jotbathah_656",
   "name": "Jotbathah",
-  "name_zh": "",
+  "name_zh": "约巴他",
   "lon": 35.0306,
   "lat": 29.758,
   "kind": "",
@@ -3562,7 +3562,7 @@
  {
   "id": "kabzeel_660",
   "name": "Kabzeel",
-  "name_zh": "",
+  "name_zh": "甲薛",
   "lon": 34.9674,
   "lat": 31.1858,
   "kind": "City",
@@ -3572,7 +3572,7 @@
  {
   "id": "lehi_726",
   "name": "Lehi",
-  "name_zh": "",
+  "name_zh": "利希",
   "lon": 34.9766,
   "lat": 31.7527,
   "kind": "",
@@ -3582,7 +3582,7 @@
  {
   "id": "lo-debar_732",
   "name": "Lo-debar",
-  "name_zh": "",
+  "name_zh": "罗·底巴",
   "lon": 35.7836,
   "lat": 32.6625,
   "kind": "City",
@@ -3602,7 +3602,7 @@
  {
   "id": "magog_754",
   "name": "Magog",
-  "name_zh": "",
+  "name_zh": "玛各",
   "lon": 47.0,
   "lat": 46.0,
   "kind": "Region",
@@ -3632,7 +3632,7 @@
  {
   "id": "mount_tabor_857",
   "name": "Mount Tabor",
-  "name_zh": "",
+  "name_zh": "他泊山",
   "lon": 35.3909,
   "lat": 32.687,
   "kind": "Mountain",
@@ -3642,7 +3642,7 @@
  {
   "id": "nebo_884",
   "name": "Nebo",
-  "name_zh": "",
+  "name_zh": "尼波",
   "lon": 35.0374,
   "lat": 31.6063,
   "kind": "",
@@ -3682,7 +3682,7 @@
  {
   "id": "pontus_956",
   "name": "Pontus",
-  "name_zh": "",
+  "name_zh": "本都",
   "lon": 36.5,
   "lat": 40.5,
   "kind": "Region",
@@ -3692,7 +3692,7 @@
  {
   "id": "put_962",
   "name": "Put",
-  "name_zh": "",
+  "name_zh": "弗",
   "lon": 21.8583,
   "lat": 32.825,
   "kind": "",
@@ -3702,7 +3702,7 @@
  {
   "id": "ramoth_983",
   "name": "Ramoth",
-  "name_zh": "",
+  "name_zh": "拉末",
   "lon": 36.0056,
   "lat": 32.5653,
   "kind": "City",
@@ -3712,7 +3712,7 @@
  {
   "id": "rimmon_1003",
   "name": "Rimmon",
-  "name_zh": "",
+  "name_zh": "临门",
   "lon": 35.2971,
   "lat": 31.9347,
   "kind": "",
@@ -3722,7 +3722,7 @@
  {
   "id": "sardis_1027",
   "name": "Sardis",
-  "name_zh": "",
+  "name_zh": "撒狄",
   "lon": 28.1141,
   "lat": 38.4768,
   "kind": "City",
@@ -3732,7 +3732,7 @@
  {
   "id": "sela_1044",
   "name": "Sela",
-  "name_zh": "",
+  "name_zh": "西拉",
   "lon": 35.4563,
   "lat": 30.3224,
   "kind": "City",
@@ -3742,7 +3742,7 @@
  {
   "id": "shechem_1178",
   "name": "Shechem (tower)",
-  "name_zh": "",
+  "name_zh": "示剑（楼）",
   "lon": 35.2818,
   "lat": 32.2137,
   "kind": "",
@@ -3752,7 +3752,7 @@
  {
   "id": "shunem_1089",
   "name": "Shunem",
-  "name_zh": "",
+  "name_zh": "书念",
   "lon": 35.3343,
   "lat": 32.6056,
   "kind": "City",
@@ -3772,7 +3772,7 @@
  {
   "id": "syene_1120",
   "name": "Syene",
-  "name_zh": "",
+  "name_zh": "色弗尼",
   "lon": 32.8959,
   "lat": 24.0662,
   "kind": "City",
@@ -3782,7 +3782,7 @@
  {
   "id": "tappuah_1136",
   "name": "Tappuah",
-  "name_zh": "",
+  "name_zh": "他普亚",
   "lon": 35.2333,
   "lat": 32.1167,
   "kind": "City",
@@ -3792,7 +3792,7 @@
  {
   "id": "tema_1149",
   "name": "Tema",
-  "name_zh": "",
+  "name_zh": "提玛",
   "lon": 38.5541,
   "lat": 27.6332,
   "kind": "",
@@ -3802,7 +3802,7 @@
  {
   "id": "uz_1190",
   "name": "Uz",
-  "name_zh": "",
+  "name_zh": "乌斯",
   "lon": 36.4484,
   "lat": 30.0334,
   "kind": "Region",
@@ -3812,7 +3812,7 @@
  {
   "id": "vale_of_siddim_1218",
   "name": "Vale of Siddim",
-  "name_zh": "",
+  "name_zh": "西订谷",
   "lon": 35.5176,
   "lat": 31.2353,
   "kind": "Valley",
@@ -3822,7 +3822,7 @@
  {
   "id": "valley_of_elah_1201",
   "name": "Valley of Elah",
-  "name_zh": "",
+  "name_zh": "以拉谷",
   "lon": 34.9631,
   "lat": 31.6906,
   "kind": "Valley",
@@ -3832,7 +3832,7 @@
  {
   "id": "valley_of_hinnom_1207",
   "name": "Valley of Hinnom",
-  "name_zh": "",
+  "name_zh": "欣嫩谷",
   "lon": 35.228,
   "lat": 31.7691,
   "kind": "Valley",
@@ -3842,7 +3842,7 @@
  {
   "id": "valley_of_jezreel_1211",
   "name": "Valley of Jezreel",
-  "name_zh": "",
+  "name_zh": "耶斯列平原",
   "lon": 35.3308,
   "lat": 32.556,
   "kind": "Valley",
@@ -3852,7 +3852,7 @@
  {
   "id": "zanoah_1239",
   "name": "Zanoah",
-  "name_zh": "",
+  "name_zh": "撒挪亚",
   "lon": 35.0,
   "lat": 31.7167,
   "kind": "City",
@@ -3862,7 +3862,7 @@
  {
   "id": "abdon_3",
   "name": "Abdon",
-  "name_zh": "",
+  "name_zh": "押顿",
   "lon": 35.1725,
   "lat": 33.0463,
   "kind": "City",
@@ -3872,7 +3872,7 @@
  {
   "id": "abel-beth-maacah_5",
   "name": "Abel-beth-maacah",
-  "name_zh": "",
+  "name_zh": "亚伯·伯·玛迦",
   "lon": 35.578,
   "lat": 33.2685,
   "kind": "City",
@@ -3882,7 +3882,7 @@
  {
   "id": "abronah_13",
   "name": "Abronah",
-  "name_zh": "",
+  "name_zh": "阿博拿",
   "lon": 35.0306,
   "lat": 29.758,
   "kind": "",
@@ -3892,7 +3892,7 @@
  {
   "id": "achzib_18",
   "name": "Achzib",
-  "name_zh": "",
+  "name_zh": "亚革悉",
   "lon": 35.0,
   "lat": 31.7,
   "kind": "City",
@@ -3902,7 +3902,7 @@
  {
   "id": "achzib_19",
   "name": "Achzib",
-  "name_zh": "",
+  "name_zh": "亚革悉",
   "lon": 35.1022,
   "lat": 33.0485,
   "kind": "City",
@@ -3912,7 +3912,7 @@
  {
   "id": "adummim_32",
   "name": "Adummim",
-  "name_zh": "",
+  "name_zh": "亚都冥",
   "lon": 35.3616,
   "lat": 31.8176,
   "kind": "",
@@ -3922,7 +3922,7 @@
  {
   "id": "akeldama_43",
   "name": "Akeldama",
-  "name_zh": "",
+  "name_zh": "亚革大马",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "Landmark",
@@ -3932,7 +3932,7 @@
  {
   "id": "almon-diblathaim_50",
   "name": "Almon-diblathaim",
-  "name_zh": "",
+  "name_zh": "亚门·低比拉太音",
   "lon": 35.7828,
   "lat": 31.4968,
   "kind": "City",
@@ -3942,7 +3942,7 @@
  {
   "id": "alush_51",
   "name": "Alush",
-  "name_zh": "",
+  "name_zh": "亚录",
   "lon": 33.4005,
   "lat": 28.77,
   "kind": "",
@@ -3952,7 +3952,7 @@
  {
   "id": "anab_60",
   "name": "Anab",
-  "name_zh": "",
+  "name_zh": "亚拿伯",
   "lon": 34.9442,
   "lat": 31.4039,
   "kind": "City",
@@ -3962,7 +3962,7 @@
  {
   "id": "aphek_71",
   "name": "Aphek",
-  "name_zh": "",
+  "name_zh": "亚弗",
   "lon": 35.8658,
   "lat": 34.0661,
   "kind": "City",
@@ -3982,7 +3982,7 @@
  {
   "id": "arvad_99",
   "name": "Arvad",
-  "name_zh": "",
+  "name_zh": "亚发",
   "lon": 35.8585,
   "lat": 34.8561,
   "kind": "Island",
@@ -3992,7 +3992,7 @@
  {
   "id": "ashnah_105",
   "name": "Ashnah",
-  "name_zh": "",
+  "name_zh": "亚实拿",
   "lon": 34.9365,
   "lat": 31.8099,
   "kind": "",
@@ -4012,7 +4012,7 @@
  {
   "id": "ataroth_113",
   "name": "Ataroth",
-  "name_zh": "",
+  "name_zh": "亚大录",
   "lon": 35.7,
   "lat": 31.6,
   "kind": "City",
@@ -4022,7 +4022,7 @@
  {
   "id": "ataroth_114",
   "name": "Ataroth",
-  "name_zh": "",
+  "name_zh": "亚大录",
   "lon": 35.1283,
   "lat": 31.8589,
   "kind": "City",
@@ -4032,7 +4032,7 @@
  {
   "id": "avith_122",
   "name": "Avith",
-  "name_zh": "",
+  "name_zh": "亚未得",
   "lon": 35.6063,
   "lat": 30.7347,
   "kind": "",
@@ -4042,7 +4042,7 @@
  {
   "id": "azmaveth_129",
   "name": "Azmaveth",
-  "name_zh": "",
+  "name_zh": "亚斯玛弗",
   "lon": 35.2607,
   "lat": 31.8342,
   "kind": "City",
@@ -4052,7 +4052,7 @@
  {
   "id": "baal-perazim_146",
   "name": "Baal-perazim",
-  "name_zh": "",
+  "name_zh": "巴力·毘拉心",
   "lon": 35.2231,
   "lat": 31.7563,
   "kind": "",
@@ -4062,7 +4062,7 @@
  {
   "id": "baalath_137",
   "name": "Baalath",
-  "name_zh": "",
+  "name_zh": "巴拉",
   "lon": 35.0554,
   "lat": 31.9275,
   "kind": "City",
@@ -4082,7 +4082,7 @@
  {
   "id": "bamoth_157",
   "name": "Bamoth",
-  "name_zh": "",
+  "name_zh": "巴末",
   "lon": 35.7186,
   "lat": 31.765,
   "kind": "",
@@ -4092,7 +4092,7 @@
  {
   "id": "bamoth-baal_158",
   "name": "Bamoth-baal",
-  "name_zh": "",
+  "name_zh": "巴末·巴力",
   "lon": 35.7186,
   "lat": 31.765,
   "kind": "",
@@ -4112,7 +4112,7 @@
  {
   "id": "beer-lahai-roi_167",
   "name": "Beer-lahai-roi",
-  "name_zh": "",
+  "name_zh": "庇耳·拉海·莱",
   "lon": 34.4948,
   "lat": 30.6877,
   "kind": "",
@@ -4122,7 +4122,7 @@
  {
   "id": "bela_172",
   "name": "Bela",
-  "name_zh": "",
+  "name_zh": "比拉",
   "lon": 35.4191,
   "lat": 30.9265,
   "kind": "City",
@@ -4132,7 +4132,7 @@
  {
   "id": "bene-jaakan_174",
   "name": "Bene-jaakan",
-  "name_zh": "",
+  "name_zh": "比尼·亚干",
   "lon": 35.4072,
   "lat": 30.3174,
   "kind": "",
@@ -4152,7 +4152,7 @@
  {
   "id": "beth-anath_184",
   "name": "Beth-anath",
-  "name_zh": "",
+  "name_zh": "伯·亚纳",
   "lon": 35.4271,
   "lat": 33.1469,
   "kind": "City",
@@ -4162,7 +4162,7 @@
  {
   "id": "beth-eked_201",
   "name": "Beth-eked",
-  "name_zh": "",
+  "name_zh": "剪羊毛之处",
   "lon": 35.3308,
   "lat": 32.556,
   "kind": "",
@@ -4172,7 +4172,7 @@
  {
   "id": "beth-haccherem_209",
   "name": "Beth-haccherem",
-  "name_zh": "",
+  "name_zh": "伯·哈基琳",
   "lon": 35.2415,
   "lat": 31.6659,
   "kind": "",
@@ -4182,7 +4182,7 @@
  {
   "id": "beth-maacah_221",
   "name": "Beth-maacah",
-  "name_zh": "",
+  "name_zh": "伯·玛迦",
   "lon": 35.578,
   "lat": 33.2685,
   "kind": "City",
@@ -4192,7 +4192,7 @@
  {
   "id": "beth-marcaboth_222",
   "name": "Beth-marcaboth",
-  "name_zh": "",
+  "name_zh": "伯·玛加博",
   "lon": 34.9405,
   "lat": 31.3917,
   "kind": "",
@@ -4202,7 +4202,7 @@
  {
   "id": "beth-millo_224",
   "name": "Beth-millo",
-  "name_zh": "",
+  "name_zh": "米罗",
   "lon": 35.2818,
   "lat": 32.2137,
   "kind": "",
@@ -4212,7 +4212,7 @@
  {
   "id": "beth-nimrah_225",
   "name": "Beth-nimrah",
-  "name_zh": "",
+  "name_zh": "伯·宁拉",
   "lon": 35.6257,
   "lat": 31.9008,
   "kind": "",
@@ -4222,7 +4222,7 @@
  {
   "id": "beth-pelet_227",
   "name": "Beth-pelet",
-  "name_zh": "",
+  "name_zh": "伯·帕列",
   "lon": 34.943,
   "lat": 31.2154,
   "kind": "",
@@ -4232,7 +4232,7 @@
  {
   "id": "beth-rehob_230",
   "name": "Beth-rehob",
-  "name_zh": "",
+  "name_zh": "伯·利合",
   "lon": 35.5441,
   "lat": 33.2194,
   "kind": "",
@@ -4242,7 +4242,7 @@
  {
   "id": "beth-shemesh_236",
   "name": "Beth-shemesh",
-  "name_zh": "",
+  "name_zh": "伯·示麦",
   "lon": 35.4271,
   "lat": 33.1469,
   "kind": "City",
@@ -4252,7 +4252,7 @@
  {
   "id": "beth-togarmah_239",
   "name": "Beth-togarmah",
-  "name_zh": "",
+  "name_zh": "陀迦玛",
   "lon": 45.0363,
   "lat": 40.0655,
   "kind": "Region",
@@ -4262,7 +4262,7 @@
  {
   "id": "bethel_203",
   "name": "Bethel (of Judah)",
-  "name_zh": "",
+  "name_zh": "伯特利（犹大）",
   "lon": 35.7334,
   "lat": 32.05,
   "kind": "City",
@@ -4272,7 +4272,7 @@
  {
   "id": "bezek_245",
   "name": "Bezek",
-  "name_zh": "",
+  "name_zh": "比色",
   "lon": 34.9529,
   "lat": 31.898,
   "kind": "",
@@ -4282,7 +4282,7 @@
  {
   "id": "bithynia_250",
   "name": "Bithynia",
-  "name_zh": "",
+  "name_zh": "庇推尼",
   "lon": 32.5,
   "lat": 42.5,
   "kind": "Region",
@@ -4292,7 +4292,7 @@
  {
   "id": "bochim_252",
   "name": "Bochim",
-  "name_zh": "",
+  "name_zh": "波金",
   "lon": 35.221,
   "lat": 31.9305,
   "kind": "",
@@ -4302,7 +4302,7 @@
  {
   "id": "bozkath_255",
   "name": "Bozkath",
-  "name_zh": "",
+  "name_zh": "波斯加",
   "lon": 34.8467,
   "lat": 31.5649,
   "kind": "",
@@ -4312,7 +4312,7 @@
  {
   "id": "broad_wall_258",
   "name": "Broad Wall",
-  "name_zh": "",
+  "name_zh": "宽墙",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "",
@@ -4322,7 +4322,7 @@
  {
   "id": "brook_kidron_688",
   "name": "Brook Kidron",
-  "name_zh": "",
+  "name_zh": "汲沦溪",
   "lon": 35.2366,
   "lat": 31.7721,
   "kind": "Valley",
@@ -4362,7 +4362,7 @@
  {
   "id": "cappadocia_276",
   "name": "Cappadocia",
-  "name_zh": "",
+  "name_zh": "加帕多家",
   "lon": 35.75,
   "lat": 37.5,
   "kind": "Region",
@@ -4382,7 +4382,7 @@
  {
   "id": "cherith_286",
   "name": "Cherith",
-  "name_zh": "",
+  "name_zh": "基立溪",
   "lon": 35.5599,
   "lat": 32.3091,
   "kind": "Valley",
@@ -4392,7 +4392,7 @@
  {
   "id": "cherub_287",
   "name": "Cherub",
-  "name_zh": "",
+  "name_zh": "基绿",
   "lon": 44.4209,
   "lat": 32.5365,
   "kind": "",
@@ -4402,7 +4402,7 @@
  {
   "id": "chinneroth_295",
   "name": "Chinneroth",
-  "name_zh": "",
+  "name_zh": "基尼烈",
   "lon": 35.5894,
   "lat": 32.8068,
   "kind": "Region",
@@ -4412,7 +4412,7 @@
  {
   "id": "chorazin_299",
   "name": "Chorazin",
-  "name_zh": "",
+  "name_zh": "哥拉汛",
   "lon": 35.5529,
   "lat": 32.9091,
   "kind": "City",
@@ -4422,7 +4422,7 @@
  {
   "id": "dibon-gad_333",
   "name": "Dibon-gad",
-  "name_zh": "",
+  "name_zh": "底本·迦得",
   "lon": 35.7828,
   "lat": 31.4968,
   "kind": "",
@@ -4432,7 +4432,7 @@
  {
   "id": "dinhabah_337",
   "name": "Dinhabah",
-  "name_zh": "",
+  "name_zh": "亭哈巴",
   "lon": 35.5299,
   "lat": 30.3366,
   "kind": "City",
@@ -4442,7 +4442,7 @@
  {
   "id": "dophkah_340",
   "name": "Dophkah",
-  "name_zh": "",
+  "name_zh": "脱加",
   "lon": 33.4005,
   "lat": 28.77,
   "kind": "",
@@ -4452,7 +4452,7 @@
  {
   "id": "dothan_342",
   "name": "Dothan",
-  "name_zh": "",
+  "name_zh": "多坍",
   "lon": 35.1802,
   "lat": 32.4206,
   "kind": "",
@@ -4462,7 +4462,7 @@
  {
   "id": "ellasar_372",
   "name": "Ellasar",
-  "name_zh": "",
+  "name_zh": "以拉撒",
   "lon": 40.9972,
   "lat": 37.0569,
   "kind": "Region",
@@ -4472,7 +4472,7 @@
  {
   "id": "eltolad_380",
   "name": "Eltolad",
-  "name_zh": "",
+  "name_zh": "伊勒多腊",
   "lon": 35.7334,
   "lat": 32.05,
   "kind": "",
@@ -4482,7 +4482,7 @@
  {
   "id": "en-gannim_388",
   "name": "En-gannim",
-  "name_zh": "",
+  "name_zh": "隐·干宁",
   "lon": 35.3037,
   "lat": 32.4635,
   "kind": "City",
@@ -4492,7 +4492,7 @@
  {
   "id": "en-shemesh_396",
   "name": "En-shemesh",
-  "name_zh": "",
+  "name_zh": "隐·示麦",
   "lon": 35.2702,
   "lat": 31.774,
   "kind": "Landmark",
@@ -4502,7 +4502,7 @@
  {
   "id": "enaim_383",
   "name": "Enaim",
-  "name_zh": "",
+  "name_zh": "伊拿印",
   "lon": 34.9097,
   "lat": 31.7844,
   "kind": "City",
@@ -4522,7 +4522,7 @@
  {
   "id": "etam_414",
   "name": "Etam",
-  "name_zh": "",
+  "name_zh": "以坦",
   "lon": 35.0549,
   "lat": 31.7363,
   "kind": "City",
@@ -4532,7 +4532,7 @@
  {
   "id": "ether_418",
   "name": "Ether",
-  "name_zh": "",
+  "name_zh": "以帖",
   "lon": 34.9365,
   "lat": 31.8099,
   "kind": "",
@@ -4542,7 +4542,7 @@
  {
   "id": "galeed_432",
   "name": "Galeed",
-  "name_zh": "",
+  "name_zh": "迦累得",
   "lon": 36.0056,
   "lat": 32.5653,
   "kind": "",
@@ -4552,7 +4552,7 @@
  {
   "id": "gallim_434",
   "name": "Gallim",
-  "name_zh": "",
+  "name_zh": "迦琳",
   "lon": 35.25,
   "lat": 31.8167,
   "kind": "",
@@ -4562,7 +4562,7 @@
  {
   "id": "gate_of_ephraim_402",
   "name": "Gate of Ephraim",
-  "name_zh": "",
+  "name_zh": "以法莲门",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "Landmark",
@@ -4572,7 +4572,7 @@
  {
   "id": "gate_of_ephraim_438",
   "name": "Gate of Ephraim",
-  "name_zh": "",
+  "name_zh": "以法莲门",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "Landmark",
@@ -4582,7 +4582,7 @@
  {
   "id": "gate_of_the_valley_1195",
   "name": "Gate of the Valley",
-  "name_zh": "",
+  "name_zh": "谷门",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "Landmark",
@@ -4592,7 +4592,7 @@
  {
   "id": "gath-hepher_443",
   "name": "Gath-hepher",
-  "name_zh": "",
+  "name_zh": "迦特·希弗",
   "lon": 35.3282,
   "lat": 32.7392,
   "kind": "City",
@@ -4602,7 +4602,7 @@
  {
   "id": "gederoth_453",
   "name": "Gederoth",
-  "name_zh": "",
+  "name_zh": "基低罗",
   "lon": 34.7778,
   "lat": 31.8233,
   "kind": "",
@@ -4612,7 +4612,7 @@
  {
   "id": "gedor_455",
   "name": "Gedor",
-  "name_zh": "",
+  "name_zh": "基突",
   "lon": 35.0833,
   "lat": 31.6333,
   "kind": "City",
@@ -4632,7 +4632,7 @@
  {
   "id": "gibeah_467",
   "name": "Gibeah",
-  "name_zh": "",
+  "name_zh": "基比亚",
   "lon": 35.1333,
   "lat": 31.4333,
   "kind": "",
@@ -4642,7 +4642,7 @@
  {
   "id": "gilgal_477",
   "name": "Gilgal",
-  "name_zh": "",
+  "name_zh": "吉甲",
   "lon": 35.2226,
   "lat": 32.0297,
   "kind": "",
@@ -4652,7 +4652,7 @@
  {
   "id": "giloh_479",
   "name": "Giloh",
-  "name_zh": "",
+  "name_zh": "基罗",
   "lon": 35.0833,
   "lat": 31.6167,
   "kind": "City",
@@ -4662,7 +4662,7 @@
  {
   "id": "gittaim_481",
   "name": "Gittaim",
-  "name_zh": "",
+  "name_zh": "基他音",
   "lon": 34.9525,
   "lat": 31.9636,
   "kind": "City",
@@ -4672,7 +4672,7 @@
  {
   "id": "gob_483",
   "name": "Gob",
-  "name_zh": "",
+  "name_zh": "歌伯",
   "lon": 34.9225,
   "lat": 31.8761,
   "kind": "",
@@ -4682,7 +4682,7 @@
  {
   "id": "hammath_518",
   "name": "Hammath",
-  "name_zh": "",
+  "name_zh": "哈末",
   "lon": 35.165,
   "lat": 33.1258,
   "kind": "City",
@@ -4692,7 +4692,7 @@
  {
   "id": "hammon_519",
   "name": "Hammon",
-  "name_zh": "",
+  "name_zh": "哈们",
   "lon": 35.165,
   "lat": 33.1258,
   "kind": "City",
@@ -4702,7 +4702,7 @@
  {
   "id": "haradah_526",
   "name": "Haradah",
-  "name_zh": "",
+  "name_zh": "哈拉大",
   "lon": 35.4072,
   "lat": 30.3174,
   "kind": "",
@@ -4712,7 +4712,7 @@
  {
   "id": "harod_529",
   "name": "Harod",
-  "name_zh": "",
+  "name_zh": "哈律",
   "lon": 35.3556,
   "lat": 32.5496,
   "kind": "",
@@ -4722,7 +4722,7 @@
  {
   "id": "hashmonah_531",
   "name": "Hashmonah",
-  "name_zh": "",
+  "name_zh": "哈摩拿",
   "lon": 35.4072,
   "lat": 30.3174,
   "kind": "",
@@ -4732,7 +4732,7 @@
  {
   "id": "hauran_532",
   "name": "Hauran",
-  "name_zh": "",
+  "name_zh": "浩兰",
   "lon": 35.9373,
   "lat": 32.8001,
   "kind": "Region",
@@ -4742,7 +4742,7 @@
  {
   "id": "havilah_534",
   "name": "Havilah (of Arabia)",
-  "name_zh": "",
+  "name_zh": "哈腓拉（阿拉伯）",
   "lon": 35.22,
   "lat": 30.14,
   "kind": "Region",
@@ -4752,7 +4752,7 @@
  {
   "id": "hazazon-tamar_542",
   "name": "Hazazon-tamar",
-  "name_zh": "",
+  "name_zh": "哈洗逊·他玛",
   "lon": 35.3924,
   "lat": 31.4615,
   "kind": "",
@@ -4762,7 +4762,7 @@
  {
   "id": "helam_552",
   "name": "Helam",
-  "name_zh": "",
+  "name_zh": "希兰",
   "lon": 35.7029,
   "lat": 32.1844,
   "kind": "",
@@ -4772,7 +4772,7 @@
  {
   "id": "helkath_558",
   "name": "Helkath",
-  "name_zh": "",
+  "name_zh": "黑甲",
   "lon": 35.212,
   "lat": 32.9554,
   "kind": "City",
@@ -4782,7 +4782,7 @@
  {
   "id": "hepher_561",
   "name": "Hepher",
-  "name_zh": "",
+  "name_zh": "希弗",
   "lon": 34.8833,
   "lat": 32.3667,
   "kind": "",
@@ -4792,7 +4792,7 @@
  {
   "id": "hethlon_567",
   "name": "Hethlon",
-  "name_zh": "",
+  "name_zh": "希特伦",
   "lon": 36.3409,
   "lat": 34.738,
   "kind": "",
@@ -4802,7 +4802,7 @@
  {
   "id": "highway_690",
   "name": "Highway",
-  "name_zh": "",
+  "name_zh": "大道",
   "lon": 35.7021,
   "lat": 31.1813,
   "kind": "",
@@ -4812,7 +4812,7 @@
  {
   "id": "holon_572",
   "name": "Holon",
-  "name_zh": "",
+  "name_zh": "何伦",
   "lon": 34.95,
   "lat": 31.5833,
   "kind": "",
@@ -4822,7 +4822,7 @@
  {
   "id": "hor-haggidgad_579",
   "name": "Hor-haggidgad",
-  "name_zh": "",
+  "name_zh": "曷·哈及甲",
   "lon": 35.1903,
   "lat": 30.3583,
   "kind": "",
@@ -4832,7 +4832,7 @@
  {
   "id": "horse_gate_582",
   "name": "Horse Gate",
-  "name_zh": "",
+  "name_zh": "马门",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "",
@@ -4842,7 +4842,7 @@
  {
   "id": "immer_596",
   "name": "Immer",
-  "name_zh": "",
+  "name_zh": "音麦",
   "lon": 43.1529,
   "lat": 36.3594,
   "kind": "",
@@ -4852,7 +4852,7 @@
  {
   "id": "india_597",
   "name": "India",
-  "name_zh": "",
+  "name_zh": "印度",
   "lon": 77.0,
   "lat": 22.0,
   "kind": "",
@@ -4862,7 +4862,7 @@
  {
   "id": "iye-abarim_606",
   "name": "Iye-abarim",
-  "name_zh": "",
+  "name_zh": "以耶·亚巴琳",
   "lon": 35.7828,
   "lat": 31.4968,
   "kind": "",
@@ -4872,7 +4872,7 @@
  {
   "id": "jahzah_618",
   "name": "Jahzah",
-  "name_zh": "",
+  "name_zh": "雅哈撒",
   "lon": 35.9206,
   "lat": 31.501,
   "kind": "",
@@ -4882,7 +4882,7 @@
  {
   "id": "janoah_621",
   "name": "Janoah",
-  "name_zh": "",
+  "name_zh": "雅挪哈",
   "lon": 35.3029,
   "lat": 33.2602,
   "kind": "City",
@@ -4892,7 +4892,7 @@
  {
   "id": "javan_627",
   "name": "Javan",
-  "name_zh": "",
+  "name_zh": "雅完",
   "lon": 27.3678,
   "lat": 37.9533,
   "kind": "",
@@ -4902,7 +4902,7 @@
  {
   "id": "jogbehah_645",
   "name": "Jogbehah",
-  "name_zh": "",
+  "name_zh": "约比哈",
   "lon": 35.8629,
   "lat": 32.0287,
   "kind": "",
@@ -4912,7 +4912,7 @@
  {
   "id": "juttah_659",
   "name": "Juttah",
-  "name_zh": "",
+  "name_zh": "淤他",
   "lon": 35.0833,
   "lat": 31.45,
   "kind": "City",
@@ -4922,7 +4922,7 @@
  {
   "id": "kain_664",
   "name": "Kain",
-  "name_zh": "",
+  "name_zh": "该隐",
   "lon": 35.1667,
   "lat": 31.5,
   "kind": "City",
@@ -4932,7 +4932,7 @@
  {
   "id": "kanah_666",
   "name": "Kanah",
-  "name_zh": "",
+  "name_zh": "加拿河",
   "lon": 35.039,
   "lat": 32.1382,
   "kind": "Water",
@@ -4942,7 +4942,7 @@
  {
   "id": "kehelathah_680",
   "name": "Kehelathah",
-  "name_zh": "",
+  "name_zh": "基希拉他",
   "lon": 35.4072,
   "lat": 30.3174,
   "kind": "",
@@ -4952,7 +4952,7 @@
  {
   "id": "kenath_682",
   "name": "Kenath",
-  "name_zh": "",
+  "name_zh": "基纳",
   "lon": 36.6164,
   "lat": 32.7569,
   "kind": "City",
@@ -4962,7 +4962,7 @@
  {
   "id": "kerioth_683",
   "name": "Kerioth",
-  "name_zh": "",
+  "name_zh": "加略",
   "lon": 35.7,
   "lat": 31.5833,
   "kind": "City",
@@ -4972,7 +4972,7 @@
  {
   "id": "kir-hareseth_694",
   "name": "Kir-hareseth",
-  "name_zh": "",
+  "name_zh": "吉珥·哈列设",
   "lon": 35.7021,
   "lat": 31.1813,
   "kind": "City",
@@ -4982,7 +4982,7 @@
  {
   "id": "kiriath-baal_699",
   "name": "Kiriath-baal",
-  "name_zh": "",
+  "name_zh": "基列·巴力",
   "lon": 34.9938,
   "lat": 31.7711,
   "kind": "",
@@ -4992,7 +4992,7 @@
  {
   "id": "kishion_704",
   "name": "Kishion",
-  "name_zh": "",
+  "name_zh": "基善",
   "lon": 35.2462,
   "lat": 32.5591,
   "kind": "City",
@@ -5002,7 +5002,7 @@
  {
   "id": "kittim_707",
   "name": "Kittim",
-  "name_zh": "",
+  "name_zh": "基提",
   "lon": 33.2077,
   "lat": 35.0183,
   "kind": "",
@@ -5012,7 +5012,7 @@
  {
   "id": "kue_709",
   "name": "Kue",
-  "name_zh": "",
+  "name_zh": "古厄",
   "lon": 34.8915,
   "lat": 36.918,
   "kind": "",
@@ -5022,7 +5022,7 @@
  {
   "id": "libnah_729",
   "name": "Libnah",
-  "name_zh": "",
+  "name_zh": "立拿",
   "lon": 34.9365,
   "lat": 31.8099,
   "kind": "",
@@ -5032,7 +5032,7 @@
  {
   "id": "libya_730",
   "name": "Libya",
-  "name_zh": "",
+  "name_zh": "利比亚",
   "lon": 26.5,
   "lat": 28.9188,
   "kind": "Region",
@@ -5042,7 +5042,7 @@
  {
   "id": "lord_303",
   "name": "City of the Lord",
-  "name_zh": "",
+  "name_zh": "耶和华的城",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "",
@@ -5052,7 +5052,7 @@
  {
   "id": "luhith_736",
   "name": "Luhith",
-  "name_zh": "",
+  "name_zh": "鲁希",
   "lon": 35.515,
   "lat": 31.2881,
   "kind": "",
@@ -5062,7 +5062,7 @@
  {
   "id": "madmannah_749",
   "name": "Madmannah",
-  "name_zh": "",
+  "name_zh": "麦玛拿",
   "lon": 34.9405,
   "lat": 31.3917,
   "kind": "",
@@ -5072,7 +5072,7 @@
  {
   "id": "madon_752",
   "name": "Madon",
-  "name_zh": "",
+  "name_zh": "玛顿",
   "lon": 35.4595,
   "lat": 32.7999,
   "kind": "City",
@@ -5082,7 +5082,7 @@
  {
   "id": "mahaneh-dan_757",
   "name": "Mahaneh-dan",
-  "name_zh": "",
+  "name_zh": "玛哈尼·但",
   "lon": 34.9943,
   "lat": 31.7583,
   "kind": "",
@@ -5092,7 +5092,7 @@
  {
   "id": "makheloth_759",
   "name": "Makheloth",
-  "name_zh": "",
+  "name_zh": "玛吉希录",
   "lon": 35.4072,
   "lat": 30.3174,
   "kind": "",
@@ -5102,7 +5102,7 @@
  {
   "id": "masrekah_770",
   "name": "Masrekah",
-  "name_zh": "",
+  "name_zh": "玛士利加",
   "lon": 35.6063,
   "lat": 30.7347,
   "kind": "",
@@ -5112,7 +5112,7 @@
  {
   "id": "mattanah_772",
   "name": "Mattanah",
-  "name_zh": "",
+  "name_zh": "玛他拿",
   "lon": 35.5848,
   "lat": 31.7181,
   "kind": "",
@@ -5132,7 +5132,7 @@
  {
   "id": "merom_785",
   "name": "Merom",
-  "name_zh": "",
+  "name_zh": "米伦水",
   "lon": 35.6055,
   "lat": 33.0753,
   "kind": "Water",
@@ -5142,7 +5142,7 @@
  {
   "id": "michmas_792",
   "name": "Michmas",
-  "name_zh": "",
+  "name_zh": "默玛",
   "lon": 35.2792,
   "lat": 31.8702,
   "kind": "City",
@@ -5152,7 +5152,7 @@
  {
   "id": "michmethath_794",
   "name": "Michmethath",
-  "name_zh": "",
+  "name_zh": "密米他",
   "lon": 35.2833,
   "lat": 32.1833,
   "kind": "City",
@@ -5162,7 +5162,7 @@
  {
   "id": "migron_800",
   "name": "Migron",
-  "name_zh": "",
+  "name_zh": "米矶仑",
   "lon": 35.231,
   "lat": 31.8238,
   "kind": "",
@@ -5172,7 +5172,7 @@
  {
   "id": "minnith_804",
   "name": "Minnith",
-  "name_zh": "",
+  "name_zh": "米匿",
   "lon": 35.85,
   "lat": 31.75,
   "kind": "",
@@ -5182,7 +5182,7 @@
  {
   "id": "mishal_805",
   "name": "Mishal",
-  "name_zh": "",
+  "name_zh": "米沙勒",
   "lon": 35.1725,
   "lat": 33.0463,
   "kind": "City",
@@ -5192,7 +5192,7 @@
  {
   "id": "misrephoth-maim_806",
   "name": "Misrephoth-maim",
-  "name_zh": "",
+  "name_zh": "米斯利弗·玛音",
   "lon": 35.1394,
   "lat": 33.119,
   "kind": "",
@@ -5202,7 +5202,7 @@
  {
   "id": "mithkah_807",
   "name": "Mithkah",
-  "name_zh": "",
+  "name_zh": "密加",
   "lon": 35.4072,
   "lat": 30.3174,
   "kind": "",
@@ -5222,7 +5222,7 @@
  {
   "id": "moresheth_819",
   "name": "Moresheth",
-  "name_zh": "",
+  "name_zh": "摩利沙",
   "lon": 34.9024,
   "lat": 31.6039,
   "kind": "",
@@ -5232,7 +5232,7 @@
  {
   "id": "moseroth_824",
   "name": "Moseroth",
-  "name_zh": "",
+  "name_zh": "摩西录",
   "lon": 35.4072,
   "lat": 30.3174,
   "kind": "",
@@ -5242,7 +5242,7 @@
  {
   "id": "mount_halak_839",
   "name": "Mount Halak",
-  "name_zh": "",
+  "name_zh": "哈拉山",
   "lon": 34.8333,
   "lat": 30.9167,
   "kind": "Mountain",
@@ -5252,7 +5252,7 @@
  {
   "id": "mount_hor_843",
   "name": "Mount Hor",
-  "name_zh": "",
+  "name_zh": "何珥山",
   "lon": 36.1881,
   "lat": 35.7101,
   "kind": "Mountain",
@@ -5272,7 +5272,7 @@
  {
   "id": "mount_paran_850",
   "name": "Mount Paran",
-  "name_zh": "",
+  "name_zh": "巴兰山",
   "lon": 33.5419,
   "lat": 29.1517,
   "kind": "Mountain",
@@ -5282,7 +5282,7 @@
  {
   "id": "mount_shapher_854",
   "name": "Mount Shapher",
-  "name_zh": "",
+  "name_zh": "沙斐山",
   "lon": 35.4072,
   "lat": 30.3174,
   "kind": "Mountain",
@@ -5302,7 +5302,7 @@
  {
   "id": "nahalal_869",
   "name": "Nahalal",
-  "name_zh": "",
+  "name_zh": "拿哈拉",
   "lon": 35.3528,
   "lat": 32.7222,
   "kind": "City",
@@ -5312,7 +5312,7 @@
  {
   "id": "nephtoah_888",
   "name": "Nephtoah",
-  "name_zh": "",
+  "name_zh": "尼弗多亚",
   "lon": 35.168,
   "lat": 31.683,
   "kind": "Landmark",
@@ -5322,7 +5322,7 @@
  {
   "id": "new_gate_891",
   "name": "New Gate",
-  "name_zh": "",
+  "name_zh": "新门",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "",
@@ -5332,7 +5332,7 @@
  {
   "id": "nimrim_897",
   "name": "Nimrim",
-  "name_zh": "",
+  "name_zh": "宁林",
   "lon": 35.5311,
   "lat": 31.1332,
   "kind": "Water",
@@ -5342,7 +5342,7 @@
  {
   "id": "nobah_901",
   "name": "Nobah",
-  "name_zh": "",
+  "name_zh": "挪巴",
   "lon": 36.6164,
   "lat": 32.7569,
   "kind": "",
@@ -5352,7 +5352,7 @@
  {
   "id": "ophrah_913",
   "name": "Ophrah",
-  "name_zh": "",
+  "name_zh": "俄弗拉",
   "lon": 35.2991,
   "lat": 31.9538,
   "kind": "",
@@ -5372,7 +5372,7 @@
  {
   "id": "pekod_928",
   "name": "Pekod",
-  "name_zh": "",
+  "name_zh": "比割",
   "lon": 44.4209,
   "lat": 32.5365,
   "kind": "",
@@ -5382,7 +5382,7 @@
  {
   "id": "pelusium_929",
   "name": "Pelusium",
-  "name_zh": "",
+  "name_zh": "训",
   "lon": 33.4206,
   "lat": 28.8388,
   "kind": "",
@@ -5392,7 +5392,7 @@
  {
   "id": "pergamum_937",
   "name": "Pergamum",
-  "name_zh": "",
+  "name_zh": "别迦摩",
   "lon": 27.1651,
   "lat": 39.1189,
   "kind": "City",
@@ -5402,7 +5402,7 @@
  {
   "id": "pethor_939",
   "name": "Pethor",
-  "name_zh": "",
+  "name_zh": "毘夺",
   "lon": 38.0689,
   "lat": 36.6546,
   "kind": "",
@@ -5412,7 +5412,7 @@
  {
   "id": "philadelphia_941",
   "name": "Philadelphia",
-  "name_zh": "",
+  "name_zh": "非拉铁非",
   "lon": 28.5195,
   "lat": 38.349,
   "kind": "City",
@@ -5432,7 +5432,7 @@
  {
   "id": "place_954",
   "name": "Place",
-  "name_zh": "",
+  "name_zh": "髑髅地",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "",
@@ -5442,7 +5442,7 @@
  {
   "id": "plain_955",
   "name": "Plain",
-  "name_zh": "",
+  "name_zh": "平原",
   "lon": 35.4439,
   "lat": 31.8706,
   "kind": "",
@@ -5462,7 +5462,7 @@
  {
   "id": "punon_961",
   "name": "Punon",
-  "name_zh": "",
+  "name_zh": "普嫩",
   "lon": 35.7828,
   "lat": 31.4968,
   "kind": "",
@@ -5472,7 +5472,7 @@
  {
   "id": "ramah_976",
   "name": "Ramah",
-  "name_zh": "",
+  "name_zh": "拉玛",
   "lon": 36.0056,
   "lat": 32.5653,
   "kind": "",
@@ -5482,7 +5482,7 @@
  {
   "id": "ramoth_981",
   "name": "Ramoth",
-  "name_zh": "",
+  "name_zh": "拉末",
   "lon": 35.3308,
   "lat": 32.556,
   "kind": "City",
@@ -5492,7 +5492,7 @@
  {
   "id": "rehob_987",
   "name": "Rehob",
-  "name_zh": "",
+  "name_zh": "利合",
   "lon": 35.5441,
   "lat": 33.2194,
   "kind": "",
@@ -5512,7 +5512,7 @@
  {
   "id": "rezeph_998",
   "name": "Rezeph",
-  "name_zh": "",
+  "name_zh": "利色",
   "lon": 39.0167,
   "lat": 35.95,
   "kind": "",
@@ -5522,7 +5522,7 @@
  {
   "id": "rimmon-perez_1007",
   "name": "Rimmon-perez",
-  "name_zh": "",
+  "name_zh": "临门帕烈",
   "lon": 34.9365,
   "lat": 31.8099,
   "kind": "",
@@ -5532,7 +5532,7 @@
  {
   "id": "rissah_1008",
   "name": "Rissah",
-  "name_zh": "",
+  "name_zh": "勒撒",
   "lon": 35.4072,
   "lat": 30.3174,
   "kind": "",
@@ -5542,7 +5542,7 @@
  {
   "id": "rithmah_1009",
   "name": "Rithmah",
-  "name_zh": "",
+  "name_zh": "利提玛",
   "lon": 34.9365,
   "lat": 31.8099,
   "kind": "",
@@ -5552,7 +5552,7 @@
  {
   "id": "rogelim_1012",
   "name": "Rogelim",
-  "name_zh": "",
+  "name_zh": "罗基琳",
   "lon": 35.6329,
   "lat": 32.2147,
   "kind": "City",
@@ -5562,7 +5562,7 @@
  {
   "id": "sarid_1028",
   "name": "Sarid",
-  "name_zh": "",
+  "name_zh": "撒立",
   "lon": 35.1967,
   "lat": 32.6898,
   "kind": "",
@@ -5572,7 +5572,7 @@
  {
   "id": "sea_of_chinnereth_1029",
   "name": "Sea of Chinnereth",
-  "name_zh": "",
+  "name_zh": "基尼烈海",
   "lon": 35.5894,
   "lat": 32.8068,
   "kind": "Water",
@@ -5582,7 +5582,7 @@
  {
   "id": "sea_of_the_plain_1035",
   "name": "Sea of the Plain",
-  "name_zh": "",
+  "name_zh": "亚拉巴海",
   "lon": 35.4823,
   "lat": 31.5386,
   "kind": "Water",
@@ -5592,7 +5592,7 @@
  {
   "id": "sea_of_tiberias_1034",
   "name": "Sea of Tiberias",
-  "name_zh": "",
+  "name_zh": "提比哩亚海",
   "lon": 35.5894,
   "lat": 32.8068,
   "kind": "Water",
@@ -5602,7 +5602,7 @@
  {
   "id": "second_quarter_1040",
   "name": "Second Quarter",
-  "name_zh": "",
+  "name_zh": "第二区",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "",
@@ -5612,7 +5612,7 @@
  {
   "id": "shaalbim_1053",
   "name": "Shaalbim",
-  "name_zh": "",
+  "name_zh": "沙宾",
   "lon": 34.9817,
   "lat": 31.8704,
   "kind": "",
@@ -5622,7 +5622,7 @@
  {
   "id": "shaaraim_1055",
   "name": "Shaaraim",
-  "name_zh": "",
+  "name_zh": "沙拉音",
   "lon": 34.8953,
   "lat": 31.7001,
   "kind": "City",
@@ -5632,7 +5632,7 @@
  {
   "id": "shamir_1061",
   "name": "Shamir",
-  "name_zh": "",
+  "name_zh": "沙密",
   "lon": 35.2501,
   "lat": 32.3605,
   "kind": "",
@@ -5642,7 +5642,7 @@
  {
   "id": "shepham_1073",
   "name": "Shepham",
-  "name_zh": "",
+  "name_zh": "示番",
   "lon": 36.3857,
   "lat": 34.3531,
   "kind": "",
@@ -5652,7 +5652,7 @@
  {
   "id": "shihor_1076",
   "name": "Shihor",
-  "name_zh": "",
+  "name_zh": "西曷",
   "lon": 33.855,
   "lat": 31.032,
   "kind": "Water",
@@ -5662,7 +5662,7 @@
  {
   "id": "shimron_1082",
   "name": "Shimron",
-  "name_zh": "",
+  "name_zh": "伸仑",
   "lon": 35.2133,
   "lat": 32.7053,
   "kind": "City",
@@ -5672,7 +5672,7 @@
  {
   "id": "smyrna_1103",
   "name": "Smyrna",
-  "name_zh": "",
+  "name_zh": "士每拿",
   "lon": 27.1619,
   "lat": 38.452,
   "kind": "City",
@@ -5692,7 +5692,7 @@
  {
   "id": "spain_1111",
   "name": "Spain",
-  "name_zh": "",
+  "name_zh": "西班牙",
   "lon": -3.1753,
   "lat": 40.4814,
   "kind": "Region",
@@ -5702,7 +5702,7 @@
  {
   "id": "taberah_1127",
   "name": "Taberah",
-  "name_zh": "",
+  "name_zh": "他备拉",
   "lon": 34.5,
   "lat": 28.9167,
   "kind": "",
@@ -5712,7 +5712,7 @@
  {
   "id": "tahath_1132",
   "name": "Tahath",
-  "name_zh": "",
+  "name_zh": "他哈",
   "lon": 35.4072,
   "lat": 30.3174,
   "kind": "",
@@ -5722,7 +5722,7 @@
  {
   "id": "tamar_1135",
   "name": "Tamar",
-  "name_zh": "",
+  "name_zh": "他玛",
   "lon": 35.0642,
   "lat": 31.0249,
   "kind": "",
@@ -5732,7 +5732,7 @@
  {
   "id": "tel-harsha_1147",
   "name": "Tel-harsha",
-  "name_zh": "",
+  "name_zh": "特·哈萨",
   "lon": 45.23,
   "lat": 32.1272,
   "kind": "",
@@ -5742,7 +5742,7 @@
  {
   "id": "tel-melah_1148",
   "name": "Tel-melah",
-  "name_zh": "",
+  "name_zh": "特·米拉",
   "lon": 45.23,
   "lat": 32.1272,
   "kind": "",
@@ -5752,7 +5752,7 @@
  {
   "id": "telassar_1145",
   "name": "Telassar",
-  "name_zh": "",
+  "name_zh": "提·拉撒",
   "lon": 48.2579,
   "lat": 32.1892,
   "kind": "",
@@ -5762,7 +5762,7 @@
  {
   "id": "terah_1151",
   "name": "Terah",
-  "name_zh": "",
+  "name_zh": "他拉",
   "lon": 35.4072,
   "lat": 30.3174,
   "kind": "",
@@ -5772,7 +5772,7 @@
  {
   "id": "thebez_1157",
   "name": "Thebez",
-  "name_zh": "",
+  "name_zh": "提备斯",
   "lon": 35.3683,
   "lat": 32.3241,
   "kind": "",
@@ -5782,7 +5782,7 @@
  {
   "id": "tigris_1163",
   "name": "Hiddekel",
-  "name_zh": "",
+  "name_zh": "底格里斯河",
   "lon": 43.3465,
   "lat": 35.9833,
   "kind": "Water",
@@ -5802,7 +5802,7 @@
  {
   "id": "tob_1172",
   "name": "Tob",
-  "name_zh": "",
+  "name_zh": "陀伯",
   "lon": 36.2405,
   "lat": 32.5617,
   "kind": "",
@@ -5812,7 +5812,7 @@
  {
   "id": "tower_1179",
   "name": "Tower",
-  "name_zh": "",
+  "name_zh": "哈米亚楼",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "Landmark",
@@ -5822,7 +5822,7 @@
  {
   "id": "tower_1180",
   "name": "Tower",
-  "name_zh": "",
+  "name_zh": "哈米亚楼",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "Landmark",
@@ -5832,7 +5832,7 @@
  {
   "id": "ulai_1185",
   "name": "Ulai",
-  "name_zh": "",
+  "name_zh": "乌莱河",
   "lon": 48.2249,
   "lat": 32.1787,
   "kind": "Water",
@@ -5842,7 +5842,7 @@
  {
   "id": "uphaz_1187",
   "name": "Uphaz",
-  "name_zh": "",
+  "name_zh": "乌法",
   "lon": 77.0,
   "lat": 22.0,
   "kind": "",
@@ -5862,7 +5862,7 @@
  {
   "id": "valley_of_hamongog_1205",
   "name": "Valley of Hamongog",
-  "name_zh": "",
+  "name_zh": "哈们·歌革谷",
   "lon": 35.7828,
   "lat": 31.4968,
   "kind": "Valley",
@@ -5872,7 +5872,7 @@
  {
   "id": "valley_of_jehoshaphat_1209",
   "name": "Valley of Jehoshaphat",
-  "name_zh": "",
+  "name_zh": "约沙法谷",
   "lon": 35.2366,
   "lat": 31.7721,
   "kind": "Valley",
@@ -5882,7 +5882,7 @@
  {
   "id": "valley_of_jiphthahel_1208",
   "name": "Valley of Jiphthahel",
-  "name_zh": "",
+  "name_zh": "伊弗他·伊勒谷",
   "lon": 35.2772,
   "lat": 32.8328,
   "kind": "Valley",
@@ -5892,7 +5892,7 @@
  {
   "id": "valley_of_lebanon_1212",
   "name": "Valley of Lebanon",
-  "name_zh": "",
+  "name_zh": "黎巴嫩平原",
   "lon": 35.8573,
   "lat": 33.4162,
   "kind": "Valley",
@@ -5902,7 +5902,7 @@
  {
   "id": "valley_of_shaveh_692",
   "name": "Valley of Shaveh",
-  "name_zh": "",
+  "name_zh": "沙微谷",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "Valley",
@@ -5912,7 +5912,7 @@
  {
   "id": "valley_of_slaughter_1219",
   "name": "Valley of Slaughter",
-  "name_zh": "",
+  "name_zh": "杀戮谷",
   "lon": 35.228,
   "lat": 31.7691,
   "kind": "Valley",
@@ -5922,7 +5922,7 @@
  {
   "id": "zaanannim_1235",
   "name": "Zaanannim",
-  "name_zh": "",
+  "name_zh": "撒拿音",
   "lon": 35.5336,
   "lat": 33.113,
   "kind": "",
@@ -5932,7 +5932,7 @@
  {
   "id": "zalmonah_1238",
   "name": "Zalmonah",
-  "name_zh": "",
+  "name_zh": "撒摩拿",
   "lon": 35.7828,
   "lat": 31.4968,
   "kind": "",
@@ -5942,7 +5942,7 @@
  {
   "id": "zaphon_1241",
   "name": "Zaphon",
-  "name_zh": "",
+  "name_zh": "撒分",
   "lon": 35.5859,
   "lat": 32.2377,
   "kind": "",
@@ -5952,7 +5952,7 @@
  {
   "id": "zarethan_1243",
   "name": "Zarethan",
-  "name_zh": "",
+  "name_zh": "撒拉但",
   "lon": 35.5766,
   "lat": 32.2678,
   "kind": "",
@@ -5962,7 +5962,7 @@
  {
   "id": "zedad_1246",
   "name": "Zedad",
-  "name_zh": "",
+  "name_zh": "西达达",
   "lon": 36.9255,
   "lat": 34.3126,
   "kind": "City",
@@ -5972,7 +5972,7 @@
  {
   "id": "zela_1247",
   "name": "Zela",
-  "name_zh": "",
+  "name_zh": "洗拉",
   "lon": 35.1969,
   "lat": 31.7927,
   "kind": "City",
@@ -5982,7 +5982,7 @@
  {
   "id": "zered_1253",
   "name": "Zered",
-  "name_zh": "",
+  "name_zh": "撒烈溪",
   "lon": 35.8976,
   "lat": 30.8841,
   "kind": "Water",
@@ -5992,7 +5992,7 @@
  {
   "id": "zin_1262",
   "name": "Zin",
-  "name_zh": "",
+  "name_zh": "寻",
   "lon": 34.4948,
   "lat": 30.6877,
   "kind": "",
@@ -6002,7 +6002,7 @@
  {
   "id": "abana_1",
   "name": "Abana",
-  "name_zh": "",
+  "name_zh": "亚罢拿",
   "lon": 36.2247,
   "lat": 33.5451,
   "kind": "Water",
@@ -6012,7 +6012,7 @@
  {
   "id": "abel-keramim_6",
   "name": "Abel-keramim",
-  "name_zh": "",
+  "name_zh": "亚备勒·基拉明",
   "lon": 35.8235,
   "lat": 32.0243,
   "kind": "City",
@@ -6022,7 +6022,7 @@
  {
   "id": "abel-maim_7",
   "name": "Abel-maim",
-  "name_zh": "",
+  "name_zh": "亚伯·玛音",
   "lon": 35.578,
   "lat": 33.2685,
   "kind": "",
@@ -6032,7 +6032,7 @@
  {
   "id": "abel-shittim_10",
   "name": "Abel-shittim",
-  "name_zh": "",
+  "name_zh": "亚伯·什亭",
   "lon": 35.6416,
   "lat": 31.8583,
   "kind": "",
@@ -6042,7 +6042,7 @@
  {
   "id": "abiezer_11",
   "name": "Abiezer",
-  "name_zh": "",
+  "name_zh": "亚比以谢",
   "lon": 35.2883,
   "lat": 32.6087,
   "kind": "",
@@ -6052,7 +6052,7 @@
  {
   "id": "abilene_12",
   "name": "Abilene",
-  "name_zh": "",
+  "name_zh": "亚比利尼",
   "lon": 36.0917,
   "lat": 33.5873,
   "kind": "Region",
@@ -6072,7 +6072,7 @@
  {
   "id": "acco_15",
   "name": "Acco",
-  "name_zh": "",
+  "name_zh": "亚柯",
   "lon": 35.0816,
   "lat": 32.9276,
   "kind": "City",
@@ -6082,7 +6082,7 @@
  {
   "id": "adadah_20",
   "name": "Adadah",
-  "name_zh": "",
+  "name_zh": "亚大达",
   "lon": 34.9674,
   "lat": 31.1858,
   "kind": "",
@@ -6092,7 +6092,7 @@
  {
   "id": "adam_21",
   "name": "Adam",
-  "name_zh": "",
+  "name_zh": "亚当",
   "lon": 35.5647,
   "lat": 32.0977,
   "kind": "City",
@@ -6102,7 +6102,7 @@
  {
   "id": "adamah_22",
   "name": "Adamah",
-  "name_zh": "",
+  "name_zh": "亚大玛",
   "lon": 35.4382,
   "lat": 32.7253,
   "kind": "City",
@@ -6112,7 +6112,7 @@
  {
   "id": "adami-nekeb_23",
   "name": "Adami-nekeb",
-  "name_zh": "",
+  "name_zh": "亚大米·尼吉",
   "lon": 35.5429,
   "lat": 32.6105,
   "kind": "City",
@@ -6122,7 +6122,7 @@
  {
   "id": "addar_24",
   "name": "Addar",
-  "name_zh": "",
+  "name_zh": "亚达珥",
   "lon": 34.7187,
   "lat": 30.9522,
   "kind": "",
@@ -6132,7 +6132,7 @@
  {
   "id": "adithaim_26",
   "name": "Adithaim",
-  "name_zh": "",
+  "name_zh": "亚底他音",
   "lon": 34.8953,
   "lat": 31.7001,
   "kind": "",
@@ -6142,7 +6142,7 @@
  {
   "id": "adoraim_28",
   "name": "Adoraim",
-  "name_zh": "",
+  "name_zh": "亚多莱音",
   "lon": 34.9833,
   "lat": 31.5167,
   "kind": "",
@@ -6182,7 +6182,7 @@
  {
   "id": "ahlab_35",
   "name": "Ahlab",
-  "name_zh": "",
+  "name_zh": "亚黑拉",
   "lon": 35.4454,
   "lat": 33.025,
   "kind": "",
@@ -6202,7 +6202,7 @@
  {
   "id": "aiath_38",
   "name": "Aiath",
-  "name_zh": "",
+  "name_zh": "亚叶",
   "lon": 35.2612,
   "lat": 31.917,
   "kind": "",
@@ -6212,7 +6212,7 @@
  {
   "id": "aija_39",
   "name": "Aija",
-  "name_zh": "",
+  "name_zh": "亚雅",
   "lon": 35.2612,
   "lat": 31.917,
   "kind": "",
@@ -6222,7 +6222,7 @@
  {
   "id": "ain_41",
   "name": "Ain",
-  "name_zh": "",
+  "name_zh": "亚延",
   "lon": 36.3857,
   "lat": 34.3531,
   "kind": "",
@@ -6232,7 +6232,7 @@
  {
   "id": "alemeth_45",
   "name": "Alemeth",
-  "name_zh": "",
+  "name_zh": "阿勒篾",
   "lon": 35.2876,
   "lat": 31.8284,
   "kind": "City",
@@ -6242,7 +6242,7 @@
  {
   "id": "allammelech_47",
   "name": "Allammelech",
-  "name_zh": "",
+  "name_zh": "亚拉米勒",
   "lon": 35.1829,
   "lat": 32.9783,
   "kind": "",
@@ -6252,7 +6252,7 @@
  {
   "id": "allon-bacuth_48",
   "name": "Allon-bacuth",
-  "name_zh": "",
+  "name_zh": "亚伦·巴古",
   "lon": 35.221,
   "lat": 31.9305,
   "kind": "Landmark",
@@ -6262,7 +6262,7 @@
  {
   "id": "almon_49",
   "name": "Almon",
-  "name_zh": "",
+  "name_zh": "亚勒们",
   "lon": 35.2876,
   "lat": 31.8284,
   "kind": "City",
@@ -6272,7 +6272,7 @@
  {
   "id": "amad_52",
   "name": "Amad",
-  "name_zh": "",
+  "name_zh": "亚末",
   "lon": 35.1736,
   "lat": 33.0193,
   "kind": "",
@@ -6282,7 +6282,7 @@
  {
   "id": "amam_54",
   "name": "Amam",
-  "name_zh": "",
+  "name_zh": "亚曼",
   "lon": 35.0571,
   "lat": 31.1623,
   "kind": "",
@@ -6292,7 +6292,7 @@
  {
   "id": "amana_55",
   "name": "Amana",
-  "name_zh": "",
+  "name_zh": "亚玛拿",
   "lon": 36.055,
   "lat": 33.6814,
   "kind": "Mountain",
@@ -6302,7 +6302,7 @@
  {
   "id": "amaw_56",
   "name": "Amaw",
-  "name_zh": "",
+  "name_zh": "亚玛乌",
   "lon": 38.0689,
   "lat": 36.6546,
   "kind": "",
@@ -6312,7 +6312,7 @@
  {
   "id": "ammah_57",
   "name": "Ammah",
-  "name_zh": "",
+  "name_zh": "亚玛",
   "lon": 35.3432,
   "lat": 31.869,
   "kind": "Mountain",
@@ -6322,7 +6322,7 @@
  {
   "id": "amphipolis_59",
   "name": "Amphipolis",
-  "name_zh": "",
+  "name_zh": "暗妃坡里",
   "lon": 23.8404,
   "lat": 40.8189,
   "kind": "City",
@@ -6332,7 +6332,7 @@
  {
   "id": "anaharath_61",
   "name": "Anaharath",
-  "name_zh": "",
+  "name_zh": "亚拿哈拉",
   "lon": 35.3974,
   "lat": 32.607,
   "kind": "",
@@ -6342,7 +6342,7 @@
  {
   "id": "ananiah_62",
   "name": "Ananiah",
-  "name_zh": "",
+  "name_zh": "亚难雅",
   "lon": 35.2197,
   "lat": 31.8329,
   "kind": "City",
@@ -6352,7 +6352,7 @@
  {
   "id": "anem_64",
   "name": "Anem",
-  "name_zh": "",
+  "name_zh": "亚年",
   "lon": 35.3037,
   "lat": 32.4635,
   "kind": "City",
@@ -6362,7 +6362,7 @@
  {
   "id": "aner_65",
   "name": "Aner",
-  "name_zh": "",
+  "name_zh": "亚乃",
   "lon": 35.2163,
   "lat": 32.5172,
   "kind": "City",
@@ -6372,7 +6372,7 @@
  {
   "id": "angle_66",
   "name": "Angle",
-  "name_zh": "",
+  "name_zh": "城墙转弯处",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "",
@@ -6382,7 +6382,7 @@
  {
   "id": "anim_67",
   "name": "Anim",
-  "name_zh": "",
+  "name_zh": "亚念",
   "lon": 35.0746,
   "lat": 31.3735,
   "kind": "City",
@@ -6402,7 +6402,7 @@
  {
   "id": "aphekah_74",
   "name": "Aphekah",
-  "name_zh": "",
+  "name_zh": "亚非加",
   "lon": 34.932,
   "lat": 32.1047,
   "kind": "",
@@ -6412,7 +6412,7 @@
  {
   "id": "aphik_75",
   "name": "Aphik",
-  "name_zh": "",
+  "name_zh": "亚弗革",
   "lon": 35.8658,
   "lat": 34.0661,
   "kind": "",
@@ -6422,7 +6422,7 @@
  {
   "id": "apollonia_76",
   "name": "Apollonia",
-  "name_zh": "",
+  "name_zh": "亚波罗尼亚",
   "lon": 23.4697,
   "lat": 40.6237,
   "kind": "City",
@@ -6442,7 +6442,7 @@
  {
   "id": "arab_78",
   "name": "Arab",
-  "name_zh": "",
+  "name_zh": "亚拉",
   "lon": 35.0456,
   "lat": 31.4507,
   "kind": "City",
@@ -6452,7 +6452,7 @@
  {
   "id": "arabah_260",
   "name": "Arabah",
-  "name_zh": "",
+  "name_zh": "亚拉巴",
   "lon": 36.7495,
   "lat": 35.1362,
   "kind": "",
@@ -6462,7 +6462,7 @@
  {
   "id": "aram-maacah_83",
   "name": "Aram-maacah",
-  "name_zh": "",
+  "name_zh": "亚兰玛迦",
   "lon": 36.5,
   "lat": 33.2,
   "kind": "",
@@ -6472,7 +6472,7 @@
  {
   "id": "armageddon_91",
   "name": "Armageddon",
-  "name_zh": "",
+  "name_zh": "哈米吉多顿",
   "lon": 35.1823,
   "lat": 32.5842,
   "kind": "",
@@ -6482,7 +6482,7 @@
  {
   "id": "aroer_95",
   "name": "Aroer",
-  "name_zh": "",
+  "name_zh": "亚罗珥",
   "lon": 34.9849,
   "lat": 31.1489,
   "kind": "City",
@@ -6492,7 +6492,7 @@
  {
   "id": "arubboth_97",
   "name": "Arubboth",
-  "name_zh": "",
+  "name_zh": "亚鲁泊",
   "lon": 34.9764,
   "lat": 31.6812,
   "kind": "",
@@ -6502,7 +6502,7 @@
  {
   "id": "arumah_98",
   "name": "Arumah",
-  "name_zh": "",
+  "name_zh": "亚鲁玛",
   "lon": 35.3182,
   "lat": 32.1549,
   "kind": "",
@@ -6512,7 +6512,7 @@
  {
   "id": "ashkenaz_104",
   "name": "Ashkenaz",
-  "name_zh": "",
+  "name_zh": "亚实基拿",
   "lon": 44.6,
   "lat": 40.6,
   "kind": "",
@@ -6522,7 +6522,7 @@
  {
   "id": "ashteroth-karnaim_107",
   "name": "Ashteroth-karnaim",
-  "name_zh": "",
+  "name_zh": "亚特律·加宁",
   "lon": 36.0167,
   "lat": 32.7667,
   "kind": "",
@@ -6532,7 +6532,7 @@
  {
   "id": "ataroth-addar_115",
   "name": "Ataroth-addar",
-  "name_zh": "",
+  "name_zh": "亚他绿·亚达",
   "lon": 35.1283,
   "lat": 31.8589,
   "kind": "",
@@ -6542,7 +6542,7 @@
  {
   "id": "atharim_117",
   "name": "Atharim",
-  "name_zh": "",
+  "name_zh": "亚他林",
   "lon": 34.6306,
   "lat": 30.8809,
   "kind": "",
@@ -6552,7 +6552,7 @@
  {
   "id": "atroth-shophan_119",
   "name": "Atroth-shophan",
-  "name_zh": "",
+  "name_zh": "亚他录·朔反",
   "lon": 35.9115,
   "lat": 31.9617,
   "kind": "City",
@@ -6572,7 +6572,7 @@
  {
   "id": "aven_121",
   "name": "Aven",
-  "name_zh": "",
+  "name_zh": "亚文",
   "lon": 35.221,
   "lat": 31.9305,
   "kind": "",
@@ -6582,7 +6582,7 @@
  {
   "id": "avva_123",
   "name": "Avva",
-  "name_zh": "",
+  "name_zh": "亚瓦",
   "lon": 41.965,
   "lat": 34.4677,
   "kind": "",
@@ -6592,7 +6592,7 @@
  {
   "id": "avvim_124",
   "name": "Avvim",
-  "name_zh": "",
+  "name_zh": "亚文",
   "lon": 35.0941,
   "lat": 31.5358,
   "kind": "",
@@ -6602,7 +6602,7 @@
  {
   "id": "ayyah_125",
   "name": "Ayyah",
-  "name_zh": "",
+  "name_zh": "亚雅",
   "lon": 34.4334,
   "lat": 31.5248,
   "kind": "",
@@ -6612,7 +6612,7 @@
  {
   "id": "azal_126",
   "name": "Azal",
-  "name_zh": "",
+  "name_zh": "亚萨",
   "lon": 35.2472,
   "lat": 31.7781,
   "kind": "",
@@ -6622,7 +6622,7 @@
  {
   "id": "aznoth-tabor_131",
   "name": "Aznoth-tabor",
-  "name_zh": "",
+  "name_zh": "亚斯纳·他泊",
   "lon": 35.3909,
   "lat": 32.687,
   "kind": "",
@@ -6632,7 +6632,7 @@
  {
   "id": "baal_133",
   "name": "Baal",
-  "name_zh": "",
+  "name_zh": "巴力",
   "lon": 35.7334,
   "lat": 32.05,
   "kind": "",
@@ -6642,7 +6642,7 @@
  {
   "id": "baal-hamon_141",
   "name": "Baal-hamon",
-  "name_zh": "",
+  "name_zh": "巴力·哈们",
   "lon": 35.8573,
   "lat": 33.4162,
   "kind": "City",
@@ -6652,7 +6652,7 @@
  {
   "id": "baal-hazor_142",
   "name": "Baal-hazor",
-  "name_zh": "",
+  "name_zh": "巴力·夏琐",
   "lon": 35.2792,
   "lat": 31.9794,
   "kind": "City",
@@ -6662,7 +6662,7 @@
  {
   "id": "baal-hermon_143",
   "name": "Baal-hermon",
-  "name_zh": "",
+  "name_zh": "巴力·黑们",
   "lon": 35.8573,
   "lat": 33.4162,
   "kind": "City",
@@ -6672,7 +6672,7 @@
  {
   "id": "baal-shalishah_147",
   "name": "Baal-shalishah",
-  "name_zh": "",
+  "name_zh": "巴力·沙利沙",
   "lon": 35.2226,
   "lat": 32.0297,
   "kind": "",
@@ -6682,7 +6682,7 @@
  {
   "id": "baal-tamar_148",
   "name": "Baal-tamar",
-  "name_zh": "",
+  "name_zh": "巴力·他玛",
   "lon": 35.231,
   "lat": 31.8238,
   "kind": "",
@@ -6692,7 +6692,7 @@
  {
   "id": "baalah_134",
   "name": "Baalah",
-  "name_zh": "",
+  "name_zh": "巴拉",
   "lon": 34.8409,
   "lat": 31.245,
   "kind": "City",
@@ -6702,7 +6702,7 @@
  {
   "id": "baalath-beer_138",
   "name": "Baalath-beer",
-  "name_zh": "",
+  "name_zh": "巴拉·比珥",
   "lon": 35.7334,
   "lat": 32.05,
   "kind": "City",
@@ -6712,7 +6712,7 @@
  {
   "id": "baale-judah_139",
   "name": "Baale-judah",
-  "name_zh": "",
+  "name_zh": "巴拉·犹大",
   "lon": 34.9938,
   "lat": 31.7711,
   "kind": "City",
@@ -6722,7 +6722,7 @@
  {
   "id": "baharum_153",
   "name": "Baharum",
-  "name_zh": "",
+  "name_zh": "巴路米",
   "lon": 35.3885,
   "lat": 31.8247,
   "kind": "",
@@ -6732,7 +6732,7 @@
  {
   "id": "balah_155",
   "name": "Balah",
-  "name_zh": "",
+  "name_zh": "巴拉",
   "lon": 34.8409,
   "lat": 31.245,
   "kind": "City",
@@ -6742,7 +6742,7 @@
  {
   "id": "bamah_156",
   "name": "Bamah",
-  "name_zh": "",
+  "name_zh": "巴麻",
   "lon": 35.1849,
   "lat": 31.8468,
   "kind": "",
@@ -6752,7 +6752,7 @@
  {
   "id": "bath-rabbim_160",
   "name": "Bath-rabbim",
-  "name_zh": "",
+  "name_zh": "巴特·拉并",
   "lon": 35.809,
   "lat": 31.8005,
   "kind": "Landmark",
@@ -6762,7 +6762,7 @@
  {
   "id": "bealoth_161",
   "name": "Bealoth",
-  "name_zh": "",
+  "name_zh": "比亚绿",
   "lon": 35.0571,
   "lat": 31.1623,
   "kind": "City",
@@ -6772,7 +6772,7 @@
  {
   "id": "bealoth_162",
   "name": "Bealoth",
-  "name_zh": "",
+  "name_zh": "比亚绿",
   "lon": 35.1022,
   "lat": 33.0485,
   "kind": "City",
@@ -6782,7 +6782,7 @@
  {
   "id": "beer_164",
   "name": "Beer",
-  "name_zh": "",
+  "name_zh": "比珥",
   "lon": 35.4985,
   "lat": 30.9981,
   "kind": "",
@@ -6792,7 +6792,7 @@
  {
   "id": "beer_165",
   "name": "Beer",
-  "name_zh": "",
+  "name_zh": "比珥",
   "lon": 35.2167,
   "lat": 31.9001,
   "kind": "City",
@@ -6802,7 +6802,7 @@
  {
   "id": "beer-elim_166",
   "name": "Beer-elim",
-  "name_zh": "",
+  "name_zh": "比珥·以琳",
   "lon": 35.4985,
   "lat": 30.9981,
   "kind": "",
@@ -6812,7 +6812,7 @@
  {
   "id": "beeroth_bene-jaakan_169",
   "name": "Beeroth Bene-jaakan",
-  "name_zh": "",
+  "name_zh": "比罗比尼·亚干",
   "lon": 35.4072,
   "lat": 30.3174,
   "kind": "",
@@ -6822,7 +6822,7 @@
  {
   "id": "beeshterah_171",
   "name": "Beeshterah",
-  "name_zh": "",
+  "name_zh": "比·施提拉",
   "lon": 36.0167,
   "lat": 32.8333,
   "kind": "",
@@ -6832,7 +6832,7 @@
  {
   "id": "bene-berak_173",
   "name": "Bene-berak",
-  "name_zh": "",
+  "name_zh": "比尼·比拉",
   "lon": 34.8271,
   "lat": 32.0358,
   "kind": "",
@@ -6842,7 +6842,7 @@
  {
   "id": "beon_176",
   "name": "Beon",
-  "name_zh": "",
+  "name_zh": "比稳",
   "lon": 35.7349,
   "lat": 31.6795,
   "kind": "",
@@ -6852,7 +6852,7 @@
  {
   "id": "bered_178",
   "name": "Bered",
-  "name_zh": "",
+  "name_zh": "巴列",
   "lon": 34.4948,
   "lat": 30.6877,
   "kind": "City",
@@ -6862,7 +6862,7 @@
  {
   "id": "berothah_179",
   "name": "Berothah",
-  "name_zh": "",
+  "name_zh": "比罗他",
   "lon": 36.152,
   "lat": 33.9315,
   "kind": "",
@@ -6872,7 +6872,7 @@
  {
   "id": "berothai_180",
   "name": "Berothai",
-  "name_zh": "",
+  "name_zh": "比罗他",
   "lon": 36.152,
   "lat": 33.9315,
   "kind": "",
@@ -6882,7 +6882,7 @@
  {
   "id": "betah_182",
   "name": "Betah",
-  "name_zh": "",
+  "name_zh": "比他",
   "lon": 36.152,
   "lat": 33.9315,
   "kind": "City",
@@ -6892,7 +6892,7 @@
  {
   "id": "beten_183",
   "name": "Beten",
-  "name_zh": "",
+  "name_zh": "比田",
   "lon": 35.2708,
   "lat": 32.9347,
   "kind": "",
@@ -6902,7 +6902,7 @@
  {
   "id": "beth-anoth_185",
   "name": "Beth-anoth",
-  "name_zh": "",
+  "name_zh": "伯·亚诺",
   "lon": 35.1245,
   "lat": 31.5585,
   "kind": "City",
@@ -6912,7 +6912,7 @@
  {
   "id": "beth-arbel_189",
   "name": "Beth-arbel",
-  "name_zh": "",
+  "name_zh": "伯·亚比勒",
   "lon": 35.8478,
   "lat": 32.561,
   "kind": "",
@@ -6922,7 +6922,7 @@
  {
   "id": "beth-azmaveth_192",
   "name": "Beth-azmaveth",
-  "name_zh": "",
+  "name_zh": "伯·亚斯玛弗",
   "lon": 35.2607,
   "lat": 31.8342,
   "kind": "",
@@ -6932,7 +6932,7 @@
  {
   "id": "beth-baal-meon_193",
   "name": "Beth-baal-meon",
-  "name_zh": "",
+  "name_zh": "伯·巴力·勉",
   "lon": 35.7349,
   "lat": 31.6795,
   "kind": "",
@@ -6942,7 +6942,7 @@
  {
   "id": "beth-barah_194",
   "name": "Beth-barah",
-  "name_zh": "",
+  "name_zh": "伯·巴拉",
   "lon": 35.5526,
   "lat": 31.8363,
   "kind": "Landmark",
@@ -6952,7 +6952,7 @@
  {
   "id": "beth-biri_195",
   "name": "Beth-biri",
-  "name_zh": "",
+  "name_zh": "伯·比利",
   "lon": 34.9405,
   "lat": 31.3917,
   "kind": "",
@@ -6962,7 +6962,7 @@
  {
   "id": "beth-car_196",
   "name": "Beth-car",
-  "name_zh": "",
+  "name_zh": "伯·甲",
   "lon": 35.1802,
   "lat": 31.8327,
   "kind": "",
@@ -6972,7 +6972,7 @@
  {
   "id": "beth-dagon_197",
   "name": "Beth-dagon",
-  "name_zh": "",
+  "name_zh": "伯·大衮",
   "lon": 34.775,
   "lat": 31.908,
   "kind": "City",
@@ -6982,7 +6982,7 @@
  {
   "id": "beth-dagon_198",
   "name": "Beth-dagon",
-  "name_zh": "",
+  "name_zh": "伯·大衮",
   "lon": 35.1079,
   "lat": 32.8996,
   "kind": "City",
@@ -6992,7 +6992,7 @@
  {
   "id": "beth-diblathaim_199",
   "name": "Beth-diblathaim",
-  "name_zh": "",
+  "name_zh": "伯·低比拉太音",
   "lon": 35.7828,
   "lat": 31.4968,
   "kind": "City",
@@ -7002,7 +7002,7 @@
  {
   "id": "beth-eden_200",
   "name": "Beth-eden",
-  "name_zh": "",
+  "name_zh": "伯·伊甸",
   "lon": 36.3134,
   "lat": 33.5193,
   "kind": "",
@@ -7012,7 +7012,7 @@
  {
   "id": "beth-emek_204",
   "name": "Beth-emek",
-  "name_zh": "",
+  "name_zh": "伯·以墨",
   "lon": 35.1671,
   "lat": 32.9789,
   "kind": "",
@@ -7022,7 +7022,7 @@
  {
   "id": "beth-ezel_206",
   "name": "Beth-ezel",
-  "name_zh": "",
+  "name_zh": "伯·以薛",
   "lon": 34.694,
   "lat": 31.7437,
   "kind": "",
@@ -7032,7 +7032,7 @@
  {
   "id": "beth-gamul_207",
   "name": "Beth-gamul",
-  "name_zh": "",
+  "name_zh": "伯·迦末",
   "lon": 35.8447,
   "lat": 31.5197,
   "kind": "City",
@@ -7042,7 +7042,7 @@
  {
   "id": "beth-gilgal_208",
   "name": "Beth-gilgal",
-  "name_zh": "",
+  "name_zh": "伯·吉甲",
   "lon": 35.5185,
   "lat": 31.8638,
   "kind": "",
@@ -7052,7 +7052,7 @@
  {
   "id": "beth-haggan_210",
   "name": "Beth-haggan",
-  "name_zh": "",
+  "name_zh": "园亭",
   "lon": 35.1823,
   "lat": 32.5842,
   "kind": "",
@@ -7062,7 +7062,7 @@
  {
   "id": "beth-haram_211",
   "name": "Beth-haram",
-  "name_zh": "",
+  "name_zh": "伯·亚兰",
   "lon": 35.5833,
   "lat": 31.8167,
   "kind": "",
@@ -7072,7 +7072,7 @@
  {
   "id": "beth-haran_212",
   "name": "Beth-haran",
-  "name_zh": "",
+  "name_zh": "伯·哈兰",
   "lon": 35.5833,
   "lat": 31.8167,
   "kind": "",
@@ -7082,7 +7082,7 @@
  {
   "id": "beth-horon_734",
   "name": "Beth-horon",
-  "name_zh": "",
+  "name_zh": "伯·和仑",
   "lon": 35.1236,
   "lat": 31.8789,
   "kind": "City",
@@ -7092,7 +7092,7 @@
  {
   "id": "beth-le-aphrah_216",
   "name": "Beth-le-aphrah",
-  "name_zh": "",
+  "name_zh": "伯·亚弗拉",
   "lon": 35.2991,
   "lat": 31.9538,
   "kind": "City",
@@ -7102,7 +7102,7 @@
  {
   "id": "beth-lebaoth_217",
   "name": "Beth-lebaoth",
-  "name_zh": "",
+  "name_zh": "伯·利巴勿",
   "lon": 34.9405,
   "lat": 31.3917,
   "kind": "",
@@ -7112,7 +7112,7 @@
  {
   "id": "beth-meon_223",
   "name": "Beth-meon",
-  "name_zh": "",
+  "name_zh": "伯·米恩",
   "lon": 35.7349,
   "lat": 31.6795,
   "kind": "",
@@ -7122,7 +7122,7 @@
  {
   "id": "beth-pazzez_226",
   "name": "Beth-pazzez",
-  "name_zh": "",
+  "name_zh": "伯·帕薛",
   "lon": 35.3037,
   "lat": 32.4635,
   "kind": "",
@@ -7132,7 +7132,7 @@
  {
   "id": "beth-shemesh_235",
   "name": "Beth-shemesh",
-  "name_zh": "",
+  "name_zh": "伯·示麦",
   "lon": 35.5046,
   "lat": 32.4064,
   "kind": "City",
@@ -7142,7 +7142,7 @@
  {
   "id": "beth-shittah_237",
   "name": "Beth-shittah",
-  "name_zh": "",
+  "name_zh": "伯·哈示他",
   "lon": 35.4383,
   "lat": 32.5525,
   "kind": "",
@@ -7152,7 +7152,7 @@
  {
   "id": "beth-tappuah_238",
   "name": "Beth-tappuah",
-  "name_zh": "",
+  "name_zh": "伯·他普亚",
   "lon": 35.0504,
   "lat": 31.5297,
   "kind": "City",
@@ -7192,7 +7192,7 @@
  {
   "id": "bethlehem_ephrathah_220",
   "name": "Bethlehem Ephrathah",
-  "name_zh": "",
+  "name_zh": "伯利恒以法他",
   "lon": 35.2103,
   "lat": 31.7054,
   "kind": "City",
@@ -7202,7 +7202,7 @@
  {
   "id": "bethuel_240",
   "name": "Bethuel",
-  "name_zh": "",
+  "name_zh": "彼土利",
   "lon": 35.7334,
   "lat": 32.05,
   "kind": "City",
@@ -7212,7 +7212,7 @@
  {
   "id": "bethul_241",
   "name": "Bethul",
-  "name_zh": "",
+  "name_zh": "比土力",
   "lon": 35.7334,
   "lat": 32.05,
   "kind": "",
@@ -7222,7 +7222,7 @@
  {
   "id": "betonim_243",
   "name": "Betonim",
-  "name_zh": "",
+  "name_zh": "比多宁",
   "lon": 35.7063,
   "lat": 32.0105,
   "kind": "",
@@ -7232,7 +7232,7 @@
  {
   "id": "bezek_246",
   "name": "Bezek",
-  "name_zh": "",
+  "name_zh": "比色",
   "lon": 35.4,
   "lat": 32.3667,
   "kind": "",
@@ -7242,7 +7242,7 @@
  {
   "id": "bileam_248",
   "name": "Bileam",
-  "name_zh": "",
+  "name_zh": "比连",
   "lon": 35.2833,
   "lat": 32.45,
   "kind": "",
@@ -7252,7 +7252,7 @@
  {
   "id": "bilhah_249",
   "name": "Bilhah",
-  "name_zh": "",
+  "name_zh": "辟拉",
   "lon": 34.8409,
   "lat": 31.245,
   "kind": "",
@@ -7262,7 +7262,7 @@
  {
   "id": "biziothiah_251",
   "name": "Biziothiah",
-  "name_zh": "",
+  "name_zh": "比斯约他",
   "lon": 34.8409,
   "lat": 31.245,
   "kind": "",
@@ -7272,7 +7272,7 @@
  {
   "id": "bor-ashan_253",
   "name": "Bor-ashan",
-  "name_zh": "",
+  "name_zh": "歌拉珊",
   "lon": 34.9365,
   "lat": 31.8099,
   "kind": "",
@@ -7282,7 +7282,7 @@
  {
   "id": "bozez_254",
   "name": "Bozez",
-  "name_zh": "",
+  "name_zh": "播薛",
   "lon": 35.2871,
   "lat": 31.8572,
   "kind": "",
@@ -7292,7 +7292,7 @@
  {
   "id": "bozrah_257",
   "name": "Bozrah",
-  "name_zh": "",
+  "name_zh": "波斯拉",
   "lon": 36.4883,
   "lat": 32.5161,
   "kind": "City",
@@ -7302,7 +7302,7 @@
  {
   "id": "buz_262",
   "name": "Buz",
-  "name_zh": "",
+  "name_zh": "布斯",
   "lon": 37.9197,
   "lat": 26.6251,
   "kind": "Region",
@@ -7312,7 +7312,7 @@
  {
   "id": "cabbon_263",
   "name": "Cabbon",
-  "name_zh": "",
+  "name_zh": "迦本",
   "lon": 34.7667,
   "lat": 31.5,
   "kind": "",
@@ -7322,7 +7322,7 @@
  {
   "id": "cabul_264",
   "name": "Cabul",
-  "name_zh": "",
+  "name_zh": "迦步勒",
   "lon": 35.2118,
   "lat": 32.8657,
   "kind": "City",
@@ -7332,7 +7332,7 @@
  {
   "id": "cabul_265",
   "name": "Cabul",
-  "name_zh": "",
+  "name_zh": "迦步勒",
   "lon": 35.2118,
   "lat": 32.8657,
   "kind": "Region",
@@ -7342,7 +7342,7 @@
  {
   "id": "calno_270",
   "name": "Calno",
-  "name_zh": "",
+  "name_zh": "迦勒挪",
   "lon": 45.23,
   "lat": 32.1272,
   "kind": "",
@@ -7352,7 +7352,7 @@
  {
   "id": "canneh_273",
   "name": "Canneh",
-  "name_zh": "",
+  "name_zh": "干尼",
   "lon": 45.23,
   "lat": 32.1272,
   "kind": "",
@@ -7362,7 +7362,7 @@
  {
   "id": "casiphia_279",
   "name": "Casiphia",
-  "name_zh": "",
+  "name_zh": "迦西斐雅",
   "lon": 36.7495,
   "lat": 35.1362,
   "kind": "",
@@ -7372,7 +7372,7 @@
  {
   "id": "chephar-hammoni_284",
   "name": "Chephar-haammoni",
-  "name_zh": "",
+  "name_zh": "基法·阿摩尼",
   "lon": 35.25,
   "lat": 31.9667,
   "kind": "",
@@ -7382,7 +7382,7 @@
  {
   "id": "chesalon_288",
   "name": "Chesalon",
-  "name_zh": "",
+  "name_zh": "基撒仑",
   "lon": 35.0511,
   "lat": 31.781,
   "kind": "",
@@ -7392,7 +7392,7 @@
  {
   "id": "chesil_289",
   "name": "Chesil",
-  "name_zh": "",
+  "name_zh": "基失",
   "lon": 35.7334,
   "lat": 32.05,
   "kind": "City",
@@ -7402,7 +7402,7 @@
  {
   "id": "chesulloth_290",
   "name": "Chesulloth",
-  "name_zh": "",
+  "name_zh": "基苏律",
   "lon": 35.3247,
   "lat": 32.6832,
   "kind": "City",
@@ -7412,7 +7412,7 @@
  {
   "id": "chezib_291",
   "name": "Chezib",
-  "name_zh": "",
+  "name_zh": "基悉",
   "lon": 35.0,
   "lat": 31.7,
   "kind": "City",
@@ -7422,7 +7422,7 @@
  {
   "id": "chilmad_292",
   "name": "Chilmad",
-  "name_zh": "",
+  "name_zh": "基抹",
   "lon": 43.1529,
   "lat": 36.3594,
   "kind": "",
@@ -7432,7 +7432,7 @@
  {
   "id": "chinnereth_293",
   "name": "Chinnereth",
-  "name_zh": "",
+  "name_zh": "基尼烈",
   "lon": 35.5894,
   "lat": 32.8068,
   "kind": "",
@@ -7442,7 +7442,7 @@
  {
   "id": "chinnereth_294",
   "name": "Chinnereth",
-  "name_zh": "",
+  "name_zh": "基尼烈",
   "lon": 35.5894,
   "lat": 32.8068,
   "kind": "",
@@ -7452,7 +7452,7 @@
  {
   "id": "chisloth-tabor_297",
   "name": "Chisloth-tabor",
-  "name_zh": "",
+  "name_zh": "吉斯绿·他泊",
   "lon": 35.3247,
   "lat": 32.6832,
   "kind": "",
@@ -7462,7 +7462,7 @@
  {
   "id": "chitlish_298",
   "name": "Chitlish",
-  "name_zh": "",
+  "name_zh": "基提利",
   "lon": 34.7778,
   "lat": 31.8233,
   "kind": "City",
@@ -7482,7 +7482,7 @@
  {
   "id": "colossae_305",
   "name": "Colossae",
-  "name_zh": "",
+  "name_zh": "歌罗西",
   "lon": 29.25,
   "lat": 37.7833,
   "kind": "City",
@@ -7502,7 +7502,7 @@
  {
   "id": "cozeba_309",
   "name": "Cozeba",
-  "name_zh": "",
+  "name_zh": "哥西巴",
   "lon": 35.0,
   "lat": 31.7,
   "kind": "",
@@ -7512,7 +7512,7 @@
  {
   "id": "cun_311",
   "name": "Cun",
-  "name_zh": "",
+  "name_zh": "均",
   "lon": 36.152,
   "lat": 33.9315,
   "kind": "City",
@@ -7522,7 +7522,7 @@
  {
   "id": "cushan_313",
   "name": "Cushan",
-  "name_zh": "",
+  "name_zh": "古珊",
   "lon": 31.3436,
   "lat": 21.9598,
   "kind": "",
@@ -7532,7 +7532,7 @@
  {
   "id": "cuth_314",
   "name": "Cuth",
-  "name_zh": "",
+  "name_zh": "古他",
   "lon": 44.6667,
   "lat": 32.7333,
   "kind": "",
@@ -7542,7 +7542,7 @@
  {
   "id": "cuthah_315",
   "name": "Cuthah",
-  "name_zh": "",
+  "name_zh": "古他",
   "lon": 44.6667,
   "lat": 32.7333,
   "kind": "",
@@ -7552,7 +7552,7 @@
  {
   "id": "dabbesheth_318",
   "name": "Dabbesheth",
-  "name_zh": "",
+  "name_zh": "大巴设",
   "lon": 35.2667,
   "lat": 33.0,
   "kind": "",
@@ -7572,7 +7572,7 @@
  {
   "id": "dalmatia_321",
   "name": "Dalmatia",
-  "name_zh": "",
+  "name_zh": "挞马太",
   "lon": 16.0715,
   "lat": 43.5155,
   "kind": "Region",
@@ -7582,7 +7582,7 @@
  {
   "id": "dannah_324",
   "name": "Dannah",
-  "name_zh": "",
+  "name_zh": "大拿",
   "lon": 34.9755,
   "lat": 31.561,
   "kind": "City",
@@ -7592,7 +7592,7 @@
  {
   "id": "debir_326",
   "name": "Debir",
-  "name_zh": "",
+  "name_zh": "底璧",
   "lon": 35.35,
   "lat": 31.8167,
   "kind": "",
@@ -7602,7 +7602,7 @@
  {
   "id": "debir_327",
   "name": "Debir",
-  "name_zh": "",
+  "name_zh": "底璧",
   "lon": 35.7836,
   "lat": 32.6625,
   "kind": "",
@@ -7612,7 +7612,7 @@
  {
   "id": "destruction_301",
   "name": "Destruction",
-  "name_zh": "",
+  "name_zh": "灭亡城",
   "lon": 31.3382,
   "lat": 30.1081,
   "kind": "",
@@ -7622,7 +7622,7 @@
  {
   "id": "dibon_332",
   "name": "Dibon",
-  "name_zh": "",
+  "name_zh": "底本",
   "lon": 34.9674,
   "lat": 31.1858,
   "kind": "City",
@@ -7632,7 +7632,7 @@
  {
   "id": "dilean_334",
   "name": "Dilean",
-  "name_zh": "",
+  "name_zh": "底连",
   "lon": 34.8467,
   "lat": 31.5649,
   "kind": "",
@@ -7642,7 +7642,7 @@
  {
   "id": "dimnah_335",
   "name": "Dimnah",
-  "name_zh": "",
+  "name_zh": "丁拿",
   "lon": 35.3214,
   "lat": 32.7818,
   "kind": "City",
@@ -7652,7 +7652,7 @@
  {
   "id": "dimonah_336",
   "name": "Dimonah",
-  "name_zh": "",
+  "name_zh": "底摩拿",
   "lon": 34.9674,
   "lat": 31.1858,
   "kind": "",
@@ -7662,7 +7662,7 @@
  {
   "id": "diviners_oak_338",
   "name": "Diviners' Oak",
-  "name_zh": "",
+  "name_zh": "米恶尼尼橡树",
   "lon": 35.2818,
   "lat": 32.2137,
   "kind": "",
@@ -7672,7 +7672,7 @@
  {
   "id": "dizahab_339",
   "name": "Dizahab",
-  "name_zh": "",
+  "name_zh": "底撒哈",
   "lon": 34.5163,
   "lat": 28.5078,
   "kind": "",
@@ -7682,7 +7682,7 @@
  {
   "id": "dragon_spring_343",
   "name": "Dragon Spring",
-  "name_zh": "",
+  "name_zh": "野狗井",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "Landmark",
@@ -7692,7 +7692,7 @@
  {
   "id": "dumah_344",
   "name": "Dumah",
-  "name_zh": "",
+  "name_zh": "度玛",
   "lon": 34.9828,
   "lat": 31.4383,
   "kind": "",
@@ -7702,7 +7702,7 @@
  {
   "id": "dumah_345",
   "name": "Dumah",
-  "name_zh": "",
+  "name_zh": "度玛",
   "lon": 37.7,
   "lat": 27.4,
   "kind": "",
@@ -7712,7 +7712,7 @@
  {
   "id": "dura_347",
   "name": "Dura",
-  "name_zh": "",
+  "name_zh": "杜拉",
   "lon": 44.4209,
   "lat": 32.5365,
   "kind": "",
@@ -7722,7 +7722,7 @@
  {
   "id": "east_gate_349",
   "name": "East Gate",
-  "name_zh": "",
+  "name_zh": "东门",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "Landmark",
@@ -7732,7 +7732,7 @@
  {
   "id": "east_gate_958",
   "name": "East Gate",
-  "name_zh": "",
+  "name_zh": "东门",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "Landmark",
@@ -7742,7 +7742,7 @@
  {
   "id": "ebez_351",
   "name": "Ebez",
-  "name_zh": "",
+  "name_zh": "亚别",
   "lon": 35.3281,
   "lat": 32.2616,
   "kind": "City",
@@ -7752,7 +7752,7 @@
  {
   "id": "ebron_352",
   "name": "Ebron",
-  "name_zh": "",
+  "name_zh": "义伯仑",
   "lon": 35.1725,
   "lat": 33.0463,
   "kind": "City",
@@ -7762,7 +7762,7 @@
  {
   "id": "ecbatana_353",
   "name": "Ecbatana",
-  "name_zh": "",
+  "name_zh": "亚马他",
   "lon": 48.515,
   "lat": 34.7983,
   "kind": "",
@@ -7772,7 +7772,7 @@
  {
   "id": "eder_355",
   "name": "Eder",
-  "name_zh": "",
+  "name_zh": "以得台",
   "lon": 35.2103,
   "lat": 31.7054,
   "kind": "",
@@ -7782,7 +7782,7 @@
  {
   "id": "eder_356",
   "name": "Eder",
-  "name_zh": "",
+  "name_zh": "以得台",
   "lon": 34.9674,
   "lat": 31.1858,
   "kind": "",
@@ -7792,7 +7792,7 @@
  {
   "id": "eglaim_359",
   "name": "Eglaim",
-  "name_zh": "",
+  "name_zh": "以基莲",
   "lon": 35.4985,
   "lat": 30.9981,
   "kind": "",
@@ -7802,7 +7802,7 @@
  {
   "id": "egyptian_sea_1031",
   "name": "Egyptian Sea",
-  "name_zh": "",
+  "name_zh": "埃及海汊",
   "lon": 34.7717,
   "lat": 27.0885,
   "kind": "Water",
@@ -7812,7 +7812,7 @@
  {
   "id": "el-bethel_367",
   "name": "El-bethel",
-  "name_zh": "",
+  "name_zh": "伊勒·伯特利",
   "lon": 35.221,
   "lat": 31.9305,
   "kind": "",
@@ -7822,7 +7822,7 @@
  {
   "id": "el-paran_376",
   "name": "El-paran",
-  "name_zh": "",
+  "name_zh": "伊勒·巴兰",
   "lon": 33.5419,
   "lat": 29.1517,
   "kind": "",
@@ -7832,7 +7832,7 @@
  {
   "id": "elishah_370",
   "name": "Elishah",
-  "name_zh": "",
+  "name_zh": "以利沙",
   "lon": 33.2077,
   "lat": 35.0183,
   "kind": "",
@@ -7842,7 +7842,7 @@
  {
   "id": "elon_373",
   "name": "Elon",
-  "name_zh": "",
+  "name_zh": "以伦",
   "lon": 35.1165,
   "lat": 31.9738,
   "kind": "",
@@ -7852,7 +7852,7 @@
  {
   "id": "elonbeth-hanan_374",
   "name": "Elonbeth-hanan",
-  "name_zh": "",
+  "name_zh": "以伦·伯·哈南",
   "lon": 35.1091,
   "lat": 31.8526,
   "kind": "",
@@ -7862,7 +7862,7 @@
  {
   "id": "elteke_377",
   "name": "Elteke",
-  "name_zh": "",
+  "name_zh": "伊利提基",
   "lon": 35.0669,
   "lat": 31.8695,
   "kind": "City",
@@ -7872,7 +7872,7 @@
  {
   "id": "eltekeh_378",
   "name": "Eltekeh",
-  "name_zh": "",
+  "name_zh": "伊利提基",
   "lon": 35.0669,
   "lat": 31.8695,
   "kind": "City",
@@ -7882,7 +7882,7 @@
  {
   "id": "eltekon_379",
   "name": "Eltekon",
-  "name_zh": "",
+  "name_zh": "伊勒提君",
   "lon": 34.9954,
   "lat": 31.6606,
   "kind": "",
@@ -7892,7 +7892,7 @@
  {
   "id": "emek-keziz_381",
   "name": "Emek-keziz",
-  "name_zh": "",
+  "name_zh": "伊麦·基悉",
   "lon": 35.5132,
   "lat": 31.8371,
   "kind": "City",
@@ -7902,7 +7902,7 @@
  {
   "id": "emmaus_382",
   "name": "Emmaus",
-  "name_zh": "",
+  "name_zh": "以马忤斯",
   "lon": 34.9895,
   "lat": 31.8395,
   "kind": "City",
@@ -7912,7 +7912,7 @@
  {
   "id": "en-gannim_387",
   "name": "En-gannim",
-  "name_zh": "",
+  "name_zh": "隐·干宁",
   "lon": 34.9501,
   "lat": 31.75,
   "kind": "City",
@@ -7922,7 +7922,7 @@
  {
   "id": "en-haddah_390",
   "name": "En-haddah",
-  "name_zh": "",
+  "name_zh": "隐·哈大",
   "lon": 35.2545,
   "lat": 32.4784,
   "kind": "",
@@ -7932,7 +7932,7 @@
  {
   "id": "en-hakkore_391",
   "name": "En-hakkore",
-  "name_zh": "",
+  "name_zh": "隐·哈歌利",
   "lon": 34.9766,
   "lat": 31.7527,
   "kind": "Landmark",
@@ -7942,7 +7942,7 @@
  {
   "id": "en-hazor_392",
   "name": "En-hazor",
-  "name_zh": "",
+  "name_zh": "隐·夏琐",
   "lon": 35.35,
   "lat": 33.1,
   "kind": "",
@@ -7952,7 +7952,7 @@
  {
   "id": "en-mishpat_393",
   "name": "En-mishpat",
-  "name_zh": "",
+  "name_zh": "安·密巴",
   "lon": 34.4948,
   "lat": 30.6877,
   "kind": "",
@@ -7962,7 +7962,7 @@
  {
   "id": "en-rimmon_394",
   "name": "En-rimmon",
-  "name_zh": "",
+  "name_zh": "音·临门",
   "lon": 34.8607,
   "lat": 31.3708,
   "kind": "",
@@ -7972,7 +7972,7 @@
  {
   "id": "en-tappuah_397",
   "name": "En-tappuah",
-  "name_zh": "",
+  "name_zh": "隐·他普亚",
   "lon": 35.2333,
   "lat": 32.1167,
   "kind": "Landmark",
@@ -7982,7 +7982,7 @@
  {
   "id": "enam_384",
   "name": "Enam",
-  "name_zh": "",
+  "name_zh": "以楠",
   "lon": 35.126,
   "lat": 32.15,
   "kind": "",
@@ -7992,7 +7992,7 @@
  {
   "id": "eneglaim_386",
   "name": "Eneglaim",
-  "name_zh": "",
+  "name_zh": "隐·以革莲",
   "lon": 35.4985,
   "lat": 30.9981,
   "kind": "",
@@ -8002,7 +8002,7 @@
  {
   "id": "ephah_398",
   "name": "Ephah",
-  "name_zh": "",
+  "name_zh": "以法",
   "lon": 34.9083,
   "lat": 28.9329,
   "kind": "",
@@ -8012,7 +8012,7 @@
  {
   "id": "ephes-dammim_399",
   "name": "Ephes-dammim",
-  "name_zh": "",
+  "name_zh": "以弗·大悯",
   "lon": 34.9445,
   "lat": 31.6912,
   "kind": "",
@@ -8032,7 +8032,7 @@
  {
   "id": "ephron_405",
   "name": "Ephron",
-  "name_zh": "",
+  "name_zh": "以弗仑",
   "lon": 35.0424,
   "lat": 31.6757,
   "kind": "",
@@ -8042,7 +8042,7 @@
  {
   "id": "ephron_406",
   "name": "Ephron",
-  "name_zh": "",
+  "name_zh": "以弗仑",
   "lon": 35.2991,
   "lat": 31.9538,
   "kind": "",
@@ -8052,7 +8052,7 @@
  {
   "id": "esek_409",
   "name": "Esek",
-  "name_zh": "",
+  "name_zh": "埃色",
   "lon": 34.5606,
   "lat": 31.3913,
   "kind": "Landmark",
@@ -8062,7 +8062,7 @@
  {
   "id": "eshan_410",
   "name": "Eshan",
-  "name_zh": "",
+  "name_zh": "以珊",
   "lon": 35.0335,
   "lat": 31.4202,
   "kind": "",
@@ -8072,7 +8072,7 @@
  {
   "id": "eshtemoh_413",
   "name": "Eshtemoh",
-  "name_zh": "",
+  "name_zh": "以实提莫",
   "lon": 35.0746,
   "lat": 31.3735,
   "kind": "",
@@ -8082,7 +8082,7 @@
  {
   "id": "etam_415",
   "name": "Etam",
-  "name_zh": "",
+  "name_zh": "以坦",
   "lon": 34.8607,
   "lat": 31.3708,
   "kind": "City",
@@ -8092,7 +8092,7 @@
  {
   "id": "etam_416",
   "name": "Etam",
-  "name_zh": "",
+  "name_zh": "以坦",
   "lon": 35.1747,
   "lat": 31.6865,
   "kind": "City",
@@ -8102,7 +8102,7 @@
  {
   "id": "eth-kazin_420",
   "name": "Eth-kazin",
-  "name_zh": "",
+  "name_zh": "以特·加汛",
   "lon": 35.3214,
   "lat": 32.7818,
   "kind": "",
@@ -8122,7 +8122,7 @@
  {
   "id": "forest_584",
   "name": "Forest",
-  "name_zh": "",
+  "name_zh": "林库",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "",
@@ -8132,7 +8132,7 @@
  {
   "id": "gabbatha_430",
   "name": "Gabbatha",
-  "name_zh": "",
+  "name_zh": "厄巴大",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "",
@@ -8142,7 +8142,7 @@
  {
   "id": "gamad_435",
   "name": "Gamad",
-  "name_zh": "",
+  "name_zh": "迦玛",
   "lon": 35.8585,
   "lat": 34.8561,
   "kind": "",
@@ -8152,7 +8152,7 @@
  {
   "id": "gareb_436",
   "name": "Gareb",
-  "name_zh": "",
+  "name_zh": "迦立",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "Mountain",
@@ -8162,7 +8162,7 @@
  {
   "id": "gate_miphkad_863",
   "name": "Gate Miphkad",
-  "name_zh": "",
+  "name_zh": "哈米弗甲门",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "Landmark",
@@ -8172,7 +8172,7 @@
  {
   "id": "gate_of_the_children_of_the_people_932",
   "name": "Gate of the Children of the People",
-  "name_zh": "",
+  "name_zh": "平民的门",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "Landmark",
@@ -8182,7 +8182,7 @@
  {
   "id": "gate_of_the_foundation_440",
   "name": "Gate of the Foundation",
-  "name_zh": "",
+  "name_zh": "基址门",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "Landmark",
@@ -8192,7 +8192,7 @@
  {
   "id": "gath-rimmon_445",
   "name": "Gath-rimmon",
-  "name_zh": "",
+  "name_zh": "迦特·临门",
   "lon": 35.2833,
   "lat": 32.45,
   "kind": "City",
@@ -8202,7 +8202,7 @@
  {
   "id": "geba_448",
   "name": "Geba",
-  "name_zh": "",
+  "name_zh": "迦巴",
   "lon": 35.1849,
   "lat": 31.8468,
   "kind": "",
@@ -8212,7 +8212,7 @@
  {
   "id": "gebim_450",
   "name": "Gebim",
-  "name_zh": "",
+  "name_zh": "基柄",
   "lon": 35.25,
   "lat": 31.8,
   "kind": "",
@@ -8222,7 +8222,7 @@
  {
   "id": "geder_451",
   "name": "Geder",
-  "name_zh": "",
+  "name_zh": "基德",
   "lon": 35.0833,
   "lat": 31.6333,
   "kind": "",
@@ -8232,7 +8232,7 @@
  {
   "id": "gederothaim_454",
   "name": "Gederothaim",
-  "name_zh": "",
+  "name_zh": "基底罗他音",
   "lon": 34.7778,
   "lat": 31.8233,
   "kind": "",
@@ -8242,7 +8242,7 @@
  {
   "id": "gedor_456",
   "name": "Gedor",
-  "name_zh": "",
+  "name_zh": "基突",
   "lon": 34.7778,
   "lat": 31.8233,
   "kind": "",
@@ -8252,7 +8252,7 @@
  {
   "id": "geliloth_457",
   "name": "Geliloth",
-  "name_zh": "",
+  "name_zh": "基利绿",
   "lon": 35.5185,
   "lat": 31.8638,
   "kind": "",
@@ -8262,7 +8262,7 @@
  {
   "id": "geruth_chimham_460",
   "name": "Geruth Chimham",
-  "name_zh": "",
+  "name_zh": "金罕寓",
   "lon": 35.2103,
   "lat": 31.7054,
   "kind": "",
@@ -8272,7 +8272,7 @@
  {
   "id": "giah_464",
   "name": "Giah",
-  "name_zh": "",
+  "name_zh": "基亚",
   "lon": 35.3432,
   "lat": 31.869,
   "kind": "",
@@ -8282,7 +8282,7 @@
  {
   "id": "gibeath-elohim_468",
   "name": "Gibeath-elohim",
-  "name_zh": "",
+  "name_zh": "神的山",
   "lon": 35.221,
   "lat": 31.9305,
   "kind": "",
@@ -8292,7 +8292,7 @@
  {
   "id": "gibeath-haaraloth_469",
   "name": "Gibeath-haaraloth",
-  "name_zh": "",
+  "name_zh": "除皮山",
   "lon": 35.5185,
   "lat": 31.8638,
   "kind": "",
@@ -8302,7 +8302,7 @@
  {
   "id": "gidom_471",
   "name": "Gidom",
-  "name_zh": "",
+  "name_zh": "基顿",
   "lon": 35.2971,
   "lat": 31.9347,
   "kind": "",
@@ -8312,7 +8312,7 @@
  {
   "id": "gilo_478",
   "name": "Gilo",
-  "name_zh": "",
+  "name_zh": "基罗",
   "lon": 35.0833,
   "lat": 31.6167,
   "kind": "",
@@ -8322,7 +8322,7 @@
  {
   "id": "gimzo_480",
   "name": "Gimzo",
-  "name_zh": "",
+  "name_zh": "瑾锁",
   "lon": 34.9432,
   "lat": 31.9287,
   "kind": "City",
@@ -8332,7 +8332,7 @@
  {
   "id": "goah_482",
   "name": "Goah",
-  "name_zh": "",
+  "name_zh": "歌亚",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "",
@@ -8342,7 +8342,7 @@
  {
   "id": "gog_484",
   "name": "Gog",
-  "name_zh": "",
+  "name_zh": "歌革",
   "lon": 47.0,
   "lat": 46.0,
   "kind": "Region",
@@ -8352,7 +8352,7 @@
  {
   "id": "gudgodah_496",
   "name": "Gudgodah",
-  "name_zh": "",
+  "name_zh": "谷歌大",
   "lon": 35.1903,
   "lat": 30.3583,
   "kind": "",
@@ -8362,7 +8362,7 @@
  {
   "id": "gur_497",
   "name": "Gur",
-  "name_zh": "",
+  "name_zh": "姑珥",
   "lon": 35.2833,
   "lat": 32.45,
   "kind": "",
@@ -8372,7 +8372,7 @@
  {
   "id": "gurbaal_498",
   "name": "Gurbaal",
-  "name_zh": "",
+  "name_zh": "姑珥巴力",
   "lon": 35.6063,
   "lat": 30.7347,
   "kind": "",
@@ -8382,7 +8382,7 @@
  {
   "id": "hadad-rimmon_501",
   "name": "Hadad-rimmon",
-  "name_zh": "",
+  "name_zh": "哈达临门",
   "lon": 35.2051,
   "lat": 32.5241,
   "kind": "Landmark",
@@ -8392,7 +8392,7 @@
  {
   "id": "hadashah_502",
   "name": "Hadashah",
-  "name_zh": "",
+  "name_zh": "哈大沙",
   "lon": 34.6959,
   "lat": 31.6795,
   "kind": "City",
@@ -8402,7 +8402,7 @@
  {
   "id": "hadrach_504",
   "name": "Hadrach",
-  "name_zh": "",
+  "name_zh": "哈得拉",
   "lon": 36.3134,
   "lat": 33.5193,
   "kind": "Region",
@@ -8412,7 +8412,7 @@
  {
   "id": "haeleph_505",
   "name": "Haeleph",
-  "name_zh": "",
+  "name_zh": "以利弗",
   "lon": 35.1969,
   "lat": 31.7927,
   "kind": "",
@@ -8422,7 +8422,7 @@
  {
   "id": "hahiroth_506",
   "name": "Hahiroth",
-  "name_zh": "",
+  "name_zh": "哈希录",
   "lon": 32.4251,
   "lat": 29.9466,
   "kind": "",
@@ -8432,7 +8432,7 @@
  {
   "id": "hakkephirim_507",
   "name": "Hakkephirim",
-  "name_zh": "",
+  "name_zh": "基非林",
   "lon": 34.8667,
   "lat": 32.0222,
   "kind": "",
@@ -8442,7 +8442,7 @@
  {
   "id": "halhul_509",
   "name": "Halhul",
-  "name_zh": "",
+  "name_zh": "哈忽",
   "lon": 35.0991,
   "lat": 31.5795,
   "kind": "City",
@@ -8452,7 +8452,7 @@
  {
   "id": "hali_510",
   "name": "Hali",
-  "name_zh": "",
+  "name_zh": "哈利",
   "lon": 35.2708,
   "lat": 32.9347,
   "kind": "",
@@ -8462,7 +8462,7 @@
  {
   "id": "ham_514",
   "name": "Ham",
-  "name_zh": "",
+  "name_zh": "哈麦",
   "lon": 35.9241,
   "lat": 31.9502,
   "kind": "Region",
@@ -8472,7 +8472,7 @@
  {
   "id": "hamath-zobah_517",
   "name": "Hamath-zobah",
-  "name_zh": "",
+  "name_zh": "哈马琐巴",
   "lon": 36.7495,
   "lat": 35.1362,
   "kind": "",
@@ -8482,7 +8482,7 @@
  {
   "id": "hammoth-dor_520",
   "name": "Hammoth-dor",
-  "name_zh": "",
+  "name_zh": "哈末·多珥",
   "lon": 35.165,
   "lat": 33.1258,
   "kind": "City",
@@ -8492,7 +8492,7 @@
  {
   "id": "hamonah_521",
   "name": "Hamonah",
-  "name_zh": "",
+  "name_zh": "哈摩那",
   "lon": 35.7828,
   "lat": 31.4968,
   "kind": "",
@@ -8502,7 +8502,7 @@
  {
   "id": "hanes_522",
   "name": "Hanes",
-  "name_zh": "",
+  "name_zh": "哈内斯",
   "lon": 30.9344,
   "lat": 29.0854,
   "kind": "City",
@@ -8512,7 +8512,7 @@
  {
   "id": "hannathon_523",
   "name": "Hannathon",
-  "name_zh": "",
+  "name_zh": "哈拿顿",
   "lon": 35.4266,
   "lat": 32.916,
   "kind": "",
@@ -8522,7 +8522,7 @@
  {
   "id": "hapharaim_524",
   "name": "Hapharaim",
-  "name_zh": "",
+  "name_zh": "哈弗连",
   "lon": 35.2883,
   "lat": 32.6087,
   "kind": "",
@@ -8532,7 +8532,7 @@
  {
   "id": "hara_525",
   "name": "Hara",
-  "name_zh": "",
+  "name_zh": "哈拉",
   "lon": 40.7893,
   "lat": 36.345,
   "kind": "Region",
@@ -8542,7 +8542,7 @@
  {
   "id": "harmon_528",
   "name": "Harmon",
-  "name_zh": "",
+  "name_zh": "哈门",
   "lon": 35.1979,
   "lat": 32.2802,
   "kind": "",
@@ -8552,7 +8552,7 @@
  {
   "id": "hazar-addar_536",
   "name": "Hazar-addar",
-  "name_zh": "",
+  "name_zh": "哈萨·亚达",
   "lon": 34.7187,
   "lat": 30.9522,
   "kind": "City",
@@ -8562,7 +8562,7 @@
  {
   "id": "hazar-gaddah_538",
   "name": "Hazar-gaddah",
-  "name_zh": "",
+  "name_zh": "哈萨·迦大",
   "lon": 35.0571,
   "lat": 31.1623,
   "kind": "City",
@@ -8572,7 +8572,7 @@
  {
   "id": "hazar-susah_540",
   "name": "Hazar-susah",
-  "name_zh": "",
+  "name_zh": "哈萨·苏撒",
   "lon": 34.9405,
   "lat": 31.3917,
   "kind": "City",
@@ -8582,7 +8582,7 @@
  {
   "id": "hazar-susim_541",
   "name": "Hazar-susim",
-  "name_zh": "",
+  "name_zh": "哈萨·苏撒",
   "lon": 34.9405,
   "lat": 31.3917,
   "kind": "",
@@ -8592,7 +8592,7 @@
  {
   "id": "hazer-hatticon_543",
   "name": "Hazer-hatticon",
-  "name_zh": "",
+  "name_zh": "哈撒·哈提干",
   "lon": 36.7495,
   "lat": 35.1362,
   "kind": "",
@@ -8632,7 +8632,7 @@
  {
   "id": "hazor-hadattah_550",
   "name": "Hazor-hadattah",
-  "name_zh": "",
+  "name_zh": "夏琐·哈大他",
   "lon": 35.0571,
   "lat": 31.1623,
   "kind": "City",
@@ -8642,7 +8642,7 @@
  {
   "id": "helbah_553",
   "name": "Helbah",
-  "name_zh": "",
+  "name_zh": "黑巴",
   "lon": 35.8658,
   "lat": 34.0661,
   "kind": "City",
@@ -8652,7 +8652,7 @@
  {
   "id": "helbon_554",
   "name": "Helbon",
-  "name_zh": "",
+  "name_zh": "黑本",
   "lon": 36.2486,
   "lat": 33.6649,
   "kind": "",
@@ -8662,7 +8662,7 @@
  {
   "id": "helech_555",
   "name": "Helech",
-  "name_zh": "",
+  "name_zh": "希利",
   "lon": 35.8585,
   "lat": 34.8561,
   "kind": "",
@@ -8672,7 +8672,7 @@
  {
   "id": "heleph_556",
   "name": "Heleph",
-  "name_zh": "",
+  "name_zh": "希利弗",
   "lon": 35.3322,
   "lat": 33.1344,
   "kind": "City",
@@ -8682,7 +8682,7 @@
  {
   "id": "heliopolis_557",
   "name": "Heliopolis",
-  "name_zh": "",
+  "name_zh": "伯·示麦（埃及）",
   "lon": 31.3382,
   "lat": 30.1081,
   "kind": "",
@@ -8692,7 +8692,7 @@
  {
   "id": "helkath-hazzurim_559",
   "name": "Helkath-hazzurim",
-  "name_zh": "",
+  "name_zh": "希利甲·哈素林",
   "lon": 35.2802,
   "lat": 31.8801,
   "kind": "",
@@ -8702,7 +8702,7 @@
  {
   "id": "heres_562",
   "name": "Heres",
-  "name_zh": "",
+  "name_zh": "希列斯",
   "lon": 35.6333,
   "lat": 32.2,
   "kind": "",
@@ -8712,7 +8712,7 @@
  {
   "id": "hereth_563",
   "name": "Hereth",
-  "name_zh": "",
+  "name_zh": "哈列",
   "lon": 35.0293,
   "lat": 31.6215,
   "kind": "Landmark",
@@ -8722,7 +8722,7 @@
  {
   "id": "heshmon_566",
   "name": "Heshmon",
-  "name_zh": "",
+  "name_zh": "黑实门",
   "lon": 34.943,
   "lat": 31.2154,
   "kind": "City",
@@ -8732,7 +8732,7 @@
  {
   "id": "hezron_568",
   "name": "Hezron",
-  "name_zh": "",
+  "name_zh": "希斯仑",
   "lon": 35.568,
   "lat": 33.0172,
   "kind": "Landmark",
@@ -8742,7 +8742,7 @@
  {
   "id": "hierapolis_569",
   "name": "Hierapolis",
-  "name_zh": "",
+  "name_zh": "希拉坡里",
   "lon": 29.1245,
   "lat": 37.9245,
   "kind": "City",
@@ -8752,7 +8752,7 @@
  {
   "id": "hilen_570",
   "name": "Hilen",
-  "name_zh": "",
+  "name_zh": "希仑",
   "lon": 34.95,
   "lat": 31.5833,
   "kind": "",
@@ -8762,7 +8762,7 @@
  {
   "id": "hill_mizar_847",
   "name": "Hill Mizar",
-  "name_zh": "",
+  "name_zh": "米萨山",
   "lon": 35.8573,
   "lat": 33.4162,
   "kind": "Mountain",
@@ -8772,7 +8772,7 @@
  {
   "id": "hobah_571",
   "name": "Hobah",
-  "name_zh": "",
+  "name_zh": "何把",
   "lon": 36.4667,
   "lat": 33.5,
   "kind": "",
@@ -8782,7 +8782,7 @@
  {
   "id": "holon_573",
   "name": "Holon",
-  "name_zh": "",
+  "name_zh": "何伦",
   "lon": 35.9206,
   "lat": 31.501,
   "kind": "",
@@ -8792,7 +8792,7 @@
  {
   "id": "horem_577",
   "name": "Horem",
-  "name_zh": "",
+  "name_zh": "和琏",
   "lon": 35.4333,
   "lat": 33.1667,
   "kind": "City",
@@ -8802,7 +8802,7 @@
  {
   "id": "hosah_583",
   "name": "Hosah",
-  "name_zh": "",
+  "name_zh": "何萨",
   "lon": 35.2276,
   "lat": 32.1785,
   "kind": "",
@@ -8812,7 +8812,7 @@
  {
   "id": "hukkok_586",
   "name": "Hukkok",
-  "name_zh": "",
+  "name_zh": "户割",
   "lon": 35.4967,
   "lat": 32.8822,
   "kind": "City",
@@ -8822,7 +8822,7 @@
  {
   "id": "hukok_587",
   "name": "Hukok",
-  "name_zh": "",
+  "name_zh": "户割",
   "lon": 35.212,
   "lat": 32.9554,
   "kind": "City",
@@ -8832,7 +8832,7 @@
  {
   "id": "humtah_588",
   "name": "Humtah",
-  "name_zh": "",
+  "name_zh": "宏他",
   "lon": 35.0941,
   "lat": 31.5358,
   "kind": "",
@@ -8842,7 +8842,7 @@
  {
   "id": "idalah_591",
   "name": "Idalah",
-  "name_zh": "",
+  "name_zh": "以大拉",
   "lon": 35.1667,
   "lat": 32.7333,
   "kind": "City",
@@ -8852,7 +8852,7 @@
  {
   "id": "idumea_592",
   "name": "Idumea",
-  "name_zh": "",
+  "name_zh": "以土买",
   "lon": 35.6063,
   "lat": 30.7347,
   "kind": "",
@@ -8862,7 +8862,7 @@
  {
   "id": "iim_593",
   "name": "Iim",
-  "name_zh": "",
+  "name_zh": "以因",
   "lon": 35.7334,
   "lat": 32.05,
   "kind": "City",
@@ -8872,7 +8872,7 @@
  {
   "id": "illyricum_595",
   "name": "Illyricum",
-  "name_zh": "",
+  "name_zh": "以利哩古",
   "lon": 16.0715,
   "lat": 43.5155,
   "kind": "Region",
@@ -8882,7 +8882,7 @@
  {
   "id": "iphtah_598",
   "name": "Iphtah",
-  "name_zh": "",
+  "name_zh": "益弗他",
   "lon": 34.9365,
   "lat": 31.8099,
   "kind": "",
@@ -8892,7 +8892,7 @@
  {
   "id": "ir-shemesh_600",
   "name": "Ir-shemesh",
-  "name_zh": "",
+  "name_zh": "伊珥·示麦",
   "lon": 34.9766,
   "lat": 31.7527,
   "kind": "",
@@ -8902,7 +8902,7 @@
  {
   "id": "irpeel_599",
   "name": "Irpeel",
-  "name_zh": "",
+  "name_zh": "伊利毘勒",
   "lon": 35.1977,
   "lat": 31.8693,
   "kind": "",
@@ -8912,7 +8912,7 @@
  {
   "id": "ithlah_602",
   "name": "Ithlah",
-  "name_zh": "",
+  "name_zh": "伊提拉",
   "lon": 35.0758,
   "lat": 31.8236,
   "kind": "City",
@@ -8922,7 +8922,7 @@
  {
   "id": "ithnan_603",
   "name": "Ithnan",
-  "name_zh": "",
+  "name_zh": "以提楠",
   "lon": 35.0571,
   "lat": 31.1623,
   "kind": "",
@@ -8932,7 +8932,7 @@
  {
   "id": "ituraea_604",
   "name": "Ituraea",
-  "name_zh": "",
+  "name_zh": "以土利亚",
   "lon": 35.8573,
   "lat": 33.4162,
   "kind": "Region",
@@ -8942,7 +8942,7 @@
  {
   "id": "iyim_607",
   "name": "Iyim",
-  "name_zh": "",
+  "name_zh": "以耶",
   "lon": 35.7828,
   "lat": 31.4968,
   "kind": "",
@@ -8952,7 +8952,7 @@
  {
   "id": "jabez_612",
   "name": "Jabez",
-  "name_zh": "",
+  "name_zh": "雅比斯",
   "lon": 35.2103,
   "lat": 31.7054,
   "kind": "",
@@ -8962,7 +8962,7 @@
  {
   "id": "jabneel_613",
   "name": "Jabneel",
-  "name_zh": "",
+  "name_zh": "雅比聂",
   "lon": 34.7469,
   "lat": 31.8655,
   "kind": "City",
@@ -8972,7 +8972,7 @@
  {
   "id": "jabneel_614",
   "name": "Jabneel",
-  "name_zh": "",
+  "name_zh": "雅比聂",
   "lon": 35.5,
   "lat": 32.7,
   "kind": "City",
@@ -8982,7 +8982,7 @@
  {
   "id": "jabneh_615",
   "name": "Jabneh",
-  "name_zh": "",
+  "name_zh": "雅比尼",
   "lon": 34.7469,
   "lat": 31.8655,
   "kind": "",
@@ -8992,7 +8992,7 @@
  {
   "id": "jagur_616",
   "name": "Jagur",
-  "name_zh": "",
+  "name_zh": "雅姑珥",
   "lon": 34.9674,
   "lat": 31.1858,
   "kind": "City",
@@ -9002,7 +9002,7 @@
  {
   "id": "jair_619",
   "name": "Jair",
-  "name_zh": "",
+  "name_zh": "睚珥",
   "lon": 35.7242,
   "lat": 32.0425,
   "kind": "Region",
@@ -9012,7 +9012,7 @@
  {
   "id": "janim_620",
   "name": "Janim",
-  "name_zh": "",
+  "name_zh": "雅农",
   "lon": 35.1667,
   "lat": 31.5167,
   "kind": "City",
@@ -9022,7 +9022,7 @@
  {
   "id": "janoah_622",
   "name": "Janoah",
-  "name_zh": "",
+  "name_zh": "雅挪哈",
   "lon": 35.3616,
   "lat": 32.1559,
   "kind": "City",
@@ -9032,7 +9032,7 @@
  {
   "id": "japhia_623",
   "name": "Japhia",
-  "name_zh": "",
+  "name_zh": "雅非亚",
   "lon": 35.275,
   "lat": 32.6916,
   "kind": "City",
@@ -9042,7 +9042,7 @@
  {
   "id": "jarmuth_625",
   "name": "Jarmuth",
-  "name_zh": "",
+  "name_zh": "耶末",
   "lon": 35.3308,
   "lat": 32.556,
   "kind": "City",
@@ -9052,7 +9052,7 @@
  {
   "id": "jegar-sahadutha_631",
   "name": "Jegar-sahadutha",
-  "name_zh": "",
+  "name_zh": "伊迦尔·撒哈杜他",
   "lon": 36.0056,
   "lat": 32.5653,
   "kind": "",
@@ -9062,7 +9062,7 @@
  {
   "id": "jehud_632",
   "name": "Jehud",
-  "name_zh": "",
+  "name_zh": "伊胡得",
   "lon": 34.8896,
   "lat": 32.0336,
   "kind": "",
@@ -9072,7 +9072,7 @@
  {
   "id": "jekabzeel_633",
   "name": "Jekabzeel",
-  "name_zh": "",
+  "name_zh": "叶甲薛",
   "lon": 34.9674,
   "lat": 31.1858,
   "kind": "",
@@ -9082,7 +9082,7 @@
  {
   "id": "jeruel_635",
   "name": "Jeruel",
-  "name_zh": "",
+  "name_zh": "耶鲁伊勒",
   "lon": 35.4063,
   "lat": 31.5729,
   "kind": "Region",
@@ -9092,7 +9092,7 @@
  {
   "id": "jeshanah_638",
   "name": "Jeshanah",
-  "name_zh": "",
+  "name_zh": "耶沙拿",
   "lon": 35.2297,
   "lat": 31.98,
   "kind": "City",
@@ -9102,7 +9102,7 @@
  {
   "id": "jeshua_640",
   "name": "Jeshua",
-  "name_zh": "",
+  "name_zh": "耶书亚",
   "lon": 35.0571,
   "lat": 31.1623,
   "kind": "City",
@@ -9112,7 +9112,7 @@
  {
   "id": "jetur_641",
   "name": "Jetur",
-  "name_zh": "",
+  "name_zh": "伊突",
   "lon": 35.8573,
   "lat": 33.4162,
   "kind": "",
@@ -9122,7 +9122,7 @@
  {
   "id": "jezreel_644",
   "name": "Jezreel",
-  "name_zh": "",
+  "name_zh": "耶斯列",
   "lon": 35.3308,
   "lat": 32.556,
   "kind": "",
@@ -9132,7 +9132,7 @@
  {
   "id": "jokdeam_646",
   "name": "Jokdeam",
-  "name_zh": "",
+  "name_zh": "约甸",
   "lon": 35.0,
   "lat": 31.3667,
   "kind": "City",
@@ -9142,7 +9142,7 @@
  {
   "id": "jokmeam_647",
   "name": "Jokmeam",
-  "name_zh": "",
+  "name_zh": "约缅",
   "lon": 35.1089,
   "lat": 32.6645,
   "kind": "City",
@@ -9152,7 +9152,7 @@
  {
   "id": "jokmeam_648",
   "name": "Jokmeam",
-  "name_zh": "",
+  "name_zh": "约缅",
   "lon": 35.3,
   "lat": 31.8333,
   "kind": "City",
@@ -9162,7 +9162,7 @@
  {
   "id": "joktheel_650",
   "name": "Joktheel",
-  "name_zh": "",
+  "name_zh": "约帖",
   "lon": 34.8467,
   "lat": 31.5649,
   "kind": "",
@@ -9172,7 +9172,7 @@
  {
   "id": "joktheel_651",
   "name": "Joktheel",
-  "name_zh": "",
+  "name_zh": "约帖",
   "lon": 35.4563,
   "lat": 30.3224,
   "kind": "",
@@ -9182,7 +9182,7 @@
  {
   "id": "jotbah_655",
   "name": "Jotbah",
-  "name_zh": "",
+  "name_zh": "约提巴",
   "lon": 35.0306,
   "lat": 29.758,
   "kind": "",
@@ -9192,7 +9192,7 @@
  {
   "id": "judgment_511",
   "name": "Judgment",
-  "name_zh": "",
+  "name_zh": "审判廊",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "",
@@ -9202,7 +9202,7 @@
  {
   "id": "kadesh_662",
   "name": "Tahtimhodshi",
-  "name_zh": "",
+  "name_zh": "他停·合示",
   "lon": 36.5229,
   "lat": 34.5583,
   "kind": "",
@@ -9212,7 +9212,7 @@
  {
   "id": "kamon_665",
   "name": "Kamon",
-  "name_zh": "",
+  "name_zh": "加们",
   "lon": 35.7242,
   "lat": 32.0425,
   "kind": "City",
@@ -9222,7 +9222,7 @@
  {
   "id": "kanah_667",
   "name": "Kanah",
-  "name_zh": "",
+  "name_zh": "加拿河",
   "lon": 35.3388,
   "lat": 32.747,
   "kind": "City",
@@ -9232,7 +9232,7 @@
  {
   "id": "karka_668",
   "name": "Karka",
-  "name_zh": "",
+  "name_zh": "甲加",
   "lon": 34.3805,
   "lat": 30.9585,
   "kind": "",
@@ -9242,7 +9242,7 @@
  {
   "id": "karkor_669",
   "name": "Karkor",
-  "name_zh": "",
+  "name_zh": "加各",
   "lon": 35.7029,
   "lat": 32.1844,
   "kind": "",
@@ -9252,7 +9252,7 @@
  {
   "id": "karnaim_670",
   "name": "Karnaim",
-  "name_zh": "",
+  "name_zh": "加宁",
   "lon": 36.0167,
   "lat": 32.7667,
   "kind": "",
@@ -9262,7 +9262,7 @@
  {
   "id": "kartah_671",
   "name": "Kartah",
-  "name_zh": "",
+  "name_zh": "加珥他",
   "lon": 35.2793,
   "lat": 32.7531,
   "kind": "City",
@@ -9272,7 +9272,7 @@
  {
   "id": "kartan_672",
   "name": "Kartan",
-  "name_zh": "",
+  "name_zh": "加珥坦",
   "lon": 35.165,
   "lat": 33.1258,
   "kind": "City",
@@ -9282,7 +9282,7 @@
  {
   "id": "kattath_673",
   "name": "Kattath",
-  "name_zh": "",
+  "name_zh": "加他",
   "lon": 35.2793,
   "lat": 32.7531,
   "kind": "City",
@@ -9292,7 +9292,7 @@
  {
   "id": "kedesh_677",
   "name": "Kedesh",
-  "name_zh": "",
+  "name_zh": "基低斯",
   "lon": 34.4948,
   "lat": 30.6877,
   "kind": "",
@@ -9302,7 +9302,7 @@
  {
   "id": "kedesh_678",
   "name": "Kedesh",
-  "name_zh": "",
+  "name_zh": "基低斯",
   "lon": 35.2462,
   "lat": 32.5591,
   "kind": "City",
@@ -9312,7 +9312,7 @@
  {
   "id": "kedesh-naphtali_679",
   "name": "Kedesh-naphtali",
-  "name_zh": "",
+  "name_zh": "拿弗他利的基低斯",
   "lon": 35.5336,
   "lat": 33.113,
   "kind": "",
@@ -9322,7 +9322,7 @@
  {
   "id": "kerioth-hezron_684",
   "name": "Kerioth-hezron",
-  "name_zh": "",
+  "name_zh": "加略·希斯仑",
   "lon": 35.0571,
   "lat": 31.1623,
   "kind": "City",
@@ -9332,7 +9332,7 @@
  {
   "id": "kibzaim_686",
   "name": "Kibzaim",
-  "name_zh": "",
+  "name_zh": "基伯先",
   "lon": 35.3,
   "lat": 31.8333,
   "kind": "City",
@@ -9342,7 +9342,7 @@
  {
   "id": "kinah_689",
   "name": "Kinah",
-  "name_zh": "",
+  "name_zh": "基拿",
   "lon": 34.9674,
   "lat": 31.1858,
   "kind": "City",
@@ -9352,7 +9352,7 @@
  {
   "id": "kiriath-arim_698",
   "name": "Kiriath-arim",
-  "name_zh": "",
+  "name_zh": "基列·耶琳",
   "lon": 34.9938,
   "lat": 31.7711,
   "kind": "",
@@ -9362,7 +9362,7 @@
  {
   "id": "kiriath-huzoth_700",
   "name": "Kiriath-huzoth",
-  "name_zh": "",
+  "name_zh": "基列·胡琐",
   "lon": 35.7186,
   "lat": 31.765,
   "kind": "",
@@ -9372,7 +9372,7 @@
  {
   "id": "kiriath-sannah_702",
   "name": "Kiriath-sannah",
-  "name_zh": "",
+  "name_zh": "基列·萨拿",
   "lon": 34.9667,
   "lat": 31.4167,
   "kind": "",
@@ -9382,7 +9382,7 @@
  {
   "id": "kiriathaim_696",
   "name": "Kiriathaim",
-  "name_zh": "",
+  "name_zh": "基列亭",
   "lon": 35.165,
   "lat": 33.1258,
   "kind": "City",
@@ -9392,7 +9392,7 @@
  {
   "id": "kitron_706",
   "name": "Kitron",
-  "name_zh": "",
+  "name_zh": "基伦",
   "lon": 35.2793,
   "lat": 32.7531,
   "kind": "City",
@@ -9402,7 +9402,7 @@
  {
   "id": "koa_708",
   "name": "Koa",
-  "name_zh": "",
+  "name_zh": "哥亚",
   "lon": 48.515,
   "lat": 34.7983,
   "kind": "",
@@ -9412,7 +9412,7 @@
  {
   "id": "laban_710",
   "name": "Laban",
-  "name_zh": "",
+  "name_zh": "拉班",
   "lon": 34.9365,
   "lat": 31.8099,
   "kind": "City",
@@ -9422,7 +9422,7 @@
  {
   "id": "lahmam_712",
   "name": "Lahmam",
-  "name_zh": "",
+  "name_zh": "拉幔",
   "lon": 34.9,
   "lat": 31.5667,
   "kind": "",
@@ -9432,7 +9432,7 @@
  {
   "id": "laishah_714",
   "name": "Laishah",
-  "name_zh": "",
+  "name_zh": "莱煞",
   "lon": 35.25,
   "lat": 31.8,
   "kind": "",
@@ -9442,7 +9442,7 @@
  {
   "id": "lakkum_715",
   "name": "Lakkum",
-  "name_zh": "",
+  "name_zh": "拉共",
   "lon": 35.3909,
   "lat": 32.687,
   "kind": "",
@@ -9452,7 +9452,7 @@
  {
   "id": "lasha_718",
   "name": "Lasha",
-  "name_zh": "",
+  "name_zh": "拉沙",
   "lon": 35.5848,
   "lat": 31.7181,
   "kind": "City",
@@ -9462,7 +9462,7 @@
  {
   "id": "lasharon_719",
   "name": "Lasharon",
-  "name_zh": "",
+  "name_zh": "拉沙仑",
   "lon": 35.467,
   "lat": 32.7254,
   "kind": "",
@@ -9472,7 +9472,7 @@
  {
   "id": "leb-kamai_722",
   "name": "Leb-kamai",
-  "name_zh": "",
+  "name_zh": "立加米",
   "lon": 46.1037,
   "lat": 30.9621,
   "kind": "",
@@ -9482,7 +9482,7 @@
  {
   "id": "lebaoth_721",
   "name": "Lebaoth",
-  "name_zh": "",
+  "name_zh": "利巴勿",
   "lon": 34.9405,
   "lat": 31.3917,
   "kind": "",
@@ -9492,7 +9492,7 @@
  {
   "id": "lebonah_724",
   "name": "Lebonah",
-  "name_zh": "",
+  "name_zh": "利波拿",
   "lon": 35.2399,
   "lat": 32.0708,
   "kind": "City",
@@ -9502,7 +9502,7 @@
  {
   "id": "lehem_725",
   "name": "Lehem",
-  "name_zh": "",
+  "name_zh": "利恒",
   "lon": 35.2103,
   "lat": 31.7054,
   "kind": "",
@@ -9512,7 +9512,7 @@
  {
   "id": "leshem_727",
   "name": "Leshem",
-  "name_zh": "",
+  "name_zh": "利善",
   "lon": 35.6525,
   "lat": 33.2487,
   "kind": "",
@@ -9522,7 +9522,7 @@
  {
   "id": "luz_738",
   "name": "Luz",
-  "name_zh": "",
+  "name_zh": "路斯",
   "lon": 36.57,
   "lat": 37.0,
   "kind": "",
@@ -9532,7 +9532,7 @@
  {
   "id": "lycaonia_739",
   "name": "Lycaonia",
-  "name_zh": "",
+  "name_zh": "吕高尼",
   "lon": 32.75,
   "lat": 37.5,
   "kind": "Region",
@@ -9552,7 +9552,7 @@
  {
   "id": "maacath_744",
   "name": "Maacath",
-  "name_zh": "",
+  "name_zh": "玛迦",
   "lon": 36.5,
   "lat": 33.2,
   "kind": "",
@@ -9562,7 +9562,7 @@
  {
   "id": "maarath_745",
   "name": "Maarath",
-  "name_zh": "",
+  "name_zh": "玛腊",
   "lon": 35.1023,
   "lat": 31.621,
   "kind": "",
@@ -9572,7 +9572,7 @@
  {
   "id": "maareh-geba_746",
   "name": "Maareh-geba",
-  "name_zh": "",
+  "name_zh": "马利·迦巴",
   "lon": 35.231,
   "lat": 31.8238,
   "kind": "",
@@ -9582,7 +9582,7 @@
  {
   "id": "madmen_750",
   "name": "Madmen",
-  "name_zh": "",
+  "name_zh": "玛得缅",
   "lon": 35.7828,
   "lat": 31.4968,
   "kind": "City",
@@ -9592,7 +9592,7 @@
  {
   "id": "madmenah_751",
   "name": "Madmenah",
-  "name_zh": "",
+  "name_zh": "玛得米那",
   "lon": 35.25,
   "lat": 31.8,
   "kind": "City",
@@ -9602,7 +9602,7 @@
  {
   "id": "magadan_753",
   "name": "Magadan",
-  "name_zh": "",
+  "name_zh": "马加丹",
   "lon": 35.5229,
   "lat": 32.8473,
   "kind": "City",
@@ -9612,7 +9612,7 @@
  {
   "id": "mahalab_755",
   "name": "Mahalab",
-  "name_zh": "",
+  "name_zh": "玛哈拉",
   "lon": 35.4454,
   "lat": 33.025,
   "kind": "",
@@ -9622,7 +9622,7 @@
  {
   "id": "makaz_758",
   "name": "Makaz",
-  "name_zh": "",
+  "name_zh": "玛迦斯",
   "lon": 34.9817,
   "lat": 31.8704,
   "kind": "",
@@ -9632,7 +9632,7 @@
  {
   "id": "manahath_763",
   "name": "Manahath",
-  "name_zh": "",
+  "name_zh": "玛拿辖",
   "lon": 35.182,
   "lat": 31.7526,
   "kind": "",
@@ -9642,7 +9642,7 @@
  {
   "id": "mareal_766",
   "name": "Mareal",
-  "name_zh": "",
+  "name_zh": "玛拉拉",
   "lon": 35.2418,
   "lat": 32.6974,
   "kind": "",
@@ -9652,7 +9652,7 @@
  {
   "id": "maroth_768",
   "name": "Maroth",
-  "name_zh": "",
+  "name_zh": "玛律",
   "lon": 34.694,
   "lat": 31.7437,
   "kind": "",
@@ -9662,7 +9662,7 @@
  {
   "id": "mashal_769",
   "name": "Mashal",
-  "name_zh": "",
+  "name_zh": "玛沙",
   "lon": 35.1725,
   "lat": 33.0463,
   "kind": "City",
@@ -9672,7 +9672,7 @@
  {
   "id": "me-jarkon_778",
   "name": "Me-jarkon",
-  "name_zh": "",
+  "name_zh": "美·耶昆",
   "lon": 34.7881,
   "lat": 32.1329,
   "kind": "Water",
@@ -9682,7 +9682,7 @@
  {
   "id": "mearah_773",
   "name": "Mearah",
-  "name_zh": "",
+  "name_zh": "米亚拉",
   "lon": 35.4333,
   "lat": 33.6333,
   "kind": "Landmark",
@@ -9692,7 +9692,7 @@
  {
   "id": "meconah_774",
   "name": "Meconah",
-  "name_zh": "",
+  "name_zh": "米哥拿",
   "lon": 34.8607,
   "lat": 31.3708,
   "kind": "City",
@@ -9712,7 +9712,7 @@
  {
   "id": "merathaim_781",
   "name": "Merathaim",
-  "name_zh": "",
+  "name_zh": "米拉大翁",
   "lon": 44.4209,
   "lat": 32.5365,
   "kind": "",
@@ -9722,7 +9722,7 @@
  {
   "id": "meroz_786",
   "name": "Meroz",
-  "name_zh": "",
+  "name_zh": "米罗斯",
   "lon": 35.3909,
   "lat": 32.687,
   "kind": "",
@@ -9732,7 +9732,7 @@
  {
   "id": "mesha_787",
   "name": "Mesha",
-  "name_zh": "",
+  "name_zh": "米沙",
   "lon": 34.8591,
   "lat": 28.8573,
   "kind": "City",
@@ -9742,7 +9742,7 @@
  {
   "id": "meshech-tubal_789",
   "name": "Meshech-Tubal",
-  "name_zh": "",
+  "name_zh": "米设·土巴",
   "lon": 47.0,
   "lat": 46.0,
   "kind": "",
@@ -9752,7 +9752,7 @@
  {
   "id": "metheg-ammah_791",
   "name": "Metheg-ammah",
-  "name_zh": "",
+  "name_zh": "米特·亚玛",
   "lon": 34.8439,
   "lat": 31.6935,
   "kind": "",
@@ -9762,7 +9762,7 @@
  {
   "id": "middin_795",
   "name": "Middin",
-  "name_zh": "",
+  "name_zh": "密丁",
   "lon": 35.4016,
   "lat": 31.7439,
   "kind": "City",
@@ -9772,7 +9772,7 @@
  {
   "id": "migdal-el_797",
   "name": "Migdal-el",
-  "name_zh": "",
+  "name_zh": "密大·伊勒",
   "lon": 35.3629,
   "lat": 33.2321,
   "kind": "City",
@@ -9782,7 +9782,7 @@
  {
   "id": "migdal-gad_798",
   "name": "Migdal-gad",
-  "name_zh": "",
+  "name_zh": "麦大·迦得",
   "lon": 34.5833,
   "lat": 31.6667,
   "kind": "City",
@@ -9792,7 +9792,7 @@
  {
   "id": "minni_803",
   "name": "Minni",
-  "name_zh": "",
+  "name_zh": "米尼",
   "lon": 44.6,
   "lat": 40.6,
   "kind": "",
@@ -9812,7 +9812,7 @@
  {
   "id": "mizpah_810",
   "name": "Mizpah",
-  "name_zh": "",
+  "name_zh": "米斯巴",
   "lon": 35.5734,
   "lat": 33.2818,
   "kind": "",
@@ -9822,7 +9822,7 @@
  {
   "id": "mizpeh_812",
   "name": "Mizpeh",
-  "name_zh": "",
+  "name_zh": "米斯巴",
   "lon": 35.1802,
   "lat": 31.8327,
   "kind": "",
@@ -9832,7 +9832,7 @@
  {
   "id": "mizpeh_813",
   "name": "Mizpeh",
-  "name_zh": "",
+  "name_zh": "米斯巴",
   "lon": 34.8467,
   "lat": 31.5649,
   "kind": "",
@@ -9842,7 +9842,7 @@
  {
   "id": "mizpeh_814",
   "name": "Mizpeh",
-  "name_zh": "",
+  "name_zh": "米斯巴",
   "lon": 35.7021,
   "lat": 31.1813,
   "kind": "City",
@@ -9852,7 +9852,7 @@
  {
   "id": "moreh_818",
   "name": "Moreh (little Hermon)",
-  "name_zh": "",
+  "name_zh": "摩利（小黑门）",
   "lon": 35.3574,
   "lat": 32.6177,
   "kind": "",
@@ -9862,7 +9862,7 @@
  {
   "id": "moresheth-gath_820",
   "name": "Moresheth-gath",
-  "name_zh": "",
+  "name_zh": "摩利设·迦特",
   "lon": 34.9024,
   "lat": 31.6039,
   "kind": "",
@@ -9872,7 +9872,7 @@
  {
   "id": "mortar_822",
   "name": "Mortar",
-  "name_zh": "",
+  "name_zh": "玛革提施",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "",
@@ -9882,7 +9882,7 @@
  {
   "id": "moserah_823",
   "name": "Moserah",
-  "name_zh": "",
+  "name_zh": "摩西拉",
   "lon": 35.4072,
   "lat": 30.3174,
   "kind": "",
@@ -9892,7 +9892,7 @@
  {
   "id": "mount_baalah_830",
   "name": "Mount Baalah",
-  "name_zh": "",
+  "name_zh": "巴拉山",
   "lon": 34.7469,
   "lat": 31.8655,
   "kind": "Mountain",
@@ -9902,7 +9902,7 @@
  {
   "id": "mount_baalhermon_829",
   "name": "Mount Baalhermon",
-  "name_zh": "",
+  "name_zh": "巴力·黑们山",
   "lon": 35.8573,
   "lat": 33.4162,
   "kind": "Mountain",
@@ -9912,7 +9912,7 @@
  {
   "id": "mount_ephraim_833",
   "name": "Mount Ephraim",
-  "name_zh": "",
+  "name_zh": "以法莲山",
   "lon": 35.273,
   "lat": 32.2329,
   "kind": "Mountain",
@@ -9922,7 +9922,7 @@
  {
   "id": "mount_ephron_834",
   "name": "Mount Ephron",
-  "name_zh": "",
+  "name_zh": "以弗仑山",
   "lon": 35.0424,
   "lat": 31.6757,
   "kind": "Mountain",
@@ -9932,7 +9932,7 @@
  {
   "id": "mount_gilead_838",
   "name": "Mount Gilead",
-  "name_zh": "",
+  "name_zh": "基列山",
   "lon": 35.4084,
   "lat": 32.5098,
   "kind": "Mountain",
@@ -9942,7 +9942,7 @@
  {
   "id": "mount_heres_840",
   "name": "Mount Heres",
-  "name_zh": "",
+  "name_zh": "希烈山",
   "lon": 34.9766,
   "lat": 31.7527,
   "kind": "Mountain",
@@ -9952,7 +9952,7 @@
  {
   "id": "mount_horeb_844",
   "name": "Mount Horeb",
-  "name_zh": "",
+  "name_zh": "何烈山",
   "lon": 33.9733,
   "lat": 28.5397,
   "kind": "Mountain",
@@ -9962,7 +9962,7 @@
  {
   "id": "mount_jearim_845",
   "name": "Mount Jearim",
-  "name_zh": "",
+  "name_zh": "耶琳山",
   "lon": 35.0511,
   "lat": 31.781,
   "kind": "Mountain",
@@ -9972,7 +9972,7 @@
  {
   "id": "mount_lebanon_846",
   "name": "Mount Lebanon",
-  "name_zh": "",
+  "name_zh": "黎巴嫩山",
   "lon": 35.5908,
   "lat": 33.7525,
   "kind": "Mountain",
@@ -9982,7 +9982,7 @@
  {
   "id": "mount_moriah_848",
   "name": "Mount Moriah",
-  "name_zh": "",
+  "name_zh": "摩利亚山",
   "lon": 35.2353,
   "lat": 31.7776,
   "kind": "Mountain",
@@ -10002,7 +10002,7 @@
  {
   "id": "mount_perazim_851",
   "name": "Mount Perazim",
-  "name_zh": "",
+  "name_zh": "毘拉心山",
   "lon": 35.2231,
   "lat": 31.7563,
   "kind": "Mountain",
@@ -10012,7 +10012,7 @@
  {
   "id": "mount_seir_853",
   "name": "Mount Seir",
-  "name_zh": "",
+  "name_zh": "西珥山",
   "lon": 34.994,
   "lat": 31.7833,
   "kind": "Mountain",
@@ -10022,7 +10022,7 @@
  {
   "id": "mount_sion_856",
   "name": "Mount Sion",
-  "name_zh": "",
+  "name_zh": "西云山",
   "lon": 35.8573,
   "lat": 33.4162,
   "kind": "Mountain",
@@ -10032,7 +10032,7 @@
  {
   "id": "mount_zalmon_858",
   "name": "Mount Zalmon",
-  "name_zh": "",
+  "name_zh": "撒们山",
   "lon": 35.273,
   "lat": 32.2329,
   "kind": "Mountain",
@@ -10042,7 +10042,7 @@
  {
   "id": "mount_zemaraim_859",
   "name": "Mount Zemaraim",
-  "name_zh": "",
+  "name_zh": "洗玛脸山",
   "lon": 35.4573,
   "lat": 31.911,
   "kind": "Mountain",
@@ -10052,7 +10052,7 @@
  {
   "id": "mozah_862",
   "name": "Mozah",
-  "name_zh": "",
+  "name_zh": "摩撒",
   "lon": 35.1584,
   "lat": 31.8026,
   "kind": "City",
@@ -10072,7 +10072,7 @@
  {
   "id": "naamah_866",
   "name": "Naamah",
-  "name_zh": "",
+  "name_zh": "拿玛",
   "lon": 34.8719,
   "lat": 31.8718,
   "kind": "City",
@@ -10082,7 +10082,7 @@
  {
   "id": "naarah_867",
   "name": "Naarah",
-  "name_zh": "",
+  "name_zh": "拿拉",
   "lon": 35.4587,
   "lat": 31.9495,
   "kind": "City",
@@ -10092,7 +10092,7 @@
  {
   "id": "naaran_868",
   "name": "Naaran",
-  "name_zh": "",
+  "name_zh": "拿兰",
   "lon": 35.4587,
   "lat": 31.9495,
   "kind": "City",
@@ -10102,7 +10102,7 @@
  {
   "id": "nahaliel_870",
   "name": "Nahaliel",
-  "name_zh": "",
+  "name_zh": "拿哈列",
   "lon": 35.5848,
   "lat": 31.7181,
   "kind": "Valley",
@@ -10112,7 +10112,7 @@
  {
   "id": "nahalol_871",
   "name": "Nahalol",
-  "name_zh": "",
+  "name_zh": "拿哈拉",
   "lon": 35.3528,
   "lat": 32.7222,
   "kind": "",
@@ -10132,7 +10132,7 @@
  {
   "id": "naphath_874",
   "name": "Naphath",
-  "name_zh": "",
+  "name_zh": "拿法",
   "lon": 35.1823,
   "lat": 32.5842,
   "kind": "",
@@ -10142,7 +10142,7 @@
  {
   "id": "naphath-dor_875",
   "name": "Naphath-dor",
-  "name_zh": "",
+  "name_zh": "多珥山冈",
   "lon": 34.9189,
   "lat": 32.6132,
   "kind": "",
@@ -10152,7 +10152,7 @@
  {
   "id": "naphish_876",
   "name": "Naphish",
-  "name_zh": "",
+  "name_zh": "拿非施",
   "lon": 35.9373,
   "lat": 32.8001,
   "kind": "",
@@ -10162,7 +10162,7 @@
  {
   "id": "naphoth-dor_877",
   "name": "Naphoth-dor",
-  "name_zh": "",
+  "name_zh": "多珥山冈",
   "lon": 34.9189,
   "lat": 32.6132,
   "kind": "",
@@ -10172,7 +10172,7 @@
  {
   "id": "neah_879",
   "name": "Neah",
-  "name_zh": "",
+  "name_zh": "尼亚",
   "lon": 35.2219,
   "lat": 32.8943,
   "kind": "City",
@@ -10192,7 +10192,7 @@
  {
   "id": "nebaioth_881",
   "name": "Nebaioth",
-  "name_zh": "",
+  "name_zh": "尼拜约",
   "lon": 35.4563,
   "lat": 30.3224,
   "kind": "",
@@ -10202,7 +10202,7 @@
  {
   "id": "neballat_882",
   "name": "Neballat",
-  "name_zh": "",
+  "name_zh": "尼八拉",
   "lon": 34.9576,
   "lat": 31.9921,
   "kind": "City",
@@ -10212,7 +10212,7 @@
  {
   "id": "neiel_887",
   "name": "Neiel",
-  "name_zh": "",
+  "name_zh": "尼业",
   "lon": 35.2219,
   "lat": 32.8943,
   "kind": "City",
@@ -10222,7 +10222,7 @@
  {
   "id": "netaim_889",
   "name": "Netaim",
-  "name_zh": "",
+  "name_zh": "尼他应",
   "lon": 34.7778,
   "lat": 31.8233,
   "kind": "",
@@ -10232,7 +10232,7 @@
  {
   "id": "nezib_892",
   "name": "Nezib",
-  "name_zh": "",
+  "name_zh": "尼悉",
   "lon": 34.9924,
   "lat": 31.588,
   "kind": "City",
@@ -10242,7 +10242,7 @@
  {
   "id": "nibshan_893",
   "name": "Nibshan",
-  "name_zh": "",
+  "name_zh": "匿珊",
   "lon": 35.3924,
   "lat": 31.4615,
   "kind": "City",
@@ -10252,7 +10252,7 @@
  {
   "id": "nicopolis_894",
   "name": "Nicopolis",
-  "name_zh": "",
+  "name_zh": "尼哥坡里",
   "lon": 20.7357,
   "lat": 39.024,
   "kind": "City",
@@ -10262,7 +10262,7 @@
  {
   "id": "nimrah_896",
   "name": "Nimrah",
-  "name_zh": "",
+  "name_zh": "宁拉",
   "lon": 35.6257,
   "lat": 31.9008,
   "kind": "City",
@@ -10272,7 +10272,7 @@
  {
   "id": "nimrod_898",
   "name": "Nimrod",
-  "name_zh": "",
+  "name_zh": "宁录",
   "lon": 44.4209,
   "lat": 32.5365,
   "kind": "",
@@ -10282,7 +10282,7 @@
  {
   "id": "nodab_903",
   "name": "Nodab",
-  "name_zh": "",
+  "name_zh": "挪答",
   "lon": 35.9373,
   "lat": 32.8001,
   "kind": "",
@@ -10292,7 +10292,7 @@
  {
   "id": "nohah_904",
   "name": "Nohah",
-  "name_zh": "",
+  "name_zh": "挪哈",
   "lon": 35.182,
   "lat": 31.7526,
   "kind": "",
@@ -10302,7 +10302,7 @@
  {
   "id": "nophah_905",
   "name": "Nophah",
-  "name_zh": "",
+  "name_zh": "挪法",
   "lon": 36.6164,
   "lat": 32.7569,
   "kind": "City",
@@ -10312,7 +10312,7 @@
  {
   "id": "old_gate_439",
   "name": "Old Gate",
-  "name_zh": "",
+  "name_zh": "古门",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "Landmark",
@@ -10322,7 +10322,7 @@
  {
   "id": "ophni_912",
   "name": "Ophni",
-  "name_zh": "",
+  "name_zh": "俄弗尼",
   "lon": 35.2155,
   "lat": 31.962,
   "kind": "City",
@@ -10332,7 +10332,7 @@
  {
   "id": "paddan_915",
   "name": "Paddan",
-  "name_zh": "",
+  "name_zh": "巴旦",
   "lon": 39.0322,
   "lat": 36.8639,
   "kind": "",
@@ -10342,7 +10342,7 @@
  {
   "id": "pai_917",
   "name": "Pai",
-  "name_zh": "",
+  "name_zh": "巴伊",
   "lon": 35.6063,
   "lat": 30.7347,
   "kind": "",
@@ -10352,7 +10352,7 @@
  {
   "id": "parah_920",
   "name": "Parah",
-  "name_zh": "",
+  "name_zh": "巴拉",
   "lon": 35.3,
   "lat": 31.8333,
   "kind": "City",
@@ -10362,7 +10362,7 @@
  {
   "id": "pas-dammim_923",
   "name": "Pas-dammim",
-  "name_zh": "",
+  "name_zh": "巴斯·达闵",
   "lon": 34.9445,
   "lat": 31.6912,
   "kind": "",
@@ -10382,7 +10382,7 @@
  {
   "id": "patmos_926",
   "name": "Patmos",
-  "name_zh": "",
+  "name_zh": "拔摩",
   "lon": 26.5483,
   "lat": 37.3075,
   "kind": "Island",
@@ -10392,7 +10392,7 @@
  {
   "id": "pau_927",
   "name": "Pau",
-  "name_zh": "",
+  "name_zh": "巴乌",
   "lon": 35.6063,
   "lat": 30.7347,
   "kind": "City",
@@ -10402,7 +10402,7 @@
  {
   "id": "pavement_1155",
   "name": "Pavement",
-  "name_zh": "",
+  "name_zh": "铺华石处",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "Landmark",
@@ -10412,7 +10412,7 @@
  {
   "id": "peniel_930",
   "name": "Peniel",
-  "name_zh": "",
+  "name_zh": "毘努伊勒",
   "lon": 35.7029,
   "lat": 32.1844,
   "kind": "",
@@ -10422,7 +10422,7 @@
  {
   "id": "perez-uzza_934",
   "name": "Perez-uzza",
-  "name_zh": "",
+  "name_zh": "毘列斯·乌撒",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "",
@@ -10432,7 +10432,7 @@
  {
   "id": "perez-uzzah_935",
   "name": "Perez-uzzah",
-  "name_zh": "",
+  "name_zh": "毘列斯·乌撒",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "",
@@ -10442,7 +10442,7 @@
  {
   "id": "pharpar_940",
   "name": "Pharpar",
-  "name_zh": "",
+  "name_zh": "法珥法",
   "lon": 36.3061,
   "lat": 33.3796,
   "kind": "Water",
@@ -10462,7 +10462,7 @@
  {
   "id": "pi-beseth_947",
   "name": "Pi-beseth",
-  "name_zh": "",
+  "name_zh": "比伯实",
   "lon": 31.5,
   "lat": 30.5833,
   "kind": "",
@@ -10472,7 +10472,7 @@
  {
   "id": "pillars_512",
   "name": "Pillars",
-  "name_zh": "",
+  "name_zh": "柱廊",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "",
@@ -10482,7 +10482,7 @@
  {
   "id": "pithom_953",
   "name": "Pithom",
-  "name_zh": "",
+  "name_zh": "比东",
   "lon": 32.1856,
   "lat": 30.5939,
   "kind": "City",
@@ -10492,7 +10492,7 @@
  {
   "id": "place_1153",
   "name": "Place",
-  "name_zh": "",
+  "name_zh": "髑髅地",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "",
@@ -10502,7 +10502,7 @@
  {
   "id": "plain_of_aven_1198",
   "name": "Plain of Aven",
-  "name_zh": "",
+  "name_zh": "亚文平原",
   "lon": 36.2039,
   "lat": 34.0069,
   "kind": "",
@@ -10512,7 +10512,7 @@
  {
   "id": "pool_691",
   "name": "Pool",
-  "name_zh": "",
+  "name_zh": "王池",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "Landmark",
@@ -10522,7 +10522,7 @@
  {
   "id": "pool_957",
   "name": "Pool",
-  "name_zh": "",
+  "name_zh": "王池",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "Landmark",
@@ -10532,7 +10532,7 @@
  {
   "id": "prison_gate_441",
   "name": "Prison Gate",
-  "name_zh": "",
+  "name_zh": "护卫门",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "Landmark",
@@ -10552,7 +10552,7 @@
  {
   "id": "pul_960",
   "name": "Pul",
-  "name_zh": "",
+  "name_zh": "普勒",
   "lon": 21.8583,
   "lat": 32.825,
   "kind": "",
@@ -10572,7 +10572,7 @@
  {
   "id": "raamah_964",
   "name": "Raamah",
-  "name_zh": "",
+  "name_zh": "拉玛",
   "lon": 42.78,
   "lat": 15.68,
   "kind": "Region",
@@ -10582,7 +10582,7 @@
  {
   "id": "raamses_965",
   "name": "Raamses",
-  "name_zh": "",
+  "name_zh": "兰塞",
   "lon": 32.1856,
   "lat": 30.5939,
   "kind": "",
@@ -10592,7 +10592,7 @@
  {
   "id": "rabbith_967",
   "name": "Rabbith",
-  "name_zh": "",
+  "name_zh": "拉璧",
   "lon": 35.3773,
   "lat": 32.3914,
   "kind": "",
@@ -10602,7 +10602,7 @@
  {
   "id": "racal_968",
   "name": "Racal",
-  "name_zh": "",
+  "name_zh": "拉哈勒",
   "lon": 35.1333,
   "lat": 31.4333,
   "kind": "City",
@@ -10612,7 +10612,7 @@
  {
   "id": "rakkath_970",
   "name": "Rakkath",
-  "name_zh": "",
+  "name_zh": "拉甲",
   "lon": 35.5292,
   "lat": 32.7955,
   "kind": "City",
@@ -10622,7 +10622,7 @@
  {
   "id": "rakkon_971",
   "name": "Rakkon",
-  "name_zh": "",
+  "name_zh": "拉昆",
   "lon": 34.7881,
   "lat": 32.1329,
   "kind": "",
@@ -10632,7 +10632,7 @@
  {
   "id": "ramah_973",
   "name": "Ramah",
-  "name_zh": "",
+  "name_zh": "拉玛",
   "lon": 35.3105,
   "lat": 33.1111,
   "kind": "City",
@@ -10642,7 +10642,7 @@
  {
   "id": "ramah_974",
   "name": "Ramah",
-  "name_zh": "",
+  "name_zh": "拉玛",
   "lon": 35.3681,
   "lat": 32.939,
   "kind": "City",
@@ -10652,7 +10652,7 @@
  {
   "id": "ramath-lehi_978",
   "name": "Ramath-lehi",
-  "name_zh": "",
+  "name_zh": "拉末·利希",
   "lon": 34.9766,
   "lat": 31.7527,
   "kind": "",
@@ -10662,7 +10662,7 @@
  {
   "id": "ramath-mizpeh_979",
   "name": "Ramath-mizpeh",
-  "name_zh": "",
+  "name_zh": "拉抹·米斯巴",
   "lon": 36.0056,
   "lat": 32.5653,
   "kind": "",
@@ -10672,7 +10672,7 @@
  {
   "id": "ramathaim-zophim_977",
   "name": "Ramathaim-zophim",
-  "name_zh": "",
+  "name_zh": "拉玛·琐非",
   "lon": 35.1802,
   "lat": 31.8327,
   "kind": "City",
@@ -10682,7 +10682,7 @@
  {
   "id": "ramoth_982",
   "name": "Ramoth",
-  "name_zh": "",
+  "name_zh": "拉末",
   "lon": 35.7334,
   "lat": 32.05,
   "kind": "City",
@@ -10692,7 +10692,7 @@
  {
   "id": "recah_985",
   "name": "Recah",
-  "name_zh": "",
+  "name_zh": "利迦",
   "lon": 35.2103,
   "lat": 31.7054,
   "kind": "",
@@ -10702,7 +10702,7 @@
  {
   "id": "rehob_988",
   "name": "Rehob",
-  "name_zh": "",
+  "name_zh": "利合",
   "lon": 35.165,
   "lat": 33.1258,
   "kind": "City",
@@ -10732,7 +10732,7 @@
  {
   "id": "rekem_993",
   "name": "Rekem",
-  "name_zh": "",
+  "name_zh": "利坚",
   "lon": 35.1977,
   "lat": 31.8693,
   "kind": "City",
@@ -10742,7 +10742,7 @@
  {
   "id": "remeth_994",
   "name": "Remeth",
-  "name_zh": "",
+  "name_zh": "利篾",
   "lon": 35.3308,
   "lat": 32.556,
   "kind": "",
@@ -10752,7 +10752,7 @@
  {
   "id": "rephaim_995",
   "name": "Rephaim",
-  "name_zh": "",
+  "name_zh": "利乏音",
   "lon": 35.9373,
   "lat": 32.8001,
   "kind": "",
@@ -10792,7 +10792,7 @@
  {
   "id": "riblah_1002",
   "name": "Riblah",
-  "name_zh": "",
+  "name_zh": "利比拉",
   "lon": 36.3857,
   "lat": 34.3531,
   "kind": "City",
@@ -10802,7 +10802,7 @@
  {
   "id": "rimmon_1005",
   "name": "Rimmon",
-  "name_zh": "",
+  "name_zh": "临门",
   "lon": 35.3214,
   "lat": 32.7818,
   "kind": "",
@@ -10812,7 +10812,7 @@
  {
   "id": "rimmono_1006",
   "name": "Rimmono",
-  "name_zh": "",
+  "name_zh": "临摩挪",
   "lon": 35.3214,
   "lat": 32.7818,
   "kind": "",
@@ -10822,7 +10822,7 @@
  {
   "id": "rocks_1232",
   "name": "Rocks",
-  "name_zh": "",
+  "name_zh": "野羊的磐石",
   "lon": 35.3924,
   "lat": 31.4615,
   "kind": "",
@@ -10832,7 +10832,7 @@
  {
   "id": "rumah_1014",
   "name": "Rumah",
-  "name_zh": "",
+  "name_zh": "鲁玛",
   "lon": 35.3182,
   "lat": 32.1549,
   "kind": "",
@@ -10842,7 +10842,7 @@
  {
   "id": "sahar_1015",
   "name": "Sahar",
-  "name_zh": "",
+  "name_zh": "撒哈",
   "lon": 36.2486,
   "lat": 33.6649,
   "kind": "",
@@ -10862,7 +10862,7 @@
  {
   "id": "salim_1019",
   "name": "Salim",
-  "name_zh": "",
+  "name_zh": "撒冷",
   "lon": 35.5264,
   "lat": 32.3993,
   "kind": "",
@@ -10882,7 +10882,7 @@
  {
   "id": "salt_302",
   "name": "Salt",
-  "name_zh": "",
+  "name_zh": "盐城",
   "lon": 35.3924,
   "lat": 31.4615,
   "kind": "City",
@@ -10912,7 +10912,7 @@
  {
   "id": "sansannah_1026",
   "name": "Sansannah",
-  "name_zh": "",
+  "name_zh": "三撒拿",
   "lon": 34.9405,
   "lat": 31.3917,
   "kind": "City",
@@ -10922,7 +10922,7 @@
  {
   "id": "sea_of_chinneroth_1030",
   "name": "Sea of Chinneroth",
-  "name_zh": "",
+  "name_zh": "基尼烈海",
   "lon": 35.5894,
   "lat": 32.8068,
   "kind": "Water",
@@ -10932,7 +10932,7 @@
  {
   "id": "sea_of_jazer_1033",
   "name": "Sea of Jazer",
-  "name_zh": "",
+  "name_zh": "雅谢海",
   "lon": 35.7278,
   "lat": 31.9435,
   "kind": "Water",
@@ -10942,7 +10942,7 @@
  {
   "id": "sea_of_the_philistines_1036",
   "name": "Sea of the Philistines",
-  "name_zh": "",
+  "name_zh": "非利士海",
   "lon": 33.47,
   "lat": 33.24,
   "kind": "Water",
@@ -10952,7 +10952,7 @@
  {
   "id": "sebam_1038",
   "name": "Sebam",
-  "name_zh": "",
+  "name_zh": "示班",
   "lon": 35.7667,
   "lat": 31.8153,
   "kind": "",
@@ -10962,7 +10962,7 @@
  {
   "id": "secacah_1039",
   "name": "Secacah",
-  "name_zh": "",
+  "name_zh": "西迦迦",
   "lon": 35.2833,
   "lat": 31.7667,
   "kind": "City",
@@ -10972,7 +10972,7 @@
  {
   "id": "secu_1041",
   "name": "Secu",
-  "name_zh": "",
+  "name_zh": "西沽",
   "lon": 35.2,
   "lat": 31.8833,
   "kind": "",
@@ -10982,7 +10982,7 @@
  {
   "id": "seirah_1043",
   "name": "Seirah",
-  "name_zh": "",
+  "name_zh": "西伊拉",
   "lon": 35.221,
   "lat": 31.9305,
   "kind": "",
@@ -11002,7 +11002,7 @@
  {
   "id": "seneh_1046",
   "name": "Seneh",
-  "name_zh": "",
+  "name_zh": "西尼",
   "lon": 35.2862,
   "lat": 31.8531,
   "kind": "",
@@ -11012,7 +11012,7 @@
  {
   "id": "sephar_1048",
   "name": "Sephar",
-  "name_zh": "",
+  "name_zh": "西发",
   "lon": 44.3926,
   "lat": 14.5502,
   "kind": "Mountain",
@@ -11022,7 +11022,7 @@
  {
   "id": "sepharad_1049",
   "name": "Sepharad",
-  "name_zh": "",
+  "name_zh": "西法拉",
   "lon": 28.1141,
   "lat": 38.4768,
   "kind": "",
@@ -11032,7 +11032,7 @@
  {
   "id": "serpents_stone_1051",
   "name": "Serpent's Stone",
-  "name_zh": "",
+  "name_zh": "琐希列磐石",
   "lon": 35.2344,
   "lat": 31.7678,
   "kind": "",
@@ -11042,7 +11042,7 @@
  {
   "id": "shaalabbin_1052",
   "name": "Shaalabbin",
-  "name_zh": "",
+  "name_zh": "沙拉宾",
   "lon": 34.9817,
   "lat": 31.8704,
   "kind": "City",
@@ -11052,7 +11052,7 @@
  {
   "id": "shaalim_1054",
   "name": "Shaalim",
-  "name_zh": "",
+  "name_zh": "沙琳",
   "lon": 35.1849,
   "lat": 31.8468,
   "kind": "",
@@ -11062,7 +11062,7 @@
  {
   "id": "shaaraim_1056",
   "name": "Shaaraim",
-  "name_zh": "",
+  "name_zh": "沙拉音",
   "lon": 34.4825,
   "lat": 31.2822,
   "kind": "City",
@@ -11072,7 +11072,7 @@
  {
   "id": "shahazumah_1057",
   "name": "Shahazumah",
-  "name_zh": "",
+  "name_zh": "沙哈洗玛",
   "lon": 35.5046,
   "lat": 32.4064,
   "kind": "",
@@ -11082,7 +11082,7 @@
  {
   "id": "shalishah_1058",
   "name": "Shalishah",
-  "name_zh": "",
+  "name_zh": "沙利沙",
   "lon": 35.1849,
   "lat": 31.8468,
   "kind": "",
@@ -11092,7 +11092,7 @@
  {
   "id": "shallecheth_1059",
   "name": "Shallecheth",
-  "name_zh": "",
+  "name_zh": "沙利基门",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "Landmark",
@@ -11102,7 +11102,7 @@
  {
   "id": "shamir_1060",
   "name": "Shamir",
-  "name_zh": "",
+  "name_zh": "沙密",
   "lon": 34.9333,
   "lat": 31.4167,
   "kind": "City",
@@ -11112,7 +11112,7 @@
  {
   "id": "shaphir_1062",
   "name": "Shaphir",
-  "name_zh": "",
+  "name_zh": "沙斐",
   "lon": 34.694,
   "lat": 31.7437,
   "kind": "City",
@@ -11122,7 +11122,7 @@
  {
   "id": "sharon_1064",
   "name": "Sharon",
-  "name_zh": "",
+  "name_zh": "沙仑",
   "lon": 35.8573,
   "lat": 33.4162,
   "kind": "",
@@ -11132,7 +11132,7 @@
  {
   "id": "sharuhen_1065",
   "name": "Sharuhen",
-  "name_zh": "",
+  "name_zh": "沙鲁险",
   "lon": 34.4825,
   "lat": 31.2822,
   "kind": "",
@@ -11142,7 +11142,7 @@
  {
   "id": "shaveh-kiriathaim_1066",
   "name": "Shaveh-kiriathaim",
-  "name_zh": "",
+  "name_zh": "沙微·基列亭",
   "lon": 35.7,
   "lat": 31.5833,
   "kind": "",
@@ -11152,7 +11152,7 @@
  {
   "id": "shebarim_1068",
   "name": "Shebarim",
-  "name_zh": "",
+  "name_zh": "示巴琳",
   "lon": 35.2612,
   "lat": 31.917,
   "kind": "",
@@ -11162,7 +11162,7 @@
  {
   "id": "shema_1071",
   "name": "Shema",
-  "name_zh": "",
+  "name_zh": "示玛",
   "lon": 35.0571,
   "lat": 31.1623,
   "kind": "City",
@@ -11172,7 +11172,7 @@
  {
   "id": "shen_1072",
   "name": "Shen",
-  "name_zh": "",
+  "name_zh": "善",
   "lon": 35.1802,
   "lat": 31.8327,
   "kind": "",
@@ -11182,7 +11182,7 @@
  {
   "id": "shibah_1075",
   "name": "Shibah",
-  "name_zh": "",
+  "name_zh": "示巴",
   "lon": 34.8409,
   "lat": 31.245,
   "kind": "",
@@ -11192,7 +11192,7 @@
  {
   "id": "shihor-libnath_1077",
   "name": "Shihor-libnath",
-  "name_zh": "",
+  "name_zh": "希曷·立纳",
   "lon": 34.9077,
   "lat": 32.5385,
   "kind": "Water",
@@ -11202,7 +11202,7 @@
  {
   "id": "shikkeron_1078",
   "name": "Shikkeron",
-  "name_zh": "",
+  "name_zh": "施基仑",
   "lon": 34.8521,
   "lat": 31.7776,
   "kind": "",
@@ -11212,7 +11212,7 @@
  {
   "id": "shilhim_1079",
   "name": "Shilhim",
-  "name_zh": "",
+  "name_zh": "实忻",
   "lon": 34.4825,
   "lat": 31.2822,
   "kind": "City",
@@ -11222,7 +11222,7 @@
  {
   "id": "shiloah_1080",
   "name": "Shiloah",
-  "name_zh": "",
+  "name_zh": "西罗亚",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "",
@@ -11232,7 +11232,7 @@
  {
   "id": "shimron-meron_1083",
   "name": "Shimron-meron",
-  "name_zh": "",
+  "name_zh": "伸仑·米仑",
   "lon": 35.2133,
   "lat": 32.7053,
   "kind": "",
@@ -11242,7 +11242,7 @@
  {
   "id": "shion_1085",
   "name": "Shion",
-  "name_zh": "",
+  "name_zh": "示按",
   "lon": 35.3333,
   "lat": 32.7167,
   "kind": "City",
@@ -11252,7 +11252,7 @@
  {
   "id": "shoa_1087",
   "name": "Shoa",
-  "name_zh": "",
+  "name_zh": "书亚",
   "lon": 48.515,
   "lat": 34.7983,
   "kind": "Region",
@@ -11262,7 +11262,7 @@
  {
   "id": "shual_1088",
   "name": "Shual",
-  "name_zh": "",
+  "name_zh": "书亚",
   "lon": 35.2991,
   "lat": 31.9538,
   "kind": "",
@@ -11272,7 +11272,7 @@
  {
   "id": "sibraim_1092",
   "name": "Sibraim",
-  "name_zh": "",
+  "name_zh": "西伯莲",
   "lon": 36.7495,
   "lat": 35.1362,
   "kind": "",
@@ -11302,7 +11302,7 @@
  {
   "id": "silla_1095",
   "name": "Silla",
-  "name_zh": "",
+  "name_zh": "悉拉",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "",
@@ -11312,7 +11312,7 @@
  {
   "id": "siphmoth_1099",
   "name": "Siphmoth",
-  "name_zh": "",
+  "name_zh": "息末",
   "lon": 35.0746,
   "lat": 31.3735,
   "kind": "",
@@ -11322,7 +11322,7 @@
  {
   "id": "sirah_1100",
   "name": "Sirah",
-  "name_zh": "",
+  "name_zh": "西拉",
   "lon": 35.1,
   "lat": 31.55,
   "kind": "",
@@ -11332,7 +11332,7 @@
  {
   "id": "sitnah_1102",
   "name": "Sitnah",
-  "name_zh": "",
+  "name_zh": "西提拿",
   "lon": 34.5606,
   "lat": 31.3913,
   "kind": "",
@@ -11342,7 +11342,7 @@
  {
   "id": "soco_1104",
   "name": "Soco",
-  "name_zh": "",
+  "name_zh": "梭哥",
   "lon": 34.9764,
   "lat": 31.6812,
   "kind": "",
@@ -11352,7 +11352,7 @@
  {
   "id": "socoh_1105",
   "name": "Socoh",
-  "name_zh": "",
+  "name_zh": "梭哥",
   "lon": 34.9764,
   "lat": 31.6812,
   "kind": "",
@@ -11362,7 +11362,7 @@
  {
   "id": "socoh_1106",
   "name": "Socoh",
-  "name_zh": "",
+  "name_zh": "梭哥",
   "lon": 34.9667,
   "lat": 31.4167,
   "kind": "",
@@ -11382,7 +11382,7 @@
  {
   "id": "suph_1115",
   "name": "Suph",
-  "name_zh": "",
+  "name_zh": "疏弗",
   "lon": 34.7717,
   "lat": 27.0885,
   "kind": "",
@@ -11392,7 +11392,7 @@
  {
   "id": "suphah_1116",
   "name": "Suphah",
-  "name_zh": "",
+  "name_zh": "苏法",
   "lon": 34.7717,
   "lat": 27.0885,
   "kind": "",
@@ -11402,7 +11402,7 @@
  {
   "id": "sur_1117",
   "name": "Sur",
-  "name_zh": "",
+  "name_zh": "苏珥",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "",
@@ -11442,7 +11442,7 @@
  {
   "id": "taanath-shiloh_1125",
   "name": "Taanath-shiloh",
-  "name_zh": "",
+  "name_zh": "他纳·示罗",
   "lon": 35.3833,
   "lat": 32.15,
   "kind": "",
@@ -11452,7 +11452,7 @@
  {
   "id": "tabbath_1126",
   "name": "Tabbath",
-  "name_zh": "",
+  "name_zh": "他巴",
   "lon": 35.5369,
   "lat": 32.356,
   "kind": "City",
@@ -11462,7 +11462,7 @@
  {
   "id": "tabor_1129",
   "name": "Tabor (town)",
-  "name_zh": "",
+  "name_zh": "他泊（城）",
   "lon": 35.3247,
   "lat": 32.6832,
   "kind": "City",
@@ -11472,7 +11472,7 @@
  {
   "id": "tabor_1130",
   "name": "Tabor (Plain)",
-  "name_zh": "",
+  "name_zh": "他泊（平原）",
   "lon": 35.221,
   "lat": 31.9305,
   "kind": "",
@@ -11482,7 +11482,7 @@
  {
   "id": "tadmor_1131",
   "name": "Tadmor",
-  "name_zh": "",
+  "name_zh": "达莫",
   "lon": 38.2659,
   "lat": 34.554,
   "kind": "City",
@@ -11492,7 +11492,7 @@
  {
   "id": "tamar_1134",
   "name": "Tamar",
-  "name_zh": "",
+  "name_zh": "他玛",
   "lon": 38.2659,
   "lat": 34.554,
   "kind": "",
@@ -11502,7 +11502,7 @@
  {
   "id": "tappuah_1137",
   "name": "Tappuah",
-  "name_zh": "",
+  "name_zh": "他普亚",
   "lon": 35.126,
   "lat": 32.15,
   "kind": "City",
@@ -11512,7 +11512,7 @@
  {
   "id": "taralah_1138",
   "name": "Taralah",
-  "name_zh": "",
+  "name_zh": "他拉拉",
   "lon": 35.1969,
   "lat": 31.7927,
   "kind": "",
@@ -11522,7 +11522,7 @@
  {
   "id": "tehaphnehes_1141",
   "name": "Tehaphnehes",
-  "name_zh": "",
+  "name_zh": "答比匿",
   "lon": 32.1714,
   "lat": 30.8606,
   "kind": "",
@@ -11532,7 +11532,7 @@
  {
   "id": "tel-abib_1143",
   "name": "Tel-abib",
-  "name_zh": "",
+  "name_zh": "提勒·亚毕",
   "lon": 45.23,
   "lat": 32.1272,
   "kind": "",
@@ -11542,7 +11542,7 @@
  {
   "id": "telaim_1144",
   "name": "Telaim",
-  "name_zh": "",
+  "name_zh": "提拉因",
   "lon": 35.0571,
   "lat": 31.1623,
   "kind": "",
@@ -11552,7 +11552,7 @@
  {
   "id": "telem_1146",
   "name": "Telem",
-  "name_zh": "",
+  "name_zh": "提炼",
   "lon": 35.0571,
   "lat": 31.1623,
   "kind": "City",
@@ -11562,7 +11562,7 @@
  {
   "id": "there_1152",
   "name": "There",
-  "name_zh": "",
+  "name_zh": "耶和华的所在",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "",
@@ -11582,7 +11582,7 @@
  {
   "id": "throne_513",
   "name": "Throne",
-  "name_zh": "",
+  "name_zh": "宝座廊",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "",
@@ -11592,7 +11592,7 @@
  {
   "id": "tiberias_1161",
   "name": "Tiberias",
-  "name_zh": "",
+  "name_zh": "提比哩亚",
   "lon": 35.5292,
   "lat": 32.7955,
   "kind": "City",
@@ -11602,7 +11602,7 @@
  {
   "id": "tibhath_1162",
   "name": "Tibhath",
-  "name_zh": "",
+  "name_zh": "提巴",
   "lon": 36.152,
   "lat": 33.9315,
   "kind": "",
@@ -11612,7 +11612,7 @@
  {
   "id": "timnah_1165",
   "name": "Timnah",
-  "name_zh": "",
+  "name_zh": "亭拿",
   "lon": 35.0404,
   "lat": 31.6993,
   "kind": "City",
@@ -11622,7 +11622,7 @@
  {
   "id": "timnath-heres_1166",
   "name": "Timnath-heres",
-  "name_zh": "",
+  "name_zh": "亭拿·希烈",
   "lon": 35.1504,
   "lat": 32.1215,
   "kind": "",
@@ -11632,7 +11632,7 @@
  {
   "id": "tiphsah_1168",
   "name": "Tiphsah",
-  "name_zh": "",
+  "name_zh": "提弗萨",
   "lon": 38.7323,
   "lat": 35.848,
   "kind": "",
@@ -11642,7 +11642,7 @@
  {
   "id": "tiphsah_1169",
   "name": "Tiphsah",
-  "name_zh": "",
+  "name_zh": "提弗萨",
   "lon": 35.1667,
   "lat": 32.1667,
   "kind": "",
@@ -11652,7 +11652,7 @@
  {
   "id": "tishbe_1171",
   "name": "Tishbe",
-  "name_zh": "",
+  "name_zh": "提斯比",
   "lon": 35.568,
   "lat": 33.0172,
   "kind": "",
@@ -11662,7 +11662,7 @@
  {
   "id": "tochen_1173",
   "name": "Tochen",
-  "name_zh": "",
+  "name_zh": "陀健",
   "lon": 34.9365,
   "lat": 31.8099,
   "kind": "City",
@@ -11672,7 +11672,7 @@
  {
   "id": "tolad_1174",
   "name": "Tolad",
-  "name_zh": "",
+  "name_zh": "陀腊",
   "lon": 35.7334,
   "lat": 32.05,
   "kind": "City",
@@ -11682,7 +11682,7 @@
  {
   "id": "tophel_1175",
   "name": "Tophel",
-  "name_zh": "",
+  "name_zh": "陀弗",
   "lon": 35.6169,
   "lat": 30.937,
   "kind": "",
@@ -11692,7 +11692,7 @@
  {
   "id": "trachonitis_1181",
   "name": "Trachonitis",
-  "name_zh": "",
+  "name_zh": "特拉可尼",
   "lon": 36.5,
   "lat": 32.8333,
   "kind": "Region",
@@ -11712,7 +11712,7 @@
  {
   "id": "ummah_1186",
   "name": "Ummah",
-  "name_zh": "",
+  "name_zh": "乌玛",
   "lon": 35.1806,
   "lat": 33.1044,
   "kind": "City",
@@ -11722,7 +11722,7 @@
  {
   "id": "upper_beth-horon_1188",
   "name": "Upper Beth-horon",
-  "name_zh": "",
+  "name_zh": "上伯·和仑",
   "lon": 35.1283,
   "lat": 31.8589,
   "kind": "",
@@ -11732,7 +11732,7 @@
  {
   "id": "uzal_1191",
   "name": "Uzal",
-  "name_zh": "",
+  "name_zh": "乌萨",
   "lon": 44.2151,
   "lat": 15.3549,
   "kind": "",
@@ -11742,7 +11742,7 @@
  {
   "id": "uzzen-sheerah_1193",
   "name": "Uzzen-sheerah",
-  "name_zh": "",
+  "name_zh": "乌羡·舍伊拉",
   "lon": 35.0456,
   "lat": 31.8878,
   "kind": "City",
@@ -11752,7 +11752,7 @@
  {
   "id": "vale_of_hebron_1206",
   "name": "Vale of Hebron",
-  "name_zh": "",
+  "name_zh": "希伯仑谷",
   "lon": 35.0936,
   "lat": 31.5491,
   "kind": "Valley",
@@ -11762,7 +11762,7 @@
  {
   "id": "valley_of_aijalon_1197",
   "name": "Valley of Aijalon",
-  "name_zh": "",
+  "name_zh": "亚雅仑谷",
   "lon": 35.0254,
   "lat": 31.8412,
   "kind": "Valley",
@@ -11772,7 +11772,7 @@
  {
   "id": "valley_of_baca_1199",
   "name": "Valley of Baca",
-  "name_zh": "",
+  "name_zh": "流泪谷",
   "lon": 35.228,
   "lat": 31.7691,
   "kind": "Valley",
@@ -11782,7 +11782,7 @@
  {
   "id": "valley_of_beracah_1200",
   "name": "Valley of Beracah",
-  "name_zh": "",
+  "name_zh": "比拉迦谷",
   "lon": 35.1656,
   "lat": 31.6106,
   "kind": "Valley",
@@ -11792,7 +11792,7 @@
  {
   "id": "valley_of_gerar_1203",
   "name": "Valley of Gerar",
-  "name_zh": "",
+  "name_zh": "基拉耳谷",
   "lon": 34.5606,
   "lat": 31.3913,
   "kind": "Valley",
@@ -11802,7 +11802,7 @@
  {
   "id": "valley_of_gibeon_1204",
   "name": "Valley of Gibeon",
-  "name_zh": "",
+  "name_zh": "基遍谷",
   "lon": 35.1849,
   "lat": 31.8468,
   "kind": "Valley",
@@ -11812,7 +11812,7 @@
  {
   "id": "valley_of_jericho_1210",
   "name": "Valley of Jericho",
-  "name_zh": "",
+  "name_zh": "耶利哥平原",
   "lon": 35.4439,
   "lat": 31.8706,
   "kind": "Valley",
@@ -11822,7 +11822,7 @@
  {
   "id": "valley_of_mizpeh_1213",
   "name": "Valley of Mizpeh",
-  "name_zh": "",
+  "name_zh": "米斯巴平原",
   "lon": 35.5734,
   "lat": 33.2818,
   "kind": "Valley",
@@ -11832,7 +11832,7 @@
  {
   "id": "valley_of_shaveh_1216",
   "name": "Valley of Shaveh",
-  "name_zh": "",
+  "name_zh": "沙微谷",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "Valley",
@@ -11842,7 +11842,7 @@
  {
   "id": "valley_of_shittim_1217",
   "name": "Valley of Shittim",
-  "name_zh": "",
+  "name_zh": "什亭谷",
   "lon": 35.6416,
   "lat": 31.8583,
   "kind": "Valley",
@@ -11852,7 +11852,7 @@
  {
   "id": "valley_of_sorek_1220",
   "name": "Valley of Sorek",
-  "name_zh": "",
+  "name_zh": "梭烈谷",
   "lon": 34.989,
   "lat": 31.8257,
   "kind": "Valley",
@@ -11862,7 +11862,7 @@
  {
   "id": "valley_of_the_passengers_1227",
   "name": "Valley of the Passengers",
-  "name_zh": "",
+  "name_zh": "过客谷",
   "lon": 35.7828,
   "lat": 31.4968,
   "kind": "Valley",
@@ -11872,7 +11872,7 @@
  {
   "id": "valley_of_zeboim_1222",
   "name": "Valley of Zeboim",
-  "name_zh": "",
+  "name_zh": "洗波音谷",
   "lon": 35.4248,
   "lat": 31.9363,
   "kind": "Valley",
@@ -11882,7 +11882,7 @@
  {
   "id": "valley_of_zephathah_1223",
   "name": "Valley of Zephathah",
-  "name_zh": "",
+  "name_zh": "洗法谷",
   "lon": 34.9101,
   "lat": 31.6152,
   "kind": "Valley",
@@ -11892,7 +11892,7 @@
  {
   "id": "valley_of_zered_1224",
   "name": "Valley of Zered",
-  "name_zh": "",
+  "name_zh": "撒烈谷",
   "lon": 35.8976,
   "lat": 30.8841,
   "kind": "Valley",
@@ -11902,7 +11902,7 @@
  {
   "id": "waheb_1228",
   "name": "Waheb",
-  "name_zh": "",
+  "name_zh": "哇哈伯",
   "lon": 34.7717,
   "lat": 27.0885,
   "kind": "",
@@ -11912,7 +11912,7 @@
  {
   "id": "way_of_holiness_1231",
   "name": "Way of Holiness",
-  "name_zh": "",
+  "name_zh": "圣路",
   "lon": 35.2349,
   "lat": 31.7774,
   "kind": "Path",
@@ -11922,7 +11922,7 @@
  {
   "id": "willows_261",
   "name": "Willows",
-  "name_zh": "",
+  "name_zh": "柳树河",
   "lon": 35.5599,
   "lat": 32.3091,
   "kind": "",
@@ -11932,7 +11932,7 @@
  {
   "id": "yiron_1233",
   "name": "Yiron",
-  "name_zh": "",
+  "name_zh": "以利稳",
   "lon": 35.4141,
   "lat": 33.0887,
   "kind": "",
@@ -11942,7 +11942,7 @@
  {
   "id": "zaanan_1234",
   "name": "Zaanan",
-  "name_zh": "",
+  "name_zh": "撒南",
   "lon": 34.694,
   "lat": 31.7437,
   "kind": "",
@@ -11952,7 +11952,7 @@
  {
   "id": "zair_1236",
   "name": "Zair",
-  "name_zh": "",
+  "name_zh": "撒益",
   "lon": 35.4191,
   "lat": 30.9265,
   "kind": "",
@@ -11962,7 +11962,7 @@
  {
   "id": "zanoah_1240",
   "name": "Zanoah",
-  "name_zh": "",
+  "name_zh": "撒挪亚",
   "lon": 35.0,
   "lat": 31.3667,
   "kind": "City",
@@ -11972,7 +11972,7 @@
  {
   "id": "zeboim_1245",
   "name": "Zeboim",
-  "name_zh": "",
+  "name_zh": "洗编",
   "lon": 35.4763,
   "lat": 31.1018,
   "kind": "",
@@ -11982,7 +11982,7 @@
  {
   "id": "zelzah_1248",
   "name": "Zelzah",
-  "name_zh": "",
+  "name_zh": "泄撒",
   "lon": 35.187,
   "lat": 31.7177,
   "kind": "",
@@ -11992,7 +11992,7 @@
  {
   "id": "zemaraim_1249",
   "name": "Zemaraim",
-  "name_zh": "",
+  "name_zh": "洗玛脸",
   "lon": 35.4573,
   "lat": 31.911,
   "kind": "City",
@@ -12002,7 +12002,7 @@
  {
   "id": "zenan_1250",
   "name": "Zenan",
-  "name_zh": "",
+  "name_zh": "洗楠",
   "lon": 34.694,
   "lat": 31.7437,
   "kind": "",
@@ -12012,7 +12012,7 @@
  {
   "id": "zephath_1251",
   "name": "Zephath",
-  "name_zh": "",
+  "name_zh": "洗法",
   "lon": 34.6306,
   "lat": 30.8809,
   "kind": "City",
@@ -12022,7 +12022,7 @@
  {
   "id": "zer_1252",
   "name": "Zer",
-  "name_zh": "",
+  "name_zh": "侧耳",
   "lon": 35.165,
   "lat": 33.1258,
   "kind": "",
@@ -12032,7 +12032,7 @@
  {
   "id": "zeredah_1254",
   "name": "Zeredah",
-  "name_zh": "",
+  "name_zh": "洗利达",
   "lon": 35.273,
   "lat": 32.2329,
   "kind": "City",
@@ -12042,7 +12042,7 @@
  {
   "id": "zeredah_1255",
   "name": "Zeredah",
-  "name_zh": "",
+  "name_zh": "洗利达",
   "lon": 35.5766,
   "lat": 32.2678,
   "kind": "",
@@ -12052,7 +12052,7 @@
  {
   "id": "zererah_1256",
   "name": "Zererah",
-  "name_zh": "",
+  "name_zh": "西利拉",
   "lon": 35.5766,
   "lat": 32.2678,
   "kind": "",
@@ -12062,7 +12062,7 @@
  {
   "id": "zereth-shahar_1257",
   "name": "Zereth-shahar",
-  "name_zh": "",
+  "name_zh": "细列·哈沙辖",
   "lon": 35.5675,
   "lat": 31.617,
   "kind": "",
@@ -12072,7 +12072,7 @@
  {
   "id": "ziddim_1258",
   "name": "Ziddim",
-  "name_zh": "",
+  "name_zh": "西丁",
   "lon": 35.4359,
   "lat": 32.8143,
   "kind": "",
@@ -12082,7 +12082,7 @@
  {
   "id": "zimri_1260",
   "name": "Zimri",
-  "name_zh": "",
+  "name_zh": "心利",
   "lon": 48.2579,
   "lat": 32.1892,
   "kind": "",
@@ -12092,7 +12092,7 @@
  {
   "id": "zior_1265",
   "name": "Zior",
-  "name_zh": "",
+  "name_zh": "洗珥",
   "lon": 35.1483,
   "lat": 31.5897,
   "kind": "City",
@@ -12102,7 +12102,7 @@
  {
   "id": "ziph_1267",
   "name": "Ziph",
-  "name_zh": "",
+  "name_zh": "西弗",
   "lon": 35.0571,
   "lat": 31.1623,
   "kind": "City",
@@ -12112,7 +12112,7 @@
  {
   "id": "ziphron_1268",
   "name": "Ziphron",
-  "name_zh": "",
+  "name_zh": "西斐仑",
   "lon": 37.2401,
   "lat": 34.2295,
   "kind": "",
@@ -12122,7 +12122,7 @@
  {
   "id": "ziz_1269",
   "name": "Ziz",
-  "name_zh": "",
+  "name_zh": "洗斯",
   "lon": 35.4063,
   "lat": 31.5729,
   "kind": "City",
@@ -12132,7 +12132,7 @@
  {
   "id": "zobah-hamath_1273",
   "name": "Zobah-Hamath",
-  "name_zh": "",
+  "name_zh": "琐巴哈马",
   "lon": 36.9255,
   "lat": 34.3126,
   "kind": "",
@@ -12142,7 +12142,7 @@
  {
   "id": "zophim_1274",
   "name": "Zophim",
-  "name_zh": "",
+  "name_zh": "琐腓",
   "lon": 35.7253,
   "lat": 31.7678,
   "kind": "",
@@ -12152,7 +12152,7 @@
  {
   "id": "zuph_1276",
   "name": "Zuph",
-  "name_zh": "",
+  "name_zh": "苏弗",
   "lon": 35.1849,
   "lat": 31.8468,
   "kind": "Region",
@@ -12162,7 +12162,7 @@
  {
   "id": "aram-naharaim_84",
   "name": "Aram-naharaim",
-  "name_zh": "",
+  "name_zh": "亚兰·拿哈拉音",
   "lon": 42.0,
   "lat": 35.1,
   "kind": "Region",
@@ -12172,7 +12172,7 @@
  {
   "id": "aram-zobah_85",
   "name": "Aram-zobah",
-  "name_zh": "",
+  "name_zh": "亚兰·琐巴",
   "lon": 36.3134,
   "lat": 33.5193,
   "kind": "Region",
@@ -12182,7 +12182,7 @@
  {
   "id": "ham_515",
   "name": "Ham",
-  "name_zh": "",
+  "name_zh": "哈麦",
   "lon": 31.3382,
   "lat": 30.1081,
   "kind": "",
@@ -12192,7 +12192,7 @@
  {
   "id": "jaar_608",
   "name": "Jaar",
-  "name_zh": "",
+  "name_zh": "雅尔",
   "lon": 34.9938,
   "lat": 31.7711,
   "kind": "",

@@ -6,12 +6,22 @@ A Bible reader with the context of every verse beside it. The text is on the lef
 on the right with three tabs:
 
 - **Cross-references**: the verses most often linked to this one, strongest first.
-- **Places**: a map of the places the verse names, and the events it belongs to.
+- **Places**: the [atlas](https://atlas.daiyip.com) map with the places the verse names pinned, and the events it
+  belongs to. The map is the atlas itself, embedded with this site's pack; a small built-in map stands in while it
+  loads.
 - **Links**: the verse in NKJV on Bible Gateway, other translations side by side, and a Wikipedia search.
 
 **Tours** walk through a journey one step at a time, with no verse to pick first: Abraham, Joseph, the Exodus,
 David, Elijah, Jonah, the exile and return, Jesus, and Paul's journeys. Open them from **Tours** in the top bar, or
-from the list in the empty context panel. Each step opens its verses and links to the same step on the atlas map.
+from the list in the empty context panel. Each step opens its verses and flies the map to it, tracing the journey;
+stepping on the map moves the reader along too.
+
+**Search** (the magnifier, or `/`) finds references ("John 3:16", "约翰福音 3"), books, places, events, tours and
+words in the text.
+
+**Translations**: the switch in the top bar picks the King James Version, 和合本 (the Chinese Union Version, in
+simplified characters), or both side by side, verse by verse. With 和合本 first, the whole app is in Chinese: book
+names, places, events, tours and the atlas map.
 
 It is a static site with no build step and no backend, served by GitHub Pages.
 
@@ -36,7 +46,7 @@ References use OSIS-style ids in the hash:
 | [`#John.3.16`](https://bible.daiyip.com/#John.3.16) | a chapter with a verse selected |
 | [`#Acts.13.4-5`](https://bible.daiyip.com/#Acts.13.4-5) | a range of verses, with the first one selected (the links from the atlas look like this) |
 
-The arrow keys change chapter, and Esc closes the context panel.
+The arrow keys change chapter, `/` opens search, and Esc closes the context panel.
 
 ## Run it locally
 
@@ -48,11 +58,13 @@ python3 -m http.server 8000   # then open http://localhost:8000/#John.3.16
 
 | Path | What it holds |
 | --- | --- |
-| `data/books.json` | 66 books: OSIS id, English name, verse count per chapter. |
+| `data/books.json` | 66 books: OSIS id, English and Chinese name, verse count per chapter. |
 | `data/text/kjv/<id>.json` | KJV text, one array of verses per chapter. |
+| `data/text/cuv/<id>.json` | 和合本 text in simplified characters, on the KJV's verse numbers. |
 | `data/xref/<id>.json` | Cross-references keyed `"chapter.verse"`, each `[target, votes]`, strongest first. |
-| `data/places.json` | 1,220 places as `[id, name, lon, lat, kind]`; the index is the place number. |
-| `data/vctx/<id>.json` | Per verse: `places` (place numbers named in it) and `events` (`[title, year]` it belongs to). |
+| `data/places.json` | 1,220 places as `[id, name, lon, lat, kind, name_zh]`; the index is the place number. |
+| `data/vctx/<id>.json` | Per verse: `places` (place numbers named in it) and `events` (`[title, year, title_zh]` it belongs to). |
+| `data/search.json` | For the search box: every place and event with its Chinese name, first verse and verse count. |
 | `data/basemap.json` | Land, lakes and main rivers of the Bible lands for the Places map (Natural Earth, simplified). |
 | `atlas/` | The atlas data pack (see above). |
 
@@ -61,7 +73,7 @@ To rebuild, run `tools/fetch_sources.sh` to download the sources into `tools/src
 
 ## Translation
 
-The text is the King James Version for now. NKJV will become the default once it is licensed from HarperCollins
+The English text is the King James Version for now. NKJV will become the default once it is licensed from HarperCollins
 Christian Publishing. Until then, the Links tab opens each verse in NKJV on Bible Gateway. The text layer is one
 folder per translation (`data/text/<translation>/`), so adding one does not change the reader.
 
@@ -75,4 +87,5 @@ folder per translation (`data/text/<translation>/`), so adding one does not chan
 - **Base map** from [Natural Earth](https://www.naturalearthdata.com/): public domain.
 
 Years follow a traditional chronology, with the Exodus in 1490 BC; many scholars date the early periods later. The
-tours were drafted with AI from the biblical text.
+tours were drafted with AI from the biblical text, and the Chinese names of places and events (`tools/atlas_zh.json`,
+和合本 spellings) were drafted with AI from the 和合本 verses that name them.

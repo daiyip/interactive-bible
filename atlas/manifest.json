@@ -115,6 +115,10 @@
   "tours": "tours.json",
   "gazetteer": "places.json"
  },
+ "plugins": [
+  "plugins/journey.js",
+  "plugins/bridge.js"
+ ],
  "refs": {
   "label": "Read",
   "label_zh": "阅读经文",

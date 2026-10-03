@@ -6,21 +6,27 @@
 <title>Interactive Bible</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="bar">
   <button id="picker-btn" class="title-btn" aria-haspopup="dialog"><span id="ref-title">…</span><span class="caret">▾</span></button>
   <div class="nav">
-    <button id="prev" class="icon" title="Previous chapter (←)" aria-label="Previous chapter">‹</button>
-    <button id="next" class="icon" title="Next chapter (→)" aria-label="Next chapter">›</button>
+    <button id="prev" class="icon" data-i18n-title="prevCh" title="Previous chapter (←)" aria-label="Previous chapter (←)">‹</button>
+    <button id="next" class="icon" data-i18n-title="nextCh" title="Next chapter (→)" aria-label="Next chapter (→)">›</button>
   </div>
   <span class="spacer"></span>
-  <button id="tours-btn" class="text-btn" aria-haspopup="dialog">Tours</button>
-  <span class="badge" title="King James Version (public domain)">KJV</span>
-  <button id="smaller" class="icon" title="Smaller text" aria-label="Smaller text">A−</button>
-  <button id="larger" class="icon" title="Larger text" aria-label="Larger text">A+</button>
+  <button id="search-btn" class="icon" data-i18n-title="search" title="Search (/)" aria-label="Search (/)" aria-haspopup="dialog"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M10.4 10.4L14 14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button>
+  <button id="tours-btn" class="text-btn" aria-haspopup="dialog" data-i18n="tours">Tours</button>
+  <select id="version" class="badge" data-i18n-title="version" title="Translation" aria-label="Translation">
+    <option value="kjv">KJV</option>
+    <option value="cuv">和合本</option>
+    <option value="kjv+cuv">KJV + 和合本</option>
+    <option value="cuv+kjv">和合本 + KJV</option>
+  </select>
+  <button id="smaller" class="icon" data-i18n-title="smaller" title="Smaller text" aria-label="Smaller text">A−</button>
+  <button id="larger" class="icon" data-i18n-title="larger" title="Larger text" aria-label="Larger text">A+</button>
 </header>
 
 <main class="panels">
@@ -28,12 +34,12 @@
     <div id="tour" class="tour" aria-live="polite" hidden>
       <div class="tour-head">
         <b id="tour-title"></b><span id="tour-count" class="count"></span>
-        <button id="tour-x" class="icon" title="End tour" aria-label="End tour">×</button>
+        <button id="tour-x" class="icon" data-i18n-title="endTour" title="End tour" aria-label="End tour">×</button>
       </div>
       <p><span id="tour-year" class="tour-year"></span> <span id="tour-text"></span></p>
       <div class="tour-ctl">
-        <button id="tour-prev" class="pill">‹ Back</button>
-        <a id="tour-map" class="pill" target="_blank" rel="noopener" title="Follow this step on the atlas map">Map ↗</a>
+        <button id="tour-prev" class="pill" data-i18n="back">‹ Back</button>
+        <a id="tour-map" class="pill" target="_blank" rel="noopener" data-i18n="map" data-i18n-title="mapTitle" title="Follow this step on the atlas map">Map ↗</a>
         <button id="tour-next" class="pill">Next ›</button>
       </div>
     </div>
@@ -42,15 +48,15 @@
       <button id="prev2" class="pill">‹ <span></span></button>
       <button id="next2" class="pill"><span></span> ›</button>
     </footer>
-    <p class="credit">King James Version, public domain. Cross-references from <a href="https://www.openbible.info/labs/cross-references/" target="_blank" rel="noopener">OpenBible.info</a> (CC BY). Places and events from <a href="https://github.com/robertrouse/theographic-bible-metadata" target="_blank" rel="noopener">Theographic</a> (CC BY-SA). Map from Natural Earth.</p>
+    <p class="credit" id="credit">King James Version, public domain. Cross-references from <a href="https://www.openbible.info/labs/cross-references/" target="_blank" rel="noopener">OpenBible.info</a> (CC BY). Places and events from <a href="https://github.com/robertrouse/theographic-bible-metadata" target="_blank" rel="noopener">Theographic</a> (CC BY-SA). Map from Natural Earth.</p>
   </section>
 
   <aside id="context" class="context" aria-label="Context panel">
-    <div class="sheet-handle" id="sheet-close" title="Close"><span></span></div>
+    <div class="sheet-handle" id="sheet-close" data-i18n-title="close" title="Close"><span></span></div>
     <div id="ctx-empty" class="ctx-empty">
-      <p class="hint-title">Tap a verse</p>
-      <p>Its cross-references, places and links show up here.</p>
-      <p class="hint-title tours-hint">Or take a tour</p>
+      <p class="hint-title" data-i18n="tapVerse">Tap a verse</p>
+      <p data-i18n="tapHint">Its cross-references, places and links show up here.</p>
+      <p class="hint-title tours-hint" data-i18n="orTour">Or take a tour</p>
       <div id="ctx-tours" class="tour-list"></div>
     </div>
     <div id="ctx-body" hidden>
@@ -59,12 +65,16 @@
         <blockquote id="ctx-text"></blockquote>
       </div>
       <nav class="tabs" role="tablist">
-        <button role="tab" data-tab="xref" aria-selected="true">Cross-references <span id="xref-count" class="count"></span></button>
-        <button role="tab" data-tab="places" aria-selected="false">Places <span id="places-count" class="count"></span></button>
-        <button role="tab" data-tab="links" aria-selected="false">Links</button>
+        <button role="tab" data-tab="xref" aria-selected="true"><span data-i18n="xref">Cross-references</span> <span id="xref-count" class="count"></span></button>
+        <button role="tab" data-tab="places" aria-selected="false"><span data-i18n="places">Places</span> <span id="places-count" class="count"></span></button>
+        <button role="tab" data-tab="links" aria-selected="false"><span data-i18n="links">Links</span></button>
       </nav>
       <div id="tab-xref" class="tab-pane"></div>
-      <div id="tab-places" class="tab-pane" hidden></div>
+      <div id="tab-places" class="tab-pane" hidden>
+        <p id="places-note" class="note small"></p>
+        <div id="map-box" class="map-box"><div id="map-fallback"></div></div>
+        <div id="places-body"></div>
+      </div>
       <div id="tab-links" class="tab-pane" hidden></div>
     </div>
   </aside>
@@ -72,11 +82,19 @@
 
 <dialog id="picker" class="picker">
   <div class="picker-head">
-    <button id="picker-back" class="icon" hidden aria-label="Back to books">‹</button>
+    <button id="picker-back" class="icon" hidden data-i18n-title="backBooks" aria-label="Back to books">‹</button>
     <h2 id="picker-title">Books</h2>
-    <button id="picker-x" class="icon" aria-label="Close">×</button>
+    <button id="picker-x" class="icon" data-i18n-title="close" aria-label="Close">×</button>
   </div>
   <div id="picker-body"></div>
+</dialog>
+
+<dialog id="search" class="picker search">
+  <div class="picker-head">
+    <input id="search-q" type="search" autocomplete="off" spellcheck="false" enterkeyhint="search" data-i18n-ph="searchPh" placeholder="Search" aria-label="Search">
+    <button id="search-x" class="icon" data-i18n-title="close" aria-label="Close">×</button>
+  </div>
+  <div id="search-results" class="search-results" aria-live="polite"></div>
 </dialog>
 
 <script src="app.js"></script>
