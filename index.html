@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interactive Bible</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="bar">
+  <button id="picker-btn" class="title-btn" aria-haspopup="dialog"><span id="ref-title">…</span><span class="caret">▾</span></button>
+  <div class="nav">
+    <button id="prev" class="icon" title="Previous chapter (←)" aria-label="Previous chapter">‹</button>
+    <button id="next" class="icon" title="Next chapter (→)" aria-label="Next chapter">›</button>
+  </div>
+  <span class="spacer"></span>
+  <span class="badge" title="King James Version (public domain)">KJV</span>
+  <button id="smaller" class="icon" title="Smaller text" aria-label="Smaller text">A−</button>
+  <button id="larger" class="icon" title="Larger text" aria-label="Larger text">A+</button>
+</header>
+
+<main class="panels">
+  <section id="reader" class="reader" aria-label="Reading panel">
+    <article id="chapter" class="chapter"></article>
+    <footer class="chapter-foot">
+      <button id="prev2" class="pill">‹ <span></span></button>
+      <button id="next2" class="pill"><span></span> ›</button>
+    </footer>
+    <p class="credit">King James Version, public domain. Cross-references from <a href="https://www.openbible.info/labs/cross-references/" target="_blank" rel="noopener">OpenBible.info</a> (CC BY). Places and events from <a href="https://github.com/robertrouse/theographic-bible-metadata" target="_blank" rel="noopener">Theographic</a> (CC BY-SA). Map from Natural Earth.</p>
+  </section>
+
+  <aside id="context" class="context" aria-label="Context panel">
+    <div class="sheet-handle" id="sheet-close" title="Close"><span></span></div>
+    <div id="ctx-empty" class="ctx-empty">
+      <p class="hint-title">Tap a verse</p>
+      <p>Its cross-references, places and links show up here.</p>
+    </div>
+    <div id="ctx-body" hidden>
+      <div class="ctx-head">
+        <h2 id="ctx-ref"></h2>
+        <blockquote id="ctx-text"></blockquote>
+      </div>
+      <nav class="tabs" role="tablist">
+        <button role="tab" data-tab="xref" aria-selected="true">Cross-references <span id="xref-count" class="count"></span></button>
+        <button role="tab" data-tab="places" aria-selected="false">Places <span id="places-count" class="count"></span></button>
+        <button role="tab" data-tab="links" aria-selected="false">Links</button>
+      </nav>
+      <div id="tab-xref" class="tab-pane"></div>
+      <div id="tab-places" class="tab-pane" hidden></div>
+      <div id="tab-links" class="tab-pane" hidden></div>
+    </div>
+  </aside>
+</main>
+
+<dialog id="picker" class="picker">
+  <div class="picker-head">
+    <button id="picker-back" class="icon" hidden aria-label="Back to books">‹</button>
+    <h2 id="picker-title">Books</h2>
+    <button id="picker-x" class="icon" aria-label="Close">×</button>
+  </div>
+  <div id="picker-body"></div>
+</dialog>
+
+<script src="app.js"></script>
+</body>
+</html>
