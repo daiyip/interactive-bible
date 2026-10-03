@@ -10,7 +10,7 @@ Writes
   data/places.json, data/vctx/, data/search.json, data/basemap.json   see build_places(), build_search(), build_basemap()
 Book ids are OSIS (Gen, Exod, ... Rev), as in the OpenBible cross-references.
 """
-import json, os, re
+import itertools, json, os, re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "tools", "src")
@@ -186,6 +186,7 @@ def build_places(verses, people):
     """data/places.json   [[id, name, lon, lat, kind, name_zh], ...]   (index = place number)
        data/vctx/<id>.json  {"places": {"chapter.verse": [place numbers]},
                              "people": {"chapter.verse": [person numbers]}  (see build_people()),
+                             "years": {"chapter": year, "chapter.verse": year where it differs from its chapter's},
                              "events": {"chapter.verse": [[title, year, title_zh], ...]}}  (events this verse belongs to)
        Chinese names are "" where tools/atlas_zh.json has none."""
     places, events = load_theographic("places.json"), load_theographic("events.json")
@@ -197,7 +198,7 @@ def build_places(verses, people):
                         round(float(p["latitude"]), 3), p.get("featureType", "")])
             out[-1].append(ZH["place_names"].get(out[-1][1], ""))
     write(os.path.join(DATA, "places.json"), out)
-    vplaces, vpeople, vevents = {}, {}, {}
+    vplaces, vpeople, vevents, vyears = {}, {}, {}, {}
     year = lambda s: int(re.match(r"^-?\d+", s).group()) if re.match(r"^-?\d+", s) else None
     for v in verses.values():
         b, c, n = v["osisRef"].split(".")
@@ -210,11 +211,33 @@ def build_places(verses, people):
               for e in v.get("event", []) if e in events]
         if es:
             vevents.setdefault(b, {})[f"{c}.{n}"] = es
-    for b in set(vplaces) | set(vpeople) | set(vevents):
-        write(os.path.join(DATA, "vctx", b + ".json"),
-              {"places": vplaces.get(b, {}), "people": vpeople.get(b, {}), "events": vevents.get(b, {})})
+    # A verse Theographic leaves undated takes the year of the dated verse before it in its book (or after it, at the
+    # start of a book). Haggai has no dates at all; its prophecies are dated to 520 BC (Hag 1:1).
+    for b, vs in itertools.groupby(sorted(verses.values(), key=lambda v: ref_key(v["osisRef"])), lambda v: v["osisRef"].split(".")[0]):
+        vs = list(vs)
+        dated = [v.get("yearNum") for v in vs]
+        last = next((y for y in dated if y is not None), {"Hag": -520}.get(b))
+        for v, y in zip(vs, dated):
+            last = y if y is not None else last
+            if last is not None:
+                _, c, n = v["osisRef"].split(".")
+                vyears.setdefault(b, {}).setdefault(c, {})[n] = last
+    for b in set(vplaces) | set(vpeople) | set(vevents) | set(vyears):
+        write(os.path.join(DATA, "vctx", b + ".json"), {"places": vplaces.get(b, {}), "people": vpeople.get(b, {}),
+                                                        "events": vevents.get(b, {}), "years": chapter_years(vyears.get(b, {}))})
     build_search(out, verses, index, events, year)
     return len(out), sum(map(len, vplaces.values())), sum(map(len, vevents.values()))
+
+
+def chapter_years(chapters):
+    """{"3": {"16": year, ...}} → {"3": the chapter's commonest year, "3.16": year if it differs}  (years as Theographic dates
+    each verse, for setting the map's timeline when the verse has no dated event)"""
+    out = {}
+    for c, verses in chapters.items():
+        common = max(set(verses.values()), key=list(verses.values()).count)
+        out[c] = common
+        out.update({f"{c}.{n}": y for n, y in verses.items() if y != common})
+    return out
 
 
 def build_search(places, verses, index, events, year):
