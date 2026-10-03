@@ -48,14 +48,14 @@
       <button id="prev2" class="pill">‹ <span></span></button>
       <button id="next2" class="pill"><span></span> ›</button>
     </footer>
-    <p class="credit" id="credit">King James Version, public domain. Cross-references from <a href="https://www.openbible.info/labs/cross-references/" target="_blank" rel="noopener">OpenBible.info</a> (CC BY). Places and events from <a href="https://github.com/robertrouse/theographic-bible-metadata" target="_blank" rel="noopener">Theographic</a> (CC BY-SA). Map from Natural Earth.</p>
+    <p class="credit" id="credit">King James Version, public domain. Cross-references from <a href="https://www.openbible.info/labs/cross-references/" target="_blank" rel="noopener">OpenBible.info</a> (CC BY). People, places and events from <a href="https://github.com/robertrouse/theographic-bible-metadata" target="_blank" rel="noopener">Theographic</a> (CC BY-SA). Map from Natural Earth.</p>
   </section>
 
   <aside id="context" class="context" aria-label="Context panel">
     <div class="sheet-handle" id="sheet-close" data-i18n-title="close" title="Close"><span></span></div>
     <div id="ctx-empty" class="ctx-empty">
       <p class="hint-title" data-i18n="tapVerse">Tap a verse</p>
-      <p data-i18n="tapHint">Its cross-references, places and links show up here.</p>
+      <p data-i18n="tapHint">Its cross-references, people, places and links show up here.</p>
       <p class="hint-title tours-hint" data-i18n="orTour">Or take a tour</p>
       <div id="ctx-tours" class="tour-list"></div>
     </div>
@@ -66,10 +66,12 @@
       </div>
       <nav class="tabs" role="tablist">
         <button role="tab" data-tab="xref" aria-selected="true"><span data-i18n="xref">Cross-references</span> <span id="xref-count" class="count"></span></button>
+        <button role="tab" data-tab="people" aria-selected="false"><span data-i18n="people">People</span> <span id="people-count" class="count"></span></button>
         <button role="tab" data-tab="places" aria-selected="false"><span data-i18n="places">Places</span> <span id="places-count" class="count"></span></button>
         <button role="tab" data-tab="links" aria-selected="false"><span data-i18n="links">Links</span></button>
       </nav>
       <div id="tab-xref" class="tab-pane"></div>
+      <div id="tab-people" class="tab-pane" hidden></div>
       <div id="tab-places" class="tab-pane" hidden>
         <p id="places-note" class="note small"></p>
         <div id="map-box" class="map-box"><div id="map-fallback"></div></div>

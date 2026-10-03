@@ -9,6 +9,7 @@ const state = {
   books: [], byId: {},
   book: "Gen", chapter: 1, verse: null, to: null,
   tab: "xref",
+  person: null, // the person open in the People tab (a person number), kept while moving between verses
   tour: null, // {tr, i}: the open tour and step
   size: 19,
   version: "kjv", // "kjv", "cuv", or two of them for side by side ("kjv+cuv"); the first sets the interface language
@@ -19,9 +20,9 @@ const state = {
 
 const L = {
   en: {
-    xref: "Cross-references", places: "Places", links: "Links", tours: "Tours", books: "Books",
+    xref: "Cross-references", people: "People", places: "Places", links: "Links", tours: "Tours", books: "Books",
     ot: "Old Testament", nt: "New Testament", version: "Translation",
-    tapVerse: "Tap a verse", tapHint: "Its cross-references, places and links show up here.", orTour: "Or take a tour",
+    tapVerse: "Tap a verse", tapHint: "Its cross-references, people, places and links show up here.", orTour: "Or take a tour",
     prevCh: "Previous chapter (←)", nextCh: "Next chapter (→)", smaller: "Smaller text", larger: "Larger text",
     close: "Close", backBooks: "Back to books", endTour: "End tour",
     back: "‹ Back", next: "Next ›", finish: "Finish", map: "Map ↗", mapTitle: "Follow this step on the atlas map",
@@ -29,6 +30,11 @@ const L = {
     noXref: "No cross-references for this verse.", votes: "Votes on OpenBible.info: how many readers found this link helpful",
     showAll: (n) => `Show all ${n}`,
     noPlaces: (r) => `No places are named in ${r}.`, named: "Named in this verse",
+    noPeople: (r) => `No one is named in ${r}.`, peopleIn: (r) => `No one is named in this verse. People in ${r}:`,
+    rel: { father: "Father", mother: "Mother", partners: "Married to", children: "Children", siblings: "Brothers and sisters" },
+    childOf: (g, n) => `${g === "F" ? "Daughter" : "Son"} of ${n}`, partnerOf: (g, n) => `${g === "F" ? "Wife" : "Husband"} of ${n}`,
+    firstIn: (r) => `First named in ${r}`, allPeople: "‹ People in this verse", bioSrc: "Easton’s Bible Dictionary",
+    family: "Family", namedIn: "Named in",
     inChapter: (r) => `No places named in this verse. Places in ${r}:`, partOf: "Part of",
     error: "Could not load this chapter. Check your connection and reload.", site: "Bible", atlas: "Atlas map",
     year: (y) => (y < 0 ? `${-y} BC` : `AD ${y}`),
@@ -39,13 +45,13 @@ const L = {
     searching: "Searching the text…",
     credit: `King James Version and 和合本 (Chinese Union Version), public domain. Cross-references from
       <a href="https://www.openbible.info/labs/cross-references/" target="_blank" rel="noopener">OpenBible.info</a> (CC BY).
-      Places and events from <a href="https://github.com/robertrouse/theographic-bible-metadata" target="_blank" rel="noopener">Theographic</a>
-      (CC BY-SA). Map from <a href="https://atlas.daiyip.com" target="_blank" rel="noopener">Atlas</a> and Natural Earth.`,
+      People, places and events from <a href="https://github.com/robertrouse/theographic-bible-metadata" target="_blank" rel="noopener">Theographic</a>
+      (CC BY-SA), with biographies from Easton’s Bible Dictionary. Map from <a href="https://atlas.daiyip.com" target="_blank" rel="noopener">Atlas</a> and Natural Earth.`,
   },
   zh: {
-    xref: "串珠", places: "地点", links: "链接", tours: "导览", books: "书卷",
+    xref: "串珠", people: "人物", places: "地点", links: "链接", tours: "导览", books: "书卷",
     ot: "旧约", nt: "新约", version: "译本",
-    tapVerse: "点选一节经文", tapHint: "它的串珠、地点和链接会显示在这里。", orTour: "或者跟随导览",
+    tapVerse: "点选一节经文", tapHint: "它的串珠、人物、地点和链接会显示在这里。", orTour: "或者跟随导览",
     prevCh: "上一章 (←)", nextCh: "下一章 (→)", smaller: "缩小字体", larger: "放大字体",
     close: "关闭", backBooks: "返回书卷", endTour: "结束导览",
     back: "‹ 上一步", next: "下一步 ›", finish: "完成", map: "地图 ↗", mapTitle: "在历代地图上查看这一步",
@@ -53,6 +59,11 @@ const L = {
     noXref: "这节经文没有串珠。", votes: "OpenBible.info 上认为这条串珠有帮助的读者人数",
     showAll: (n) => `显示全部 ${n} 条`,
     noPlaces: (r) => `${r} 没有提到地名。`, named: "本节提到的地点",
+    noPeople: (r) => `${r} 没有提到人名。`, peopleIn: (r) => `本节没有提到人名。${r} 中的人物：`,
+    rel: { father: "父亲", mother: "母亲", partners: "配偶", children: "儿女", siblings: "兄弟姐妹" },
+    childOf: (g, n) => `${n}的${g === "F" ? "女儿" : "儿子"}`, partnerOf: (g, n) => `${n}的${g === "F" ? "妻子" : "丈夫"}`,
+    firstIn: (r) => `首次出现于${r}`, allPeople: "‹ 本节的人物", bioSrc: "Easton 圣经辞典（英文）",
+    family: "家人", namedIn: "出现的经文",
     inChapter: (r) => `本节没有提到地名。${r} 中的地点：`, partOf: "所属事件",
     error: "无法载入这一章。请检查网络后重新载入。", site: "圣经", atlas: "地图",
     year: (y) => (y < 0 ? `公元前${-y}年` : `公元${y}年`),
@@ -63,8 +74,8 @@ const L = {
     searching: "正在搜索经文…",
     credit: `和合本与英王钦定本（KJV）均为公有领域。串珠来自
       <a href="https://www.openbible.info/labs/cross-references/" target="_blank" rel="noopener">OpenBible.info</a>（CC BY）。
-      地点与事件来自 <a href="https://github.com/robertrouse/theographic-bible-metadata" target="_blank" rel="noopener">Theographic</a>
-      （CC BY-SA）。地图来自<a href="https://atlas.daiyip.com" target="_blank" rel="noopener">历代地图</a>与 Natural Earth。`,
+      人物、地点与事件来自 <a href="https://github.com/robertrouse/theographic-bible-metadata" target="_blank" rel="noopener">Theographic</a>
+      （CC BY-SA），人物简介来自 Easton 圣经辞典。地图来自<a href="https://atlas.daiyip.com" target="_blank" rel="noopener">历代地图</a>与 Natural Earth。`,
   },
 };
 const KINDS_ZH = { City: "城", Island: "岛", Landmark: "地标", Mountain: "山", Path: "道路", Region: "地区", Valley: "谷", Water: "水域" };
@@ -101,7 +112,7 @@ function loadJSON(url) {
 const versions = () => state.version.split("+");
 const bookText = (id, tr = versions()[0]) => loadJSON(`data/text/${tr}/${id}.json`);
 const bookXref = (id) => loadJSON(`data/xref/${id}.json`).catch(() => ({}));
-const bookContext = (id) => loadJSON(`data/vctx/${id}.json`).catch(() => ({ places: {}, events: {} }));
+const bookContext = (id) => loadJSON(`data/vctx/${id}.json`).catch(() => ({ places: {}, people: {}, events: {} }));
 
 const store = {
   get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
@@ -222,6 +233,8 @@ function secondLine(text, tr) {
 
 // --- Context panel ----------------------------------------------------------
 
+const TABS = ["xref", "people", "places", "links"];
+
 async function renderContext() {
   const open = state.verse != null;
   $("ctx-empty").hidden = open;
@@ -235,8 +248,9 @@ async function renderContext() {
   $("ctx-text").lang = vs[0] === "cuv" ? "zh-CN" : "en";
   $("ctx-text").replaceChildren(texts[0][state.chapter - 1][v - 1], ...(vs[1] ? [secondLine(texts[1][state.chapter - 1][v - 1], vs[1])] : []));
   document.querySelectorAll(".tabs button").forEach((t) => t.setAttribute("aria-selected", t.dataset.tab === state.tab));
-  for (const t of ["xref", "places", "links"]) $("tab-" + t).hidden = t !== state.tab;
+  for (const t of TABS) $("tab-" + t).hidden = t !== state.tab;
   renderLinks(b, state.chapter, v);
+  renderPeople(b, state.chapter, v, key).catch((e) => console.error(e));
   renderPlaces(b, state.chapter, v, key).catch((e) => console.error(e));
   const refs = (await bookXref(b.id))[`${state.chapter}.${v}`] || [];
   if (`${state.book}.${state.chapter}.${state.verse}` !== key) return;
@@ -343,6 +357,126 @@ async function renderPlaces(b, c, v, key) {
     }
     pane.append(h, ul);
   }
+}
+
+// --- People ---------------------------------------------------------------------
+
+// data/people.json: [[name, name_zh, gender, father, mother, [partners], [children], [siblings], verse count, first verse,
+//                     other names]]
+// data/people/<n>.json: [[biography, [verses]]] for persons n*256 .. n*256+255 (see tools/build_data.py).
+const P = { NAME: 0, ZH: 1, G: 2, FATHER: 3, MOTHER: 4, PARTNERS: 5, CHILDREN: 6, SIBLINGS: 7, COUNT: 8, FIRST: 9, ALIAS: 10 };
+const loadPeople = () => loadJSON("data/people.json");
+const personMore = (i) => loadJSON(`data/people/${i >> 8}.json`).then((c) => c[i & 255]);
+const pname = (p) => (zh() && p[P.ZH]) || p[P.NAME];
+
+// "Son of Jesse", or the first sentence of the biography.
+function personLine(people, p, bio) {
+  const short = (i) => pname(people[i]).replace(/\s*[（(].*[)）]$/, ""); // "Jacob (Israel)" → "Jacob"
+  if (p[P.FATHER] != null || p[P.MOTHER] != null) return t("childOf", p[P.G], short(p[P.FATHER] ?? p[P.MOTHER]));
+  if (p[P.PARTNERS].length) return t("partnerOf", p[P.G], short(p[P.PARTNERS][0]));
+  if (zh() || !bio) return "";
+  let first = bio.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/\s*\([^)]*\)/g, "").replace(/^[\s,;:]+/, "").split(/(?<=\w{4}[.;:])\s/)[0];
+  if (!first) return "";
+  first = first[0].toUpperCase() + first.slice(1);
+  return first.length > 110 ? first.slice(0, 108).replace(/\s+\S*$/, "") + " …" : first;
+}
+
+// Escaped biography text, with its verse links ([Ex. 6:20](#Exod.6.20)) as reader links.
+const bioHTML = (s) => esc(s).replace(/\[([^\]]+)\]\((#[1-3]?[A-Za-z]+\.\d+(?:\.\d+)?)\)/g, '<a href="$2">$1</a>');
+
+async function renderPeople(b, c, v, key) {
+  const [people, ctx] = await Promise.all([loadPeople(), bookContext(b.id)]);
+  if (`${state.book}.${state.chapter}.${state.verse}` !== key) return;
+  const vp = ctx.people || {}, here = vp[`${c}.${v}`] || [];
+  $("people-count").textContent = here.length || "";
+  if (state.person != null) return renderPerson(people, state.person, key);
+  let ids = here, note = "";
+  if (!ids.length) {
+    ids = [...new Set(Object.entries(vp).filter(([k]) => k.startsWith(c + ".")).flatMap(([, l]) => l))];
+    note = ids.length ? t("peopleIn", `${bname(b)} ${c}`) : t("noPeople", `${bname(b)} ${c}`);
+  }
+  const more = await Promise.all(ids.map(personMore));
+  if (`${state.book}.${state.chapter}.${state.verse}` !== key || state.person != null) return;
+  const pane = $("tab-people");
+  pane.replaceChildren();
+  if (note) pane.append(Object.assign(document.createElement("p"), { className: "note small", textContent: note }));
+  const ul = document.createElement("ul");
+  ul.className = "people";
+  ids.forEach((i, k) => {
+    const p = people[i], li = document.createElement("li"), btn = document.createElement("button");
+    btn.innerHTML = `<b></b><span class="n"></span><span class="line"></span>`;
+    btn.children[0].textContent = pname(p);
+    btn.children[1].textContent = t("nVerses", p[P.COUNT]);
+    btn.children[2].textContent = personLine(people, p, more[k][0]);
+    btn.onclick = () => { state.person = i; renderPeople(b, c, v, key); $("context").scrollTop = 0; };
+    li.append(btn);
+    ul.append(li);
+  });
+  pane.append(ul);
+}
+
+// One person: biography, family and every verse that names them. It stays open while moving between those verses.
+async function renderPerson(people, i, key) {
+  const p = people[i], [bio, refs] = await personMore(i);
+  if (`${state.book}.${state.chapter}.${state.verse}` !== key || state.person !== i) return;
+  const pane = $("tab-people"), el = (tag, cls, text) => Object.assign(document.createElement(tag), cls ? { className: cls } : {}, text != null ? { textContent: text } : {});
+  const back = el("button", "pill back", t("allPeople"));
+  back.onclick = () => { state.person = null; renderContext(); };
+  const head = el("div", "person-head");
+  const other = zh() ? p[P.NAME] : p[P.ZH];
+  head.append(el("h3", "", pname(p)), ...(other ? [el("span", "other", other)] : []));
+  const line = personLine(people, p, "");
+  const card = [back, head];
+  if (line) card.push(el("p", "person-line", line));
+  if (bio) {
+    const q = el("p", "bio");
+    q.lang = "en";
+    q.innerHTML = bioHTML(bio);
+    card.push(q, el("p", "note small src", "— " + t("bioSrc")));
+  }
+  // Family: each one opens that person (at the first verse that names them).
+  const fam = el("dl", "family");
+  for (const [k, list] of [["father", [p[P.FATHER]]], ["mother", [p[P.MOTHER]]], ["partners", p[P.PARTNERS]],
+                           ["children", p[P.CHILDREN]], ["siblings", p[P.SIBLINGS]]]) {
+    const ids = list.filter((x) => x != null);
+    if (!ids.length) continue;
+    const dd = el("dd");
+    for (const j of ids) {
+      const a = el("button", "chip", pname(people[j]));
+      a.onclick = () => openPerson(j, people[j][P.FIRST]);
+      dd.append(a);
+    }
+    fam.append(el("dt", "", t("rel")[k]), dd);
+  }
+  if (fam.children.length) card.push(el("h4", "", t("family")), fam);
+  // Verses, by book; the open one is marked.
+  card.push(el("h4", "", `${t("namedIn")} · ${t("nVerses", refs.length)}`));
+  const vl = el("div", "person-verses"), here = `${state.book}.${state.chapter}.${state.verse}`;
+  let book = null, row = null;
+  for (const r of refs) {
+    const [bk, c, v] = r.split(".");
+    if (bk !== book) {
+      book = bk;
+      row = el("p");
+      row.append(el("b", "", bname(state.byId[bk]) + " "));
+      vl.append(row);
+    }
+    const a = el("a", r === here ? "on" : "", `${c}:${v}`);
+    a.href = hashFor(bk, c, v);
+    row.append(a, " ");
+  }
+  card.push(vl);
+  pane.replaceChildren(...card);
+}
+
+// Open a person's card at a verse (from family links and search).
+function openPerson(i, ref) {
+  state.person = i;
+  state.tab = "people";
+  store.set("bible-tab", "people");
+  const [b, c, v] = ref.split(".");
+  if (`${state.book}.${state.chapter}.${state.verse}` === ref) renderContext();
+  else go(b, c, v);
 }
 
 // --- The atlas map ------------------------------------------------------------
@@ -618,7 +752,14 @@ async function runSearch() {
   const label = (en, zhName) => (zh() && zhName) || en;
   add(t("events"), idx.events.filter(([title, titleZh]) => has(title, titleZh)).slice(0, 30)
     .map(([title, titleZh, year, first]) => item(label(title, titleZh), [year != null && fmtYear(year), refLabel(first)].filter(Boolean).join(" · "), () => go(...first.split("."))))); 
-  // Places: names that start with the query first.
+  // People and places: names that start with the query first.
+  const people = await loadPeople();
+  if (seq !== searchSeq) return;
+  const starts = (p) => norm(pname(p)).startsWith(nq);
+  add(t("people"), people.map((p, i) => [p, i]).filter(([p]) => has(p[P.NAME], p[P.ZH], ...p[P.ALIAS].split(",")))
+    .sort(([a], [b]) => (starts(b) - starts(a)) || b[P.COUNT] - a[P.COUNT]).slice(0, 30)
+    .map(([p, i]) => item(pname(p), [personLine(people, p, ""), t("nVerses", p[P.COUNT])].filter(Boolean).join(" · "),
+      () => openPerson(i, p[P.FIRST]))));
   const places = idx.places.filter(([name, nameZh, , first]) => first && has(name, nameZh))
     .sort((a, b) => (norm(label(b[0], b[1])).startsWith(nq) - norm(label(a[0], a[1])).startsWith(nq)) || b[4] - a[4]).slice(0, 30);
   add(t("places"), places.map(([name, nameZh, kind, first, n]) =>
@@ -707,7 +848,7 @@ async function init() {
     fillTourList($("ctx-tours")).catch((e) => console.error(e));
     route();
   };
-  if (["xref", "places", "links"].includes(store.get("bible-tab"))) state.tab = store.get("bible-tab");
+  if (TABS.includes(store.get("bible-tab"))) state.tab = store.get("bible-tab");
 
   $("chapter").addEventListener("click", (e) => {
     const el = e.target.closest(".v");
@@ -718,6 +859,7 @@ async function init() {
   document.querySelector(".tabs").addEventListener("click", (e) => {
     const t = e.target.closest("button")?.dataset.tab;
     if (!t) return;
+    if (t === "people" && state.tab === "people") state.person = null; // the tab again goes back to the verse's people
     state.tab = t;
     store.set("bible-tab", t);
     renderContext();
