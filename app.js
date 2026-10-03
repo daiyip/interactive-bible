@@ -10,6 +10,7 @@ const state = {
   books: [], byId: {},
   book: "Gen", chapter: 1, verse: null, to: null,
   tab: "xref",
+  tour: null, // {tr, i}: the open tour and step
   size: 19,
 };
 const cache = new Map();
@@ -124,8 +125,9 @@ async function renderChapter() {
     const el = document.querySelector(`.v[data-v="${state.verse}"]`);
     el.classList.add("sel");
     const r = el.getBoundingClientRect(), box = $("reader").getBoundingClientRect();
-    if (r.top < box.top + 40 || r.bottom > box.bottom - 40 || document.body.classList.contains("sheet-open")) {
-      $("reader").scrollTo({ top: $("reader").scrollTop + r.top - box.top - 80, behavior: "smooth" });
+    const top = $("tour").hidden ? 0 : $("tour").offsetHeight; // the tour card sits over the top of the text
+    if (r.top < box.top + top + 40 || r.bottom > box.bottom - 40 || document.body.classList.contains("sheet-open")) {
+      $("reader").scrollTo({ top: $("reader").scrollTop + r.top - box.top - top - 80, behavior: "smooth" });
     }
   }
 }
@@ -308,6 +310,66 @@ function drawMap(pts, base) {
   return svg;
 }
 
+// --- Tours ------------------------------------------------------------------
+
+// Guided journeys, shared with the atlas pack (atlas/tours.json). Each step opens its verses in the reader.
+const ATLAS = "https://atlas.daiyip.com/";
+const PACK = "https://bible.daiyip.com/atlas/manifest.json";
+const loadTours = () => loadJSON("atlas/tours.json");
+const fmtYear = (y) => (y < 0 ? `${-y} BC` : `AD ${y}`);
+
+async function fillTourList(list) {
+  const tours = await loadTours();
+  list.replaceChildren(...tours.map((tr) => {
+    const btn = document.createElement("button");
+    btn.className = "tour-item";
+    const [b, span, small] = ["b", "span", "small"].map((t) => document.createElement(t));
+    b.textContent = tr.title;
+    span.textContent = `${fmtYear(tr.start)}${tr.end !== tr.start ? "–" + fmtYear(tr.end) : ""} · ${tr.steps.length} steps`;
+    small.textContent = tr.summary;
+    btn.append(b, span, small);
+    btn.onclick = () => startTour(tr.id, 0);
+    return btn;
+  }));
+}
+function showTours() {
+  $("picker-title").textContent = "Tours";
+  $("picker-back").hidden = true;
+  const list = document.createElement("div");
+  list.className = "tour-list";
+  $("picker-body").replaceChildren(list);
+  fillTourList(list).catch(showError);
+}
+async function startTour(id, i) {
+  const tr = (await loadTours()).find((t) => t.id === id);
+  if (!tr) return endTour();
+  i = Math.max(0, Math.min(tr.steps.length - 1, i));
+  state.tour = { tr, i };
+  store.set("bible-tour", [id, i]);
+  if ($("picker").open) $("picker").close();
+  const ref = tr.steps[i].ref;
+  if (decodeURIComponent(location.hash.slice(1)) === ref) renderTour();
+  else location.hash = ref;
+}
+function endTour() {
+  state.tour = null;
+  store.set("bible-tour", null);
+  renderTour();
+}
+function renderTour() {
+  const t = state.tour;
+  $("tour").hidden = !t;
+  if (!t) return;
+  const { tr, i } = t, s = tr.steps[i], last = i === tr.steps.length - 1;
+  $("tour-title").textContent = tr.title;
+  $("tour-count").textContent = `${i + 1} of ${tr.steps.length}`;
+  $("tour-year").textContent = fmtYear(s.year);
+  $("tour-text").textContent = s.text;
+  $("tour-prev").disabled = i === 0;
+  $("tour-next").textContent = last ? "Finish" : "Next ›";
+  $("tour-map").href = `${ATLAS}?pack=${encodeURIComponent(PACK)}#tour=${tr.id}&s=${i + 1}`;
+}
+
 // --- Book and chapter picker -------------------------------------------------
 
 function showBooks() {
@@ -356,6 +418,7 @@ function route() {
   const r = parseRef(decodeURIComponent(location.hash.slice(1))) || parseRef(store.get("bible-pos")) || { book: "Gen", chapter: 1, verse: null, to: null };
   Object.assign(state, r);
   store.set("bible-pos", [r.book, r.chapter, r.verse].filter((x) => x != null).join("."));
+  renderTour();
   renderChapter().then(renderContext).catch(showError);
 }
 function showError(e) {
@@ -406,6 +469,16 @@ async function init() {
     else if (e.key === "ArrowRight") step(1);
     else if (e.key === "Escape" && state.verse) location.hash = hashFor(state.book, state.chapter);
   });
+  $("tours-btn").onclick = () => { showTours(); $("picker").showModal(); };
+  $("tour-prev").onclick = () => startTour(state.tour.tr.id, state.tour.i - 1);
+  $("tour-next").onclick = () => (state.tour.i === state.tour.tr.steps.length - 1 ? endTour() : startTour(state.tour.tr.id, state.tour.i + 1));
+  $("tour-x").onclick = endTour;
+  fillTourList($("ctx-tours")).catch((e) => console.error(e));
+  const saved = store.get("bible-tour");
+  if (Array.isArray(saved)) {
+    const tr = (await loadTours().catch(() => [])).find((t) => t.id === saved[0]);
+    if (tr && tr.steps[saved[1]]) state.tour = { tr, i: saved[1] };
+  }
   addEventListener("hashchange", route);
   route();
 }

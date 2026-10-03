@@ -104,6 +104,122 @@
   ]
  },
  {
+  "id": "joseph",
+  "era": "patriarchs",
+  "start": -1727,
+  "end": -1688,
+  "path": true,
+  "title": "Joseph in Egypt",
+  "title_zh": "约瑟在埃及",
+  "summary": "Sold by his brothers, Joseph rises from slave to ruler of Egypt and brings Jacob's family down to Goshen.",
+  "summary_zh": "约瑟被哥哥们卖掉，从奴仆升为埃及的宰相，又把雅各全家接到歌珊。",
+  "steps": [
+   {
+    "year": -1727,
+    "at": [
+     35.099,
+     31.532
+    ],
+    "zoom": 7.2,
+    "ref": "Gen.37.3-14",
+    "text": "Jacob loves Joseph more than his other sons and makes him a coat of many colours. From the vale of Hebron he sends Joseph to see how his brothers are doing with the flocks at Shechem.",
+    "text_zh": "雅各爱约瑟过于爱他的众子，给他做了一件彩衣。雅各从希伯伦谷打发约瑟往示剑去，看哥哥们和羊群平安不平安。"
+   },
+   {
+    "year": -1727,
+    "at": [
+     35.243,
+     32.405
+    ],
+    "zoom": 7.4,
+    "ref": "Gen.37.17-28",
+    "text": "He finds them at Dothan. They throw him into a pit, then sell him to a caravan of Ishmeelites going down to Egypt for twenty pieces of silver.",
+    "text_zh": "他在多坍找到哥哥们。他们把他丢在坑里，又以二十舍客勒银子把他卖给下埃及去的以实玛利人。",
+    "event": "joseph-sold-to-egypt"
+   },
+   {
+    "year": -1727,
+    "at": [
+     31.25,
+     29.85
+    ],
+    "zoom": 6.2,
+    "ref": "Gen.39.1-6",
+    "text": "In Egypt he is bought by Potiphar, captain of Pharaoh's guard, and the Lord makes all he does prosper.",
+    "text_zh": "他被带到埃及，法老的护卫长波提乏买了他。耶和华使他手里所办的尽都顺利。"
+   },
+   {
+    "year": -1714,
+    "at": [
+     31.25,
+     29.85
+    ],
+    "zoom": 6.2,
+    "ref": "Gen.41.14-46",
+    "text": "After years in prison, Joseph is called to interpret Pharaoh's dreams: seven years of plenty, then seven of famine. At thirty he is set over all the land of Egypt.",
+    "text_zh": "约瑟在监里多年后，被召去为法老圆梦：七个丰年之后有七个荒年。他三十岁时被立治理埃及全地。",
+    "event": "joseph-promoted-in-egypt"
+   },
+   {
+    "year": -1705,
+    "at": [
+     35.099,
+     31.532
+    ],
+    "zoom": 6.4,
+    "ref": "Gen.42.1-6",
+    "text": "The famine reaches Canaan. Jacob sends ten of his sons down to Egypt to buy grain, and they bow before Joseph without knowing him.",
+    "text_zh": "饥荒临到迦南。雅各打发十个儿子下埃及去籴粮，他们向约瑟下拜，却不认得他。",
+    "event": "joseph-s-brothers-return-to-egypt"
+   },
+   {
+    "year": -1704,
+    "at": [
+     31.25,
+     29.85
+    ],
+    "zoom": 6.2,
+    "ref": "Gen.45.1-15",
+    "text": "On their second journey Joseph makes himself known: \"I am Joseph your brother, whom ye sold into Egypt.\" He sends for his father.",
+    "text_zh": "他们第二次下来时，约瑟对他们说：\"我是你们的兄弟约瑟，就是你们所卖到埃及的。\"他打发人去接父亲。"
+   },
+   {
+    "year": -1704,
+    "at": [
+     34.791,
+     31.245
+    ],
+    "zoom": 7.2,
+    "ref": "Gen.46.1-7",
+    "text": "Jacob sets out with all he has. At Beersheba God tells him in a vision of the night not to fear going down into Egypt.",
+    "text_zh": "雅各带着一切所有的起身。在别是巴，神在夜间的异象中对他说，不要怕下埃及去。"
+   },
+   {
+    "year": -1704,
+    "at": [
+     31.85,
+     30.75
+    ],
+    "zoom": 6.8,
+    "ref": "Gen.47.1-12",
+    "text": "Pharaoh gives the family the best of the land, in Goshen, the land of Rameses.",
+    "text_zh": "法老把埃及国最好的地，就是兰塞境内的歌珊地，给他们居住。"
+   },
+   {
+    "year": -1688,
+    "at": [
+     35.11,
+     31.525
+    ],
+    "zoom": 7.2,
+    "ref": "Gen.50.7-13",
+    "text": "When Jacob dies, Joseph and a great company of Egyptians carry him back to Canaan and bury him in the cave of Machpelah, with Abraham and Isaac.",
+    "text_zh": "雅各死后，约瑟和埃及的大队人马把他抬回迦南，葬在麦比拉洞里，与亚伯拉罕、以撒同葬。",
+    "event": "death-of-jacob"
+   }
+  ]
+ },
+ {
   "id": "exodus",
   "era": "wilderness",
   "start": -1490,
@@ -304,6 +420,186 @@
     "ref": "2Sam.5.6-10",
     "text": "David captures the Jebusite stronghold of Zion and makes Jerusalem, the City of David, his capital.",
     "text_zh": "大卫攻取耶布斯人的锡安保障，定耶路撒冷为京城，称为大卫城。"
+   }
+  ]
+ },
+ {
+  "id": "elijah",
+  "era": "divided-kingdom",
+  "start": -910,
+  "end": -896,
+  "path": true,
+  "title": "Elijah the prophet",
+  "title_zh": "先知以利亚",
+  "summary": "Elijah stands against Ahab and the prophets of Baal, flees to Horeb, calls Elisha and is taken up in a whirlwind.",
+  "summary_zh": "以利亚对抗亚哈和巴力的先知，逃到何烈山，呼召以利沙，最后乘旋风升天。",
+  "steps": [
+   {
+    "year": -910,
+    "at": [
+     35.19,
+     32.28
+    ],
+    "zoom": 7.2,
+    "ref": "1Kgs.17.1",
+    "text": "Elijah the Tishbite, of Gilead, tells King Ahab in Samaria that there will be neither dew nor rain but at his word.",
+    "text_zh": "基列寄居的提斯比人以利亚，在撒玛利亚对亚哈王说，这几年我若不祷告，必不降露，不下雨。"
+   },
+   {
+    "year": -910,
+    "at": [
+     35.6,
+     32.05
+    ],
+    "zoom": 7.4,
+    "ref": "1Kgs.17.2-7",
+    "text": "He hides by the brook Cherith, before the Jordan, and ravens bring him bread and meat. The site is unknown; it is shown here east of the Jordan.",
+    "text_zh": "他藏在约旦河东边的基立溪旁，乌鸦给他叼饼和肉来。溪的位置已不可考，这里标在约旦河东。"
+   },
+   {
+    "year": -909,
+    "at": [
+     35.298,
+     33.457
+    ],
+    "zoom": 7.4,
+    "ref": "1Kgs.17.8-24",
+    "text": "When the brook dries up he goes to Zarephath near Sidon. A widow's meal and oil do not run out, and he raises her son.",
+    "text_zh": "溪水干了，他往西顿的撒勒法去。寡妇坛内的面和瓶里的油总不缺短，他又使寡妇的儿子复活。"
+   },
+   {
+    "year": -906,
+    "at": [
+     35.088,
+     32.666
+    ],
+    "zoom": 7.6,
+    "ref": "1Kgs.18.17-40",
+    "text": "On Mount Carmel he challenges the 450 prophets of Baal. The fire of the Lord falls and consumes his sacrifice.",
+    "text_zh": "他在迦密山上与四百五十个巴力的先知较量。耶和华降下火来，烧尽了他的燔祭。"
+   },
+   {
+    "year": -906,
+    "at": [
+     35.328,
+     32.557
+    ],
+    "zoom": 7.4,
+    "ref": "1Kgs.18.41-19.3",
+    "text": "The rain returns, and Elijah runs before Ahab's chariot to Jezreel. Jezebel swears to kill him, and he flees.",
+    "text_zh": "大雨降下，以利亚在亚哈车前一直跑到耶斯列。耶洗别起誓要杀他，他就逃命。"
+   },
+   {
+    "year": -906,
+    "at": [
+     34.791,
+     31.245
+    ],
+    "zoom": 7,
+    "ref": "1Kgs.19.3-8",
+    "text": "At Beersheba he goes a day's journey into the wilderness and sits under a juniper tree, asking to die. An angel feeds him twice.",
+    "text_zh": "他到了别是巴，又在旷野走了一日的路程，坐在罗腾树下求死。天使两次给他吃喝。"
+   },
+   {
+    "year": -906,
+    "at": [
+     33.975,
+     28.539
+    ],
+    "zoom": 6.6,
+    "ref": "1Kgs.19.8-18",
+    "text": "In the strength of that food he travels forty days to Horeb, the mount of God. The Lord is not in the wind, the earthquake or the fire, but in a still small voice.",
+    "text_zh": "他仗着这饮食的力走了四十昼夜，到了神的山何烈山。耶和华不在风中、地震中、火中，乃在微小的声音中。"
+   },
+   {
+    "year": -905,
+    "at": [
+     35.55,
+     32.35
+    ],
+    "zoom": 7.4,
+    "ref": "1Kgs.19.19-21",
+    "text": "At Abel-meholah he finds Elisha ploughing with twelve yoke of oxen and casts his mantle on him.",
+    "text_zh": "他在亚伯·米何拉找到正赶着十二对牛耕地的以利沙，把自己的外衣搭在他身上。"
+   },
+   {
+    "year": -896,
+    "at": [
+     35.55,
+     31.84
+    ],
+    "zoom": 7.4,
+    "ref": "2Kgs.2.1-11",
+    "text": "Elijah divides the Jordan with his mantle near Jericho. A chariot of fire parts him from Elisha, and he goes up by a whirlwind into heaven.",
+    "text_zh": "以利亚在耶利哥附近用外衣打开约旦河。有火车火马将他和以利沙隔开，以利亚乘旋风升天去了。"
+   }
+  ]
+ },
+ {
+  "id": "jonah",
+  "era": "divided-kingdom",
+  "start": -862,
+  "end": -862,
+  "path": true,
+  "title": "Jonah and Nineveh",
+  "title_zh": "约拿与尼尼微",
+  "summary": "Sent to Nineveh, Jonah sails the other way, is swallowed by a great fish, and finally preaches to the city.",
+  "summary_zh": "约拿奉命往尼尼微去，却乘船往反方向逃，被大鱼吞下，最后向那城传道。",
+  "steps": [
+   {
+    "year": -862,
+    "at": [
+     35.317,
+     32.741
+    ],
+    "zoom": 7.4,
+    "ref": "Jonah.1.1-2",
+    "text": "The word of the Lord comes to Jonah, a prophet from Gath-hepher in Galilee (2 Kings 14:25): go to Nineveh and cry against it.",
+    "text_zh": "耶和华的话临到加利利迦特·希弗人约拿（王下14:25）：你起来往尼尼微去，向其中的居民呼喊。"
+   },
+   {
+    "year": -862,
+    "at": [
+     34.752,
+     32.054
+    ],
+    "zoom": 7.6,
+    "ref": "Jonah.1.3",
+    "text": "Instead he goes down to Joppa and takes a ship to Tarshish, away from the presence of the Lord.",
+    "text_zh": "他却下到约帕，上了往他施去的船，要躲避耶和华。"
+   },
+   {
+    "year": -862,
+    "at": [
+     34.2,
+     32.3
+    ],
+    "zoom": 6.8,
+    "ref": "Jonah.1.4-17",
+    "text": "A great storm rises. The sailors throw Jonah overboard, the sea grows calm, and a great fish swallows him for three days and three nights.",
+    "text_zh": "海上起了大风浪。水手把约拿抛在海中，海就平静了。耶和华安排一条大鱼吞了约拿，他在鱼腹中三日三夜。"
+   },
+   {
+    "year": -862,
+    "at": [
+     43.152,
+     36.359
+    ],
+    "zoom": 6.4,
+    "ref": "Jonah.3.1-10",
+    "text": "Sent a second time, he walks into Nineveh crying \"Yet forty days, and Nineveh shall be overthrown.\" The king and people fast in sackcloth, and God spares the city.",
+    "text_zh": "耶和华第二次差遣他。他进城喊着说：\"再等四十日，尼尼微必倾覆了！\"王和百姓都披麻禁食，神就不降灾了。"
+   },
+   {
+    "year": -862,
+    "at": [
+     43.19,
+     36.355
+    ],
+    "zoom": 7,
+    "ref": "Jonah.4.1-11",
+    "text": "Angry, Jonah sits east of the city. God raises a gourd to shade him and then withers it, to show him why He pities Nineveh.",
+    "text_zh": "约拿甚不悦，坐在城的东边。神安排一棵蓖麻为他遮荫，又使它枯槁，叫他明白神为何爱惜尼尼微。"
    }
   ]
  },

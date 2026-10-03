@@ -9,12 +9,16 @@ on the right with three tabs:
 - **Places**: a map of the places the verse names, and the events it belongs to.
 - **Links**: the verse in NKJV on Bible Gateway, other translations side by side, and a Wikipedia search.
 
+**Tours** walk through a journey one step at a time, with no verse to pick first: Abraham, Joseph, the Exodus,
+David, Elijah, Jonah, the exile and return, Jesus, and Paul's journeys. Open them from **Tours** in the top bar, or
+from the list in the empty context panel. Each step opens its verses and links to the same step on the atlas map.
+
 It is a static site with no build step and no backend, served by GitHub Pages.
 
 ## The Bible on the atlas
 
 `atlas/` is the Bible Lands data pack for the [atlas](https://atlas.daiyip.com) engine. It holds 298 events,
-1,220 places, 11 eras and 8 tours (Abraham, the Exodus, David, the exile and return, Jesus, and Paul's journeys).
+1,220 places, 11 eras and 11 tours (the same tours as the reader).
 Open it on the atlas map and timeline:
 
 - [Alongside the atlas's own history](https://atlas.daiyip.com/?pack=https://bible.daiyip.com/atlas/manifest.json)

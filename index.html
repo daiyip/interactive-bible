@@ -17,6 +17,7 @@
     <button id="next" class="icon" title="Next chapter (→)" aria-label="Next chapter">›</button>
   </div>
   <span class="spacer"></span>
+  <button id="tours-btn" class="text-btn" aria-haspopup="dialog">Tours</button>
   <span class="badge" title="King James Version (public domain)">KJV</span>
   <button id="smaller" class="icon" title="Smaller text" aria-label="Smaller text">A−</button>
   <button id="larger" class="icon" title="Larger text" aria-label="Larger text">A+</button>
@@ -24,6 +25,18 @@
 
 <main class="panels">
   <section id="reader" class="reader" aria-label="Reading panel">
+    <div id="tour" class="tour" aria-live="polite" hidden>
+      <div class="tour-head">
+        <b id="tour-title"></b><span id="tour-count" class="count"></span>
+        <button id="tour-x" class="icon" title="End tour" aria-label="End tour">×</button>
+      </div>
+      <p><span id="tour-year" class="tour-year"></span> <span id="tour-text"></span></p>
+      <div class="tour-ctl">
+        <button id="tour-prev" class="pill">‹ Back</button>
+        <a id="tour-map" class="pill" target="_blank" rel="noopener" title="Follow this step on the atlas map">Map ↗</a>
+        <button id="tour-next" class="pill">Next ›</button>
+      </div>
+    </div>
     <article id="chapter" class="chapter"></article>
     <footer class="chapter-foot">
       <button id="prev2" class="pill">‹ <span></span></button>
@@ -37,6 +50,8 @@
     <div id="ctx-empty" class="ctx-empty">
       <p class="hint-title">Tap a verse</p>
       <p>Its cross-references, places and links show up here.</p>
+      <p class="hint-title tours-hint">Or take a tour</p>
+      <div id="ctx-tours" class="tour-list"></div>
     </div>
     <div id="ctx-body" hidden>
       <div class="ctx-head">
