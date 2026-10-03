@@ -1,0 +1,127 @@
+{
+ "atlas": 1,
+ "id": "bible",
+ "name": "Bible Lands",
+ "name_zh": "圣经地理",
+ "region": {
+  "bounds": [
+   [
+    8,
+    20
+   ],
+   [
+    52,
+    46
+   ]
+  ],
+  "view": {
+   "center": [
+    35.2,
+    31.8
+   ],
+   "zoom": 5.6,
+   "year": -1490
+  },
+  "polygon": [
+   [
+    29.5,
+    31.6
+   ],
+   [
+    32.3,
+    31.3
+   ],
+   [
+    32.6,
+    34.5
+   ],
+   [
+    32.0,
+    36.6
+   ],
+   [
+    35.0,
+    37.2
+   ],
+   [
+    36.8,
+    37.3
+   ],
+   [
+    40.0,
+    37.6
+   ],
+   [
+    42.5,
+    37.5
+   ],
+   [
+    45.5,
+    35.5
+   ],
+   [
+    48.5,
+    30.5
+   ],
+   [
+    48.0,
+    29.5
+   ],
+   [
+    46.0,
+    29.0
+   ],
+   [
+    44.0,
+    30.0
+   ],
+   [
+    40.0,
+    31.5
+   ],
+   [
+    37.0,
+    29.5
+   ],
+   [
+    35.2,
+    28.0
+   ],
+   [
+    34.5,
+    27.8
+   ],
+   [
+    32.5,
+    29.5
+   ],
+   [
+    31.0,
+    29.8
+   ],
+   [
+    29.5,
+    30.5
+   ]
+  ]
+ },
+ "range": {
+  "start": -2000,
+  "end": 100
+ },
+ "data": {
+  "eras": "eras.json",
+  "events": "events.json",
+  "tours": "tours.json",
+  "gazetteer": "places.json"
+ },
+ "refs": {
+  "label": "Read",
+  "label_zh": "阅读经文",
+  "url": "https://bible.daiyip.com/#{ref}"
+ },
+ "note": "Borders are approximate, from historical-basemaps. Years follow a traditional chronology (the Exodus in 1490 BC); many scholars date the early periods later. Tours were drafted with AI from the biblical text.",
+ "note_zh": "疆域为近似示意，取自 historical-basemaps。年代采用传统年表（出埃及在公元前1490年），许多学者把早期的年代定得更晚。导览由 AI 根据经文起草。",
+ "attribution": "Places and events: Theographic Bible Metadata (CC BY-SA 4.0). Eras and tours: written for this dataset.",
+ "license": "CC BY-SA 4.0"
+}
