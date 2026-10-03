@@ -67,7 +67,7 @@ python3 -m http.server 8000   # then open http://localhost:8000/#John.3.16
 | `data/people.json` | 3,067 people as `[name, name_zh, gender, father, mother, [partners], [children], [siblings], verse count, first verse, other names]`; the index is the person number, and family members are person numbers. |
 | `data/people/<n>.json` | For persons `n×256` to `n×256+255`: `[biography, [verses]]`, loaded when a person is opened. |
 | `data/places.json` | 1,220 places as `[id, name, lon, lat, kind, name_zh]`; the index is the place number. |
-| `data/vctx/<id>.json` | Per verse: `places` and `people` (place and person numbers named in it), and `events` (`[title, year, title_zh]` it belongs to). |
+| `data/vctx/<id>.json` | Per verse: `places` and `people` (place and person numbers named in it), `events` (`[title, year, title_zh]` it belongs to), and `years` (the year of each chapter, and of each verse that differs from it), which set the map's timeline. |
 | `data/search.json` | For the search box: every place and event with its Chinese name, first verse and verse count. |
 | `data/basemap.json` | Land, lakes and main rivers of the Bible lands for the Places map (Natural Earth, simplified). |
 | `atlas/` | The atlas data pack (see above). |

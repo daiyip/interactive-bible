@@ -112,7 +112,7 @@ function loadJSON(url) {
 const versions = () => state.version.split("+");
 const bookText = (id, tr = versions()[0]) => loadJSON(`data/text/${tr}/${id}.json`);
 const bookXref = (id) => loadJSON(`data/xref/${id}.json`).catch(() => ({}));
-const bookContext = (id) => loadJSON(`data/vctx/${id}.json`).catch(() => ({ places: {}, people: {}, events: {} }));
+const bookContext = (id) => loadJSON(`data/vctx/${id}.json`).catch(() => ({ places: {}, people: {}, events: {}, years: {} }));
 
 const store = {
   get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
@@ -310,7 +310,7 @@ function renderLinks(b, c, v) {
 // Places named in the verse (or, if none, in the chapter) on the atlas map, and the events the verse belongs to.
 // Until the atlas has loaded (or if it can't), a small SVG map stands in for it.
 async function renderPlaces(b, c, v, key) {
-  const [places, { places: vp, events: ve }, base] = await Promise.all([
+  const [places, { places: vp, events: ve, years = {} }, base] = await Promise.all([
     loadJSON("data/places.json"), bookContext(b.id), loadJSON("data/basemap.json")]);
   if (`${state.book}.${state.chapter}.${state.verse}` !== key) return;
   const here = vp[`${c}.${v}`] || [];
@@ -327,7 +327,8 @@ async function renderPlaces(b, c, v, key) {
     : scope === "verse" ? t("named") : t("inChapter", `${bname(b)} ${c}`);
   $("map-fallback").replaceChildren(...(pts.length ? [drawMap(pts, base)] : []));
   $("map-box").hidden = !pts.length && !atlas.ready && !state.tour;
-  syncAtlas(pts, evs);
+  // The map's year: the verse's first dated event, else the year Theographic gives the verse (or its chapter).
+  syncAtlas(pts, evs.find((e) => e[1] != null)?.[1] ?? years[`${c}.${v}`] ?? years[c] ?? null);
 
   const pane = $("places-body");
   pane.innerHTML = "";
@@ -487,11 +488,11 @@ const ATLAS = new URLSearchParams(location.search).get("atlas") || "https://atla
 const atlas = { frame: null, ready: false, want: null, last: null };
 
 // Show the open tour step if the reader is on it, else this verse's places.
-function syncAtlas(pts, evs) {
+function syncAtlas(pts, year) {
   const t = state.tour, step = t && parseRef(t.tr.steps[t.i].ref);
   const onStep = step && step.book === state.book && step.chapter === state.chapter && step.verse === state.verse;
   atlasSend(onStep ? { type: "tour", id: t.tr.id, step: t.i }
-    : { type: "places", places: pts.map(([, name, lon, lat]) => [name, lon, lat]), year: evs.find((e) => e[1] != null)?.[1] ?? null });
+    : { type: "places", places: pts.map(([, name, lon, lat]) => [name, lon, lat]), year });
 }
 function atlasSend(msg) {
   atlas.want = msg;
