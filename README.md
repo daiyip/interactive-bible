@@ -65,8 +65,8 @@ python3 -m http.server 8000   # then open http://localhost:8000/#John.3.16
 
 ## Logo
 
-`img/logo.svg` (black) and `img/logo-white.svg` (white) are the logo: an open book with a map pin, drawn in the same
-line style as the atlas's folded map. `img/favicon.svg` is the browser icon (it turns white in dark mode), with
+`img/logo.svg` (black) and `img/logo-white.svg` (white) are the logo: an open book, one page solid and one open, each
+with three lines of text, drawn in the same line style as the atlas's folded map. `img/favicon.svg` is the browser icon (it turns white in dark mode), with
 `img/icon-32.png` and `img/icon-180.png` for browsers and phones that need a PNG.
 
 ## Data
