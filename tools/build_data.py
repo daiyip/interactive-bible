@@ -8,6 +8,7 @@ Writes
   data/xref/<id>.json        {"chapter.verse": [[target, votes], ...]} strongest first
   data/people.json, data/people/                                       see build_people()
   data/places.json, data/vctx/, data/search.json, data/basemap.json   see build_places(), build_search(), build_basemap()
+  data/timeline.json                                                  see build_timeline()
 Book ids are OSIS (Gen, Exod, ... Rev), as in the OpenBible cross-references.
 """
 import itertools, json, os, re
@@ -211,11 +212,21 @@ def build_places(verses, people):
               for e in v.get("event", []) if e in events]
         if es:
             vevents.setdefault(b, {})[f"{c}.{n}"] = es
-    # A verse Theographic leaves undated takes the year of the dated verse before it in its book (or after it, at the
-    # start of a book). Haggai has no dates at all; its prophecies are dated to 520 BC (Hag 1:1).
+    # A verse's year is that of its first short event (under two years long), or else Theographic's year for the verse.
+    # The two can disagree: the verses of the Gospels are dated three years after their events, which would put the
+    # crucifixion in AD 33 in the text and AD 30 on the map. Long events ("Prophecies of Daniel", 72 years) only give
+    # their first year, so the verse's own year is better for those. A verse with neither takes the year of the dated
+    # verse before it in its book (or after it, at the start of a book). Haggai has no dates at all; its prophecies are
+    # dated to 520 BC (Hag 1:1).
+    def short(e):
+        m = re.match(r"(\d+(?:\.\d+)?)([DWMY])", e.get("duration") or "")
+        return bool(m) and (m.group(2) != "Y" or float(m.group(1)) < 2)
+    def dated_year(v):
+        es = [year(events[e]["startDate"]) for e in v.get("event", []) if e in events and short(events[e])]
+        return next((y for y in es if y is not None), v.get("yearNum"))
     for b, vs in itertools.groupby(sorted(verses.values(), key=lambda v: ref_key(v["osisRef"])), lambda v: v["osisRef"].split(".")[0]):
         vs = list(vs)
-        dated = [v.get("yearNum") for v in vs]
+        dated = [dated_year(v) for v in vs]
         last = next((y for y in dated if y is not None), {"Hag": -520}.get(b))
         for v, y in zip(vs, dated):
             last = y if y is not None else last
@@ -259,6 +270,35 @@ def build_search(places, verses, index, events, year):
     write(os.path.join(DATA, "search.json"), {"places": ps, "events": es})
 
 
+def build_timeline():
+    """data/timeline.json  [[era id, [[book, first chapter, last chapter], ...]], ...]: the chapters set in each era of
+       atlas/eras.json (by the chapter's year in data/vctx), in Bible order, with "before" for Genesis 1–11 and other
+       chapters set before the first era. Chapters with no year are left out."""
+    eras = json.load(open(os.path.join(ROOT, "atlas", "eras.json"), encoding="utf-8"))["eras"]
+    first = eras[0]["start"]
+    def era(y):
+        if y < first:
+            return "before"
+        return next((e["id"] for e in eras if e["start"] <= y <= e["end"]), None)
+    runs = {}
+    for b, _ in BOOKS:
+        path = os.path.join(DATA, "vctx", b + ".json")
+        if not os.path.exists(path):
+            continue
+        years = json.load(open(path, encoding="utf-8"))["years"]
+        for c in sorted((int(k) for k in years if "." not in k)):
+            e = era(years[str(c)])
+            if e is None:
+                continue
+            rs = runs.setdefault(e, [])
+            if rs and rs[-1][0] == b and rs[-1][2] == c - 1:
+                rs[-1][2] = c
+            else:
+                rs.append([b, c, c])
+    write(os.path.join(DATA, "timeline.json"), [[e, runs.get(e, [])] for e in ["before"] + [e["id"] for e in eras]])
+    return {e: len(r) for e, r in runs.items()}
+
+
 def build_basemap():
     """data/basemap.json: land, lakes and main rivers of the Bible lands, simplified, as lon/lat rings and lines."""
     from shapely.geometry import box, shape, mapping  # pip install shapely
@@ -297,4 +337,5 @@ if __name__ == "__main__":
     people = build_people(verses)
     print("people:", len(people))
     print("places, verses with places, verses with events:", build_places(verses, people))
+    print("chapter runs per era:", build_timeline())
     build_basemap()

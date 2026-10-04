@@ -25,8 +25,6 @@
   </div>
   <span class="spacer"></span>
   <button id="search-btn" class="icon" data-i18n-title="search" title="Search (/)" aria-label="Search (/)" aria-haspopup="dialog"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M10.4 10.4L14 14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button>
-  <button id="mine-btn" class="icon" data-i18n-title="mine" title="My reading" aria-label="My reading" aria-haspopup="dialog"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M4 2.5h8v11.2L8 10.6l-4 3.1Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></button>
-  <button id="tours-btn" class="text-btn" aria-haspopup="dialog" data-i18n="tours">Tours</button>
   <select id="version" class="badge" data-i18n-title="version" title="Translation" aria-label="Translation">
     <option value="kjv">KJV</option>
     <option value="cuv">和合本</option>
@@ -57,6 +55,17 @@
       <button id="next2" class="pill"><span></span> ›</button>
     </footer>
     <p class="credit" id="credit">King James Version, public domain. Cross-references from <a href="https://www.openbible.info/labs/cross-references/" target="_blank" rel="noopener">OpenBible.info</a> (CC BY). People, places and events from <a href="https://github.com/robertrouse/theographic-bible-metadata" target="_blank" rel="noopener">Theographic</a> (CC BY-SA). Map from Natural Earth.</p>
+    <div class="dock-wrap">
+      <div id="timeline-card" class="timeline-card" hidden>
+        <button id="tl-now" class="tl-now"><b id="tl-era"></b> <span id="tl-year"></span></button>
+        <nav id="timeline" class="timeline" aria-label="Timeline"></nav>
+      </div>
+      <div class="dock" role="toolbar">
+        <button id="timeline-btn" aria-pressed="false" data-i18n-title="timelineTitle" title="Where this is in Bible history"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M1.5 8h13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="4" cy="8" r="1.6" fill="currentColor"/><circle cx="12" cy="8" r="1.6" fill="currentColor"/><path d="M8 3.5v9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span data-i18n="timeline">Timeline</span></button>
+        <button id="tours-btn" aria-haspopup="dialog"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><circle cx="3.5" cy="12.5" r="1.8" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="12.5" cy="3.5" r="1.8" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5.2 12.5H10a2.25 2.25 0 0 0 0-4.5H6a2.25 2.25 0 0 1 0-4.5h4.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span data-i18n="tours">Tours</span></button>
+        <button id="mine-btn" aria-haspopup="dialog"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M4 2.5h8v11.2L8 10.6l-4 3.1Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span data-i18n="mine">My reading</span></button>
+      </div>
+    </div>
   </section>
 
   <aside id="context" class="context" aria-label="Context panel">
@@ -119,7 +128,6 @@
     <div class="seg" role="group">
       <button data-mine="plan" data-i18n="plan" aria-pressed="true">Plan</button>
       <button data-mine="marks" data-i18n="marks" aria-pressed="false">Highlights</button>
-      <button data-mine="tours" data-i18n="tours" aria-pressed="false" class="narrow-only">Tours</button>
     </div>
     <span class="spacer"></span>
     <button id="mine-x" class="icon" data-i18n-title="close" aria-label="Close">×</button>
