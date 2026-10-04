@@ -54,6 +54,7 @@ a { color: var(--accent); }
 .caret { color: var(--muted); font-size: 12px; }
 .nav { display: flex; gap: 2px; }
 .icon {
+  display: inline-flex; align-items: center; justify-content: center;
   border: 0; background: none; min-width: 34px; height: 34px; border-radius: 8px;
   font-size: 15px; color: var(--muted); padding: 0 6px;
 }
