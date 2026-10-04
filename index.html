@@ -31,8 +31,10 @@
     <option value="kjv+cuv">KJV + 和合本</option>
     <option value="cuv+kjv">和合本 + KJV</option>
   </select>
-  <button id="smaller" class="icon" data-i18n-title="smaller" title="Smaller text" aria-label="Smaller text">A−</button>
-  <button id="larger" class="icon" data-i18n-title="larger" title="Larger text" aria-label="Larger text">A+</button>
+  <div class="size-wrap">
+    <button id="size-btn" class="icon" data-i18n-title="textSize" title="Text size" aria-label="Text size" aria-haspopup="menu" aria-expanded="false">Aa<span class="caret">▾</span></button>
+    <div id="size-menu" class="size-menu" role="menu" hidden></div>
+  </div>
 </header>
 
 <main class="panels">

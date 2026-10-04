@@ -24,7 +24,7 @@ const L = {
     xref: "Cross-references", people: "People", places: "Places", links: "Links", tours: "Tours", books: "Books",
     ot: "Old Testament", nt: "New Testament", version: "Translation",
     tapVerse: "Tap a verse", tapHint: "Its cross-references, people, places and links show up here.", orTour: "Or take a tour",
-    prevCh: "Previous chapter (←)", nextCh: "Next chapter (→)", smaller: "Smaller text", larger: "Larger text",
+    prevCh: "Previous chapter (←)", nextCh: "Next chapter (→)", textSize: "Text size", sizes: ["Smallest", "Small", "Normal", "Large", "Larger", "Largest"],
     close: "Close", backBooks: "Back to books", endTour: "End tour",
     back: "‹ Back", next: "Next ›", finish: "Finish", map: "Map ↗", mapTitle: "Follow this step on the atlas map",
     stepOf: (i, n) => `${i} of ${n}`, steps: (n) => `${n} steps`,
@@ -72,7 +72,7 @@ const L = {
     xref: "串珠", people: "人物", places: "地点", links: "链接", tours: "导览", books: "书卷",
     ot: "旧约", nt: "新约", version: "译本",
     tapVerse: "点选一节经文", tapHint: "它的串珠、人物、地点和链接会显示在这里。", orTour: "或者跟随导览",
-    prevCh: "上一章 (←)", nextCh: "下一章 (→)", smaller: "缩小字体", larger: "放大字体",
+    prevCh: "上一章 (←)", nextCh: "下一章 (→)", textSize: "字体大小", sizes: ["最小", "小", "标准", "大", "较大", "最大"],
     close: "关闭", backBooks: "返回书卷", endTour: "结束导览",
     back: "‹ 上一步", next: "下一步 ›", finish: "完成", map: "地图 ↗", mapTitle: "在历代地图上查看这一步",
     stepOf: (i, n) => `${i} / ${n}`, steps: (n) => `${n} 站`,
@@ -1381,6 +1381,34 @@ function setSize(px) {
   document.documentElement.style.setProperty("--read-size", state.size + "px");
   store.set("bible-size", state.size);
 }
+// Text size: one menu of named sizes, each shown at its own size.
+const SIZES = [15, 17, 19, 22, 25, 28];
+function nearestSize(px) {
+  return SIZES.reduce((a, z) => (Math.abs(z - px) < Math.abs(a - px) ? z : a));
+}
+function renderSizeMenu() {
+  const menu = $("size-menu");
+  menu.replaceChildren();
+  const now = nearestSize(state.size);
+  SIZES.forEach((px, i) => {
+    const b = el("button", null);
+    b.setAttribute("role", "menuitemradio");
+    b.setAttribute("aria-checked", px === now);
+    const a = el("span", "aa", "Aa");
+    a.style.fontSize = px + "px";
+    b.append(a, el("span", null, t("sizes")[i]));
+    b.onclick = () => { setSize(px); showSizeMenu(false); };
+    menu.append(b);
+  });
+}
+function showSizeMenu(on) {
+  $("size-menu").hidden = !on;
+  $("size-btn").setAttribute("aria-expanded", on);
+  if (on) {
+    renderSizeMenu();
+    $("size-menu").querySelector("[aria-checked=true]").focus();
+  }
+}
 function step(dir) {
   const n = neighbour(dir);
   if (n) location.hash = hashFor(n.book, n.chapter);
@@ -1422,8 +1450,16 @@ async function init() {
   $("sheet-close").onclick = () => (location.hash = hashFor(state.book, state.chapter));
   $("prev").onclick = $("prev2").onclick = () => step(-1);
   $("next").onclick = $("next2").onclick = () => step(1);
-  $("smaller").onclick = () => setSize(state.size - 1);
-  $("larger").onclick = () => setSize(state.size + 1);
+  $("size-btn").onclick = () => showSizeMenu($("size-menu").hidden);
+  document.addEventListener("click", (e) => { if (!e.target.closest(".size-wrap")) showSizeMenu(false); });
+  $("size-menu").addEventListener("keydown", (e) => {
+    const items = [...$("size-menu").children], i = items.indexOf(document.activeElement);
+    if (e.key === "Escape") { e.stopPropagation(); showSizeMenu(false); $("size-btn").focus(); }
+    else if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault(); e.stopPropagation();
+      items[(i + (e.key === "ArrowDown" ? 1 : items.length - 1)) % items.length].focus();
+    }
+  });
   $("picker-btn").onclick = () => { showBooks(); $("picker").showModal(); };
   $("picker-x").onclick = () => $("picker").close();
   $("picker-back").onclick = showBooks;
