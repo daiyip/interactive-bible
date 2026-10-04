@@ -12,7 +12,9 @@
 A Bible reader with the context of every verse beside it. The text is on the left. Selecting a verse opens a panel
 on the right with four tabs:
 
-- **Cross-references**: the verses most often linked to this one, strongest first.
+- **Cross-references**: the verses most often linked to this one, strongest first, as a list or as a web: the verse
+  in the middle and its 12 strongest links around it in Bible order, sized by votes, with faint lines between the
+  ones that link to each other. Tapping one moves there and redraws the web.
 - **People**: everyone the verse names. Open a person for a short biography, their family (each one a link), and
   every verse that names them; the card stays open as you walk through those verses.
 - **Places**: the [atlas](https://atlas.daiyip.com) map with the places the verse names pinned, and the events it
