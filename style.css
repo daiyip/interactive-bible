@@ -310,11 +310,17 @@ body:not(.playing) .tour-bar { visibility: hidden; }
 .era-books a { text-decoration: none; font-variant-numeric: tabular-nums; }
 .era-books a:hover { text-decoration: underline; }
 
+/* Verse card */
+.card-preview { display: block; width: 100%; max-width: 432px; margin: 0 auto 12px; border-radius: 10px; box-shadow: var(--shadow); aspect-ratio: 4 / 5; }
+.card-acts { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; }
+.card-acts .pill { text-decoration: none; font-size: 14px; }
+
 /* Highlight and note on the open verse */
 .ctx-mark { margin: -4px 0 14px; }
 .swatches { display: flex; align-items: center; gap: 8px; }
 .swatch { width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--line); background: var(--hl); padding: 0; }
 .swatch[aria-pressed="true"] { outline: 2px solid var(--accent); outline-offset: 2px; }
+.swatches .pill + .pill { margin-left: 0; }
 .swatches .pill { margin-left: auto; padding: 3px 12px; font-size: 13px; }
 .note-box { display: block; width: 100%; min-height: 72px; margin-top: 10px; resize: vertical; font: 15px/1.5 "IBM Plex Sans", sans-serif; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
 .note-box:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
