@@ -3,12 +3,12 @@
 // is refreshed in the background. "Save for offline" (app.js) fills the same data cache with the whole Bible.
 // The atlas map is another site and is not kept; offline, the context panel falls back to its drawn map.
 
-const SHELL = "bible-shell-v1", DATA = "bible-data", FONTS = "bible-fonts";
+const SHELL = "bible-shell-v2", DATA = "bible-data", FONTS = "bible-fonts";
 const SHELL_FILES = ["./", "app.js", "style.css", "manifest.webmanifest", "img/logo.svg", "img/logo-white.svg",
   "img/favicon.svg", "img/icon-32.png", "img/icon-180.png", "img/icon-192.png", "data/books.json", "atlas/tours.json"];
 
 self.addEventListener("install", (e) => {
-  e.waitUntil(caches.open(SHELL).then((c) => c.addAll(SHELL_FILES)).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(SHELL).then((c) => c.addAll(SHELL_FILES.map((f) => new Request(f, { cache: "reload" })))).then(() => self.skipWaiting()));
 });
 self.addEventListener("activate", (e) => {
   const keep = [SHELL, DATA, FONTS];
@@ -32,7 +32,9 @@ self.addEventListener("fetch", (e) => {
 async function networkFirst(req, name, fallback) {
   const cache = await caches.open(name);
   try {
-    const res = await fetch(req);
+    // "no-cache" checks with the server every time (a cheap 304 when nothing changed). Without it the browser's
+    // own cache could hand over an app.js from before a release next to a new index.html, and the page breaks.
+    const res = await fetch(req.mode === "navigate" ? req : new Request(req, { cache: "no-cache" }));
     if (res.ok) cache.put(fallback || req, res.clone());
     return res;
   } catch (err) {

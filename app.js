@@ -50,6 +50,8 @@ const L = {
     eraMapTitle: "This time on the atlas map", timeline: "Timeline", timelineTitle: "Where this is in Bible history",
     tapWord: "Tap a word to see everywhere it is used", wordSum: (n, b) => `${n.toLocaleString("en")} ${n === 1 ? "verse" : "verses"} in ${b} ${b === 1 ? "book" : "books"}`,
     mostIn: (s) => `Most in ${s}.`, allBooks: "All books",
+    xrefList: "List", xrefWeb: "Web", webLabel: "This verse and its strongest cross-references",
+    webNote: (n) => `The ${n} strongest cross-references, in Bible order from the top (grey for the Old Testament, blue for the New); bigger means more votes. Faint lines join ones that cross-reference each other. Tap one to move there.`,
     mine: "My reading", plan: "Plan", marks: "Highlights", readingPlan: "Reading plan",
     planStart: "Read the Bible in a year", planPitch: "A few chapters a day, Genesis to Revelation in 365 days. Your progress stays in this browser.",
     planStartToday: "Start today", today: "Today", dayOf: (d, n) => `Day ${d} of ${n}`,
@@ -98,6 +100,8 @@ const L = {
     eraMapTitle: "在历代地图上查看这一时期", timeline: "时间线", timelineTitle: "这段经文在圣经历史中的位置",
     tapWord: "点选一个词，查看它在全本圣经中出现的地方", wordSum: (n, b) => `${b} 卷书中共 ${n} 节`,
     mostIn: (s) => `出现最多：${s}。`, allBooks: "全部书卷",
+    xrefList: "列表", xrefWeb: "关系图", webLabel: "本节与它最主要的串珠",
+    webNote: (n) => `最主要的 ${n} 条串珠，从顶部起按圣经顺序排列（灰色为旧约，蓝色为新约）；圆点越大，票数越多。淡线连接彼此互为串珠的经文。点选即可前往。`,
     mine: "我的读经", plan: "计划", marks: "标记", readingPlan: "读经计划",
     planStart: "一年读完圣经", planPitch: "每天几章，365 天从创世记读到启示录。进度保存在这个浏览器里。",
     planStartToday: "今天开始", today: "今天", dayOf: (d, n) => `第 ${d} 天，共 ${n} 天`,
@@ -304,10 +308,95 @@ async function renderContext() {
   renderXref(refs, XREF_FIRST);
 }
 
+// --- Cross-reference web ------------------------------------------------------------------------------------
+// The verse in the middle and its strongest cross-references around it, in Bible order clockwise from the top, each
+// as big as its votes. A faint line joins two of them when one cross-references the other. Tapping one opens it, and
+// the web redraws around it.
+
+const WEB_SIZE = 12;
+const ABBR_ZH = ("创 出 利 民 申 书 士 得 撒上 撒下 王上 王下 代上 代下 拉 尼 斯 伯 诗 箴 传 歌 赛 耶 哀 结 但 何 珥 摩 俄 拿 弥 鸿 哈 番 该 亚 玛 "
+  + "太 可 路 约 徒 罗 林前 林后 加 弗 腓 西 帖前 帖后 提前 提后 多 门 来 雅 彼前 彼后 约一 约二 约三 犹 启").split(" ");
+const shortRef = (b, c, v) => `${zh() ? ABBR_ZH[state.books.indexOf(state.byId[b])] : b.replace(/^(\d)/, "$1 ")} ${c}:${v}`;
+const SVGNS = "http://www.w3.org/2000/svg";
+const svgEl = (tag, attrs) => { const e = document.createElementNS(SVGNS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); return e; };
+
+async function drawWeb(box, refs, key) {
+  const top = refs.slice(0, WEB_SIZE), order = (r) => { const [b, c, v] = r.split("."); return state.books.indexOf(state.byId[b]) * 1e6 + c * 1e3 + +v; };
+  const nodes = top.map(([ref, votes]) => ({ ref, start: ref.split("-")[0], votes })).sort((a, z) => order(a.start) - order(z.start));
+  const W = 360, H = 300, cx = W / 2, cy = H / 2, R = 108, maxV = Math.max(...nodes.map((n) => n.votes));
+  const here = `${state.book}.${state.chapter}.${state.verse}`;
+  nodes.forEach((n, i) => {
+    const a = -Math.PI / 2 + (2 * Math.PI * i) / nodes.length;
+    Object.assign(n, { x: cx + R * Math.cos(a), y: cy + R * Math.sin(a), a, r: 4 + 6 * Math.sqrt(n.votes / maxV) });
+  });
+  const svg = svgEl("svg", { viewBox: `0 0 ${W} ${H}`, class: "web", role: "img", "aria-label": t("webLabel") });
+  const links = svgEl("g", { class: "links" }), spokes = svgEl("g", { class: "spokes" }), dots = svgEl("g", {});
+  for (const n of nodes) spokes.append(svgEl("line", { x1: cx, y1: cy, x2: n.x, y2: n.y, "stroke-width": 0.6 + 2.6 * (n.votes / maxV) }));
+  svg.append(links, spokes, dots);
+  // The middle: this verse.
+  const [hb, hc, hv] = here.split(".");
+  const mid = svgEl("g", { class: "node here" });
+  mid.append(svgEl("circle", { cx, cy, r: 11 }));
+  const ml = svgEl("text", { x: cx, y: cy + 26, "text-anchor": "middle" });
+  ml.textContent = shortRef(hb, hc, hv);
+  mid.append(ml);
+  dots.append(mid);
+  for (const n of nodes) {
+    const [b, c, v] = n.start.split(".");
+    const g = svgEl("g", { class: "node" + (state.books.indexOf(state.byId[b]) >= NT_START ? " nt" : ""), tabindex: 0, role: "link" });
+    const title = svgEl("title", {});
+    title.textContent = `${refLabel(n.ref)} · ${n.votes} ▲`;
+    g.append(title, svgEl("circle", { cx: n.x, cy: n.y, r: n.r }));
+    const out = 12 + n.r, tx = n.x + Math.cos(n.a) * out, ty = n.y + Math.sin(n.a) * out + 4;
+    const label = svgEl("text", { x: tx, y: ty, "text-anchor": Math.abs(Math.cos(n.a)) < 0.3 ? "middle" : Math.cos(n.a) > 0 ? "start" : "end" });
+    label.textContent = shortRef(b, c, v);
+    g.append(label);
+    const open = () => (location.hash = hashFor(b, c, v));
+    g.addEventListener("click", open);
+    g.addEventListener("keydown", (e) => { if (e.key === "Enter") open(); });
+    dots.append(g);
+  }
+  box.replaceChildren(svg);
+  // Links among the ring: does one cross-reference another? (loads those books' cross-references, cached after)
+  const byStart = new Map(nodes.map((n) => [n.start, n]));
+  const seen = new Set();
+  await Promise.all(nodes.map(async (n) => {
+    const [b, c, v] = n.start.split(".");
+    const theirs = (await bookXref(b))[`${c}.${v}`] || [];
+    if (`${state.book}.${state.chapter}.${state.verse}` !== key) return;
+    for (const [r] of theirs) {
+      const m = byStart.get(r.split("-")[0]);
+      if (!m || m === n) continue;
+      const id = [n.start, m.start].sort().join("|");
+      if (seen.has(id)) continue;
+      seen.add(id);
+      // Bowed halfway from the chord toward the middle, so the lines stay clear of the centre.
+      const qx = (n.x + m.x) / 4 + cx / 2, qy = (n.y + m.y) / 4 + cy / 2;
+      links.append(svgEl("path", { d: `M${n.x},${n.y} Q${qx},${qy} ${m.x},${m.y}` }));
+    }
+  }));
+}
+
 function renderXref(refs, limit) {
   const pane = $("tab-xref");
   pane.innerHTML = "";
   if (!refs.length) { pane.innerHTML = `<p class="note">${t("noXref")}</p>`; return; }
+  // List or web, remembered.
+  const view = store.get("bible-xref-view") === "web" ? "web" : "list";
+  const seg = el("div", "seg xref-view");
+  for (const k of ["list", "web"]) {
+    const b = el("button", "", t(k === "list" ? "xrefList" : "xrefWeb"));
+    b.setAttribute("aria-pressed", k === view);
+    b.onclick = () => { store.set("bible-xref-view", k); renderXref(refs, limit); };
+    seg.append(b);
+  }
+  pane.append(seg);
+  if (view === "web") {
+    const box = el("div", "web-box");
+    pane.append(box, el("p", "note small", t("webNote", Math.min(WEB_SIZE, refs.length))));
+    drawWeb(box, refs, `${state.book}.${state.chapter}.${state.verse}`).catch((e) => console.error(e));
+    return;
+  }
   const ul = document.createElement("ul");
   ul.className = "xref";
   for (const [ref, votes] of refs.slice(0, limit)) {
