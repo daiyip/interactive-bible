@@ -48,6 +48,8 @@ const L = {
     beginningsSummary: "Creation, the fall, the flood and the nations: Genesis 1–11. The years are the traditional reckoning from the ages in Genesis.",
     youAreHere: "You are here", hereIn: (y) => `You are here, ${y}`, noYear: "This chapter has no date", readThis: "Chapters set in this time",
     eraMapTitle: "This time on the atlas map", timeline: "Timeline", timelineTitle: "Where this is in Bible history",
+    tapWord: "Tap a word to see everywhere it is used", wordSum: (n, b) => `${n.toLocaleString("en")} ${n === 1 ? "verse" : "verses"} in ${b} ${b === 1 ? "book" : "books"}`,
+    mostIn: (s) => `Most in ${s}.`, allBooks: "All books",
     mine: "My reading", plan: "Plan", marks: "Highlights", readingPlan: "Reading plan",
     planStart: "Read the Bible in a year", planPitch: "A few chapters a day, Genesis to Revelation in 365 days. Your progress stays in this browser.",
     planStartToday: "Start today", today: "Today", dayOf: (d, n) => `Day ${d} of ${n}`,
@@ -94,6 +96,8 @@ const L = {
     beginningsSummary: "创造、堕落、洪水与列国：创世记 1–11 章。年代按创世记所载年岁的传统推算。",
     youAreHere: "当前位置", hereIn: (y) => `当前位置：${y}`, noYear: "这一章没有年代", readThis: "发生在这一时期的章节",
     eraMapTitle: "在历代地图上查看这一时期", timeline: "时间线", timelineTitle: "这段经文在圣经历史中的位置",
+    tapWord: "点选一个词，查看它在全本圣经中出现的地方", wordSum: (n, b) => `${b} 卷书中共 ${n} 节`,
+    mostIn: (s) => `出现最多：${s}。`, allBooks: "全部书卷",
     mine: "我的读经", plan: "计划", marks: "标记", readingPlan: "读经计划",
     planStart: "一年读完圣经", planPitch: "每天几章，365 天从创世记读到启示录。进度保存在这个浏览器里。",
     planStartToday: "今天开始", today: "今天", dayOf: (d, n) => `第 ${d} 天，共 ${n} 天`,
@@ -283,7 +287,11 @@ async function renderContext() {
   $("ctx-ref").textContent = `${bname(b)} ${state.chapter}:${v}`;
   const vs = versions(), texts = await Promise.all(vs.map((tr) => bookText(b.id, tr)));
   $("ctx-text").lang = vs[0] === "cuv" ? "zh-CN" : "en";
-  $("ctx-text").replaceChildren(texts[0][state.chapter - 1][v - 1], ...(vs[1] ? [secondLine(texts[1][state.chapter - 1][v - 1], vs[1])] : []));
+  // Each word opens a word study (see openWord).
+  const line2 = vs[1] ? secondLine("", vs[1]) : null;
+  if (line2) line2.append(wordSpans(texts[1][state.chapter - 1][v - 1] || "", vs[1]));
+  $("ctx-text").replaceChildren(wordSpans(texts[0][state.chapter - 1][v - 1] || "", vs[0]), ...(line2 ? [line2] : []));
+  $("ctx-text").title = t("tapWord");
   renderMarkTools(key);
   document.querySelectorAll(".tabs button").forEach((t) => t.setAttribute("aria-selected", t.dataset.tab === state.tab));
   for (const t of TABS) $("tab-" + t).hidden = t !== state.tab;
@@ -848,6 +856,109 @@ function draw(out, groups, note) {
     p.textContent = note;
     out.append(p);
   }
+}
+
+// --- Word study -----------------------------------------------------------------------------------------
+// Every word of the open verse (in the context panel) can be tapped: it opens every verse in the same translation
+// that uses it, with a count for each book drawn as a bar, and a tap on a bar keeps that book's verses only.
+// English matches the whole word, ignoring case ("love" finds "Love" but not "loved"); 和合本 matches the word
+// anywhere, as Chinese has no spaces (the browser splits a verse into words with Intl.Segmenter).
+
+const WORD_LIST = 200; // verses listed before "Show more"
+function wordSpans(text, tr) {
+  const lang = tr === "cuv" ? "zh" : "en", frag = document.createDocumentFragment();
+  const parts = window.Intl?.Segmenter
+    ? [...new Intl.Segmenter(lang, { granularity: "word" }).segment(text)].map((s) => [s.segment, s.isWordLike])
+    : text.split(/(\p{L}+)/u).map((s, i) => [s, i % 2 === 1]);
+  for (const [s, word] of parts) {
+    if (!word) { frag.append(s); continue; }
+    const w = el("span", "w", s);
+    w.onclick = () => { state.wordFrom = s; openWord(s, tr); };
+    frag.append(w);
+  }
+  return frag;
+}
+const wordTest = (word, tr) => {
+  if (tr === "cuv") return (text) => text.includes(word);
+  const re = new RegExp(`(^|[^\\p{L}])${norm(word).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?=$|[^\\p{L}])`, "u");
+  return (text) => re.test(norm(text));
+};
+async function openWord(word, tr, book = null, limit = WORD_LIST) {
+  $("picker-title").textContent = `${tr === "cuv" ? "“" + word + "”" : "“" + word.toLowerCase() + "”"} · ${tr === "cuv" ? "和合本" : "KJV"}`;
+  $("picker-back").hidden = true;
+  const body = $("picker-body");
+  if (!$("picker").open) { body.replaceChildren(el("p", "note", t("searching"))); $("picker").showModal(); }
+  const texts = await Promise.all(state.books.map((b) => bookText(b.id, tr)));
+  const test = wordTest(word, tr), hits = [], perBook = state.books.map(() => 0);
+  texts.forEach((chapters, bi) => chapters.forEach((verses, ci) => verses.forEach((text, vi) => {
+    if (!text || !test(text)) return;
+    perBook[bi]++;
+    hits.push([bi, ci + 1, vi + 1, text]);
+  })));
+  const total = hits.length, books = perBook.filter(Boolean).length;
+  body.replaceChildren(el("p", "word-sum", t("wordSum", total, books)));
+  // Chinese words run together, and the browser's split is a guess: offer the shorter words inside this one.
+  const seg = (state.wordFrom || "").includes(word) ? state.wordFrom : word;
+  if (tr === "cuv" && seg.length > 1) {
+    const parts = [seg, ...Array.from({ length: seg.length - 1 }, (_, i) => seg.slice(i, i + 2)), ...seg];
+    const row = el("div", "word-parts");
+    for (const w of [...new Set(parts)]) {
+      const c = el("button", "chip" + (w === word ? " on" : ""), w);
+      c.onclick = () => openWord(w, tr);
+      row.append(c);
+    }
+    body.append(row);
+  }
+  // One bar per book, Genesis to Revelation, as tall as its count.
+  const max = Math.max(1, ...perBook), chart = el("div", "word-chart");
+  perBook.forEach((n, bi) => {
+    const b = el("button", (n ? "" : "none ") + (book === bi ? "on" : ""));
+    b.style.setProperty("--h", n ? Math.max(6, (100 * n) / max) + "%" : "2px");
+    b.title = b.ariaLabel = `${bname(state.books[bi])} · ${t("nVerses", n)}`;
+    b.disabled = !n;
+    b.onclick = () => openWord(word, tr, book === bi ? null : bi);
+    if (bi === NT_START) b.classList.add("nt");
+    chart.append(b);
+  });
+  const axis = el("div", "word-axis");
+  axis.append(el("span", "", t("ot")), el("span", "", t("nt")));
+  axis.style.setProperty("--nt", `${(100 * NT_START) / state.books.length}%`);
+  body.append(chart, axis);
+  // Most uses: the top books, as a line.
+  const top = perBook.map((n, bi) => [n, bi]).filter(([n]) => n).sort((a, z) => z[0] - a[0]).slice(0, 5);
+  if (top.length > 1) body.append(el("p", "note small", t("mostIn", top.map(([n, bi]) => `${bname(state.books[bi])} ${n}`).join(zh() ? "、" : ", "))));
+  // The verses, or one book's.
+  const list = book == null ? hits : hits.filter((h) => h[0] === book);
+  const head = el("div", "testament", book == null ? t("verses") : `${bname(state.books[book])} · ${t("nVerses", list.length)}`);
+  if (book != null) {
+    const all = el("button", "pill small-pill", t("allBooks"));
+    all.onclick = () => openWord(word, tr);
+    head.append(" ", all);
+  }
+  const ul = el("ul", "results");
+  for (const [bi, c, v, text] of list.slice(0, limit)) {
+    const li = el("li"), btn = el("button");
+    btn.append(el("b", "", `${bname(state.books[bi])} ${c}:${v}`));
+    const small = el("small");
+    small.lang = tr === "cuv" ? "zh-CN" : "en";
+    small.innerHTML = markWord(text, word, tr);
+    btn.append(small);
+    btn.onclick = () => { $("picker").close(); go(state.books[bi].id, c, v); };
+    li.append(btn);
+    ul.append(li);
+  }
+  body.append(head, ul);
+  if (list.length > limit) {
+    const more = el("button", "pill more", t("showAll", list.length));
+    more.onclick = () => openWord(word, tr, book, Infinity);
+    body.append(more);
+  }
+}
+// The verse with each use of the word in <mark>.
+function markWord(text, word, tr) {
+  if (tr === "cuv") return esc(text).split(esc(word)).join(`<mark>${esc(word)}</mark>`);
+  const w = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return esc(text).replace(new RegExp(`(^|[^\\p{L}])(${w})(?=$|[^\\p{L}])`, "giu"), "$1<mark>$2</mark>");
 }
 
 // --- Timeline -------------------------------------------------------------------------------------------

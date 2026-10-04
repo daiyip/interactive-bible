@@ -139,6 +139,19 @@ select.badge { font-family: inherit; background: var(--panel); cursor: pointer; 
   margin: 0 0 16px; padding: 10px 14px; border-left: 3px solid var(--accent); background: var(--bg);
   font-family: "Source Serif 4", Georgia, serif; font-size: 16px; line-height: 1.6; border-radius: 0 8px 8px 0;
 }
+.ctx-head .w { cursor: pointer; border-radius: 3px; }
+.ctx-head .w:hover { background: var(--accent-soft); color: var(--accent); }
+.word-sum { font-size: 17px; font-weight: 600; margin: 0 0 10px; }
+.word-parts { display: flex; flex-wrap: wrap; gap: 6px; margin: -2px 0 12px; }
+.word-parts .chip.on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.word-chart { display: flex; align-items: flex-end; gap: 1px; height: 84px; padding-bottom: 1px; border-bottom: 1px solid var(--line); }
+.word-chart button { flex: 1 1 0; min-width: 0; height: var(--h); padding: 0; border: 0; border-radius: 2px 2px 0 0; background: var(--accent); opacity: .75; }
+.word-chart button:hover, .word-chart button.on { opacity: 1; background: var(--ink); }
+.word-chart button.none { background: var(--line); opacity: 1; cursor: default; }
+.word-chart button.nt { margin-left: 4px; }
+.word-axis { position: relative; height: 18px; font-size: 11px; color: var(--muted); margin-bottom: 8px; }
+.word-axis span { position: absolute; top: 2px; } .word-axis span + span { left: var(--nt); }
+.testament .pill.small-pill { padding: 1px 10px; font-size: 12px; text-transform: none; letter-spacing: 0; margin-left: 6px; }
 .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: 12px; position: sticky; top: -20px; background: var(--panel); padding-top: 4px; z-index: 1; }
 .tabs { overflow-x: auto; scrollbar-width: none; }
 .tabs button { white-space: nowrap; border: 0; background: none; padding: 8px 10px; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -1px; font-weight: 500; font-size: 14px; }
