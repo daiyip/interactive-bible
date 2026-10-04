@@ -25,6 +25,12 @@ David, Elijah, Jonah, the exile and return, Jesus, and Paul's journeys. Open the
 from the list in the empty context panel. Each step opens its verses and flies the map to it, tracing the journey;
 stepping on the map moves the reader along too.
 
+**Word study**: every word of the selected verse, in the context panel, can be tapped. It opens every verse of that
+translation that uses the word, with a bar for each book from Genesis to Revelation (tap one to keep that book's
+verses) and the books that use it most. English matches the whole word, ignoring case; 和合本 has no spaces, so the
+browser splits the verse into words and the study offers the shorter words inside the one tapped (神爱世人, 神爱,
+爱, …).
+
 **Search** (the magnifier, or `/`) finds references ("John 3:16", "约翰福音 3"), books, people, places, events, tours
 and words in the text.
 
