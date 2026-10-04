@@ -25,7 +25,9 @@ on the right with four tabs:
 **Tours** walk through a journey one step at a time, with no verse to pick first: Abraham, Joseph, the Exodus,
 David, Elijah, Jonah, the exile and return, Jesus, and Paul's journeys. Open them from **Tours** in the dock (the floating buttons at the bottom of the text), or
 from the list in the empty context panel. Each step opens its verses and flies the map to it, tracing the journey;
-stepping on the map moves the reader along too.
+stepping on the map moves the reader along too. **Play** runs a tour by itself: each step stays long enough to read its note (a
+bar shows how long), its verses light up one after another, and the map traces the leg from the last stop. Tapping
+a verse or Pause stops it.
 
 **Word study**: every word of the selected verse, in the context panel, can be tapped. It opens every verse of that
 translation that uses the word, with a bar for each book from Genesis to Revelation (tap one to keep that book's

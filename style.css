@@ -132,6 +132,13 @@ select.badge { font-family: inherit; background: var(--panel); cursor: pointer; 
 .tour p { margin: 6px 0 10px; font-size: 14px; }
 .tour-year { font-weight: 600; color: var(--accent); }
 .tour-ctl { display: flex; gap: 8px; }
+.tour-bar { height: 2px; margin: -4px 0 10px; background: var(--line); border-radius: 1px; overflow: hidden; }
+body:not(.playing) .tour-bar { visibility: hidden; }
+.tour-bar i { display: block; height: 100%; width: 0; background: var(--accent); }
+#tour-play[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); }
+/* Playback: the step's verses glow in turn */
+@keyframes lit { 0% { background: var(--sel); box-shadow: 0 0 0 3px var(--sel); } 100% { background: var(--accent-soft); box-shadow: 0 0 0 0 transparent; } }
+.v.lit { animation: lit 2.2s ease-out both; }
 .tour-ctl .pill { text-decoration: none; font-size: 14px; }
 .tour-ctl #tour-next { margin-left: auto; color: var(--accent); border-color: var(--accent); }
 .pill:disabled { opacity: .45; cursor: default; border-color: var(--line); color: var(--muted); }
