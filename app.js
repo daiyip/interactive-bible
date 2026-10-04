@@ -47,7 +47,7 @@ const L = {
     beginnings: "Before Abraham", beginningsShort: "Beginnings", beginningsTiny: "Beg", beforeYear: (y) => `Before ${y}`,
     beginningsSummary: "Creation, the fall, the flood and the nations: Genesis 1–11. The years are the traditional reckoning from the ages in Genesis.",
     youAreHere: "You are here", hereIn: (y) => `You are here, ${y}`, noYear: "This chapter has no date", readThis: "Chapters set in this time",
-    eraMapTitle: "This time on the atlas map", timeline: "Timeline",
+    eraMapTitle: "This time on the atlas map", timeline: "Timeline", timelineTitle: "Where this is in Bible history",
     mine: "My reading", plan: "Plan", marks: "Highlights", readingPlan: "Reading plan",
     planStart: "Read the Bible in a year", planPitch: "A few chapters a day, Genesis to Revelation in 365 days. Your progress stays in this browser.",
     planStartToday: "Start today", today: "Today", dayOf: (d, n) => `Day ${d} of ${n}`,
@@ -93,7 +93,7 @@ const L = {
     beginnings: "亚伯拉罕以前", beginningsShort: "太初", beginningsTiny: "太初", beforeYear: (y) => `${y}以前`,
     beginningsSummary: "创造、堕落、洪水与列国：创世记 1–11 章。年代按创世记所载年岁的传统推算。",
     youAreHere: "当前位置", hereIn: (y) => `当前位置：${y}`, noYear: "这一章没有年代", readThis: "发生在这一时期的章节",
-    eraMapTitle: "在历代地图上查看这一时期", timeline: "时间线",
+    eraMapTitle: "在历代地图上查看这一时期", timeline: "时间线", timelineTitle: "这段经文在圣经历史中的位置",
     mine: "我的读经", plan: "计划", marks: "标记", readingPlan: "读经计划",
     planStart: "一年读完圣经", planPitch: "每天几章，365 天从创世记读到启示录。进度保存在这个浏览器里。",
     planStartToday: "今天开始", today: "今天", dayOf: (d, n) => `第 ${d} 天，共 ${n} 天`,
@@ -881,17 +881,21 @@ async function renderTimeline() {
       return b;
     }), el("i", "here"));
   }
+  if ($("timeline-card").hidden) return; // drawn when shown
   const { years = {} } = await bookContext(state.book);
   const y = (state.verse && years[`${state.chapter}.${state.verse}`]) ?? years[state.chapter] ?? null;
   const i = eraFor(eras, y), here = bar.querySelector(".here");
   bar.querySelectorAll(".era").forEach((b) => b.classList.toggle("cur", +b.dataset.i === i));
   here.hidden = i < 0;
   state.year = i < 0 ? null : y;
-  if (i < 0) { bar.title = t("noYear"); return; }
+  $("tl-era").textContent = i < 0 ? t("noYear") : eraName(eras[i]);
+  $("tl-year").textContent = i < 0 ? "" : fmtYear(y);
+  $("tl-now").disabled = i < 0;
+  $("tl-now").onclick = () => showEra(i);
+  if (i < 0) return;
   const e = eras[i], seg = bar.children[i];
   const f = e.id === "before" ? 0.5 : (y - e.start + 0.5) / (e.end - e.start + 1); // Genesis 1–11: no scale before Abraham
   here.style.left = `${seg.offsetLeft + f * seg.offsetWidth}px`;
-  bar.title = "";
   here.title = `${t("youAreHere")} · ${fmtYear(y)}`;
 }
 
@@ -1047,12 +1051,6 @@ function renderMine() {
   document.querySelectorAll("#mine .seg button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.mine === mine.tab));
   const body = $("mine-body");
   body.replaceChildren();
-  if (mine.tab === "tours") { // on narrow phones, where the bar has no room for a Tours button
-    const list = el("div", "tour-list");
-    body.append(list);
-    fillTourList(list).catch(showError);
-    return;
-  }
   (mine.tab === "plan" ? renderPlan : renderMarks)(body);
   renderOffline(body);
 }
@@ -1329,6 +1327,14 @@ async function init() {
   });
   $("tours-btn").onclick = () => { showTours(); $("picker").showModal(); };
   $("mine-btn").onclick = () => openMine();
+  const showTimeline = (on) => {
+    $("timeline-card").hidden = !on;
+    $("timeline-btn").setAttribute("aria-pressed", on);
+    store.set("bible-timeline", on);
+    if (on) renderTimeline().catch((e) => console.error(e));
+  };
+  $("timeline-btn").onclick = () => showTimeline($("timeline-card").hidden);
+  showTimeline(!!store.get("bible-timeline"));
   $("mine-x").onclick = () => $("mine").close();
   $("mine").addEventListener("click", (e) => { if (e.target === $("mine")) $("mine").close(); });
   document.querySelectorAll("#mine .seg button").forEach((b) => (b.onclick = () => { mine.tab = b.dataset.mine; renderMine(); }));

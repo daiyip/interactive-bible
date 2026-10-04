@@ -21,7 +21,7 @@ on the right with four tabs:
 - **Links**: the verse in NKJV on Bible Gateway, other translations side by side, and a Wikipedia search.
 
 **Tours** walk through a journey one step at a time, with no verse to pick first: Abraham, Joseph, the Exodus,
-David, Elijah, Jonah, the exile and return, Jesus, and Paul's journeys. Open them from **Tours** in the top bar, or
+David, Elijah, Jonah, the exile and return, Jesus, and Paul's journeys. Open them from **Tours** in the dock (the floating buttons at the bottom of the text), or
 from the list in the empty context panel. Each step opens its verses and flies the map to it, tracing the journey;
 stepping on the map moves the reader along too.
 
@@ -32,12 +32,12 @@ and words in the text.
 simplified characters), or both side by side, verse by verse. With 和合本 first, the whole app is in Chinese: book
 names, people, places, events, tours and the atlas map.
 
-**Timeline**: the strip under the top bar runs through the eras of the Bible, from the beginnings in Genesis to the
+**Timeline** (in the dock): a card above the dock that runs through the eras of the Bible, from the beginnings in Genesis to the
 early church, and marks the year of the chapter or verse being read. Each era opens a card with its dates, a summary,
 the chapters set in it (book by book), its events, and a link to that time on the atlas map. The eras are the atlas
 pack's (`atlas/eras.json`), shown at equal widths so the short ones can be tapped.
 
-**My reading** (the bookmark in the top bar) holds three things, all kept in the browser with nothing sent anywhere:
+**My reading** (in the dock) holds three things, all kept in the browser with nothing sent anywhere:
 
 - **Plan**: the Bible in a year, Genesis to Revelation in 365 days of whole chapters, each day about the same
   length. It shows today's chapters, how far along you are, and what to catch up on. A chapter counts as read once
@@ -48,8 +48,6 @@ pack's (`atlas/eras.json`), shown at equal widths so the short ones can be tappe
 - **Offline**: every chapter you open stays readable offline. **Save for offline** keeps the rest of the Bible in
   the current translation too (about 13 MB, or 17 MB for both). Add the site to the home screen to use it as an
   app. The atlas map needs a connection; offline, the small built-in map stands in.
-
-On narrow phones, **Tours** moves into My reading to give the chapter title room.
 
 It is a static site with no build step and no backend, served by GitHub Pages. `sw.js` is the service worker that
 keeps it working offline, and `manifest.webmanifest` makes it installable.
