@@ -32,6 +32,11 @@ and words in the text.
 simplified characters), or both side by side, verse by verse. With 和合本 first, the whole app is in Chinese: book
 names, people, places, events, tours and the atlas map.
 
+**Timeline**: the strip under the top bar runs through the eras of the Bible, from the beginnings in Genesis to the
+early church, and marks the year of the chapter or verse being read. Each era opens a card with its dates, a summary,
+the chapters set in it (book by book), its events, and a link to that time on the atlas map. The eras are the atlas
+pack's (`atlas/eras.json`), shown at equal widths so the short ones can be tapped.
+
 **My reading** (the bookmark in the top bar) holds three things, all kept in the browser with nothing sent anywhere:
 
 - **Plan**: the Bible in a year, Genesis to Revelation in 365 days of whole chapters, each day about the same
@@ -95,7 +100,8 @@ with three lines of text, drawn in the same line style as the atlas's folded map
 | `data/people.json` | 3,067 people as `[name, name_zh, gender, father, mother, [partners], [children], [siblings], verse count, first verse, other names]`; the index is the person number, and family members are person numbers. |
 | `data/people/<n>.json` | For persons `n×256` to `n×256+255`: `[biography, [verses]]`, loaded when a person is opened. |
 | `data/places.json` | 1,220 places as `[id, name, lon, lat, kind, name_zh]`; the index is the place number. |
-| `data/vctx/<id>.json` | Per verse: `places` and `people` (place and person numbers named in it), `events` (`[title, year, title_zh]` it belongs to), and `years` (the year of each chapter, and of each verse that differs from it), which set the map's timeline. |
+| `data/vctx/<id>.json` | Per verse: `places` and `people` (place and person numbers named in it), `events` (`[title, year, title_zh]` it belongs to), and `years` (the year of each chapter, and of each verse that differs from it), which set the map's year and the timeline mark. A verse's year is that of its first event lasting under two years, else Theographic's year for the verse. |
+| `data/timeline.json` | For each era of `atlas/eras.json` (plus `before` for Genesis 1–11): the chapters set in it as `[book, first chapter, last chapter]` runs. |
 | `data/search.json` | For the search box: every place and event with its Chinese name, first verse and verse count. |
 | `data/basemap.json` | Land, lakes and main rivers of the Bible lands for the Places map (Natural Earth, simplified). |
 | `atlas/` | The atlas data pack (see above). |

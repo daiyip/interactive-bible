@@ -11,6 +11,7 @@ const state = {
   tab: "xref",
   person: null, // the person open in the People tab (a person number), kept while moving between verses
   tour: null, // {tr, i}: the open tour and step
+  year: null, // the year of what is being read, marked on the timeline
   size: 19,
   version: "kjv", // "kjv", "cuv", or two of them for side by side ("kjv+cuv"); the first sets the interface language
   lang: "en",
@@ -43,6 +44,10 @@ const L = {
     goTo: "Go to", events: "Events", verses: "Verses", nVerses: (n) => `${n.toLocaleString("en")} ${n === 1 ? "verse" : "verses"}`,
     more: (n) => `${n.toLocaleString("en")} more verses not shown. Add a word to narrow it down.`, none: "Nothing found.",
     searching: "Searching the text…",
+    beginnings: "Before Abraham", beginningsShort: "Beginnings", beginningsTiny: "Beg", beforeYear: (y) => `Before ${y}`,
+    beginningsSummary: "Creation, the fall, the flood and the nations: Genesis 1–11. The years are the traditional reckoning from the ages in Genesis.",
+    youAreHere: "You are here", hereIn: (y) => `You are here, ${y}`, noYear: "This chapter has no date", readThis: "Chapters set in this time",
+    eraMapTitle: "This time on the atlas map", timeline: "Timeline",
     mine: "My reading", plan: "Plan", marks: "Highlights", readingPlan: "Reading plan",
     planStart: "Read the Bible in a year", planPitch: "A few chapters a day, Genesis to Revelation in 365 days. Your progress stays in this browser.",
     planStartToday: "Start today", today: "Today", dayOf: (d, n) => `Day ${d} of ${n}`,
@@ -85,6 +90,10 @@ const L = {
     goTo: "前往", events: "事件", verses: "经文", nVerses: (n) => `${n} 节`,
     more: (n) => `还有 ${n} 节没有列出。再加一个词可以缩小范围。`, none: "没有找到。",
     searching: "正在搜索经文…",
+    beginnings: "亚伯拉罕以前", beginningsShort: "太初", beginningsTiny: "太初", beforeYear: (y) => `${y}以前`,
+    beginningsSummary: "创造、堕落、洪水与列国：创世记 1–11 章。年代按创世记所载年岁的传统推算。",
+    youAreHere: "当前位置", hereIn: (y) => `当前位置：${y}`, noYear: "这一章没有年代", readThis: "发生在这一时期的章节",
+    eraMapTitle: "在历代地图上查看这一时期", timeline: "时间线",
     mine: "我的读经", plan: "计划", marks: "标记", readingPlan: "读经计划",
     planStart: "一年读完圣经", planPitch: "每天几章，365 天从创世记读到启示录。进度保存在这个浏览器里。",
     planStartToday: "今天开始", today: "今天", dayOf: (d, n) => `第 ${d} 天，共 ${n} 天`,
@@ -841,6 +850,118 @@ function draw(out, groups, note) {
   }
 }
 
+// --- Timeline -------------------------------------------------------------------------------------------
+// A strip under the top bar with the eras of the atlas pack, from the beginnings to the early church, and a mark for
+// the year of what is being read. Each era is the same width, so the short ones (the Exodus, Jesus) can be tapped;
+// the mark sits in proportion within its era. An era opens a card with its chapters (data/timeline.json) and events.
+
+const BEFORE = { id: "before", start: -4004, glyph: "太初" }; // Genesis 1–11, before the first era
+const loadEras = () => Promise.all([loadJSON("atlas/eras.json"), loadJSON("data/timeline.json")])
+  .then(([{ eras }, chapters]) => {
+    const all = [{ ...BEFORE, end: eras[0].start - 1 }, ...eras];
+    const runs = Object.fromEntries(chapters);
+    return all.map((e) => ({ ...e, runs: runs[e.id] || [] }));
+  });
+const eraName = (e) => (e.id === "before" ? t("beginnings") : tx(e, "name"));
+const eraFor = (eras, y) => (y == null ? -1 : y < eras[1].start ? 0 : eras.findIndex((e) => e.start <= y && y <= e.end));
+const eraYears = (e) => (e.id === "before" ? t("beforeYear", fmtYear(e.end + 1)) : `${fmtYear(e.start)}–${fmtYear(e.end)}`);
+
+async function renderTimeline() {
+  const eras = await loadEras(), bar = $("timeline");
+  if (!bar.children.length || bar.dataset.lang !== state.lang) {
+    bar.dataset.lang = state.lang;
+    bar.replaceChildren(...eras.map((e, i) => {
+      const b = el("button", "era");
+      b.dataset.i = i;
+      b.title = `${eraName(e)} · ${eraYears(e)}`;
+      b.ariaLabel = b.title;
+      const label = e.id === "before" ? [t("beginningsShort"), t("beginningsTiny")] : [e.short, e.tiny];
+      b.append(el("span", "full", zh() ? e.glyph : label[0]), el("span", "tiny", zh() ? e.glyph : label[1]));
+      b.onclick = () => showEra(i);
+      return b;
+    }), el("i", "here"));
+  }
+  const { years = {} } = await bookContext(state.book);
+  const y = (state.verse && years[`${state.chapter}.${state.verse}`]) ?? years[state.chapter] ?? null;
+  const i = eraFor(eras, y), here = bar.querySelector(".here");
+  bar.querySelectorAll(".era").forEach((b) => b.classList.toggle("cur", +b.dataset.i === i));
+  here.hidden = i < 0;
+  state.year = i < 0 ? null : y;
+  if (i < 0) { bar.title = t("noYear"); return; }
+  const e = eras[i], seg = bar.children[i];
+  const f = e.id === "before" ? 0.5 : (y - e.start + 0.5) / (e.end - e.start + 1); // Genesis 1–11: no scale before Abraham
+  here.style.left = `${seg.offsetLeft + f * seg.offsetWidth}px`;
+  bar.title = "";
+  here.title = `${t("youAreHere")} · ${fmtYear(y)}`;
+}
+
+async function showEra(i) {
+  const eras = await loadEras(), e = eras[i];
+  $("picker-title").textContent = eraName(e);
+  $("picker-back").hidden = true;
+  const body = $("picker-body");
+  body.replaceChildren();
+  const head = el("p", "era-years", eraYears(e));
+  if (eraFor(eras, state.year) === i) head.append(el("span", "era-here", ` · ${t("hereIn", fmtYear(state.year))}`));
+  body.append(head);
+  body.append(el("p", "era-summary", e.id === "before" ? t("beginningsSummary") : tx(e, "summary")));
+  // Previous and next era, and the era on the atlas map.
+  const nav = el("div", "era-nav");
+  for (const [j, label] of [[i - 1, "‹ "], [i + 1, ""]]) {
+    if (!eras[j]) continue;
+    const b = el("button", "pill", j < i ? label + eraName(eras[j]) : eraName(eras[j]) + " ›");
+    b.onclick = () => showEra(j);
+    nav.append(b);
+  }
+  if (e.id !== "before") {
+    const map = el("a", "pill", t("map"));
+    map.href = `${ATLAS}?pack=${encodeURIComponent(PACK)}&lang=${state.lang}#y=${e.start}`;
+    map.target = "_blank";
+    map.rel = "noopener";
+    map.title = t("eraMapTitle");
+    nav.append(map);
+  }
+  body.append(nav);
+  // The chapters set in this era, book by book: "Psalms 2–9, 11–12, …".
+  if (e.runs.length) {
+    body.append(el("h4", "", t("readThis")));
+    const ul = el("ul", "era-books");
+    let li = null, book = null;
+    for (const [b, c1, c2] of e.runs) {
+      if (b !== book) {
+        book = b;
+        li = el("li");
+        li.append(el("b", "", bname(state.byId[b]) + " "));
+        ul.append(li);
+      } else li.append(", ");
+      const a = el("a", "", c1 === c2 ? `${c1}` : `${c1}–${c2}`);
+      a.href = hashFor(b, c1);
+      a.onclick = () => $("picker").close();
+      li.append(a);
+    }
+    body.append(ul);
+  }
+  // Its events, in order.
+  const events = (await loadJSON("atlas/events.json")).filter((v) => (e.id === "before" ? v.year < e.end + 1 : e.start <= v.year && v.year <= e.end));
+  if (events.length) {
+    body.append(el("h4", "", `${t("events")} · ${events.length}`));
+    const ul = el("ul", "results era-events");
+    for (const v of events.sort((a, b) => a.year - b.year)) {
+      const btn = el("button");
+      const [rb, rc, rv] = v.refs[0].split("-")[0].split("."); // "1Sam.31.3-13"
+      btn.append(el("b", "", tx(v, "title")), el("span", "", `${fmtYear(v.year)}${v.place ? " · " + tx(v, "place") : ""} · ${bname(state.byId[rb])} ${rc}:${rv}`));
+      btn.onclick = () => { $("picker").close(); location.hash = v.refs[0]; };
+      const li = el("li");
+      li.append(btn);
+      ul.append(li);
+    }
+    body.append(ul);
+  }
+  if (!$("picker").open) $("picker").showModal();
+  body.scrollTop = 0;
+  $("picker").scrollTop = 0;
+}
+
 // --- My reading: a Bible-in-a-year plan, highlights and notes -----------------------------------------
 // Kept in this browser only (localStorage): "bible-plan" {start: "YYYY-MM-DD"}, "bible-read" ["Gen.1", ...],
 // "bible-marks" {"John.3.16": {c: colour, n: note, t: time}}. Export and import move them to another browser.
@@ -1110,7 +1231,8 @@ function renderOffline(body) {
   if ((store.get("bible-offline") || []).includes(state.version)) { btn.textContent = t("saved", names); btn.disabled = true; }
   btn.onclick = async () => {
     btn.disabled = true;
-    const files = ["data/books.json", "data/places.json", "data/search.json", "data/people.json", "data/basemap.json", "atlas/tours.json",
+    const files = ["data/books.json", "data/places.json", "data/search.json", "data/people.json", "data/basemap.json", "data/timeline.json",
+      "atlas/tours.json", "atlas/eras.json", "atlas/events.json",
       ...Array.from({ length: 12 }, (_, i) => `data/people/${i}.json`),
       ...state.books.flatMap((b) => [...vs.map((v) => `data/text/${v}/${b.id}.json`), `data/xref/${b.id}.json`, `data/vctx/${b.id}.json`])];
     let failed = 0;
@@ -1139,6 +1261,7 @@ function route() {
   store.set("bible-pos", [r.book, r.chapter, r.verse].filter((x) => x != null).join("."));
   renderTour();
   renderChapter().then(renderContext).catch(showError);
+  renderTimeline().catch((e) => console.error(e));
 }
 function showError(e) {
   console.error(e);

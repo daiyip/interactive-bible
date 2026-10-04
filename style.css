@@ -223,6 +223,25 @@ select.badge { font-family: inherit; background: var(--panel); cursor: pointer; 
 .grid button:hover { border-color: var(--accent); }
 .grid button.cur { background: var(--accent-soft); border-color: var(--accent); }
 
+/* Timeline: the eras under the top bar, with a mark for the year being read */
+.timeline { position: relative; display: flex; flex: none; height: 26px; background: var(--panel); border-bottom: 1px solid var(--line); padding: 0 16px; gap: 2px; }
+.era { flex: 1 1 0; min-width: 0; border: 0; background: none; padding: 0 2px; font-size: 11.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-bottom: 3px solid var(--accent-soft); }
+.era:hover { color: var(--accent); background: var(--accent-soft); }
+.era.cur { color: var(--ink); font-weight: 600; border-bottom-color: var(--accent); }
+.era .tiny { display: none; }
+.timeline .here { position: absolute; bottom: 0; width: 0; height: 0; margin-left: -5px; border: 5px solid transparent; border-bottom-color: var(--ink); pointer-events: none; }
+.timeline .here[hidden] { display: none; }
+.era-years { color: var(--muted); margin: 0 0 6px; }
+.era-here { color: var(--accent); font-weight: 500; }
+.era-summary { margin: 0 0 12px; line-height: 1.55; }
+.era-nav { display: flex; flex-wrap: wrap; gap: 8px; }
+.era-nav .pill { font-size: 14px; text-decoration: none; }
+#picker-body h4 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 20px 0 6px; font-weight: 600; }
+.era-books { list-style: none; padding: 0; margin: 0; columns: 2 220px; column-gap: 24px; }
+.era-books li { break-inside: avoid; padding: 3px 0; font-size: 14px; }
+.era-books a { text-decoration: none; font-variant-numeric: tabular-nums; }
+.era-books a:hover { text-decoration: underline; }
+
 /* Highlight and note on the open verse */
 .ctx-mark { margin: -4px 0 14px; }
 .swatches { display: flex; align-items: center; gap: 8px; }
@@ -278,6 +297,9 @@ select.badge { font-family: inherit; background: var(--panel); cursor: pointer; 
   .title-btn { white-space: nowrap; padding: 6px 4px; min-width: 0; font-size: 16px; }
   #ref-title { overflow: hidden; text-overflow: ellipsis; }
   .icon { min-width: 30px; }
+  .timeline { padding: 0 6px; gap: 1px; height: 24px; }
+  .era { font-size: 11px; padding: 0 1px; }
+  .era .full { display: none; } .era .tiny { display: inline; }
   .text-btn { padding: 6px 6px; margin-right: 0; }
   select.badge { max-width: 74px; margin-right: 0; }
   .context {
@@ -310,6 +332,7 @@ select.badge { font-family: inherit; background: var(--panel); cursor: pointer; 
 /* Narrow phones: the title keeps its room; text size is left to pinch zoom */
 @media (max-width: 400px) {
   #smaller, #larger { display: none; }
+  .era { font-size: 10px; text-overflow: clip; letter-spacing: -.02em; }
   .icon { min-width: 28px; padding-left: 4px; padding-right: 4px; }
   #tours-btn { display: none; } /* tours move into My reading */
   .seg .narrow-only { display: block; }
