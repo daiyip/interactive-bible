@@ -785,6 +785,7 @@ function endTour() {
 function renderTour() {
   const tour = state.tour;
   $("tour").hidden = !tour;
+  document.body.classList.toggle("touring", !!tour);
   if (!tour) return;
   const { tr, i } = tour, s = tr.steps[i], last = i === tr.steps.length - 1;
   $("tour-title").textContent = tx(tr, "title");
