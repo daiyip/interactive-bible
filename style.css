@@ -380,6 +380,7 @@ body:not(.playing) .tour-bar { visibility: hidden; }
   .tabs { top: 18px; gap: 0; }
   .tabs button { padding: 8px 6px; font-size: 13px; }
   body.sheet-open .reader { padding-bottom: 64vh; }
+  body.sheet-open .dock-wrap { display: none; } /* the dock would float over the verse the sheet is about */
 }
 
 /* Search */
