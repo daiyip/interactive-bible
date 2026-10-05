@@ -558,3 +558,16 @@ body:not(.playing) .tour-bar { visibility: hidden; }
 .install-acts .pill:last-child { background: var(--accent); border-color: var(--accent); color: var(--panel); }
 .install-acts .quiet { border-color: transparent; background: none; }
 @media (min-width: 700px) { .install { left: auto; right: 24px; bottom: 24px; width: 400px; margin: 0; } }
+
+/* Context panel: the switch between the selected verses and their chapter, and the chapter's own entries. */
+.ctx-scope { width: max-content; margin: 0 0 10px; }
+.ctx-scope button { padding: 3px 14px; font-size: 13px; }
+.ctx-scope[hidden] { display: none; }
+#ctx-text.chapter { border: 0; padding: 0; margin: 0 0 8px; background: none; font: inherit; }
+.xref .from { color: var(--muted); font-size: 13px; margin-right: 6px; font-variant-numeric: tabular-nums; }
+#ctx-chapter { margin-top: 4px; }
+/* Four dock buttons don't fit side by side on a phone, so each label sits under its icon. */
+@media (max-width: 480px) {
+  .dock { border-radius: 22px; }
+  .dock button { flex-direction: column; gap: 2px; padding: 5px 10px 4px; font-size: 11px; border-radius: 18px; min-width: 58px; }
+}
