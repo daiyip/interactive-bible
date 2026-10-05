@@ -29,7 +29,7 @@ its handle to make it taller or shorter, and scrolling the text lowers it to a s
   by district), and the Levites' cities, each place with its verse, beside a map that pins the tribe you pick.
 - **Links**: the verse in NKJV on Bible Gateway, other translations side by side, and a Wikipedia search.
 
-The panel shows only what the selected verses hold. **Chapter** in the dock (or the button in the empty panel) opens
+The panel shows only what the selected verses hold. **Context**, first in the dock (or the button in the empty panel) opens
 the same four tabs for the whole chapter, with no verse selected: every cross-reference (each marked with its verse),
 everyone and every place the chapter names, and its events. With verses selected, a switch at the top of the panel
 moves between them and their chapter. On a computer the panel keeps showing the chapter until it is closed.
