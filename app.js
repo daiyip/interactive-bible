@@ -1790,6 +1790,8 @@ function step(dir) {
 }
 
 async function init() {
+  // iOS Safari ignores user-scalable=no in the viewport tag; its own gesture events still let a page refuse pinch zoom.
+  for (const g of ["gesturestart", "gesturechange"]) document.addEventListener(g, (e) => e.preventDefault(), { passive: false });
   state.books = await loadJSON("data/books.json");
   for (const b of state.books) state.byId[b.id] = b;
   setSize(store.get("bible-size") || 19);

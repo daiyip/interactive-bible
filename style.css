@@ -33,6 +33,8 @@
 
 * { box-sizing: border-box; }
 html, body { height: 100%; margin: 0; }
+/* No pinch or double-tap zoom: the app sizes its own text (the Aa menu). The atlas map in its frame still zooms. */
+html { touch-action: pan-x pan-y; }
 body {
   background: var(--bg); color: var(--ink);
   font: 15px/1.5 "IBM Plex Sans", system-ui, sans-serif;
