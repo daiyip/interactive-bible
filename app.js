@@ -41,7 +41,10 @@ const L = {
     introRange: (a, z, one) => (one ? (a === z ? "v. " : "vv. ") : "Ch. ") + (a === z ? a : `${a}–${z}`),
     introNote: "Authors and dates follow traditional views; scholars differ on some.",
     topics: "Topics", topicRefs: (n) => `${n.toLocaleString("en")} references`, topicSee: "See", topicHere: "Cites this verse",
-    topicSrc: "From Nave's Topical Bible (1896).", popularTopics: "Popular topics", noXrefCh: "No cross-references for this chapter.",
+    topicSrc: "From Nave's Topical Bible (1896).", popularTopics: "Popular topics",
+    parallels: "Parallel accounts", harmony: "Gospel harmony", allSections: "All sections", compare: "Compare",
+    harmonyNote: "Sections follow the order of the classic harmonies; where the Gospels tell an event at different points, it sits where most place it.",
+    onlyIn: (g) => `Only in ${g}`, noXrefCh: "No cross-references for this chapter.",
     noPeopleSel: (m) => `No one is named in ${m ? "these verses" : "this verse"}.`,
     noPlacesSel: (m) => `No places are named in ${m ? "these verses" : "this verse"}.`, placesIn: (r) => `Named in ${r}`,
     rel: { father: "Father", mother: "Mother", partners: "Married to", children: "Children", siblings: "Brothers and sisters" },
@@ -133,7 +136,10 @@ const L = {
     introRange: (a, z, one) => (a === z ? `第${a}` : `${a}–${z}`) + (one ? "节" : "章"),
     introNote: "作者与年代采用传统看法，学者对其中一些看法不一。",
     topics: "主题", topicRefs: (n) => `${n} 处经文`, topicSee: "参见", topicHere: "引用了这节经文",
-    topicSrc: "取自 Nave's Topical Bible（1896 年）。分项说明为英文原文，部分主题暂无中文名称。", popularTopics: "常见主题", noXrefCh: "这一章没有串珠。",
+    topicSrc: "取自 Nave's Topical Bible（1896 年）。分项说明为英文原文，部分主题暂无中文名称。", popularTopics: "常见主题",
+    parallels: "平行记载", harmony: "四福音合参", allSections: "全部段落", compare: "对照",
+    harmonyNote: "段落按传统合参的次序排列；各福音书记载次序不同的事件，按多数福音书的位置排列。",
+    onlyIn: (g) => `只记于${g}`, noXrefCh: "这一章没有串珠。",
     noPeopleSel: (m) => `${m ? "这几节" : "本节"}没有提到人名。`,
     noPlacesSel: (m) => `${m ? "这几节" : "本节"}没有提到地名。`, placesIn: (r) => `${r} 提到的地点`,
     rel: { father: "父亲", mother: "母亲", partners: "配偶", children: "儿女", siblings: "兄弟姐妹" },
@@ -509,6 +515,7 @@ async function renderContext() {
     renderMarkTools(sel.map((n) => `${b.id}.${c}.${n}`));
   }
   renderOrig(b, c, chapter ? [] : sel, orig, texts[vs.indexOf("kjv")] || await bookText(b.id, "kjv"), key);
+  renderParallels(b, c, sel, chapter, key).catch((e) => console.error(e));
   renderTopics(b, c, sel, chapter, key).catch((e) => console.error(e));
   $("ctx-text").classList.toggle("chapter", chapter);
   document.querySelectorAll(".tabs button").forEach((t) => t.setAttribute("aria-selected", t.dataset.tab === state.tab));
@@ -680,6 +687,146 @@ async function openTopic(i, from = null, back = null) {
   }
   body.replaceChildren(head, list, el("p", "note small", t("topicSrc")));
   body.querySelector(".topic-ref.here")?.scrollIntoView({ block: "center" });
+}
+
+// --- Gospel harmony -----------------------------------------------------------------------------------------
+// The life of Jesus in 164 sections, each with the passages in Matthew, Mark, Luke and John that tell it
+// (data/harmony.json, built by tools/build_harmony.py). A Gospel verse lists its sections under its text; a section
+// opens with the accounts side by side, the verse it was opened from marked, and steps to the sections either side.
+
+const GOSPELS = ["Matt", "Mark", "Luke", "John"];
+const loadHarmony = () => loadJSON("data/harmony.json");
+// "Matt.5.1-Matt.7.29", "Matt.3.13-17" or "Matt.3.13" → [book, c, v, c2, v2]
+function refSpan(ref) {
+  const [a, z] = ref.split("-"), [b, c, v] = a.split(".").map((x, i) => (i ? +x : x));
+  if (!z) return [b, c, v, c, v];
+  const zz = z.split(".");
+  return zz.length === 1 ? [b, c, v, c, +zz[0]] : [b, c, v, +zz[1], +zz[2]];
+}
+const spanHas = ([b, c, v, c2, v2], book, ch, vs) => b === book && (ch > c || (ch === c && vs >= v)) && (ch < c2 || (ch === c2 && vs <= v2));
+const spanInChapter = ([b, c, , c2], book, ch) => b === book && ch >= c && ch <= c2;
+
+async function renderParallels(b, c, sel, chapter, key) {
+  const box = $("ctx-harmony");
+  if (!GOSPELS.includes(b.id)) { box.hidden = true; return; }
+  const h = await loadHarmony().catch(() => null);
+  if (selKey() !== key) return;
+  const hits = (h?.sections || []).map((s, i) => [s, i]).filter(([s]) => s[3 + GOSPELS.indexOf(b.id)].some((ref) =>
+    chapter ? spanInChapter(refSpan(ref), b.id, c) : sel.some((n) => spanHas(refSpan(ref), b.id, c, n))));
+  box.hidden = !hits.length;
+  if (box.hidden) return;
+  const summary = el("summary", "", t("parallels"));
+  summary.append(" ", el("span", "count", hits.length));
+  box.replaceChildren(summary);
+  box.open = store.get("bible-harmony-open") !== false;
+  box.ontoggle = () => store.set("bible-harmony-open", box.open);
+  const from = chapter ? null : `${b.id}.${c}.${sel[0]}`, list = el("div", "harmony-list");
+  for (const [s, i] of hits) {
+    const btn = el("button", "harmony-item");
+    btn.append(el("b", "", zh() ? s[2] : s[1]));
+    const others = GOSPELS.map((g, k) => g !== b.id && s[3 + k].length ? s[3 + k].map(refShortSpan).join(", ") : null).filter(Boolean);
+    btn.append(el("small", "", others.length ? others.join(" · ") : t("onlyIn", bname(b))));
+    btn.onclick = () => openHarmony(i, from);
+    list.append(btn);
+  }
+  const all = el("button", "link", t("allSections"));
+  all.onclick = () => openHarmonyIndex();
+  box.append(list, all);
+}
+const spanNums = ([, c, v, c2, v2]) => `${c}:${v}` + (c2 !== c ? `–${c2}:${v2}` : v2 !== v ? `–${v2}` : "");
+const refShortSpan = (ref) => shortRef(ref.split(".")[0], "", "").replace(/:$/, "") + spanNums(refSpan(ref));
+const GOSPEL_TAGS = { en: ["Mt", "Mk", "Lk", "Jn"], zh: ["太", "可", "路", "约"] };
+
+// One section, the accounts side by side (on a phone, swiped across).
+async function openHarmony(i, from = null) {
+  view.dialog = null; // not shareable
+  const h = await loadHarmony(), s = h.sections[i], body = $("picker-body");
+  $("picker-title").textContent = zh() ? s[2] : s[1];
+  view.back = () => openHarmonyIndex(i, from);
+  $("picker-back").hidden = false;
+  if (!$("picker").open) { body.replaceChildren(el("p", "note", t("searching"))); $("picker").showModal(); }
+  const tr = versions()[0], cols = GOSPELS.map((g, k) => [g, s[3 + k]]).filter(([, refs]) => refs.length);
+  const texts = await Promise.all(cols.map(([g]) => bookText(g, tr)));
+  const [fb, fc, fv] = from ? from.split(".") : [];
+  const grid = el("div", "harmony harmony-" + cols.length);
+  cols.forEach(([g, refs], k) => {
+    const col = el("section", "harmony-col"), book = state.byId[g];
+    const head = el("h3", "", bname(book));
+    head.append(" ", el("small", "", refs.map((r) => spanNums(refSpan(r))).join(", ")));
+    col.append(head);
+    const text = el("div", "harmony-text");
+    text.lang = tr === "cuv" ? "zh-CN" : "en";
+    for (const ref of refs) {
+      const [, c, v, c2, v2] = refSpan(ref), p = el("p");
+      for (let ch = c; ch <= c2; ch++) {
+        const verses = texts[k][ch - 1] || [];
+        for (let n = ch === c ? v : 1; n <= (ch === c2 ? v2 : verses.length); n++) {
+          const span = el("span", "hv" + (g === fb && ch === +fc && n === +fv ? " here" : ""));
+          span.append(el("sup", "vn", ch !== c || c2 !== c ? `${ch}:${n}` : n), verses[n - 1] || "");
+          span.onclick = () => { $("picker").close(); go(g, ch, n); };
+          p.append(span, " ");
+        }
+      }
+      text.append(p);
+    }
+    col.append(text);
+    grid.append(col);
+  });
+  // Previous and next sections, and where this one sits.
+  const nav = el("div", "harmony-nav"), part = h.parts[s[0]];
+  const step = (d, label) => {
+    const btn = el("button", "pill", label);
+    btn.disabled = !h.sections[i + d];
+    btn.onclick = () => openHarmony(i + d, null);
+    return btn;
+  };
+  nav.append(step(-1, "‹"), el("span", "note small", `${zh() ? part[1] : part[0]} · ${i + 1} / ${h.sections.length}`), step(1, "›"));
+  // On a phone, where one account shows at a time: a tab for each, kept in step with the swiping.
+  const tabs = el("div", "seg harmony-tabs");
+  const tabBtns = cols.map(([g], k) => {
+    const btn = el("button", "", bname(state.byId[g]));
+    btn.onclick = () => grid.children[k].scrollIntoView({ inline: "start", block: "nearest", behavior: "smooth" });
+    return btn;
+  });
+  tabs.append(...tabBtns);
+  const mark = () => {
+    const k = Math.round(grid.scrollLeft / (grid.children[1]?.offsetLeft - grid.children[0].offsetLeft || 1));
+    tabBtns.forEach((btn, j) => btn.setAttribute("aria-pressed", j === Math.min(k, cols.length - 1)));
+  };
+  grid.addEventListener("scroll", mark, { passive: true });
+  body.replaceChildren(nav, ...(cols.length > 1 ? [tabs] : []), grid);
+  body.scrollTop = 0;
+  body.querySelector(".hv.here")?.scrollIntoView({ block: "center" });
+  mark();
+}
+
+// Every section, by part, each with the Gospels that tell it.
+async function openHarmonyIndex(at = null, from = null) {
+  view.dialog = null;
+  const h = await loadHarmony(), body = $("picker-body");
+  $("picker-title").textContent = t("harmony");
+  view.back = at != null ? () => openHarmony(at, from) : null;
+  $("picker-back").hidden = at == null;
+  if (!$("picker").open) $("picker").showModal();
+  const out = [el("p", "note small", t("harmonyNote"))];
+  h.parts.forEach((part, pi) => {
+    out.push(el("div", "testament", zh() ? part[1] : part[0]));
+    const ul = el("ul", "results");
+    h.sections.forEach((s, i) => {
+      if (s[0] !== pi) return;
+      const li = el("li"), btn = el("button", i === at ? "on" : "");
+      btn.append(el("b", "", zh() ? s[2] : s[1]));
+      const tags = el("span", "harmony-tags");
+      GOSPELS.forEach((g, k) => tags.append(el("i", s[3 + k].length ? "on" : "", GOSPEL_TAGS[state.lang][k])));
+      btn.append(tags);
+      btn.onclick = () => openHarmony(i);
+      li.append(btn);
+      ul.append(li);
+    });
+    out.push(ul);
+  });
+  body.replaceChildren(...out);
+  body.querySelector("button.on")?.scrollIntoView({ block: "center" });
 }
 
 // --- Cross-reference web ------------------------------------------------------------------------------------
@@ -1823,6 +1970,10 @@ async function runSearch() {
     .sort((a, b) => (norm(label(b[0], b[1])).startsWith(nq) - norm(label(a[0], a[1])).startsWith(nq)) || b[4] - a[4]).slice(0, 30);
   add(t("places"), places.map(([name, nameZh, kind, first, n]) =>
     item(label(name, nameZh), [(zh() && KINDS_ZH[kind]) || kind, t("nVerses", n)].filter(Boolean).join(" · "), () => go(...first.split(".")))));
+  const harmony = await loadHarmony().catch(() => ({ sections: [] }));
+  if (seq !== searchSeq) return;
+  add(t("harmony"), harmony.sections.map((s, i) => [s, i]).filter(([s]) => has(s[1], s[2])).slice(0, 12)
+    .map(([s, i]) => item(zh() ? s[2] : s[1], GOSPELS.flatMap((g, k) => s[3 + k].slice(0, 1).map(refShortSpan)).join(" · "), () => openHarmony(i))));
   const topics = await topicIndex().catch(() => []);
   if (seq !== searchSeq) return;
   add(t("topics"), topics.map((x, i) => [x, i]).filter(([x]) => has(x[0], x[1]))
@@ -2649,7 +2800,7 @@ function renderOffline(body) {
   if ((store.get("bible-offline") || []).includes(state.version)) { btn.textContent = t("saved", names); btn.disabled = true; }
   btn.onclick = async () => {
     btn.disabled = true;
-    const files = ["data/books.json", "data/places.json", "data/search.json", "data/people.json", "data/basemap.json", "data/timeline.json", "data/lands.json", "data/names.json", "data/kings.json", "data/intros.json", "data/topics/index.json",
+    const files = ["data/books.json", "data/places.json", "data/search.json", "data/people.json", "data/basemap.json", "data/timeline.json", "data/lands.json", "data/names.json", "data/kings.json", "data/intros.json", "data/topics/index.json", "data/harmony.json",
       "atlas/tours.json", "atlas/eras.json", "atlas/events.json",
       ...Array.from({ length: 12 }, (_, i) => `data/people/${i}.json`),
       ...state.books.flatMap((b) => [...vs.map((v) => `data/text/${v}/${b.id}.json`), `data/xref/${b.id}.json`, `data/vctx/${b.id}.json`, `data/strongs/${b.id}.json`]),
