@@ -84,6 +84,8 @@ const L = {
     origNote: "Strong’s numbers and definitions from Strong’s Concordance; KJV tagging from MetaV.", allRenderings: "All",
     xrefList: "List", xrefWeb: "Web", webLabel: "This verse and its strongest cross-references",
     webNote: (n) => `The ${n} strongest cross-references, in Bible order from the top (grey for the Old Testament, blue for the New); bigger means more votes. Faint lines join ones that cross-reference each other. Tap one to move there.`,
+    listen: "Listen", listenTitle: "Read this chapter aloud", listenPause: "Pause", listenGo: "Play", listenStop: "Stop reading",
+    listenPrev: "Previous verse", listenNext: "Next verse", listenRate: "Reading speed", listenVoice: "Voice",
     play: "▶ Play", pause: "❚❚ Pause", playTitle: "Play the tour: steps move on by themselves and the map traces the route",
     card: "Card", cardTip: "A picture of this verse over a map of its places, to share", cardTitle: "Verse card",
     light: "Light", dark: "Dark", share: "Share…", download: "Download",
@@ -167,6 +169,8 @@ const L = {
     origNote: "斯特朗编号和释义（英文）出自 Strong’s Concordance；钦定本标注出自 MetaV。", allRenderings: "全部",
     xrefList: "列表", xrefWeb: "关系图", webLabel: "本节与它最主要的串珠",
     webNote: (n) => `最主要的 ${n} 条串珠，从顶部起按圣经顺序排列（灰色为旧约，蓝色为新约）；圆点越大，票数越多。淡线连接彼此互为串珠的经文。点选即可前往。`,
+    listen: "朗读", listenTitle: "朗读本章", listenPause: "暂停", listenGo: "播放", listenStop: "停止朗读",
+    listenPrev: "上一节", listenNext: "下一节", listenRate: "语速", listenVoice: "声音",
     play: "▶ 播放", pause: "❚❚ 暂停", playTitle: "自动播放导览：逐站前进，地图描绘路线",
     card: "卡片", cardTip: "把这节经文配上地图做成图片分享", cardTitle: "经文卡片",
     light: "浅色", dark: "深色", share: "分享…", download: "下载",
@@ -1401,6 +1405,138 @@ function lightVerses() {
   vs.forEach((v, i) => { v.style.animationDelay = `${Math.min(i * 0.6, 6)}s`; v.classList.add("lit"); });
 }
 
+// --- Read aloud ---------------------------------------------------------------------------------------------
+// Turned on from the dock, the device's own voice reads the chapter one verse at a time (the first translation shown), lighting the verse it
+// reads and keeping it in view, then carries on into the next chapter. Moving to another chapter by hand stops it.
+
+const ICON_PLAY = '<path d="M5 3.2v9.6L12.6 8Z" fill="currentColor"/>';
+const ICON_PAUSE = '<path d="M5 3.5h2v9H5zM9 3.5h2v9H9z" fill="currentColor"/>';
+const svgIcon = (paths) => {
+  const span = document.createElement("span");
+  span.className = "ico";
+  span.innerHTML = `<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">${paths}</svg>`;
+  return span;
+};
+const RATES = [0.8, 1, 1.25, 1.5];
+const listen = { on: false, paused: false, v: 1, at: null, next: false, utter: null };
+const speechLang = () => (versions()[0] === "cuv" ? "zh" : "en");
+// The voices for the language, the best first: a remembered choice, then ones marked as higher quality, then the
+// browser's default for that language.
+function listenVoices() {
+  const lang = speechLang(), all = speechSynthesis.getVoices().filter((v) => v.lang.toLowerCase().replace("_", "-").startsWith(lang));
+  const score = (v) => (/premium|enhanced|natural|neural|google/i.test(v.name) ? 2 : 0) + (v.default ? 1 : 0)
+    + (lang === "zh" && /cn|hans/i.test(v.lang) ? 1 : 0) + (lang === "en" && /us|gb/i.test(v.lang) ? 0.5 : 0);
+  const saved = store.get("bible-voice-" + lang);
+  return all.sort((a, z) => (z.name === saved) - (a.name === saved) || score(z) - score(a));
+}
+async function speakVerse() {
+  const b = state.byId[state.book], c = state.chapter, tr = versions()[0], text = (await bookText(b.id, tr))[c - 1];
+  if (!listen.on) return;
+  if (listen.v > text.length) { // the end of the chapter: on to the next, or stop at the end of the Bible
+    const n = neighbour(1);
+    if (!n) return stopListen();
+    listen.next = true;
+    listen.v = 1;
+    location.hash = hashFor(n.book, n.chapter);
+    return;
+  }
+  listen.at = `${b.id}.${c}`;
+  document.querySelectorAll(".v.reading").forEach((e) => e.classList.remove("reading"));
+  const span = document.querySelector(`.v[data-v="${listen.v}"]`);
+  if (span) {
+    span.classList.add("reading");
+    const r = span.getBoundingClientRect(), top = $("reader").getBoundingClientRect().top + 60;
+    if (r.top < top || r.bottom > innerHeight - 120) span.scrollIntoView({ block: "center", behavior: "smooth" });
+  }
+  renderListenBar();
+  const u = new SpeechSynthesisUtterance(text[listen.v - 1] || "");
+  const voice = listenVoices()[0];
+  u.lang = voice?.lang || (speechLang() === "zh" ? "zh-CN" : "en-US");
+  if (voice) u.voice = voice;
+  u.rate = store.get("bible-rate") || 1;
+  u.onend = () => {
+    if (listen.utter !== u || !listen.on || listen.paused) return;
+    listen.v++;
+    speakVerse();
+  };
+  u.onerror = (e) => { if (listen.utter === u && !/interrupted|canceled/.test(e.error)) stopListen(); };
+  listen.utter = u;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+function startListen(v) {
+  if (!window.speechSynthesis) return;
+  Object.assign(listen, { on: true, paused: false, v, next: false });
+  document.body.classList.add("listening");
+  speakVerse();
+}
+function stopListen() {
+  if (!listen.on) return;
+  Object.assign(listen, { on: false, paused: false, utter: null, at: null });
+  speechSynthesis.cancel();
+  document.body.classList.remove("listening");
+  document.querySelectorAll(".v.reading").forEach((e) => e.classList.remove("reading"));
+  renderListenBar();
+}
+function pauseListen(on) {
+  listen.paused = on;
+  if (on) { listen.utter = null; speechSynthesis.cancel(); renderListenBar(); }
+  else speakVerse(); // from the start of the verse: resume() is unreliable across browsers
+}
+function skipListen(d) {
+  listen.v = Math.max(1, listen.v + d);
+  listen.paused = false;
+  speakVerse();
+}
+// After the hash changes: carry on in the next chapter if reading moved there, else stop.
+function listenAfterRoute() {
+  if (!listen.on) return;
+  if (listen.next) { listen.next = false; return speakVerse(); }
+  if (listen.at !== `${state.book}.${state.chapter}`) stopListen();
+}
+function renderListenBar() {
+  const bar = $("listen-bar");
+  bar.hidden = !listen.on;
+  $("listen-btn").setAttribute("aria-pressed", listen.on);
+  if (!listen.on) return;
+  const b = state.byId[state.book];
+  $("listen-ref").textContent = `${bname(b)} ${state.chapter}:${listen.v}`;
+  const pp = $("listen-pp");
+  pp.replaceChildren(svgIcon(listen.paused ? ICON_PLAY : ICON_PAUSE));
+  pp.title = pp.ariaLabel = t(listen.paused ? "listenGo" : "listenPause");
+  $("listen-rate").textContent = `${store.get("bible-rate") || 1}×`;
+  const sel = $("listen-voice"), voices = listenVoices();
+  sel.hidden = voices.length < 2;
+  if (sel.dataset.lang !== speechLang() || sel.options.length !== voices.length) {
+    sel.dataset.lang = speechLang();
+    sel.replaceChildren(...voices.map((v) => new Option(v.name.replace(/\s*\(.*\)$/, ""), v.name)));
+  }
+  sel.value = voices[0]?.name || "";
+}
+function listenControls() {
+  if (!window.speechSynthesis) return;
+  // The dock's Listen switch: on reads from the selected verse (or the first) and shows the player; off stops.
+  $("listen-btn").hidden = false;
+  $("listen-btn").onclick = () => (listen.on ? stopListen() : startListen(state.verse || 1));
+  speechSynthesis.getVoices();
+  speechSynthesis.addEventListener?.("voiceschanged", renderListenBar);
+  $("listen-pp").onclick = () => pauseListen(!listen.paused);
+  $("listen-prev").onclick = () => skipListen(-1);
+  $("listen-next").onclick = () => skipListen(1);
+  $("listen-x").onclick = stopListen;
+  $("listen-rate").onclick = () => {
+    const r = store.get("bible-rate") || 1;
+    store.set("bible-rate", RATES[(RATES.indexOf(r) + 1) % RATES.length]);
+    if (listen.paused) renderListenBar(); else speakVerse(); // the new speed from this verse
+  };
+  $("listen-voice").onchange = (e) => {
+    store.set("bible-voice-" + speechLang(), e.target.value);
+    if (listen.paused) renderListenBar(); else speakVerse();
+  };
+  // Leaving the page stops the voice (some browsers keep talking).
+  addEventListener("pagehide", stopListen);
+}
+
 // --- Book and chapter picker -------------------------------------------------
 
 function showBooks() {
@@ -2464,7 +2600,7 @@ function route() {
   store.set("bible-pos", [r.book, r.chapter, r.verse].filter((x) => x != null).join("."));
   renderTour();
   renderTimeline().catch((e) => console.error(e));
-  return renderChapter().then(renderContext).catch(showError);
+  return renderChapter().then(() => { listenAfterRoute(); return renderContext(); }).catch(showError);
 }
 function showError(e) {
   console.error(e);
@@ -2646,6 +2782,7 @@ async function init() {
     else if (e.key === "Escape" && ctxScope()) closeCtx();
   });
   $("tours-btn").onclick = () => { showTours(); $("picker").showModal(); };
+  listenControls();
   $("mine-btn").onclick = () => openMine();
   const showTimeline = (on) => {
     $("timeline-card").hidden = !on;
