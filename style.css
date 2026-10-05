@@ -557,3 +557,4 @@ body:not(.playing) .tour-bar { visibility: hidden; }
 .install-acts .pill { font-size: 14px; }
 .install-acts .pill:last-child { background: var(--accent); border-color: var(--accent); color: var(--panel); }
 .install-acts .quiet { border-color: transparent; background: none; }
+@media (min-width: 700px) { .install { left: auto; right: 24px; bottom: 24px; width: 400px; margin: 0; } }

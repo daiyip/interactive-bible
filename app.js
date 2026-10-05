@@ -35,13 +35,18 @@ const L = {
     rel: { father: "Father", mother: "Mother", partners: "Married to", children: "Children", siblings: "Brothers and sisters" },
     childOf: (g, n) => `${g === "F" ? "Daughter" : "Son"} of ${n}`, partnerOf: (g, n) => `${g === "F" ? "Wife" : "Husband"} of ${n}`,
     firstIn: (r) => `First named in ${r}`, allPeople: "‹ People in this verse", bioSrc: "Easton’s Bible Dictionary",
-    family: "Family", namedIn: "Named in", tree: "Family tree", treeTitle: (n) => `Family tree · ${n}`, installTitle: (d) => `Install Bible on your ${d === "ipad" ? "iPad" : "iPhone"}`,
+    family: "Family", namedIn: "Named in", tree: "Family tree", treeTitle: (n) => `Family tree · ${n}`, installTitle: (d) => `Install Bible on your ${{ ipad: "iPad", mac: "Mac" }[d] || "iPhone"}`,
+    installWhyMac: "It opens in its own window from the Dock and Launchpad, like an app, and keeps working offline.",
+    installMacSafari: "In the menu bar choose File › Add to Dock… (or click Share in the toolbar, then Add to Dock).",
+    installMacChrome: "Click the install icon at the right end of the address bar (or ⋮ › Cast, save and share › Install page as app).",
+    installMacEdge: "Click the app icon at the right end of the address bar (or … › Apps › Install this site as an app).",
+    installMacDone: "Click Add or Install. Bible is now in your Dock and Launchpad.", installNow: "Install",
     installWhy: "It opens full screen from your Home Screen, like an app, and keeps working offline.",
     installInApp: "First open this page in Safari: tap ⋯ (or the share menu) and choose Open in Safari.",
     installShare: (where) => `Tap Share ${where}.`, installWhereIphone: "at the bottom of the screen (or under ⋯)",
     installWhereIpad: "at the top right, beside the address", installWhereOther: "in the address bar or the menu",
     installAdd: "Scroll down and tap Add to Home Screen.", installDone: "Tap Add. Bible is now on your Home Screen.",
-    installLater: "Not now", installNever: "Don't show it again", installBtn: (d) => `Install on ${d === "ipad" ? "iPad" : "iPhone"}`,
+    installLater: "Not now", installNever: "Don't show it again", installBtn: (d) => `Install on ${{ ipad: "iPad", mac: "Mac" }[d] || "iPhone"}`,
     share: "Share this view", copied: "Link copied", shareTitle: (r) => `${r} · Interactive Bible`,
     kingsTitle: "Kings of Israel and Judah", kingsBtn: "Kings of Israel and Judah ›", kingsShort: "Kings chart", israel: "Israel (north)", judah: "Judah (south)",
     united: "the united kingdom", kingOf: (k) => `King of ${k}`, prophetTo: (k) => `Prophet to ${k}`, nYears: (n) => `${n} ${n === 1 ? "year" : "years"}`,
@@ -105,13 +110,18 @@ const L = {
     rel: { father: "父亲", mother: "母亲", partners: "配偶", children: "儿女", siblings: "兄弟姐妹" },
     childOf: (g, n) => `${n}的${g === "F" ? "女儿" : "儿子"}`, partnerOf: (g, n) => `${n}的${g === "F" ? "妻子" : "丈夫"}`,
     firstIn: (r) => `首次出现于${r}`, allPeople: "‹ 本节的人物", bioSrc: "Easton 圣经辞典（英文）",
-    family: "家人", namedIn: "出现的经文", tree: "家谱", treeTitle: (n) => `家谱 · ${n}`, installTitle: (d) => `把圣经安装到${d === "ipad" ? " iPad" : " iPhone"}`,
+    family: "家人", namedIn: "出现的经文", tree: "家谱", treeTitle: (n) => `家谱 · ${n}`, installTitle: (d) => `把圣经安装到 ${{ ipad: "iPad", mac: "Mac" }[d] || "iPhone"}`,
+    installWhyMac: "从程序坞和启动台打开，在独立窗口中像应用一样使用，离线也能用。",
+    installMacSafari: "在菜单栏选择“文件 › 添加到程序坞…”（或点工具栏的“分享”，再选“添加到程序坞”）。",
+    installMacChrome: "点地址栏右端的安装图标（或 ⋮ › 投放、保存和分享 › 将网页作为应用安装）。",
+    installMacEdge: "点地址栏右端的应用图标（或 … › 应用 › 将此站点作为应用安装）。",
+    installMacDone: "点“添加”或“安装”，圣经就在程序坞和启动台里了。", installNow: "安装",
     installWhy: "从主屏幕打开，像应用一样全屏显示，离线也能用。",
     installInApp: "请先用 Safari 打开本页：轻点 ⋯（或分享菜单），选择“在 Safari 中打开”。",
     installShare: (where) => `轻点“分享”按钮${where}。`, installWhereIphone: "（在屏幕底部，或在 ⋯ 里）",
     installWhereIpad: "（在右上角，地址栏旁）", installWhereOther: "（在地址栏或菜单里）",
     installAdd: "向下滚动，轻点“添加到主屏幕”。", installDone: "轻点“添加”，圣经就在主屏幕上了。",
-    installLater: "以后再说", installNever: "不再显示", installBtn: (d) => `安装到${d === "ipad" ? " iPad" : " iPhone"}`,
+    installLater: "以后再说", installNever: "不再显示", installBtn: (d) => `安装到 ${{ ipad: "iPad", mac: "Mac" }[d] || "iPhone"}`,
     share: "分享当前视图", copied: "链接已复制", shareTitle: (r) => `${r} · 互动圣经`,
     kingsTitle: "以色列和犹大的君王", kingsBtn: "以色列和犹大的君王 ›", kingsShort: "君王图", israel: "以色列（北国）", judah: "犹大（南国）",
     united: "统一王国", kingOf: (k) => `${k}的王`, prophetTo: (k) => `向${k}说话的先知`, nYears: (n) => `${n} 年`,
@@ -2113,35 +2123,55 @@ function renderOffline(body) {
   };
   box.append(el("h4", "", t("offline")), note, btn);
   // On an iPhone or iPad in the browser, the install guide again (even after "Don't show it again").
-  if (iosDevice() && !runningAsApp()) {
-    const inst = el("button", "pill", t("installBtn", iosDevice()));
+  if (canInstall()) {
+    const inst = el("button", "pill", t("installBtn", installDevice()));
     inst.onclick = () => { $("mine").close(); showInstall(); };
     box.append(" ", inst);
   }
   body.append(box);
 }
 
-// --- Install guide (iPhone and iPad) -------------------------------------------------
-// Safari on iOS has no install prompt, so this shows how to add the app to the Home Screen: only on an iPhone or iPad,
-// only when the page is not already running as the installed app, and not again once dismissed for good
+// --- Install guide (iPhone, iPad and Mac) --------------------------------------------
+// Safari has no install prompt, so this shows how to add the app to the Home Screen (iPhone, iPad) or the Dock (Mac,
+// Safari 17 and later); Chrome and Edge on a Mac get their own Install button when the browser offers one. Shown only
+// when the page is not already running as the installed app, and not again once dismissed for good
 // ("bible-install-hide"); "Not now" hides it until the next visit.
 
-const iosDevice = () => /iPhone|iPod/.test(navigator.userAgent) ? "iphone"
-  : /iPad/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1) ? "ipad" : null;
+const UA = navigator.userAgent;
+const installDevice = () => /iPhone|iPod/.test(UA) ? "iphone"
+  : /iPad/.test(UA) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1) ? "ipad"
+  : /Macintosh/.test(UA) ? "mac" : null;
+// On a Mac: "safari" (17 and later can Add to Dock), "chromium" (Chrome, Edge, Brave… can install), or null (Firefox,
+// older Safari: no way to install).
+const macBrowser = () => /Edg\/|Chrome\//.test(UA) ? "chromium"
+  : /Firefox\//.test(UA) ? null
+  : +(/Version\/(\d+)/.exec(UA)?.[1] || 0) >= 17 ? "safari" : null;
 const runningAsApp = () => navigator.standalone === true || matchMedia("(display-mode: standalone)").matches;
 // Browsers inside other apps (WeChat, Facebook, Instagram, LINE…) can't add to the Home Screen; Safari can.
-const inAppBrowser = () => /MicroMessenger|FBAN|FBAV|Instagram|Line\/|WhatsApp|Weibo|QQ\//i.test(navigator.userAgent);
+const inAppBrowser = () => /MicroMessenger|FBAN|FBAV|Instagram|Line\/|WhatsApp|Weibo|QQ\//i.test(UA);
+const canInstall = () => { const d = installDevice(); return !!d && !runningAsApp() && (d !== "mac" || !!macBrowser()); };
 const ICON_SHARE = '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 10V2.2M5 5l3-3 3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 7.5H3.8a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h8.4a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1h-.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
 const ICON_ADD = '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="12" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v6M5 8h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
+const ICON_DOCK = '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><rect x="1.5" y="10" width="13" height="4.5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="4" y="11.6" width="2" height="1.4" rx=".4" fill="currentColor"/><rect x="7" y="11.6" width="2" height="1.4" rx=".4" fill="currentColor"/><rect x="10" y="11.6" width="2" height="1.4" rx=".4" fill="currentColor"/><path d="M8 1.5v6M5.5 5 8 7.5 10.5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const ICON_INSTALL = '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 4.5v4.5M6 7l2 2 2-2M5 14h6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+// Chrome and Edge offer installing through this event; kept so the card's Install button can use it.
+let installPrompt = null;
+addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  installPrompt = e;
+  if ($("install")) showInstall(); // gains its Install button
+});
+addEventListener("appinstalled", () => { installPrompt = null; $("install")?.remove(); });
 
 function maybeShowInstall() {
-  if (!iosDevice() || runningAsApp() || store.get("bible-install-hide")) return;
+  if (!canInstall() || store.get("bible-install-hide")) return;
   try { if (sessionStorage.getItem("bible-install-later")) return; } catch {}
-  setTimeout(() => showInstall(), 2500);
+  setTimeout(() => !runningAsApp() && showInstall(), 2500);
 }
 
 function showInstall() {
-  const device = iosDevice() || "iphone";
+  const device = installDevice() || "iphone", mac = device === "mac", browser = mac ? macBrowser() : null;
   $("install")?.remove();
   const card = make("section", "install");
   card.id = "install";
@@ -2156,21 +2186,41 @@ function showInstall() {
   const x = make("button", "icon", "×");
   x.setAttribute("aria-label", t("close"));
   head.append(logo, h, x);
-  const ua = navigator.userAgent, safari = !/CriOS|FxiOS|EdgiOS|OPiOS/.test(ua);
-  const where = !safari ? t("installWhereOther") : device === "ipad" ? t("installWhereIpad") : t("installWhereIphone");
   const steps = make("ol", "install-steps");
   const step = (html, text) => { const li = make("li"); const i = make("span", "ico"); i.innerHTML = html; li.append(i, make("span", "", text)); steps.append(li); };
-  if (inAppBrowser()) step("⋯", t("installInApp"));
-  step(ICON_SHARE, t("installShare", where));
-  step(ICON_ADD, t("installAdd"));
-  step("✓", t("installDone"));
+  if (mac && browser === "safari") {
+    step(ICON_DOCK, t("installMacSafari"));
+    step("✓", t("installMacDone"));
+  } else if (mac) {
+    step(ICON_INSTALL, t(/Edg\//.test(UA) ? "installMacEdge" : "installMacChrome"));
+    step("✓", t("installMacDone"));
+  } else {
+    const safari = !/CriOS|FxiOS|EdgiOS|OPiOS/.test(UA);
+    const where = !safari ? t("installWhereOther") : device === "ipad" ? t("installWhereIpad") : t("installWhereIphone");
+    if (inAppBrowser()) step("⋯", t("installInApp"));
+    step(ICON_SHARE, t("installShare", where));
+    step(ICON_ADD, t("installAdd"));
+    step("✓", t("installDone"));
+  }
   const acts = make("div", "install-acts");
   const later = make("button", "pill", t("installLater")), never = make("button", "pill quiet", t("installNever"));
   const close = () => { card.classList.add("leaving"); setTimeout(() => card.remove(), 200); };
   later.onclick = x.onclick = () => { try { sessionStorage.setItem("bible-install-later", "1"); } catch {} close(); };
   never.onclick = () => { store.set("bible-install-hide", true); close(); };
   acts.append(never, later);
-  card.append(head, make("p", "install-why", t("installWhy")), steps, acts);
+  // Chrome and Edge: install in one click instead of following the steps.
+  if (installPrompt) {
+    const go = make("button", "pill", t("installNow"));
+    go.onclick = async () => {
+      const p = installPrompt;
+      installPrompt = null;
+      p.prompt();
+      if ((await p.userChoice).outcome === "accepted") close();
+      else showInstall();
+    };
+    acts.append(go);
+  }
+  card.append(head, make("p", "install-why", t(mac ? "installWhyMac" : "installWhy")), steps, acts);
   document.body.append(card);
 }
 
