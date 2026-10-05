@@ -94,7 +94,7 @@ select.badge { font-family: inherit; background: var(--panel); cursor: pointer; 
 .v { border-radius: 4px; cursor: pointer; transition: background .15s; padding: 1px 0; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 .v:hover { background: var(--accent-soft); }
 .v.sel { background: var(--sel); }
-.v.rng { background: var(--accent-soft); }
+.v.rng { background: var(--sel); }
 /* Highlights: see-through, so a selected or highlighted verse still shows both */
 .hl-y { --hl: rgba(250, 204, 21, .32); } .hl-g { --hl: rgba(74, 190, 110, .28); }
 .hl-b { --hl: rgba(80, 150, 240, .26); } .hl-p { --hl: rgba(240, 100, 160, .24); }
@@ -157,7 +157,10 @@ body:not(.playing) .tour-bar { visibility: hidden; }
 .ctx-empty { color: var(--muted); text-align: center; margin-top: 12vh; }
 .ctx-logo img { display: block; margin: 0 auto 10px; opacity: .85; }
 .hint-title { font-weight: 600; color: var(--ink); margin-bottom: 4px; }
-.ctx-head h2 { font-size: 18px; margin: 0 0 8px; }
+.ctx-title { display: flex; align-items: center; gap: 8px; margin: 0 0 8px; }
+.ctx-head h2 { font-size: 18px; margin: 0; flex: 1; }
+#sheet-x { font-size: 22px; margin: -6px -8px -6px 0; }
+.ctx-head .vn { font-size: .62em; color: var(--accent); font-weight: 600; margin-right: 2px; font-family: "IBM Plex Sans", sans-serif; }
 .ctx-head blockquote {
   margin: 0 0 16px; padding: 10px 14px; border-left: 3px solid var(--accent); background: var(--bg);
   font-family: "Source Serif 4", Georgia, serif; font-size: 16px; line-height: 1.6; border-radius: 0 8px 8px 0;
@@ -380,12 +383,15 @@ body:not(.playing) .tour-bar { visibility: hidden; }
   .text-btn { padding: 6px 6px; margin-right: 0; }
   select.badge { max-width: 74px; margin-left: 2px; }
   .context {
-    position: fixed; left: 0; right: 0; bottom: 0; max-height: 62vh; border-left: 0;
+    position: fixed; left: 0; right: 0; bottom: 0; height: 55vh; height: 55dvh; border-left: 0;
     border-top: 1px solid var(--line); border-radius: 16px 16px 0 0; box-shadow: var(--shadow);
-    transform: translateY(105%); transition: transform .25s ease; padding: 6px 16px 20px; z-index: 5;
+    transform: translateY(105%); transition: transform .25s ease, height .25s ease; padding: 6px 16px 20px; z-index: 5;
   }
+  .context[data-size="peek"] { height: 112px; overflow: hidden; }
+  .context[data-size="full"] { height: calc(100vh - 60px); height: calc(100dvh - 60px); }
+  .context.dragging { transition: none; }
   .context.open { transform: none; }
-  .sheet-handle { display: flex; justify-content: center; padding: 6px 0 10px; cursor: pointer; position: sticky; top: -6px; background: var(--panel); z-index: 2; }
+  .sheet-handle { display: flex; justify-content: center; padding: 8px 0 12px; margin-top: -2px; cursor: grab; position: sticky; top: -6px; background: var(--panel); z-index: 2; touch-action: none; }
   .sheet-handle span { width: 40px; height: 4px; border-radius: 2px; background: var(--line); }
   .ctx-empty { display: none; }
   .tabs { top: 18px; gap: 0; }
