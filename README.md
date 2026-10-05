@@ -82,6 +82,11 @@ Chronicles, and his family tree. Opened while reading a king's account, it start
   the current translation too (about 13 MB, or 17 MB for both). Add the site to the home screen to use it as an
   app. The atlas map needs a connection; offline, the small built-in map stands in.
 
+On an iPhone or iPad, where Safari has no install prompt, a card shows how to add the app to the Home Screen (Share,
+then Add to Home Screen, then Add; inside WeChat and other in-app browsers, open the page in Safari first). It shows
+only in the browser, never in the installed app. **Not now** hides it until the next visit, **Don't show it again**
+for good; **Install on iPhone/iPad** in My reading brings it back.
+
 It is a static site with no build step and no backend, served by GitHub Pages. `sw.js` is the service worker that
 keeps it working offline, and `manifest.webmanifest` makes it installable.
 
