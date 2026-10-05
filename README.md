@@ -51,6 +51,13 @@ verses) and the books that use it most. English matches the whole word, ignoring
 browser splits the verse into words and the study offers the shorter words inside the one tapped (神爱世人, 神爱,
 爱, …).
 
+**Hebrew and Greek**: in the KJV, a word that translates a Hebrew or Greek word also shows that word at the top of its
+word study: the original, its transliteration and pronunciation, part of speech and Strong's definition. **Every verse
+with this word** lists all the verses that use it, how the KJV translates it each time (רָעָה: feed 51, shepherds 28,
+shepherd 26, …; tap one to keep those verses) and the books it is in. Under the verse text, **Hebrew words** or
+**Greek words** unfolds the verse's original words, each with the English word it stands behind, so 和合本 readers can
+open them too.
+
 **Search** (the magnifier, or `/`) finds references ("John 3:16", "约翰福音 3"), books, people, places, events, tours
 and words in the text.
 
@@ -151,6 +158,8 @@ with three lines of text, drawn in the same line style as the atlas's folded map
 | `data/lands.json` | The land as Joshua 13–21 divides it: nested `{id, name, zh, kids}` groups down to `{..., ref, towns}`, each town `[place number, "chapter.verse"]`. Built from the verse-to-place links in `data/vctx/Josh.json`. |
 | `data/names.json` | Places the Bible renames or calls by other names: `[[place numbers], [[name, name_zh, verse], ...]]`, every verse checked against the KJV. |
 | `data/kings.json` | 42 kings as `[kingdom U/I/J, name, name_zh, from, to, verdict g/e/null, account, account in Chronicles, person]` (years negative for BC), 15 prophets as `[kingdom, name, name_zh, from, to, verse, person]`, and turning points as `[year, title, title_zh, verse]`. |
+| `data/strongs/<id>.json` | Per verse `"chapter.verse"`: `[[i, n], ...]`, the i-th word of the KJV verse (words as `Intl.Segmenter` splits them) translates Strong's number n (Hebrew in the Old Testament, Greek in the New), or a list of numbers. |
+| `data/lexicon/<H\|G><k>.json` | Strong's entries `k×100` to `k×100+99` as `{"n": [lemma, transliteration, pronunciation, definition, part of speech]}`. |
 | `data/basemap.json` | Land, lakes and main rivers of the Bible lands for the Places map (Natural Earth, simplified). |
 | `atlas/` | The atlas data pack (see above). |
 
@@ -158,7 +167,8 @@ To rebuild, run `tools/fetch_sources.sh` to download the sources into `tools/src
 `python3 tools/build_data.py` for `data/` and `python3 tools/build_atlas.py` for the pack's events and places.
 `python3 tools/build_kings.py` rebuilds the kings (checking every account against the KJV), and
 `python3 tools/build_names.py && python3 tools/build_lands.py` rebuild the place names and the land of Canaan from
-`data/`.
+`data/`. `python3 tools/build_strongs.py` rebuilds the Hebrew and Greek words, matching MetaV's tagged words to the
+KJV text (99.9% match).
 
 ## Translation
 
@@ -173,6 +183,9 @@ folder per translation (`data/text/<translation>/`), so adding one does not chan
 - **Cross-references** from [OpenBible.info](https://www.openbible.info/labs/cross-references/): CC BY.
 - **People, places and events** from [Theographic Bible Metadata](https://github.com/robertrouse/theographic-bible-metadata):
   CC BY-SA 4.0. Biographies are the opening of each person's entry in Easton's Bible Dictionary (1897, public domain). The `atlas/` pack is shared under CC BY-SA 4.0 too.
+- **Hebrew and Greek words**: Strong's numbers on each KJV word from
+  [MetaV](https://github.com/theonize/KJV-bible-database-with-metadata-MetaV-) (CC BY-SA 3.0), with Strong's
+  definitions from [Open Scriptures](https://github.com/openscriptures/strongs) (CC BY-SA).
 - **Base map** from [Natural Earth](https://www.naturalearthdata.com/): public domain.
 
 Years follow a traditional chronology, with the Exodus in 1490 BC; many scholars date the early periods later. The

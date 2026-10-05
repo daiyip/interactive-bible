@@ -14,3 +14,7 @@ T=https://raw.githubusercontent.com/robertrouse/theographic-bible-metadata/cfb1c
 for f in books events people places verses; do curl -sSfo src/theographic/$f.json $T/$f.json; done
 N=https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson
 for f in ne_50m_land ne_50m_lakes ne_50m_rivers_lake_centerlines; do curl -sSfo src/naturalearth/$f.geojson $N/$f.geojson; done
+# Strong's numbers on each KJV word, and Strong's dictionary: MetaV (CC BY-SA 3.0).
+mkdir -p src/metav
+M=https://raw.githubusercontent.com/theonize/KJV-bible-database-with-metadata-MetaV-/master/CSV
+for f in MainIndex StrongsIndex Strongs; do curl -sSfo src/metav/$f.csv $M/$f.csv; done
