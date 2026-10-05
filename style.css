@@ -461,3 +461,26 @@ body:not(.playing) .tour-bar { visibility: hidden; }
 .tname.path b { color: var(--accent); }
 .tname.me { background: var(--accent-soft); box-shadow: inset 3px 0 0 var(--accent); }
 .tname.me b { color: var(--accent); }
+
+/* The land of Canaan: the map stays in view above the outline (beside it on wide screens). */
+.land-btn { margin-top: 12px; }
+.places .also { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
+.places .also a { color: var(--accent); text-decoration: none; }
+.map .dot { fill: var(--muted); opacity: .45; }
+.map .pin.picked { fill: var(--accent); stroke-width: 2.5; }
+.land-map { position: sticky; top: var(--head, 50px); z-index: 1; background: var(--panel); padding: 0 0 6px; }
+.land-map .map { max-height: 34vh; width: auto; margin: 0 auto; }
+.land .tname { scroll-margin-top: calc(var(--head, 50px) + 34vh + 16px); }
+.tree .tref { flex: none; align-self: center; margin-left: 2px; padding: 2px 6px; border: 0; background: none; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; cursor: pointer; }
+.tree .tref:hover { color: var(--accent); text-decoration: underline; }
+.tname.tgroup { cursor: default; }
+.tname.tgroup b { font-family: inherit; font-size: 13px; font-weight: 600; color: var(--muted); }
+.tname.tgroup:hover { background: none; }
+@media (min-width: 900px) {
+  .picker:has(.land) { width: min(1040px, calc(100vw - 32px)); }
+  .tree-box.land { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); column-gap: 20px; align-items: start; }
+  .land .land-map { grid-row: 1 / span 2; top: calc(var(--head, 50px) + 12px); }
+  .land-map .map { max-height: none; width: 100%; }
+  .land .tree { margin-top: 0; }
+  .land .tname { scroll-margin-top: calc(var(--head, 50px) + 12px); }
+}
