@@ -324,12 +324,7 @@ async function renderChapter() {
       if (vs[1]) s.append(secondLine(texts[1][state.chapter - 1][i], vs[1]));
       p.append(s);
     });
-    const lb = make("button", "pill listen-btn", t("listen"));
-    lb.prepend(svgIcon(ICON_PLAY));
-    lb.title = t("listenTitle");
-    lb.hidden = !window.speechSynthesis;
-    lb.onclick = () => startListen(state.verse || 1);
-    art.append(lb, h, p);
+    art.append(h, p);
     rendered = key;
     for (const [id, dir] of [["prev2", -1], ["next2", 1]]) {
       const n = neighbour(dir);
@@ -1411,7 +1406,7 @@ function lightVerses() {
 }
 
 // --- Read aloud ---------------------------------------------------------------------------------------------
-// The device's own voice reads the chapter one verse at a time (the first translation shown), lighting the verse it
+// Turned on from the dock, the device's own voice reads the chapter one verse at a time (the first translation shown), lighting the verse it
 // reads and keeping it in view, then carries on into the next chapter. Moving to another chapter by hand stops it.
 
 const ICON_PLAY = '<path d="M5 3.2v9.6L12.6 8Z" fill="currentColor"/>';
@@ -1502,6 +1497,7 @@ function listenAfterRoute() {
 function renderListenBar() {
   const bar = $("listen-bar");
   bar.hidden = !listen.on;
+  $("listen-btn").setAttribute("aria-pressed", listen.on);
   if (!listen.on) return;
   const b = state.byId[state.book];
   $("listen-ref").textContent = `${bname(b)} ${state.chapter}:${listen.v}`;
@@ -1519,6 +1515,9 @@ function renderListenBar() {
 }
 function listenControls() {
   if (!window.speechSynthesis) return;
+  // The dock's Listen switch: on reads from the selected verse (or the first) and shows the player; off stops.
+  $("listen-btn").hidden = false;
+  $("listen-btn").onclick = () => (listen.on ? stopListen() : startListen(state.verse || 1));
   speechSynthesis.getVoices();
   speechSynthesis.addEventListener?.("voiceschanged", renderListenBar);
   $("listen-pp").onclick = () => pauseListen(!listen.paused);

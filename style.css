@@ -569,7 +569,7 @@ body:not(.playing) .tour-bar { visibility: hidden; }
 /* Four dock buttons don't fit side by side on a phone, so each label sits under its icon. */
 @media (max-width: 480px) {
   .dock { border-radius: 22px; }
-  .dock button { flex-direction: column; gap: 2px; padding: 5px 10px 4px; font-size: 11px; border-radius: 18px; min-width: 58px; }
+  .dock button { flex-direction: column; gap: 2px; padding: 5px 6px 4px; font-size: 11px; border-radius: 18px; min-width: 52px; }
 }
 
 /* Hebrew and Greek: the words under a verse, and a Strong's entry as a card. */
@@ -591,11 +591,9 @@ body:not(.playing) .tour-bar { visibility: hidden; }
 .renderings .chip { font-size: 13px; }
 .results .rendered { color: var(--accent); font-size: 13px; }
 
-/* Read aloud: the button by the chapter title, the verse being read, and the player that takes the dock's place. */
-.chapter { position: relative; }
-.listen-btn { position: absolute; right: 0; top: 0; display: inline-flex; align-items: center; gap: 4px; font-size: 13px; padding: 4px 12px 4px 8px; }
-.listen-btn .ico, .listen-pp .ico { display: inline-flex; color: var(--accent); }
-.listen-btn[hidden] { display: none; }
+/* Read aloud: the verse being read, and the player above the dock while Listen is on. */
+.listen-pp .ico { display: inline-flex; color: var(--accent); }
+#listen-btn[hidden] { display: none; }
 .v.reading { background: var(--accent-soft); border-radius: 4px; box-shadow: 0 0 0 3px var(--accent-soft); }
 .listen-bar {
   pointer-events: auto; display: flex; align-items: center; gap: 2px; padding: 4px 6px; background: var(--dock); max-width: calc(100vw - 24px);
@@ -609,3 +607,4 @@ body:not(.playing) .tour-bar { visibility: hidden; }
 .listen-voice { max-width: 150px; font-size: 13px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); color: var(--ink); padding: 3px 8px; }
 .listen-voice[hidden] { display: none; }
 @media (max-width: 480px) { .listen-voice { display: none; } }
+@media (max-width: 340px) { .dock { gap: 0; } .dock button { padding: 5px 4px 4px; min-width: 50px; font-size: 10.5px; } }
