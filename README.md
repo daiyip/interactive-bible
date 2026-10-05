@@ -85,7 +85,11 @@ Chronicles, and his family tree. Opened while reading a king's account, it start
 On an iPhone or iPad, where Safari has no install prompt, a card shows how to add the app to the Home Screen (Share,
 then Add to Home Screen, then Add; inside WeChat and other in-app browsers, open the page in Safari first). It shows
 only in the browser, never in the installed app. **Not now** hides it until the next visit, **Don't show it again**
-for good; **Install on iPhone/iPad** in My reading brings it back.
+for good; the install button in My reading brings it back.
+
+On a Mac the card shows too. In Safari 17 or later it points to File › Add to Dock; in Chrome and Edge it points to
+the install icon in the address bar and adds a one-click **Install** button when the browser offers one. Firefox and
+older Safari can't install web apps, so nothing shows there.
 
 It is a static site with no build step and no backend, served by GitHub Pages. `sw.js` is the service worker that
 keeps it working offline, and `manifest.webmanifest` makes it installable.
