@@ -36,7 +36,10 @@ const L = {
     noPeople: (r) => `No one is named in ${r}.`,
     chapterBtn: "Context", chapterTitle: "Cross-references, people and places of the whole chapter",
     showChapter: (r) => `See all of ${r}`, scopeSel: (m) => m ? "These verses" : "This verse", scopeChapter: "Whole chapter",
-    chapterNote: "Everything in this chapter. Tap a verse to see just that verse.", noXrefCh: "No cross-references for this chapter.",
+    chapterNote: "Everything in this chapter. Tap a verse to see just that verse.",
+    aboutBook: (n) => `About ${n}`, introAuthor: "Author", introDate: "Written", introKey: "Key verse", introOutline: "Outline",
+    introRange: (a, z, one) => (one ? (a === z ? "v. " : "vv. ") : "Ch. ") + (a === z ? a : `${a}–${z}`),
+    introNote: "Authors and dates follow traditional views; scholars differ on some.", noXrefCh: "No cross-references for this chapter.",
     noPeopleSel: (m) => `No one is named in ${m ? "these verses" : "this verse"}.`,
     noPlacesSel: (m) => `No places are named in ${m ? "these verses" : "this verse"}.`, placesIn: (r) => `Named in ${r}`,
     rel: { father: "Father", mother: "Mother", partners: "Married to", children: "Children", siblings: "Brothers and sisters" },
@@ -86,6 +89,7 @@ const L = {
     webNote: (n) => `The ${n} strongest cross-references, in Bible order from the top (grey for the Old Testament, blue for the New); bigger means more votes. Faint lines join ones that cross-reference each other. Tap one to move there.`,
     listen: "Listen", listenTitle: "Read this chapter aloud", listenPause: "Pause", listenGo: "Play", listenStop: "Stop reading",
     listenPrev: "Previous verse", listenNext: "Next verse", listenRate: "Reading speed", listenVoice: "Voice",
+    voiceMore: "More voices can be added in your device's settings (Accessibility › Spoken Content on iPhone and Mac).",
     play: "▶ Play", pause: "❚❚ Pause", playTitle: "Play the tour: steps move on by themselves and the map traces the route",
     card: "Card", cardTip: "A picture of this verse over a map of its places, to share", cardTitle: "Verse card",
     light: "Light", dark: "Dark", share: "Share…", download: "Download",
@@ -122,7 +126,10 @@ const L = {
     noPeople: (r) => `${r} 没有提到人名。`,
     chapterBtn: "背景", chapterTitle: "整章的串珠、人物和地点",
     showChapter: (r) => `查看${r}全章`, scopeSel: (m) => m ? "所选经文" : "本节", scopeChapter: "整章",
-    chapterNote: "这一章的全部内容。点选一节经文，只看那一节。", noXrefCh: "这一章没有串珠。",
+    chapterNote: "这一章的全部内容。点选一节经文，只看那一节。",
+    aboutBook: (n) => `关于${n}`, introAuthor: "作者", introDate: "年代", introKey: "钥节", introOutline: "大纲",
+    introRange: (a, z, one) => (a === z ? `第${a}` : `${a}–${z}`) + (one ? "节" : "章"),
+    introNote: "作者与年代采用传统看法，学者对其中一些看法不一。", noXrefCh: "这一章没有串珠。",
     noPeopleSel: (m) => `${m ? "这几节" : "本节"}没有提到人名。`,
     noPlacesSel: (m) => `${m ? "这几节" : "本节"}没有提到地名。`, placesIn: (r) => `${r} 提到的地点`,
     rel: { father: "父亲", mother: "母亲", partners: "配偶", children: "儿女", siblings: "兄弟姐妹" },
@@ -171,6 +178,7 @@ const L = {
     webNote: (n) => `最主要的 ${n} 条串珠，从顶部起按圣经顺序排列（灰色为旧约，蓝色为新约）；圆点越大，票数越多。淡线连接彼此互为串珠的经文。点选即可前往。`,
     listen: "朗读", listenTitle: "朗读本章", listenPause: "暂停", listenGo: "播放", listenStop: "停止朗读",
     listenPrev: "上一节", listenNext: "下一节", listenRate: "语速", listenVoice: "声音",
+    voiceMore: "可在设备设置中添加更多声音（iPhone 与 Mac：辅助功能 › 朗读内容）。",
     play: "▶ 播放", pause: "❚❚ 暂停", playTitle: "自动播放导览：逐站前进，地图描绘路线",
     card: "卡片", cardTip: "把这节经文配上地图做成图片分享", cardTitle: "经文卡片",
     light: "浅色", dark: "深色", share: "分享…", download: "下载",
@@ -474,7 +482,9 @@ async function renderContext() {
   if (selKey() !== key) return;
   $("ctx-text").lang = vs[0] === "cuv" ? "zh-CN" : "en";
   if (chapter) {
-    $("ctx-text").replaceChildren(make("span", "note small", t("chapterNote")));
+    const intro = await introCard(b, c);
+    if (selKey() !== key) return;
+    $("ctx-text").replaceChildren(...(intro ? [intro] : []), make("span", "note small", t("chapterNote")));
     $("ctx-text").title = "";
     $("ctx-mark").replaceChildren();
     markKeys = [];
@@ -510,6 +520,39 @@ async function renderContext() {
   if (selKey() !== key) return;
   $("xref-count").textContent = refs.length || "";
   renderXref(refs, XREF_FIRST);
+}
+
+// A book's introduction, at the top of a chapter's context: what the book is about, its author and date, a key verse
+// and an outline whose sections open their first chapter, with the open chapter's section marked. Folds away, and
+// stays as the reader left it. (A one-chapter book's outline is in verses.)
+const bookIntros = () => loadJSON("data/intros.json").catch(() => ({}));
+async function introCard(b, c) {
+  const e = (await bookIntros())[b.id];
+  if (!e) return null;
+  const k = zh() ? 1 : 0, one = b.chapters.length === 1, [kc, kv] = e.key.split(".").map(Number);
+  const box = make("details", "intro");
+  box.open = store.get("bible-intro-open") !== false;
+  box.ontoggle = () => store.set("bible-intro-open", box.open);
+  box.append(make("summary", "", t("aboutBook", bname(b))), make("p", "intro-about", e.about[k]));
+  const facts = make("dl", "intro-facts"), keyLink = make("a", "", refLabel(`${b.id}.${kc}.${kv}`));
+  keyLink.href = hashFor(b.id, kc, kv);
+  const keyText = make("span", "intro-key");
+  refText(`${b.id}.${kc}.${kv}`).then((x) => (keyText.textContent = x));
+  facts.append(make("dt", "", t("introAuthor")), make("dd", "", e.author[k]), make("dt", "", t("introDate")), make("dd", "", e.date[k]),
+    make("dt", "", t("introKey")), make("dd"));
+  facts.lastChild.append(keyLink, " ", keyText);
+  const list = make("ol", "intro-outline"), last = one ? b.chapters[0] : b.chapters.length;
+  e.outline.forEach(([from, en, zhName], i) => {
+    const to = (e.outline[i + 1]?.[0] ?? last + 1) - 1, a = make("a");
+    a.href = one ? hashFor(b.id, 1, from) : hashFor(b.id, from);
+    a.append(make("span", "", k ? zhName : en), make("small", "", t("introRange", from, to, one)));
+    const li = make("li");
+    if (!one && c >= from && c <= to) { li.className = "here"; a.setAttribute("aria-current", "true"); }
+    li.append(a);
+    list.append(li);
+  });
+  box.append(facts, make("h4", "", t("introOutline")), list, make("p", "note small", t("introNote")));
+  return box;
 }
 
 // The Hebrew or Greek words of the selected verses, folded under their text: each with the KJV word it stands behind,
@@ -1472,6 +1515,7 @@ function startListen(v) {
 }
 function stopListen() {
   if (!listen.on) return;
+  showVoiceMenu(false);
   Object.assign(listen, { on: false, paused: false, utter: null, at: null });
   speechSynthesis.cancel();
   document.body.classList.remove("listening");
@@ -1505,13 +1549,35 @@ function renderListenBar() {
   pp.replaceChildren(svgIcon(listen.paused ? ICON_PLAY : ICON_PAUSE));
   pp.title = pp.ariaLabel = t(listen.paused ? "listenGo" : "listenPause");
   $("listen-rate").textContent = `${store.get("bible-rate") || 1}×`;
-  const sel = $("listen-voice"), voices = listenVoices();
-  sel.hidden = voices.length < 2;
-  if (sel.dataset.lang !== speechLang() || sel.options.length !== voices.length) {
-    sel.dataset.lang = speechLang();
-    sel.replaceChildren(...voices.map((v) => new Option(v.name.replace(/\s*\(.*\)$/, ""), v.name)));
-  }
-  sel.value = voices[0]?.name || "";
+  const voices = listenVoices();
+  $("listen-voice").hidden = voices.length < 2;
+  $("listen-voice-name").textContent = voices[0] ? voiceName(voices[0]) : "";
+  if (!$("voice-menu").hidden) renderVoiceMenu();
+}
+// A voice's name without the browser's notes ("Google 普通话（中国大陆）" stays, "Daniel (Enhanced)" becomes "Daniel").
+const voiceName = (v) => v.name.replace(/\s*\((enhanced|premium|compact)\)$/i, "").replace(/^Microsoft\s+|\s+Online.*$/g, "");
+// The device's voices for the language, each with where it is from; the one in use is ticked. Picking one reads the
+// current verse again in it.
+function renderVoiceMenu() {
+  const menu = $("voice-menu"), voices = listenVoices(), now = voices[0]?.name;
+  const region = (lang) => { try { return new Intl.DisplayNames([state.lang === "zh" ? "zh" : "en"], { type: "region" }).of(lang.split(/[-_]/)[1]?.toUpperCase()); } catch { return ""; } };
+  menu.replaceChildren(el("p", "voice-head", t("listenVoice")), ...voices.map((v) => {
+    const b = el("button");
+    b.setAttribute("role", "menuitemradio");
+    b.setAttribute("aria-checked", v.name === now);
+    b.append(el("span", "", voiceName(v)), el("small", "", [region(v.lang), /enhanced|premium|natural|neural/i.test(v.name) && "HD"].filter(Boolean).join(" · ")));
+    b.onclick = () => {
+      store.set("bible-voice-" + speechLang(), v.name);
+      showVoiceMenu(false);
+      if (listen.paused) pauseListen(false); else speakVerse();
+    };
+    return b;
+  }), el("p", "note small", t("voiceMore")));
+}
+function showVoiceMenu(on) {
+  $("voice-menu").hidden = !on;
+  $("listen-voice").setAttribute("aria-expanded", on);
+  if (on) { renderVoiceMenu(); $("voice-menu").querySelector("[aria-checked=true]")?.focus(); }
 }
 function listenControls() {
   if (!window.speechSynthesis) return;
@@ -1529,10 +1595,9 @@ function listenControls() {
     store.set("bible-rate", RATES[(RATES.indexOf(r) + 1) % RATES.length]);
     if (listen.paused) renderListenBar(); else speakVerse(); // the new speed from this verse
   };
-  $("listen-voice").onchange = (e) => {
-    store.set("bible-voice-" + speechLang(), e.target.value);
-    if (listen.paused) renderListenBar(); else speakVerse();
-  };
+  $("listen-voice").onclick = () => showVoiceMenu($("voice-menu").hidden);
+  document.addEventListener("click", (e) => { if (!e.target.closest("#voice-menu, #listen-voice")) showVoiceMenu(false); });
+  $("voice-menu").addEventListener("keydown", (e) => { if (e.key === "Escape") { e.stopPropagation(); showVoiceMenu(false); $("listen-voice").focus(); } });
   // Leaving the page stops the voice (some browsers keep talking).
   addEventListener("pagehide", stopListen);
 }
