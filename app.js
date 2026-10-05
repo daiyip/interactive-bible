@@ -35,7 +35,14 @@ const L = {
     rel: { father: "Father", mother: "Mother", partners: "Married to", children: "Children", siblings: "Brothers and sisters" },
     childOf: (g, n) => `${g === "F" ? "Daughter" : "Son"} of ${n}`, partnerOf: (g, n) => `${g === "F" ? "Wife" : "Husband"} of ${n}`,
     firstIn: (r) => `First named in ${r}`, allPeople: "‹ People in this verse", bioSrc: "Easton’s Bible Dictionary",
-    family: "Family", namedIn: "Named in", tree: "Family tree", treeTitle: (n) => `Family tree · ${n}`, share: "Share this view", copied: "Link copied", shareTitle: (r) => `${r} · Interactive Bible`,
+    family: "Family", namedIn: "Named in", tree: "Family tree", treeTitle: (n) => `Family tree · ${n}`, installTitle: (d) => `Install Bible on your ${d === "ipad" ? "iPad" : "iPhone"}`,
+    installWhy: "It opens full screen from your Home Screen, like an app, and keeps working offline.",
+    installInApp: "First open this page in Safari: tap ⋯ (or the share menu) and choose Open in Safari.",
+    installShare: (where) => `Tap Share ${where}.`, installWhereIphone: "at the bottom of the screen (or under ⋯)",
+    installWhereIpad: "at the top right, beside the address", installWhereOther: "in the address bar or the menu",
+    installAdd: "Scroll down and tap Add to Home Screen.", installDone: "Tap Add. Bible is now on your Home Screen.",
+    installLater: "Not now", installNever: "Don't show it again", installBtn: (d) => `Install on ${d === "ipad" ? "iPad" : "iPhone"}`,
+    share: "Share this view", copied: "Link copied", shareTitle: (r) => `${r} · Interactive Bible`,
     kingsTitle: "Kings of Israel and Judah", kingsBtn: "Kings of Israel and Judah ›", kingsShort: "Kings chart", israel: "Israel (north)", judah: "Judah (south)",
     united: "the united kingdom", kingOf: (k) => `King of ${k}`, prophetTo: (k) => `Prophet to ${k}`, nYears: (n) => `${n} ${n === 1 ? "year" : "years"}`,
     kingGood: "Did right", kingEvil: "Did evil", kingNone: "No verdict", prophets: "Prophets", readRef: (r) => `Read ${r}`,
@@ -98,7 +105,14 @@ const L = {
     rel: { father: "父亲", mother: "母亲", partners: "配偶", children: "儿女", siblings: "兄弟姐妹" },
     childOf: (g, n) => `${n}的${g === "F" ? "女儿" : "儿子"}`, partnerOf: (g, n) => `${n}的${g === "F" ? "妻子" : "丈夫"}`,
     firstIn: (r) => `首次出现于${r}`, allPeople: "‹ 本节的人物", bioSrc: "Easton 圣经辞典（英文）",
-    family: "家人", namedIn: "出现的经文", tree: "家谱", treeTitle: (n) => `家谱 · ${n}`, share: "分享当前视图", copied: "链接已复制", shareTitle: (r) => `${r} · 互动圣经`,
+    family: "家人", namedIn: "出现的经文", tree: "家谱", treeTitle: (n) => `家谱 · ${n}`, installTitle: (d) => `把圣经安装到${d === "ipad" ? " iPad" : " iPhone"}`,
+    installWhy: "从主屏幕打开，像应用一样全屏显示，离线也能用。",
+    installInApp: "请先用 Safari 打开本页：轻点 ⋯（或分享菜单），选择“在 Safari 中打开”。",
+    installShare: (where) => `轻点“分享”按钮${where}。`, installWhereIphone: "（在屏幕底部，或在 ⋯ 里）",
+    installWhereIpad: "（在右上角，地址栏旁）", installWhereOther: "（在地址栏或菜单里）",
+    installAdd: "向下滚动，轻点“添加到主屏幕”。", installDone: "轻点“添加”，圣经就在主屏幕上了。",
+    installLater: "以后再说", installNever: "不再显示", installBtn: (d) => `安装到${d === "ipad" ? " iPad" : " iPhone"}`,
+    share: "分享当前视图", copied: "链接已复制", shareTitle: (r) => `${r} · 互动圣经`,
     kingsTitle: "以色列和犹大的君王", kingsBtn: "以色列和犹大的君王 ›", kingsShort: "君王图", israel: "以色列（北国）", judah: "犹大（南国）",
     united: "统一王国", kingOf: (k) => `${k}的王`, prophetTo: (k) => `向${k}说话的先知`, nYears: (n) => `${n} 年`,
     kingGood: "行耶和华眼中看为正的事", kingEvil: "行耶和华眼中看为恶的事", kingNone: "未作评价", prophets: "先知", readRef: (r) => `阅读${r}`,
@@ -2098,7 +2112,66 @@ function renderOffline(body) {
     store.set("bible-offline", [...new Set([...(store.get("bible-offline") || []), state.version])]);
   };
   box.append(el("h4", "", t("offline")), note, btn);
+  // On an iPhone or iPad in the browser, the install guide again (even after "Don't show it again").
+  if (iosDevice() && !runningAsApp()) {
+    const inst = el("button", "pill", t("installBtn", iosDevice()));
+    inst.onclick = () => { $("mine").close(); showInstall(); };
+    box.append(" ", inst);
+  }
   body.append(box);
+}
+
+// --- Install guide (iPhone and iPad) -------------------------------------------------
+// Safari on iOS has no install prompt, so this shows how to add the app to the Home Screen: only on an iPhone or iPad,
+// only when the page is not already running as the installed app, and not again once dismissed for good
+// ("bible-install-hide"); "Not now" hides it until the next visit.
+
+const iosDevice = () => /iPhone|iPod/.test(navigator.userAgent) ? "iphone"
+  : /iPad/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1) ? "ipad" : null;
+const runningAsApp = () => navigator.standalone === true || matchMedia("(display-mode: standalone)").matches;
+// Browsers inside other apps (WeChat, Facebook, Instagram, LINE…) can't add to the Home Screen; Safari can.
+const inAppBrowser = () => /MicroMessenger|FBAN|FBAV|Instagram|Line\/|WhatsApp|Weibo|QQ\//i.test(navigator.userAgent);
+const ICON_SHARE = '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 10V2.2M5 5l3-3 3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 7.5H3.8a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h8.4a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1h-.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
+const ICON_ADD = '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="12" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v6M5 8h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
+
+function maybeShowInstall() {
+  if (!iosDevice() || runningAsApp() || store.get("bible-install-hide")) return;
+  try { if (sessionStorage.getItem("bible-install-later")) return; } catch {}
+  setTimeout(() => showInstall(), 2500);
+}
+
+function showInstall() {
+  const device = iosDevice() || "iphone";
+  $("install")?.remove();
+  const card = make("section", "install");
+  card.id = "install";
+  card.setAttribute("role", "dialog");
+  card.setAttribute("aria-labelledby", "install-h");
+  const head = make("div", "install-head");
+  const logo = make("img");
+  logo.src = "img/icon-180.png";
+  logo.alt = "";
+  const h = make("h2", "", t("installTitle", device));
+  h.id = "install-h";
+  const x = make("button", "icon", "×");
+  x.setAttribute("aria-label", t("close"));
+  head.append(logo, h, x);
+  const ua = navigator.userAgent, safari = !/CriOS|FxiOS|EdgiOS|OPiOS/.test(ua);
+  const where = !safari ? t("installWhereOther") : device === "ipad" ? t("installWhereIpad") : t("installWhereIphone");
+  const steps = make("ol", "install-steps");
+  const step = (html, text) => { const li = make("li"); const i = make("span", "ico"); i.innerHTML = html; li.append(i, make("span", "", text)); steps.append(li); };
+  if (inAppBrowser()) step("⋯", t("installInApp"));
+  step(ICON_SHARE, t("installShare", where));
+  step(ICON_ADD, t("installAdd"));
+  step("✓", t("installDone"));
+  const acts = make("div", "install-acts");
+  const later = make("button", "pill", t("installLater")), never = make("button", "pill quiet", t("installNever"));
+  const close = () => { card.classList.add("leaving"); setTimeout(() => card.remove(), 200); };
+  later.onclick = x.onclick = () => { try { sessionStorage.setItem("bible-install-later", "1"); } catch {} close(); };
+  never.onclick = () => { store.set("bible-install-hide", true); close(); };
+  acts.append(never, later);
+  card.append(head, make("p", "install-why", t("installWhy")), steps, acts);
+  document.body.append(card);
 }
 
 // --- Routing and setup ---------------------------------------------------------
@@ -2326,6 +2399,7 @@ async function init() {
   await route();
   if (shared?.s && phone() && state.verse != null) setSheet(shared.s);
   if (shared?.d) openShared(shared.d).catch((e) => console.error(e));
+  else maybeShowInstall();
   // Works offline once loaded (sw.js), and can be installed from the browser's menu.
   if ("serviceWorker" in navigator && location.protocol !== "file:") navigator.serviceWorker.register("sw.js").catch((e) => console.error(e));
 }
