@@ -35,7 +35,9 @@ const L = {
     rel: { father: "Father", mother: "Mother", partners: "Married to", children: "Children", siblings: "Brothers and sisters" },
     childOf: (g, n) => `${g === "F" ? "Daughter" : "Son"} of ${n}`, partnerOf: (g, n) => `${g === "F" ? "Wife" : "Husband"} of ${n}`,
     firstIn: (r) => `First named in ${r}`, allPeople: "‹ People in this verse", bioSrc: "Easton’s Bible Dictionary",
-    family: "Family", namedIn: "Named in", tree: "Family tree", treeTitle: (n) => `Family tree · ${n}`, treeLine: "Line:", treeWed: (n) => `m. ${n}`,
+    family: "Family", namedIn: "Named in", tree: "Family tree", treeTitle: (n) => `Family tree · ${n}`, landTitle: "Land of Canaan", landBtn: "Land of Canaan ›", nPlaces: (n) => `${n} places`, landmarks: "Borders and landmarks",
+    alsoCalled: (n) => `Also called ${n}`, landNote: "How Joshua divided the land (Joshua 13–21). Tap a tribe to pin its places on the map, a place to label it, and a verse number to read it.",
+    treeLine: "Line:", treeWed: (n) => `m. ${n}`,
     treeNote: "Tap a name to see the tree around them.", nKids: (n) => `${n} ${n === 1 ? "child" : "children"}`, showPerson: (n) => `Open ${n}`,
     inChapter: (r, m) => `No places named in ${m ? "these verses" : "this verse"}. Places in ${r}:`, partOf: "Part of",
     error: "Could not load this chapter. Check your connection and reload.", site: "Bible", atlas: "Atlas map",
@@ -89,7 +91,9 @@ const L = {
     rel: { father: "父亲", mother: "母亲", partners: "配偶", children: "儿女", siblings: "兄弟姐妹" },
     childOf: (g, n) => `${n}的${g === "F" ? "女儿" : "儿子"}`, partnerOf: (g, n) => `${n}的${g === "F" ? "妻子" : "丈夫"}`,
     firstIn: (r) => `首次出现于${r}`, allPeople: "‹ 本节的人物", bioSrc: "Easton 圣经辞典（英文）",
-    family: "家人", namedIn: "出现的经文", tree: "家谱", treeTitle: (n) => `家谱 · ${n}`, treeLine: "世系：", treeWed: (n) => `配偶：${n}`,
+    family: "家人", namedIn: "出现的经文", tree: "家谱", treeTitle: (n) => `家谱 · ${n}`, landTitle: "迦南地", landBtn: "迦南地 ›", nPlaces: (n) => `${n} 处`, landmarks: "边界与地标",
+    alsoCalled: (n) => `又名${n}`, landNote: "约书亚分地（书 13–21）。轻点支派，在地图上标出其地方；轻点地名，在地图上显示名称；轻点节数，阅读经文。",
+    treeLine: "世系：", treeWed: (n) => `配偶：${n}`,
     treeNote: "轻点名字，查看以其为中心的家谱。", nKids: (n) => `${n} 个儿女`, showPerson: (n) => `查看${n}`,
     inChapter: (r, m) => `${m ? "这几节" : "本节"}没有提到地名。${r} 中的地点：`, partOf: "所属事件",
     error: "无法载入这一章。请检查网络后重新载入。", site: "圣经", atlas: "地图",
@@ -555,20 +559,38 @@ async function renderPlaces(b, c, sel, key) {
   // The map's year: the verse's first dated event, else the year Theographic gives the verse (or its chapter).
   syncAtlas(pts, evs.find((e) => e[1] != null)?.[1] ?? years[`${c}.${v}`] ?? years[c] ?? null);
 
-  const pane = $("places-body");
+  const pane = $("places-body"), names = await loadNames();
+  if (selKey() !== key) return;
   pane.innerHTML = "";
+  const landBtn = make("button", "pill small-pill land-btn", t("landBtn"));
+  landBtn.onclick = async () => showLand(await landAt(b.id, c, v));
   if (ids.length) {
     const ul = document.createElement("ul");
     ul.className = "places";
-    for (const [, name, lon, lat, kind] of pts) {
+    const shownNames = new Set();
+    pts.forEach(([, name, lon, lat, kind], k) => {
       const li = document.createElement("li");
       li.innerHTML = `<b></b> <span></span>`;
       li.firstChild.textContent = name;
       li.lastChild.textContent = [(zh() && KINDS_ZH[kind]) || kind, `${Math.abs(lat).toFixed(2)}°${lat < 0 ? "S" : "N"} ${Math.abs(lon).toFixed(2)}°${lon < 0 ? "W" : "E"}`].filter(Boolean).join(" · ");
+      // Other names the Bible gives this place, each opening the verse that uses it.
+      const entry = names.get(ids[k]), also = shownNames.has(entry) ? [] : otherNames(entry, name);
+      shownNames.add(entry);
+      if (also.length) {
+        const p = make("p", "also", t("alsoCalled", ""));
+        for (const [n, z, ref] of also) {
+          const a = make("a", "", (zh() && z) || n);
+          a.href = "#" + ref;
+          a.title = refLabel(`${ref}`);
+          p.append(a, " ");
+        }
+        li.append(p);
+      }
       ul.append(li);
-    }
+    });
     pane.append(ul);
   }
+  pane.append(landBtn);
   if (evs.length) {
     const h = document.createElement("h3");
     h.textContent = t("partOf");
@@ -700,14 +722,39 @@ async function renderPerson(people, i, key) {
   pane.replaceChildren(...card);
 }
 
+const make = (tag, cls, text) => Object.assign(document.createElement(tag), cls ? { className: cls } : {}, text != null ? { textContent: text } : {});
+
+// One row of an outline tree (the family tree, the land of Canaan): a fold button when there is anything under it, the
+// label, anything after it, and the children, built the first time they are opened.
+function treeItem(label, kids, open, title, extra = []) {
+  const li = make("li"), row = make("div", "trow");
+  if (!kids) {
+    row.append(make("span", "ttog leaf"), label, ...extra);
+    li.append(row);
+    return li;
+  }
+  const tog = make("button", "ttog"), ul = make("ul");
+  let built = false;
+  const set = (o) => {
+    if (o && !built) { ul.append(...kids()); built = true; }
+    ul.hidden = !o;
+    tog.setAttribute("aria-expanded", o);
+  };
+  tog.title = title;
+  tog.onclick = () => set(ul.hidden);
+  row.append(tog, label, ...extra);
+  li.append(row, ul);
+  set(open);
+  return li;
+}
+
 // A family tree around one person, drawn as an indented outline so it fits a phone: from their grandparents down to
 // their grandchildren, with the line through them opened out and other branches folded (▸ opens one in place).
 // Above it, their whole line back as far as the data goes. Tapping a name redraws the tree around that person.
 const TREE_UP = 2;
 async function showTree(i) {
   const people = await loadPeople(), p = people[i];
-  const el = (tag, cls, text) => Object.assign(document.createElement(tag), cls ? { className: cls } : {}, text != null ? { textContent: text } : {});
-  const parent = (j) => people[j][P.FATHER] ?? people[j][P.MOTHER];
+  const el = make, parent = (j) => people[j][P.FATHER] ?? people[j][P.MOTHER];
   $("picker-title").textContent = t("treeTitle", pname(p));
   $("picker-back").hidden = true;
   // The line back: father (or mother) after father, to the first person the data has.
@@ -723,30 +770,14 @@ async function showTree(i) {
   // The tree: opened along the path to this person and two generations below them.
   const path = new Set(line.slice(-1 - TREE_UP));
   const node = (j, depth) => {
-    const q = people[j], kids = q[P.CHILDREN], li = el("li"), row = el("div", "trow");
+    const q = people[j], kids = q[P.CHILDREN];
     const name = el("button", "tname" + (j === i ? " me" : path.has(j) ? " path" : ""));
     name.append(el("b", "", pname(q)));
     if (kids.length) name.append(el("span", "kids", kids.length));
     if (q[P.PARTNERS].length) name.append(el("span", "partners", t("treeWed", q[P.PARTNERS].map((k) => pname(people[k])).join(", "))));
     name.onclick = () => showTree(j);
-    if (kids.length) {
-      const tog = el("button", "ttog"), ul = el("ul");
-      let built = false;
-      const set = (open) => {
-        if (open && !built) { for (const k of kids) ul.append(node(k, j === i ? 1 : path.has(j) ? 0 : depth - 1)); built = true; }
-        ul.hidden = !open;
-        tog.setAttribute("aria-expanded", open);
-        tog.title = t("nKids", kids.length);
-      };
-      tog.onclick = () => set(ul.hidden);
-      row.append(tog, name);
-      li.append(row, ul);
-      set(path.has(j) || depth > 0);
-    } else {
-      row.append(el("span", "ttog leaf"), name);
-      li.append(row);
-    }
-    return li;
+    return treeItem(name, kids.length && (() => kids.map((k) => node(k, j === i ? 1 : path.has(j) ? 0 : depth - 1))),
+      path.has(j) || depth > 0, t("nKids", kids.length));
   };
   const tree = el("ul", "tree");
   tree.append(node(line[Math.max(0, line.length - 1 - TREE_UP)], 0));
@@ -760,6 +791,97 @@ async function showTree(i) {
   const me = tree.querySelector(".me");
   me.scrollIntoView({ block: "center" });
   me.focus({ preventScroll: true });
+}
+
+// --- The land of Canaan ---------------------------------------------------------------
+
+// data/lands.json (tools/build_lands.py): the land as Joshua 13–21 divides it, as regions > tribes (> districts) > places,
+// each place as [index into data/places.json, "chapter.verse" in Joshua].
+// data/names.json (tools/build_names.py): places with other names, as [[place indices], [[name, name_zh, verse], ...]].
+const loadNames = () => loadJSON("data/names.json").then((list) => new Map(list.flatMap((e) => e[0].map((i) => [i, e]))));
+// The names a place also goes by, leaving out the one shown.
+const nameKey = (s) => s.split(" (")[0].toLowerCase().replace(/[-–\s]/g, "");
+const otherNames = (entry, shown) => entry ? entry[1].filter(([n, z]) => nameKey((zh() && z) || n) !== nameKey(shown)) : [];
+const nameOf = ([n, z]) => (zh() && z) || n;
+
+// The group a verse of Joshua belongs to, so the tree opens at the passage being read.
+async function landAt(book, c, v) {
+  if (book !== "Josh") return "canaan";
+  const land = await loadJSON("data/lands.json");
+  const hit = (n) => {
+    for (const k of n.kids || []) { const f = hit(k); if (f) return f; }
+    if (!n.ref) return null;
+    const [, a, z] = n.ref.match(/^Josh\.(\d+\.\d+)-Josh\.(\d+\.\d+)$/), [ac, av] = a.split(".").map(Number), [, zv] = z.split(".").map(Number);
+    return c === ac && (v == null || (v >= av && v <= zv)) ? n.id : null;
+  };
+  return hit(land) || "canaan";
+}
+
+// The land as an outline beside a map: the focused tribe's places are pinned, the rest of the land faint behind them.
+// Tapping a group focuses it, tapping a place labels it on the map, and a verse number opens that verse.
+async function showLand(focus = "canaan", pick = null) {
+  const [land, places, names, base] = await Promise.all([
+    loadJSON("data/lands.json"), loadJSON("data/places.json"), loadNames(), loadJSON("data/basemap.json")]);
+  const nm = (n) => (zh() && n.zh) || n.name, pn = (i) => (zh() && places[i][5]) || places[i][1];
+  const pt = (i) => { const [id, , lon, lat, kind] = places[i]; return [id, pn(i), lon, lat, kind]; };
+  const byId = new Map(), up = new Map();
+  (function walk(n) { byId.set(n.id, n); for (const k of n.kids || []) { up.set(k.id, n); walk(k); } })(land);
+  const f = byId.get(focus) || land, path = new Set();
+  for (let n = f; n; n = up.get(n.id)) path.add(n.id);
+  const placesIn = (n) => [...new Set(n.towns ? n.towns.map((x) => x[0]) : n.kids.flatMap(placesIn))];
+  const isTown = (i) => !places[i][4] || places[i][4] === "City";
+  const read = (ref) => { const [, c, a, , , z] = ref.split(/[.-]/); $("picker").close(); location.hash = hashFor("Josh", +c, +a, +z); };
+  $("picker-title").textContent = t("landTitle");
+  $("picker-back").hidden = true;
+
+  // The map: all the land's towns frame it; the focused group's places are pinned, and the picked one is labelled.
+  const everywhere = placesIn(land).filter(isTown), mine = placesIn(f).filter((i) => i !== pick);
+  // Framed on the bulk of the land, so a few far-off border points (the river of Egypt, Damascus) don't shrink it.
+  const span = (k) => { const v = everywhere.map((i) => places[i][k]).sort((a, b) => a - b); return [v[Math.floor(v.length * 0.03)], v[Math.ceil(v.length * 0.97) - 1]]; };
+  const [[lon0, lon1], [lat0, lat1]] = [span(2), span(3)];
+  const map = drawMap(mine.map(pt), base, { frame: [[, , lon0, lat0], [, , lon1, lat1]], faint: everywhere.filter((i) => !mine.includes(i)).map(pt),
+    labels: false, picked: pick == null ? null : pt(pick) });
+
+  const refBtn = (ref, text) => { const b = make("button", "tref", text); b.onclick = () => read(ref); return b; };
+  const town = ([i, cv]) => {
+    const kind = places[i][4], also = otherNames(names.get(i), pn(i));
+    const name = make("button", "tname" + (i === pick ? " me" : ""));
+    name.append(make("b", "", pn(i)));
+    const sub = [kind && kind !== "City" ? (zh() && KINDS_ZH[kind]) || kind : "", also.length ? t("alsoCalled", also.map(nameOf).join(", ")) : ""].filter(Boolean);
+    if (sub.length) name.append(make("span", "partners", sub.join(" · ")));
+    name.onclick = () => showLand(f.id, i);
+    return treeItem(name, null, false, "", [refBtn(`Josh.${cv}-Josh.${cv}`, cv.replace(".", ":"))]);
+  };
+  const group = (n) => {
+    const count = placesIn(n).length, name = make("button", "tname" + (n === f && pick == null ? " me" : path.has(n.id) ? " path" : ""));
+    name.append(make("b", "", nm(n)), make("span", "kids", count));
+    name.onclick = () => showLand(n.id);
+    const kids = () => {
+      if (n.kids) return n.kids.map(group);
+      const towns = n.towns.filter(([i]) => isTown(i)), other = n.towns.filter(([i]) => !isTown(i));
+      const out = towns.map(town);
+      if (other.length) {
+        const label = make("span", "tname tgroup");
+        label.append(make("b", "", t("landmarks")), make("span", "kids", other.length));
+        out.push(treeItem(label, () => other.map(town), !towns.length, t("landmarks")));
+      }
+      return out;
+    };
+    const ref = n.ref ? [refBtn(n.ref, refLabel(n.ref).replace(/^\S+ /, ""))] : [];
+    // Open along the path to the focus, and one level of groups below it.
+    return treeItem(name, kids, path.has(n.id) || (n.kids && up.get(n.id) === f), t("nPlaces", count), ref);
+  };
+  const tree = make("ul", "tree");
+  tree.append(group(land));
+  const box = make("div", "tree-box land");
+  box.append(make("div", "land-map"), make("p", "note small", t("landNote")), tree);
+  box.firstChild.append(map);
+  $("picker-body").replaceChildren(box);
+  if (!$("picker").open) $("picker").showModal();
+  box.style.setProperty("--head", $("picker").querySelector(".picker-head").offsetHeight + "px");
+  const me = tree.querySelector(".me");
+  if (me && f !== land) me.scrollIntoView({ block: "nearest" });
+  else $("picker-body").scrollTop = 0;
 }
 
 // Open a person's card at a verse (from family links and search).
@@ -834,9 +956,11 @@ const LANDMARKS = [["Jerusalem", 35.234, 31.777], ["Damascus", 36.309, 33.512], 
   ["Rome", 12.484, 41.893], ["Ephesus", 27.340, 37.942], ["Tyre", 35.209, 33.268]];
 
 // An SVG map of the Bible lands framed on the given places: [[id, name, lon, lat, kind], ...]
-function drawMap(pts, base) {
+// Options: frame (points to fit instead of pts), faint (points drawn small and grey), labels: false (pins only),
+// picked (one point drawn larger, with its label).
+function drawMap(pts, base, o = {}) {
   const NS = "http://www.w3.org/2000/svg";
-  const lons = pts.map((p) => p[2]), lats = pts.map((p) => p[3]);
+  const fit = o.frame || pts, lons = fit.map((p) => p[2]), lats = fit.map((p) => p[3]);
   const midLat = (Math.min(...lats) + Math.max(...lats)) / 2;
   const k = Math.cos((midLat * Math.PI) / 180);
   const X = (lon) => lon * k, Y = (lat) => -lat;
@@ -879,6 +1003,7 @@ function drawMap(pts, base) {
     el("circle", { cx: x, cy: y, r: r * 0.6, class: "mark" });
     label(x, y, name, "mark-label");
   }
+  for (const [, , lon, lat] of o.faint || []) el("circle", { cx: X(lon), cy: Y(lat), r: r * 0.55, class: "dot" });
   // Places within a few pixels of each other share one label.
   const groups = [];
   for (const [, name, lon, lat] of pts) {
@@ -887,7 +1012,12 @@ function drawMap(pts, base) {
     if (g) g.names.push(name); else groups.push({ x, y, names: [name] });
     el("circle", { cx: x, cy: y, r, class: "pin" });
   }
-  for (const g of groups) label(g.x, g.y, g.names.join(", "), "pin-label");
+  if (o.labels !== false) for (const g of groups) label(g.x, g.y, g.names.join(", "), "pin-label");
+  if (o.picked) {
+    const [, name, lon, lat] = o.picked;
+    el("circle", { cx: X(lon), cy: Y(lat), r: r * 1.6, class: "pin picked" });
+    label(X(lon), Y(lat), name, "pin-label");
+  }
   return svg;
 }
 
@@ -1784,7 +1914,7 @@ function renderOffline(body) {
   if ((store.get("bible-offline") || []).includes(state.version)) { btn.textContent = t("saved", names); btn.disabled = true; }
   btn.onclick = async () => {
     btn.disabled = true;
-    const files = ["data/books.json", "data/places.json", "data/search.json", "data/people.json", "data/basemap.json", "data/timeline.json",
+    const files = ["data/books.json", "data/places.json", "data/search.json", "data/people.json", "data/basemap.json", "data/timeline.json", "data/lands.json", "data/names.json",
       "atlas/tours.json", "atlas/eras.json", "atlas/events.json",
       ...Array.from({ length: 12 }, (_, i) => `data/people/${i}.json`),
       ...state.books.flatMap((b) => [...vs.map((v) => `data/text/${v}/${b.id}.json`), `data/xref/${b.id}.json`, `data/vctx/${b.id}.json`])];

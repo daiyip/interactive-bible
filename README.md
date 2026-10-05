@@ -19,10 +19,14 @@ its handle to make it taller or shorter, and scrolling the text lowers it to a s
   in the middle and its 12 strongest links around it in Bible order, sized by votes, with faint lines between the
   ones that link to each other. Tapping one moves there and redraws the web.
 - **People**: everyone the verse names. Open a person for a short biography, their family (each one a link), and
-  every verse that names them; the card stays open as you walk through those verses.
+  every verse that names them; the card stays open as you walk through those verses. **Family tree** shows them
+  from their grandparents down to their grandchildren as a foldable outline, under their whole line back; tapping a
+  name redraws the tree around that person.
 - **Places**: the [atlas](https://atlas.daiyip.com) map with the places the verse names pinned, and the events it
   belongs to. The map is the atlas itself, embedded with this site's pack; a small built-in map stands in while it
-  loads.
+  loads. Places the Bible renames show their other names (Luz and Bethel, Jebus and Jerusalem), each linked to its
+  verse. **Land of Canaan** opens the land as Joshua 13–21 divides it: east and west of the Jordan, the tribes (Judah
+  by district), and the Levites' cities, each place with its verse, beside a map that pins the tribe you pick.
 - **Links**: the verse in NKJV on Bible Gateway, other translations side by side, and a Wikipedia search.
 
 **Tours** walk through a journey one step at a time, with no verse to pick first: Abraham, Joseph, the Exodus,
@@ -118,11 +122,15 @@ with three lines of text, drawn in the same line style as the atlas's folded map
 | `data/vctx/<id>.json` | Per verse: `places` and `people` (place and person numbers named in it), `events` (`[title, year, title_zh]` it belongs to), and `years` (the year of each chapter, and of each verse that differs from it), which set the map's year and the timeline mark. A verse's year is that of its first event lasting under two years, else Theographic's year for the verse. |
 | `data/timeline.json` | For each era of `atlas/eras.json` (plus `before` for Genesis 1–11): the chapters set in it as `[book, first chapter, last chapter]` runs. |
 | `data/search.json` | For the search box: every place and event with its Chinese name, first verse and verse count. |
+| `data/lands.json` | The land as Joshua 13–21 divides it: nested `{id, name, zh, kids}` groups down to `{..., ref, towns}`, each town `[place number, "chapter.verse"]`. Built from the verse-to-place links in `data/vctx/Josh.json`. |
+| `data/names.json` | Places the Bible renames or calls by other names: `[[place numbers], [[name, name_zh, verse], ...]]`, every verse checked against the KJV. |
 | `data/basemap.json` | Land, lakes and main rivers of the Bible lands for the Places map (Natural Earth, simplified). |
 | `atlas/` | The atlas data pack (see above). |
 
 To rebuild, run `tools/fetch_sources.sh` to download the sources into `tools/src/`. Then run
 `python3 tools/build_data.py` for `data/` and `python3 tools/build_atlas.py` for the pack's events and places.
+`python3 tools/build_names.py && python3 tools/build_lands.py` rebuild the place names and the land of Canaan from
+`data/`.
 
 ## Translation
 
