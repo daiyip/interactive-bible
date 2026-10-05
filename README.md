@@ -34,6 +34,10 @@ the same four tabs for the whole chapter, with no verse selected: every cross-re
 everyone and every place the chapter names, and its events. With verses selected, a switch at the top of the panel
 moves between them and their chapter. On a computer the panel keeps showing the chapter until it is closed.
 
+Above a chapter's context, **About** the book: what it is about, its author and date (traditional views), a key verse
+with its text, and an outline whose sections open their first chapter, with the open chapter's section marked. It
+folds away and stays folded until opened again.
+
 **Listen** in the dock is a switch: on, it reads the chapter aloud in the device's own voice, one verse at a time from the
 selected verse (or the first), lighting the verse it reads and keeping it in view, then carries on into the next
 chapter. It reads the first translation shown, in English or Chinese. While it is on, a player above the dock pauses, steps a verse
@@ -167,6 +171,7 @@ with three lines of text, drawn in the same line style as the atlas's folded map
 | `data/kings.json` | 42 kings as `[kingdom U/I/J, name, name_zh, from, to, verdict g/e/null, account, account in Chronicles, person]` (years negative for BC), 15 prophets as `[kingdom, name, name_zh, from, to, verse, person]`, and turning points as `[year, title, title_zh, verse]`. |
 | `data/strongs/<id>.json` | Per verse `"chapter.verse"`: `[[i, n], ...]`, the i-th word of the KJV verse (words as `Intl.Segmenter` splits them) translates Strong's number n (Hebrew in the Old Testament, Greek in the New), or a list of numbers. |
 | `data/lexicon/<H\|G><k>.json` | Strong's entries `k×100` to `k×100+99` as `{"n": [lemma, transliteration, pronunciation, definition, part of speech]}`. |
+| `data/intros.json` | Per book: `author`, `date` and `about` as `[English, Chinese]`, `key` (`"chapter.verse"`), and `outline` as `[[first chapter, title, title_zh], ...]` (verses for one-chapter books). Written for this app; authors and dates follow traditional views. |
 | `data/basemap.json` | Land, lakes and main rivers of the Bible lands for the Places map (Natural Earth, simplified). |
 | `atlas/` | The atlas data pack (see above). |
 

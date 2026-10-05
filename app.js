@@ -36,7 +36,10 @@ const L = {
     noPeople: (r) => `No one is named in ${r}.`,
     chapterBtn: "Context", chapterTitle: "Cross-references, people and places of the whole chapter",
     showChapter: (r) => `See all of ${r}`, scopeSel: (m) => m ? "These verses" : "This verse", scopeChapter: "Whole chapter",
-    chapterNote: "Everything in this chapter. Tap a verse to see just that verse.", noXrefCh: "No cross-references for this chapter.",
+    chapterNote: "Everything in this chapter. Tap a verse to see just that verse.",
+    aboutBook: (n) => `About ${n}`, introAuthor: "Author", introDate: "Written", introKey: "Key verse", introOutline: "Outline",
+    introRange: (a, z, one) => (one ? (a === z ? "v. " : "vv. ") : "Ch. ") + (a === z ? a : `${a}–${z}`),
+    introNote: "Authors and dates follow traditional views; scholars differ on some.", noXrefCh: "No cross-references for this chapter.",
     noPeopleSel: (m) => `No one is named in ${m ? "these verses" : "this verse"}.`,
     noPlacesSel: (m) => `No places are named in ${m ? "these verses" : "this verse"}.`, placesIn: (r) => `Named in ${r}`,
     rel: { father: "Father", mother: "Mother", partners: "Married to", children: "Children", siblings: "Brothers and sisters" },
@@ -123,7 +126,10 @@ const L = {
     noPeople: (r) => `${r} 没有提到人名。`,
     chapterBtn: "背景", chapterTitle: "整章的串珠、人物和地点",
     showChapter: (r) => `查看${r}全章`, scopeSel: (m) => m ? "所选经文" : "本节", scopeChapter: "整章",
-    chapterNote: "这一章的全部内容。点选一节经文，只看那一节。", noXrefCh: "这一章没有串珠。",
+    chapterNote: "这一章的全部内容。点选一节经文，只看那一节。",
+    aboutBook: (n) => `关于${n}`, introAuthor: "作者", introDate: "年代", introKey: "钥节", introOutline: "大纲",
+    introRange: (a, z, one) => (a === z ? `第${a}` : `${a}–${z}`) + (one ? "节" : "章"),
+    introNote: "作者与年代采用传统看法，学者对其中一些看法不一。", noXrefCh: "这一章没有串珠。",
     noPeopleSel: (m) => `${m ? "这几节" : "本节"}没有提到人名。`,
     noPlacesSel: (m) => `${m ? "这几节" : "本节"}没有提到地名。`, placesIn: (r) => `${r} 提到的地点`,
     rel: { father: "父亲", mother: "母亲", partners: "配偶", children: "儿女", siblings: "兄弟姐妹" },
@@ -476,7 +482,9 @@ async function renderContext() {
   if (selKey() !== key) return;
   $("ctx-text").lang = vs[0] === "cuv" ? "zh-CN" : "en";
   if (chapter) {
-    $("ctx-text").replaceChildren(make("span", "note small", t("chapterNote")));
+    const intro = await introCard(b, c);
+    if (selKey() !== key) return;
+    $("ctx-text").replaceChildren(...(intro ? [intro] : []), make("span", "note small", t("chapterNote")));
     $("ctx-text").title = "";
     $("ctx-mark").replaceChildren();
     markKeys = [];
@@ -512,6 +520,39 @@ async function renderContext() {
   if (selKey() !== key) return;
   $("xref-count").textContent = refs.length || "";
   renderXref(refs, XREF_FIRST);
+}
+
+// A book's introduction, at the top of a chapter's context: what the book is about, its author and date, a key verse
+// and an outline whose sections open their first chapter, with the open chapter's section marked. Folds away, and
+// stays as the reader left it. (A one-chapter book's outline is in verses.)
+const bookIntros = () => loadJSON("data/intros.json").catch(() => ({}));
+async function introCard(b, c) {
+  const e = (await bookIntros())[b.id];
+  if (!e) return null;
+  const k = zh() ? 1 : 0, one = b.chapters.length === 1, [kc, kv] = e.key.split(".").map(Number);
+  const box = make("details", "intro");
+  box.open = store.get("bible-intro-open") !== false;
+  box.ontoggle = () => store.set("bible-intro-open", box.open);
+  box.append(make("summary", "", t("aboutBook", bname(b))), make("p", "intro-about", e.about[k]));
+  const facts = make("dl", "intro-facts"), keyLink = make("a", "", refLabel(`${b.id}.${kc}.${kv}`));
+  keyLink.href = hashFor(b.id, kc, kv);
+  const keyText = make("span", "intro-key");
+  refText(`${b.id}.${kc}.${kv}`).then((x) => (keyText.textContent = x));
+  facts.append(make("dt", "", t("introAuthor")), make("dd", "", e.author[k]), make("dt", "", t("introDate")), make("dd", "", e.date[k]),
+    make("dt", "", t("introKey")), make("dd"));
+  facts.lastChild.append(keyLink, " ", keyText);
+  const list = make("ol", "intro-outline"), last = one ? b.chapters[0] : b.chapters.length;
+  e.outline.forEach(([from, en, zhName], i) => {
+    const to = (e.outline[i + 1]?.[0] ?? last + 1) - 1, a = make("a");
+    a.href = one ? hashFor(b.id, 1, from) : hashFor(b.id, from);
+    a.append(make("span", "", k ? zhName : en), make("small", "", t("introRange", from, to, one)));
+    const li = make("li");
+    if (!one && c >= from && c <= to) { li.className = "here"; a.setAttribute("aria-current", "true"); }
+    li.append(a);
+    list.append(li);
+  });
+  box.append(facts, make("h4", "", t("introOutline")), list, make("p", "note small", t("introNote")));
+  return box;
 }
 
 // The Hebrew or Greek words of the selected verses, folded under their text: each with the KJV word it stands behind,

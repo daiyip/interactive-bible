@@ -623,3 +623,21 @@ body:not(.playing) .tour-bar { visibility: hidden; }
 .voice-menu small { color: var(--muted); font-size: 12px; font-weight: 400; white-space: nowrap; }
 .voice-menu .note { margin: 6px 10px; }
 @media (max-width: 340px) { .dock { gap: 0; } .dock button { padding: 5px 4px 4px; min-width: 50px; font-size: 10.5px; } }
+
+/* A book's introduction, at the top of a chapter's context. */
+.intro { border: 1px solid var(--line); border-radius: 12px; background: var(--bg); padding: 10px 14px; margin: 0 0 12px; }
+.intro summary { cursor: pointer; font-weight: 600; color: var(--ink); }
+.intro[open] summary { margin-bottom: 6px; }
+.intro-about { margin: 0 0 10px; line-height: 1.55; }
+.intro-facts { display: grid; grid-template-columns: max-content 1fr; gap: 4px 12px; margin: 0 0 10px; font-size: 14px; }
+.intro-facts dt { color: var(--muted); }
+.intro-facts dd { margin: 0; }
+.intro-key { color: var(--muted); font-style: italic; }
+.intro-key:lang(zh), .intro-key:empty { font-style: normal; }
+.intro h4 { margin: 0 0 4px; font-size: 13px; font-weight: 500; color: var(--muted); }
+.intro-outline { list-style: none; margin: 0 0 8px; padding: 0; }
+.intro-outline a { display: flex; justify-content: space-between; gap: 12px; padding: 4px 8px; margin: 0 -8px; border-radius: 8px; color: var(--ink); text-decoration: none; }
+.intro-outline a:hover { background: var(--accent-soft); }
+.intro-outline small { color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.intro-outline .here a { background: var(--accent-soft); color: var(--accent); font-weight: 500; }
+.intro .note { margin: 0; }
