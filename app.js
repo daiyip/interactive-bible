@@ -119,6 +119,9 @@ const L = {
     planStartToday: "Start today", today: "Today", dayOf: (d, n) => `Day ${d} of ${n}`,
     chaptersRead: (a, n) => `${a.toLocaleString("en")} of ${n.toLocaleString("en")} chapters read`,
     catchUp: (n) => `Catch up · ${n} ${n === 1 ? "day" : "days"} behind`, allDays: (n) => `All ${n} days`, markRead: "Read",
+    streakDays: (n) => `${n === 1 ? "day" : "days"} in a row`, streakToday: "Read today ✓", streakKeep: "Read a chapter today to keep it going",
+    streakStart: "Read a chapter to start a new streak", streakBest: (b, n) => `Best ${b} · ${n} ${n === 1 ? "day" : "days"} read`,
+    nChapters: (n) => (n ? `${n} ${n === 1 ? "chapter" : "chapters"}` : "no reading"),
     planReset: "Stop this plan", planResetAsk: "Stop the plan and clear which chapters you have read?",
     noMarks: "No highlights or notes yet. Tap a verse, then pick a colour or add a note.",
     nMarks: (n) => `${n} ${n === 1 ? "verse" : "verses"} highlighted or noted, kept in this browser.`,
@@ -229,6 +232,9 @@ const L = {
     planStartToday: "今天开始", today: "今天", dayOf: (d, n) => `第 ${d} 天，共 ${n} 天`,
     chaptersRead: (a, n) => `已读 ${a} / ${n} 章`,
     catchUp: (n) => `补读 · 落后 ${n} 天`, allDays: (n) => `全部 ${n} 天`, markRead: "已读",
+    streakDays: () => "天连续阅读", streakToday: "今天已读 ✓", streakKeep: "今天读一章，保持连续",
+    streakStart: "读一章，重新开始连续记录", streakBest: (b, n) => `最长 ${b} 天 · 共读 ${n} 天`,
+    nChapters: (n) => (n ? `${n} 章` : "未阅读"),
     planReset: "停止这个计划", planResetAsk: "停止计划并清除已读记录吗？",
     noMarks: "还没有标记或笔记。点选一节经文，再选一种颜色或写笔记。",
     nMarks: (n) => `已标记 ${n} 节经文，保存在这个浏览器里。`,
@@ -402,7 +408,7 @@ async function renderChapter() {
     $("next").disabled = !neighbour(1);
     if (!state.verse) $("reader").scrollTo({ top: 0, behavior: "instant" });
     paintMarks();
-    requestAnimationFrame(checkChapterEnd);
+    chapterShown();
   }
   document.querySelectorAll(".v.sel, .v.rng").forEach((el) => el.classList.remove("sel", "rng"));
   for (let i = state.verse + 1; state.verse && i <= (state.to || 0); i++) document.querySelector(`.v[data-v="${i}"]`)?.classList.add("rng");
@@ -2661,8 +2667,8 @@ async function showEra(i) {
 
 // --- My reading: a Bible-in-a-year plan, highlights and notes -----------------------------------------
 // Kept in this browser only (localStorage): "bible-plan" {start: "YYYY-MM-DD"}, "bible-read" ["Gen.1", ...],
-// "bible-marks" {"John.3.16": {c: colour, n: note, t: time}}, "bible-memory" {"Rom.8.28-30": {box, due, t}}. Export and
-// import move them to another browser.
+// "bible-marks" {"John.3.16": {c: colour, n: note, t: time}}, "bible-memory" {"Rom.8.28-30": {box, due, t}},
+// "bible-days" {"YYYY-MM-DD": chapters read that day}. Export and import move them to another browser.
 
 const PLAN_DAYS = 365;
 const COLORS = ["y", "g", "b", "p"]; // highlight colours: yellow, green, blue, pink
@@ -2671,11 +2677,13 @@ const mine = {
   read: new Set(store.get("bible-read") || []),
   marks: store.get("bible-marks") || {},
   memory: store.get("bible-memory") || {},
+  days: store.get("bible-days") || {},
   tab: "plan",
 };
 const saveRead = () => store.set("bible-read", [...mine.read]);
 const saveMarks = () => store.set("bible-marks", mine.marks);
 const saveMemory = () => store.set("bible-memory", mine.memory);
+const saveDays = () => store.set("bible-days", mine.days);
 
 // The whole Bible in 365 days of whole chapters, each day about the same number of verses.
 let planDays = null;
@@ -2707,13 +2715,45 @@ const dayNumber = () => {
 };
 const dayDone = (d) => readingPlan()[d].every((c) => mine.read.has(c));
 
-// With a plan running, a chapter counts as read once its end (the footer under it) has been on screen.
+// A chapter counts as read once its end (the footer under it) has been on screen: for the plan at once, and for the
+// reading streak once the chapter has also been open for a while, so opening the app on a short psalm is not a day read.
+const READ_SECONDS = 20;
+let chapterOpened = 0, chapterTimer, daysCounted = new Set();
+function chapterShown() {
+  chapterOpened = Date.now();
+  clearTimeout(chapterTimer);
+  chapterTimer = setTimeout(checkChapterEnd, READ_SECONDS * 1000 + 50);
+  requestAnimationFrame(checkChapterEnd);
+}
 function checkChapterEnd() {
-  if (!mine.plan || !rendered) return;
-  const ch = `${state.book}.${state.chapter}`;
-  if (mine.read.has(ch)) return;
+  if (!rendered) return;
+  const ch = `${state.book}.${state.chapter}`, day = `${today()} ${ch}`;
+  const forPlan = mine.plan && !mine.read.has(ch), forStreak = !daysCounted.has(day) && Date.now() - chapterOpened >= READ_SECONDS * 1000;
+  if (!forPlan && !forStreak) return;
   const foot = document.querySelector(".chapter-foot").getBoundingClientRect(), box = $("reader").getBoundingClientRect();
-  if (foot.top < box.bottom && foot.bottom > box.top) { mine.read.add(ch); saveRead(); renderTodayHint(); }
+  if (!(foot.top < box.bottom && foot.bottom > box.top)) return;
+  if (forPlan) { mine.read.add(ch); saveRead(); }
+  if (forStreak) { daysCounted.add(day); readToday(); }
+  renderTodayHint();
+}
+// One more chapter (or memory passage) read today.
+function readToday() {
+  const d = today();
+  mine.days[d] = (mine.days[d] || 0) + 1;
+  saveDays();
+}
+// Days in a row with some reading, up to today (or yesterday, while today is still open); and the longest run.
+function streaks() {
+  const days = Object.keys(mine.days).filter((d) => mine.days[d] > 0).sort();
+  let best = 0, run = 0, prev = null;
+  for (const d of days) {
+    run = prev && addDays(1, prev) === d ? run + 1 : 1;
+    best = Math.max(best, run);
+    prev = d;
+  }
+  const last = days[days.length - 1];
+  const now = last === today() || last === addDays(-1) ? run : 0;
+  return { now, best, total: days.length, today: !!mine.days[today()] };
 }
 
 // The empty context panel: today's reading, or an invitation to start.
@@ -2731,7 +2771,8 @@ function renderTodayHint() {
     const d = dayNumber(), chs = readingPlan()[d];
     btn.innerHTML = "<b></b><span></span>";
     btn.children[0].textContent = chaptersLabel(chs);
-    btn.children[1].textContent = `${t("today")} · ${t("dayOf", d + 1, PLAN_DAYS)}${dayDone(d) ? " · ✓" : ""}`;
+    const st = streaks().now;
+    btn.children[1].textContent = `${t("today")} · ${t("dayOf", d + 1, PLAN_DAYS)}${dayDone(d) ? " · ✓" : ""}${st > 1 ? ` · 🔥 ${st}` : ""}`;
     const next = chs.find((c) => !mine.read.has(c)) || chs[0];
     btn.onclick = () => go(...next.split("."));
   }
@@ -2775,7 +2816,46 @@ function check(ch) {
   return box;
 }
 
+// The reading streak and a calendar of the last weeks, a column a week, darker for more chapters that day.
+const STREAK_WEEKS = 17;
+function renderStreak(body) {
+  const st = streaks();
+  if (!st.total) return;
+  const box = el("div", "streak");
+  const head = el("div", "streak-head");
+  const big = el("div", "streak-now" + (st.now ? "" : " out"));
+  big.append(el("b", "", `${st.now ? "🔥" : "○"} ${st.now}`), el("span", "", t("streakDays", st.now)));
+  const side = el("div", "streak-side");
+  side.append(el("span", "", t(st.today ? "streakToday" : st.now ? "streakKeep" : "streakStart")),
+    el("small", "", t("streakBest", st.best, st.total)));
+  head.append(big, side);
+  // Sunday-first weeks, ending with this one.
+  const cal = el("div", "streak-cal"), now = new Date(), months = el("div", "streak-months");
+  const first = addDays(-(STREAK_WEEKS - 1) * 7 - now.getDay());
+  const loc = zh() ? "zh-CN" : "en", fmt = new Intl.DateTimeFormat(loc, { month: "short" });
+  let month = null;
+  for (let w = 0; w < STREAK_WEEKS; w++) {
+    const col = el("div", "wk"), start = addDays(w * 7, first);
+    const sd = new Date(start + "T12:00"), m = sd.getMonth();
+    months.append(el("span", "", m !== month && w < STREAK_WEEKS - 1 ? fmt.format(sd) : ""));
+    if (m !== month) month = m;
+    for (let i = 0; i < 7; i++) {
+      const d = addDays(w * 7 + i, first), n = mine.days[d] || 0;
+      const cell = el("i", d > today() ? "later" : n >= 4 ? "l3" : n >= 2 ? "l2" : n ? "l1" : "");
+      if (d === today()) cell.classList.add("now");
+      cell.title = `${new Date(d + "T12:00").toLocaleDateString(loc, { month: "short", day: "numeric", weekday: "short" })} · ${t("nChapters", n)}`;
+      col.append(cell);
+    }
+    cal.append(col);
+  }
+  const grid = el("div", "streak-grid");
+  grid.append(months, cal);
+  box.append(head, grid);
+  body.append(box);
+}
+
 function renderPlan(body) {
+  renderStreak(body);
   if (!mine.plan) {
     const start = el("button", "pill primary", t("planStartToday"));
     start.onclick = () => { mine.plan = { start: today() }; store.set("bible-plan", mine.plan); renderMine(); renderTodayHint(); };
@@ -2854,7 +2934,7 @@ function renderMarks(body) {
   }
 }
 function exportMine() {
-  const data = { app: "bible.daiyip.com", version: 1, plan: mine.plan, read: [...mine.read], marks: mine.marks, memory: mine.memory };
+  const data = { app: "bible.daiyip.com", version: 1, plan: mine.plan, read: [...mine.read], marks: mine.marks, memory: mine.memory, days: mine.days };
   const a = el("a");
   a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 1)], { type: "application/json" }));
   a.download = `bible-${today()}.json`;
@@ -2873,8 +2953,9 @@ function importMine() {
       Object.assign(mine.marks, data.marks || {});
       Object.assign(mine.memory, data.memory || {});
       for (const c of data.read || []) mine.read.add(c);
+      for (const [d, n] of Object.entries(data.days || {})) mine.days[d] = Math.max(mine.days[d] || 0, n);
       if (data.plan && !mine.plan) mine.plan = data.plan;
-      saveMarks(); saveMemory(); saveRead(); store.set("bible-plan", mine.plan);
+      saveMarks(); saveMemory(); saveRead(); saveDays(); store.set("bible-plan", mine.plan);
       rendered = ""; route(); renderMine(); renderTodayHint();
     } catch (e) { alert(t("importFailed") + " " + e.message); }
   };
@@ -2946,7 +3027,8 @@ function paintMarks() {
 const MEM_DAYS = [1, 2, 4, 8, 16, 32];
 const memo = { queue: null, total: 0 };
 const memDue = () => Object.keys(mine.memory).filter((k) => mine.memory[k].due <= today()).sort(bibleOrder);
-const addDays = (n) => { const d = new Date(); d.setDate(d.getDate() + n); return d.toLocaleDateString("sv"); };
+// The day n days after `from` (a "YYYY-MM-DD", else today), in local time.
+const addDays = (n, from) => { const d = from ? new Date(from + "T12:00") : new Date(); d.setDate(d.getDate() + n); return d.toLocaleDateString("sv"); };
 function bibleOrder(a, b) {
   const [x, y] = [a, b].map((r) => r.split("."));
   return state.books.indexOf(state.byId[x[0]]) - state.books.indexOf(state.byId[y[0]]) || x[1] - y[1] || parseInt(x[2]) - parseInt(y[2]);
@@ -3136,6 +3218,7 @@ async function renderPractice(body) {
   input.focus({ preventScroll: true });
 
   function finish() {
+    readToday();
     input.disabled = true;
     tools.remove();
     input.remove();
