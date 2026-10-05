@@ -79,6 +79,9 @@ const L = {
     eraMapTitle: "This time on the atlas map", timeline: "Timeline", timelineTitle: "Where this is in Bible history",
     tapWord: "Tap a word to see everywhere it is used", wordSum: (n, b) => `${n.toLocaleString("en")} ${n === 1 ? "verse" : "verses"} in ${b} ${b === 1 ? "book" : "books"}`,
     mostIn: (s) => `Most in ${s}.`, allBooks: "All books",
+    origWords: (h) => h ? "Hebrew words" : "Greek words", origAll: (n) => `Every verse with this word (${n.toLocaleString("en")})`,
+    origSeeAll: "Every verse with this word", rendered: "The KJV translates it as", origOf: (w) => `The word behind “${w}”`,
+    origNote: "Strong’s numbers and definitions from Strong’s Concordance; KJV tagging from MetaV.", allRenderings: "All",
     xrefList: "List", xrefWeb: "Web", webLabel: "This verse and its strongest cross-references",
     webNote: (n) => `The ${n} strongest cross-references, in Bible order from the top (grey for the Old Testament, blue for the New); bigger means more votes. Faint lines join ones that cross-reference each other. Tap one to move there.`,
     play: "▶ Play", pause: "❚❚ Pause", playTitle: "Play the tour: steps move on by themselves and the map traces the route",
@@ -100,7 +103,8 @@ const L = {
     credit: `King James Version and 和合本 (Chinese Union Version), public domain. Cross-references from
       <a href="https://www.openbible.info/labs/cross-references/" target="_blank" rel="noopener">OpenBible.info</a> (CC BY).
       People, places and events from <a href="https://github.com/robertrouse/theographic-bible-metadata" target="_blank" rel="noopener">Theographic</a>
-      (CC BY-SA), with biographies from Easton’s Bible Dictionary. Map from <a href="https://atlas.daiyip.com" target="_blank" rel="noopener">Atlas</a> and Natural Earth.`,
+      (CC BY-SA), with biographies from Easton’s Bible Dictionary. Hebrew and Greek words from Strong’s Concordance,
+      tagged to the KJV by <a href="https://github.com/theonize/KJV-bible-database-with-metadata-MetaV-" target="_blank" rel="noopener">MetaV</a> (CC BY-SA). Map from <a href="https://atlas.daiyip.com" target="_blank" rel="noopener">Atlas</a> and Natural Earth.`,
   },
   zh: {
     xref: "串珠", people: "人物", places: "地点", links: "链接", tours: "导览", books: "书卷",
@@ -158,6 +162,9 @@ const L = {
     eraMapTitle: "在历代地图上查看这一时期", timeline: "时间线", timelineTitle: "这段经文在圣经历史中的位置",
     tapWord: "点选一个词，查看它在全本圣经中出现的地方", wordSum: (n, b) => `${b} 卷书中共 ${n} 节`,
     mostIn: (s) => `出现最多：${s}。`, allBooks: "全部书卷",
+    origWords: (h) => h ? "希伯来原文" : "希腊原文", origAll: (n) => `用到这个原文词的全部经文（${n} 节）`,
+    origSeeAll: "用到这个原文词的全部经文", rendered: "钦定本（KJV）的译法", origOf: (w) => `“${w}”的原文`,
+    origNote: "斯特朗编号和释义（英文）出自 Strong’s Concordance；钦定本标注出自 MetaV。", allRenderings: "全部",
     xrefList: "列表", xrefWeb: "关系图", webLabel: "本节与它最主要的串珠",
     webNote: (n) => `最主要的 ${n} 条串珠，从顶部起按圣经顺序排列（灰色为旧约，蓝色为新约）；圆点越大，票数越多。淡线连接彼此互为串珠的经文。点选即可前往。`,
     play: "▶ 播放", pause: "❚❚ 暂停", playTitle: "自动播放导览：逐站前进，地图描绘路线",
@@ -179,7 +186,8 @@ const L = {
     credit: `和合本与英王钦定本（KJV）均为公有领域。串珠来自
       <a href="https://www.openbible.info/labs/cross-references/" target="_blank" rel="noopener">OpenBible.info</a>（CC BY）。
       人物、地点与事件来自 <a href="https://github.com/robertrouse/theographic-bible-metadata" target="_blank" rel="noopener">Theographic</a>
-      （CC BY-SA），人物简介来自 Easton 圣经辞典。地图来自<a href="https://atlas.daiyip.com" target="_blank" rel="noopener">历代地图</a>与 Natural Earth。`,
+      （CC BY-SA），人物简介来自 Easton 圣经辞典。希伯来文与希腊文原文来自 Strong’s Concordance，钦定本标注来自
+      <a href="https://github.com/theonize/KJV-bible-database-with-metadata-MetaV-" target="_blank" rel="noopener">MetaV</a>（CC BY-SA）。地图来自<a href="https://atlas.daiyip.com" target="_blank" rel="noopener">历代地图</a>与 Natural Earth。`,
   },
 };
 const KINDS_ZH = { City: "城", Island: "岛", Landmark: "地标", Mountain: "山", Path: "道路", Region: "地区", Valley: "谷", Water: "水域" };
@@ -216,6 +224,11 @@ function loadJSON(url) {
 const versions = () => state.version.split("+");
 const bookText = (id, tr = versions()[0]) => loadJSON(`data/text/${tr}/${id}.json`);
 const bookXref = (id) => loadJSON(`data/xref/${id}.json`).catch(() => ({}));
+// Hebrew and Greek: per book, "c.v" -> [[word index, Strong's number or numbers]] (see tools/build_strongs.py), and
+// Strong's entries in files of a hundred ("H72" holds H7200-H7299).
+const bookStrongs = (id) => loadJSON(`data/strongs/${id}.json`).catch(() => ({}));
+const lexEntry = async (sid) => (await loadJSON(`data/lexicon/${sid[0]}${Math.floor(+sid.slice(1) / 100)}.json`).catch(() => ({})))[+sid.slice(1)];
+const strongIds = (bookId, n) => [].concat(n).map((x) => (state.books.indexOf(state.byId[bookId]) >= NT_START ? "G" : "H") + x);
 const bookContext = (id) => loadJSON(`data/vctx/${id}.json`).catch(() => ({ places: {}, people: {}, events: {}, years: {} }));
 
 const store = {
@@ -453,7 +466,8 @@ async function renderContext() {
     btn.onclick = () => { state.scope = k; renderContext(); };
     return btn;
   }));
-  const vs = versions();
+  const vs = versions(), orig = chapter ? {} : await bookStrongs(b.id);
+  if (selKey() !== key) return;
   $("ctx-text").lang = vs[0] === "cuv" ? "zh-CN" : "en";
   if (chapter) {
     $("ctx-text").replaceChildren(make("span", "note small", t("chapterNote")));
@@ -466,7 +480,7 @@ async function renderContext() {
       const frag = document.createDocumentFragment();
       for (const n of sel) {
         if (sel.length > 1) frag.append(el("sup", "vn", n));
-        frag.append(wordSpans(text[c - 1][n - 1] || "", tr), " ");
+        frag.append(wordSpans(text[c - 1][n - 1] || "", tr, tr === "kjv" ? (orig[`${c}.${n}`] || []).map(([i, x]) => [i, strongIds(b.id, x)]) : null), " ");
       }
       return frag;
     };
@@ -476,6 +490,7 @@ async function renderContext() {
     $("ctx-text").title = t("tapWord");
     renderMarkTools(sel.map((n) => `${b.id}.${c}.${n}`));
   }
+  renderOrig(b, c, chapter ? [] : sel, orig, texts[vs.indexOf("kjv")] || await bookText(b.id, "kjv"), key);
   $("ctx-text").classList.toggle("chapter", chapter);
   document.querySelectorAll(".tabs button").forEach((t) => t.setAttribute("aria-selected", t.dataset.tab === state.tab));
   for (const t of TABS) $("tab-" + t).hidden = t !== state.tab;
@@ -491,6 +506,38 @@ async function renderContext() {
   if (selKey() !== key) return;
   $("xref-count").textContent = refs.length || "";
   renderXref(refs, XREF_FIRST);
+}
+
+// The Hebrew or Greek words of the selected verses, folded under their text: each with the KJV word it stands behind,
+// opening every verse that uses it.
+async function renderOrig(b, c, sel, orig, kjv, key) {
+  const box = $("ctx-orig"), list = sel.flatMap((n) => {
+    const words = wordsOf(kjv[c - 1][n - 1] || "");
+    return (orig[`${c}.${n}`] || []).flatMap(([i, x]) => strongIds(b.id, x).map((sid) => [sid, words[i] || ""]));
+  });
+  box.hidden = !list.length;
+  if (!list.length) return;
+  const heb = list[0][0][0] === "H", summary = el("summary", "", t("origWords", heb));
+  box.replaceChildren(summary);
+  box.open = store.get("bible-orig-open") === true;
+  box.ontoggle = () => { store.set("bible-orig-open", box.open); if (box.open) fill(); };
+  const fill = async () => {
+    if (box.querySelector(".orig-words")) return;
+    const entries = await Promise.all(list.map(([sid]) => lexEntry(sid)));
+    if (selKey() !== key) return;
+    const row = el("div", "orig-words");
+    list.forEach(([sid, en], k) => {
+      if (!entries[k]) return;
+      const chip = el("button", "orig-chip"), w = el("span", "orig-lemma", entries[k][0]);
+      w.lang = heb ? "he" : "grc";
+      chip.append(w, el("small", "", en));
+      chip.title = `${sid} · ${entries[k][1]}`;
+      chip.onclick = () => openStrong(sid);
+      row.append(chip);
+    });
+    box.append(row);
+  };
+  if (box.open) fill();
 }
 
 // --- Cross-reference web ------------------------------------------------------------------------------------
@@ -1380,6 +1427,7 @@ function showBooks() {
 }
 function showChapters(b) {
   view.dialog = null; // not shareable
+  view.back = null;
   $("picker-title").textContent = bname(b);
   $("picker-back").hidden = false;
   const grid = document.createElement("div");
@@ -1518,15 +1566,23 @@ function draw(out, groups, note) {
 // anywhere, as Chinese has no spaces (the browser splits a verse into words with Intl.Segmenter).
 
 const WORD_LIST = 200; // verses listed before "Show more"
-function wordSpans(text, tr) {
-  const lang = tr === "cuv" ? "zh" : "en", frag = document.createDocumentFragment();
-  const parts = window.Intl?.Segmenter
-    ? [...new Intl.Segmenter(lang, { granularity: "word" }).segment(text)].map((s) => [s.segment, s.isWordLike])
-    : text.split(/(\p{L}+)/u).map((s, i) => [s, i % 2 === 1]);
-  for (const [s, word] of parts) {
+// Text as [piece, is a word], words as the browser splits them (the Hebrew and Greek data counts words the same way).
+const segmenters = {};
+function segments(text, tr) {
+  const lang = tr === "cuv" ? "zh" : "en";
+  if (!window.Intl?.Segmenter) return text.split(/(\p{L}+(?:['’]\p{L}+)*)/u).map((s, i) => [s, i % 2 === 1]);
+  segmenters[lang] ||= new Intl.Segmenter(lang, { granularity: "word" });
+  return [...segmenters[lang].segment(text)].map((s) => [s.segment, s.isWordLike]);
+}
+const wordsOf = (text, tr = "kjv") => segments(text, tr).filter(([, w]) => w).map(([s]) => s);
+// Each word opens a word study; with tags ([[word index, Strong's ids]]), also the Hebrew or Greek behind it.
+function wordSpans(text, tr, tags = null) {
+  const frag = document.createDocumentFragment(), orig = new Map(tags || []);
+  let i = 0;
+  for (const [s, word] of segments(text, tr)) {
     if (!word) { frag.append(s); continue; }
-    const w = el("span", "w", s);
-    w.onclick = () => { state.wordFrom = s; openWord(s, tr); };
+    const w = el("span", "w", s), ids = orig.get(i++);
+    w.onclick = () => { state.wordFrom = s; openWord(s, tr, null, WORD_LIST, ids); };
     frag.append(w);
   }
   return frag;
@@ -1536,8 +1592,9 @@ const wordTest = (word, tr) => {
   const re = new RegExp(`(^|[^\\p{L}])${norm(word).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?=$|[^\\p{L}])`, "u");
   return (text) => re.test(norm(text));
 };
-async function openWord(word, tr, book = null, limit = WORD_LIST) {
+async function openWord(word, tr, book = null, limit = WORD_LIST, orig = null) {
   view.dialog = null; // not shareable
+  view.back = null;
   $("picker-title").textContent = `${tr === "cuv" ? "“" + word + "”" : "“" + word.toLowerCase() + "”"} · ${tr === "cuv" ? "和合本" : "KJV"}`;
   $("picker-back").hidden = true;
   const body = $("picker-body");
@@ -1551,6 +1608,11 @@ async function openWord(word, tr, book = null, limit = WORD_LIST) {
   })));
   const total = hits.length, books = perBook.filter(Boolean).length;
   body.replaceChildren(el("p", "word-sum", t("wordSum", total, books)));
+  // The Hebrew or Greek word behind this one, in the verse it was tapped in.
+  if (orig) {
+    const entries = await Promise.all(orig.map(lexEntry));
+    body.prepend(...orig.map((sid, k) => entries[k] && origCard(sid, entries[k], word, () => openStrong(sid, null, WORD_LIST, null, [word, tr, orig]))).filter(Boolean));
+  }
   // Chinese words run together, and the browser's split is a guess: offer the shorter words inside this one.
   const seg = (state.wordFrom || "").includes(word) ? state.wordFrom : word;
   if (tr === "cuv" && seg.length > 1) {
@@ -1570,7 +1632,7 @@ async function openWord(word, tr, book = null, limit = WORD_LIST) {
     b.style.setProperty("--h", n ? Math.max(6, (100 * n) / max) + "%" : "2px");
     b.title = b.ariaLabel = `${bname(state.books[bi])} · ${t("nVerses", n)}`;
     b.disabled = !n;
-    b.onclick = () => openWord(word, tr, book === bi ? null : bi);
+    b.onclick = () => openWord(word, tr, book === bi ? null : bi, WORD_LIST, orig);
     if (bi === NT_START) b.classList.add("nt");
     chart.append(b);
   });
@@ -1586,7 +1648,7 @@ async function openWord(word, tr, book = null, limit = WORD_LIST) {
   const head = el("div", "testament", book == null ? t("verses") : `${bname(state.books[book])} · ${t("nVerses", list.length)}`);
   if (book != null) {
     const all = el("button", "pill small-pill", t("allBooks"));
-    all.onclick = () => openWord(word, tr);
+    all.onclick = () => openWord(word, tr, null, WORD_LIST, orig);
     head.append(" ", all);
   }
   const ul = el("ul", "results");
@@ -1604,15 +1666,127 @@ async function openWord(word, tr, book = null, limit = WORD_LIST) {
   body.append(head, ul);
   if (list.length > limit) {
     const more = el("button", "pill more", t("showAll", list.length));
-    more.onclick = () => openWord(word, tr, book, Infinity);
+    more.onclick = () => openWord(word, tr, book, Infinity, orig);
     body.append(more);
   }
 }
 // The verse with each use of the word in <mark>.
-function markWord(text, word, tr) {
-  if (tr === "cuv") return esc(text).split(esc(word)).join(`<mark>${esc(word)}</mark>`);
-  const w = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  return esc(text).replace(new RegExp(`(^|[^\\p{L}])(${w})(?=$|[^\\p{L}])`, "giu"), "$1<mark>$2</mark>");
+function markWord(text, word, tr, escaped = false) {
+  const h = escaped ? text : esc(text);
+  if (tr === "cuv") return h.split(esc(word)).join(`<mark>${esc(word)}</mark>`);
+  const w = esc(word).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return h.replace(new RegExp(`(^|[^\\p{L}])(${w})(?=$|[^\\p{L}])`, "giu"), "$1<mark>$2</mark>");
+}
+
+// --- Hebrew and Greek ---------------------------------------------------------------------------------------
+// A Strong's entry as a card: the word, how it sounds, its part of speech and definition. "from" names the English word
+// it was reached from; "open" (if given) is a button to every verse that uses it.
+function origCard(sid, [lemma, xlit, pron, def, pos], from, open) {
+  const card = el("div", "orig-card"), head = el("div", "orig-head");
+  const w = el("span", "orig-lemma", lemma);
+  w.lang = sid[0] === "H" ? "he" : "grc";
+  if (sid[0] === "H") w.dir = "rtl";
+  head.append(w, el("span", "orig-xlit", [xlit, pron && `(${pron})`].filter(Boolean).join(" ")), el("span", "orig-id", sid));
+  if (from) card.append(el("p", "note small orig-from", t("origOf", from)));
+  card.append(head);
+  if (pos) card.append(el("p", "orig-pos", pos));
+  const d = el("p", "orig-def", def);
+  d.lang = "en";
+  card.append(d);
+  if (open) {
+    const btn = el("button", "pill small-pill", t("origSeeAll"));
+    btn.onclick = open;
+    card.append(btn);
+  }
+  return card;
+}
+
+// Every verse that uses a Hebrew or Greek word, how the KJV translates it (tap one to see only those verses), and the
+// books it is in. "from" ([word, translation, ids]) is the word study it was opened from, for the back button.
+async function openStrong(sid, book = null, limit = WORD_LIST, rendering = null, from = null) {
+  view.dialog = null; // not shareable
+  const body = $("picker-body"), entry = await lexEntry(sid);
+  $("picker-title").textContent = `${entry ? entry[0] : sid} · ${sid}`;
+  view.back = from ? () => openWord(from[0], from[1], null, WORD_LIST, from[2]) : null;
+  $("picker-back").hidden = !from;
+  if (!$("picker").open) { body.replaceChildren(el("p", "note", t("searching"))); $("picker").showModal(); }
+  const n = +sid.slice(1), heb = sid[0] === "H", tr = versions()[0];
+  const range = heb ? state.books.slice(0, NT_START) : state.books.slice(NT_START);
+  const [tags, kjv, texts] = await Promise.all([Promise.all(range.map((b) => bookStrongs(b.id))),
+    Promise.all(range.map((b) => bookText(b.id, "kjv"))), Promise.all(range.map((b) => bookText(b.id, tr)))]);
+  const hits = [], counts = new Map(), perBook = state.books.map(() => 0);
+  range.forEach((b, k) => {
+    const bi = state.books.indexOf(b);
+    for (const [cv, list] of Object.entries(tags[k])) {
+      const at = list.filter(([, x]) => [].concat(x).includes(n)).map(([i]) => i);
+      if (!at.length) continue;
+      const [c, v] = cv.split(".").map(Number), words = wordsOf(kjv[k][c - 1][v - 1] || "");
+      const used = [...new Set(at.map((i) => (words[i] || "").toLowerCase()))];
+      for (const u of used) counts.set(u, (counts.get(u) || 0) + 1);
+      if (rendering && !used.includes(rendering)) continue;
+      perBook[bi]++;
+      hits.push([bi, c, v, tr === "kjv" ? kjv[k][c - 1][v - 1] : texts[k][c - 1][v - 1], used]);
+    }
+  });
+  hits.sort((a, z) => a[0] - z[0] || a[1] - z[1] || a[2] - z[2]);
+  body.replaceChildren();
+  if (entry) body.append(origCard(sid, entry));
+  // How the KJV translates it, most often first.
+  const ways = [...counts].sort((a, z) => z[1] - a[1]), row = el("div", "word-parts renderings");
+  const chips = [[null, null], ...ways].map(([w, k]) => {
+    const c = el("button", "chip" + (w === rendering ? " on" : ""), w == null ? t("allRenderings") : `${w} ${k}`);
+    c.onclick = () => openStrong(sid, null, WORD_LIST, w, from);
+    return c;
+  });
+  // The rarer ones fold behind a "+n" chip (unless one of them is picked).
+  const keep = Math.max(13, chips.findIndex((c) => c.classList.contains("on")) + 1);
+  row.append(...chips.slice(0, keep));
+  if (chips.length > keep) {
+    const more = el("button", "chip", `+${chips.length - keep}`);
+    more.onclick = () => more.replaceWith(...chips.slice(keep));
+    row.append(more);
+  }
+  body.append(el("p", "word-sum", t("rendered")), row);
+  body.append(el("p", "note small", t("origAll", rendering ? counts.get(rendering) : hits.length)));
+  // One bar per book, as in the word study.
+  const max = Math.max(1, ...perBook), chart = el("div", "word-chart"), list = book == null ? hits : hits.filter((h) => h[0] === book);
+  range.forEach((b) => {
+    const bi = state.books.indexOf(b), k = perBook[bi], bar = el("button", (k ? "" : "none ") + (book === bi ? "on" : ""));
+    bar.style.setProperty("--h", k ? Math.max(6, (100 * k) / max) + "%" : "2px");
+    bar.title = bar.ariaLabel = `${bname(b)} · ${t("nVerses", k)}`;
+    bar.disabled = !k;
+    bar.onclick = () => openStrong(sid, book === bi ? null : bi, WORD_LIST, rendering, from);
+    chart.append(bar);
+  });
+  const axis = el("div", "word-axis");
+  axis.append(el("span", "", t(heb ? "ot" : "nt")));
+  body.append(chart, axis);
+  const head = el("div", "testament", book == null ? t("verses") : `${bname(state.books[book])} · ${t("nVerses", list.length)}`);
+  if (book != null) {
+    const all = el("button", "pill small-pill", t("allBooks"));
+    all.onclick = () => openStrong(sid, null, WORD_LIST, rendering, from);
+    head.append(" ", all);
+  }
+  const ul = el("ul", "results");
+  for (const [bi, c, v, text, used] of list.slice(0, limit)) {
+    const li = el("li"), btn = el("button");
+    btn.append(el("b", "", `${bname(state.books[bi])} ${c}:${v}`));
+    if (tr !== "kjv") btn.append(" ", el("span", "rendered", used.join(", ")));
+    const small = el("small");
+    small.lang = tr === "cuv" ? "zh-CN" : "en";
+    small.innerHTML = tr === "kjv" ? used.reduce((h, u) => markWord(h, u, "kjv", true), esc(text || "")) : esc(text || "");
+    btn.append(small);
+    btn.onclick = () => { $("picker").close(); go(state.books[bi].id, c, v); };
+    li.append(btn);
+    ul.append(li);
+  }
+  body.append(head, ul);
+  if (list.length > limit) {
+    const more = el("button", "pill more", t("showAll", list.length));
+    more.onclick = () => openStrong(sid, book, Infinity, rendering, from);
+    body.append(more);
+  }
+  body.append(el("p", "note small src", t("origNote")));
 }
 
 // --- Verse card -----------------------------------------------------------------------------------------
@@ -2156,14 +2330,15 @@ function renderOffline(body) {
   if (!("serviceWorker" in navigator) || !window.caches) return;
   const vs = versions(), names = vs.map((v) => (v === "cuv" ? "和合本" : "KJV")).join(" + ");
   const box = el("div", "offline"), note = el("p", "note small", t("offlineNote"));
-  const btn = el("button", "pill", t("saveOffline", names, Math.round(3.8 * vs.length + 9)));
+  const btn = el("button", "pill", t("saveOffline", names, Math.round(3.8 * vs.length + 11)));
   if ((store.get("bible-offline") || []).includes(state.version)) { btn.textContent = t("saved", names); btn.disabled = true; }
   btn.onclick = async () => {
     btn.disabled = true;
     const files = ["data/books.json", "data/places.json", "data/search.json", "data/people.json", "data/basemap.json", "data/timeline.json", "data/lands.json", "data/names.json", "data/kings.json",
       "atlas/tours.json", "atlas/eras.json", "atlas/events.json",
       ...Array.from({ length: 12 }, (_, i) => `data/people/${i}.json`),
-      ...state.books.flatMap((b) => [...vs.map((v) => `data/text/${v}/${b.id}.json`), `data/xref/${b.id}.json`, `data/vctx/${b.id}.json`])];
+      ...state.books.flatMap((b) => [...vs.map((v) => `data/text/${v}/${b.id}.json`), `data/xref/${b.id}.json`, `data/vctx/${b.id}.json`, `data/strongs/${b.id}.json`]),
+      ...Array.from({ length: 87 }, (_, i) => `data/lexicon/H${i}.json`), ...Array.from({ length: 57 }, (_, i) => `data/lexicon/G${i}.json`)];
     let failed = 0;
     try {
       const cache = await caches.open(OFFLINE_CACHE);
@@ -2337,7 +2512,7 @@ function step(dir) {
 
 // The open dialog, for share links: "tree:57", "land:judah:123", "kings:JAsa", "era:4". Set by the dialogs that can be
 // shared, and cleared when the dialog closes.
-const view = { dialog: null };
+const view = { dialog: null, back: null }; // back: where the dialog's back button goes, if not to the books
 
 // A link to what is on screen: the passage in the hash as always, and the rest in the query: v translation, tab,
 // p person, s sheet size (phones), tour "id.step", d dialog. Opening it restores all of that once, then drops the query.
@@ -2460,7 +2635,7 @@ async function init() {
   });
   $("picker-btn").onclick = () => { showBooks(); $("picker").showModal(); };
   $("picker-x").onclick = () => $("picker").close();
-  $("picker-back").onclick = showBooks;
+  $("picker-back").onclick = () => (view.back || showBooks)();
   $("picker").addEventListener("click", (e) => { if (e.target === $("picker")) $("picker").close(); });
   addEventListener("keydown", (e) => {
     if ($("picker").open || $("search").open || $("mine").open || e.metaKey || e.ctrlKey || e.altKey) return;
