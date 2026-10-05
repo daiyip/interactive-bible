@@ -69,6 +69,7 @@
       <div class="dock" role="toolbar">
         <button id="timeline-btn" aria-pressed="false" data-i18n-title="timelineTitle" title="Where this is in Bible history"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M1.5 8h13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="4" cy="8" r="1.6" fill="currentColor"/><circle cx="12" cy="8" r="1.6" fill="currentColor"/><path d="M8 3.5v9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span data-i18n="timeline">Timeline</span></button>
         <button id="tours-btn" aria-haspopup="dialog"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><circle cx="3.5" cy="12.5" r="1.8" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="12.5" cy="3.5" r="1.8" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5.2 12.5H10a2.25 2.25 0 0 0 0-4.5H6a2.25 2.25 0 0 1 0-4.5h4.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span data-i18n="tours">Tours</span></button>
+        <button id="chapter-btn" aria-pressed="false" data-i18n-title="chapterTitle" title="Cross-references, people and places of the whole chapter"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><rect x="2.5" y="2" width="11" height="12" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5 5.5h6M5 8h6M5 10.5h3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span data-i18n="chapterBtn">Chapter</span></button>
         <button id="mine-btn" aria-haspopup="dialog"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M4 2.5h8v11.2L8 10.6l-4 3.1Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span data-i18n="mine">My reading</span></button>
       </div>
     </div>
@@ -83,6 +84,7 @@
       </picture>
       <p class="hint-title" data-i18n="tapVerse">Tap a verse</p>
       <p data-i18n="tapHint">Its cross-references, people, places and links show up here.</p>
+      <button id="ctx-chapter" class="pill"></button>
       <p class="hint-title tours-hint" data-i18n="readingPlan">Reading plan</p>
       <div id="ctx-today" class="tour-list"></div>
       <p class="hint-title tours-hint" data-i18n="orTour">Or take a tour</p>
@@ -91,6 +93,7 @@
     <div id="ctx-body" hidden>
       <div class="ctx-head">
         <div class="ctx-title"><h2 id="ctx-ref"></h2><button id="sheet-x" class="icon" data-i18n-title="close" title="Close" aria-label="Close">×</button></div>
+        <div id="ctx-scope" class="seg ctx-scope" hidden></div>
         <blockquote id="ctx-text"></blockquote>
         <div id="ctx-mark" class="ctx-mark"></div>
       </div>
