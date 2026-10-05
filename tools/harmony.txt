@@ -1,0 +1,165 @@
+# part | title | 中文 | Matt | Mark | Luke | John
+Beginnings|Prologue: the Word made flesh|序言：道成肉身||||1:1-18
+Beginnings|Luke's preface|路加的序言|||1:1-4|
+Beginnings|The genealogies of Jesus|耶稣的家谱|1:1-17||3:23-38|
+Beginnings|John the Baptist's birth foretold|预言施洗约翰的诞生|||1:5-25|
+Beginnings|Jesus' birth foretold to Mary|天使向马利亚预言耶稣降生|||1:26-38|
+Beginnings|Mary visits Elizabeth|马利亚探望以利沙伯|||1:39-56|
+Beginnings|The birth of John the Baptist|施洗约翰的诞生|||1:57-80|
+Beginnings|Joseph's dream|约瑟的梦|1:18-25|||
+Beginnings|The birth of Jesus|耶稣降生|||2:1-7|
+Beginnings|The shepherds|牧羊人|||2:8-20|
+Beginnings|Circumcision and presentation in the temple|行割礼与在圣殿献上|||2:21-38|
+Beginnings|The wise men|博士来朝|2:1-12|||
+Beginnings|Flight to Egypt and return to Nazareth|逃往埃及与回到拿撒勒|2:13-23||2:39|
+Beginnings|The boy Jesus in the temple|少年耶稣在圣殿|||2:40-52|
+Preparation|John the Baptist's ministry|施洗约翰传道|3:1-12|1:1-8|3:1-18|1:19-28
+Preparation|The baptism of Jesus|耶稣受洗|3:13-17|1:9-11|3:21-22|1:32-34
+Preparation|The temptation|耶稣受试探|4:1-11|1:12-13|4:1-13|
+Preparation|"Behold the Lamb of God"|“看哪，神的羔羊”||||1:29-34
+Preparation|The first disciples|最早的门徒||||1:35-51
+Early ministry|Water into wine at Cana|迦拿婚宴变水为酒||||2:1-12
+Early ministry|Cleansing the temple|洁净圣殿||||2:13-25
+Early ministry|Nicodemus|尼哥底母||||3:1-21
+Early ministry|John's final witness|约翰最后的见证||||3:22-36
+Early ministry|John imprisoned; Jesus goes to Galilee|约翰下监，耶稣往加利利去|4:12|1:14|3:19-20; 4:14|4:1-3
+Early ministry|The Samaritan woman|撒玛利亚妇人||||4:4-42
+Early ministry|Preaching in Galilee|在加利利传道|4:13-17|1:14-15|4:14-15|4:43-45
+Early ministry|The official's son healed|医治大臣的儿子||||4:46-54
+Galilee|Rejected at Nazareth|在拿撒勒被弃|||4:16-30|
+Galilee|Fishers of men|得人如得鱼|4:18-22|1:16-20|5:1-11|
+Galilee|A demon cast out in the synagogue|在会堂赶鬼||1:21-28|4:31-37|
+Galilee|Peter's mother-in-law and many healed|医治彼得的岳母和许多人|8:14-17|1:29-34|4:38-41|
+Galilee|Preaching through Galilee|走遍加利利传道|4:23-25|1:35-39|4:42-44|
+Galilee|A leper cleansed|洁净长大麻风的|8:2-4|1:40-45|5:12-16|
+Galilee|A paralytic healed|医治瘫子|9:1-8|2:1-12|5:17-26|
+Galilee|The call of Matthew (Levi)|呼召马太（利未）|9:9-13|2:13-17|5:27-32|
+Galilee|The question about fasting|论禁食|9:14-17|2:18-22|5:33-39|
+Galilee|Healing at the pool of Bethesda|在毕士大池边治病||||5:1-47
+Galilee|Lord of the sabbath|安息日的主|12:1-8|2:23-28|6:1-5|
+Galilee|The withered hand|医治枯干的手|12:9-14|3:1-6|6:6-11|
+Galilee|Crowds by the sea|海边的群众|12:15-21|3:7-12||
+Galilee|The twelve chosen|拣选十二使徒|10:2-4|3:13-19|6:12-16|
+Galilee|The Sermon on the Mount|登山宝训|5:1-7:29||6:17-49|
+Galilee|The centurion's servant|百夫长的仆人|8:5-13||7:1-10|
+Galilee|The widow's son at Nain|拿因城寡妇的儿子|||7:11-17|
+Galilee|John's question from prison|约翰在狱中的疑问|11:2-19||7:18-35|
+Galilee|Woes on the cities; "Come unto me"|责备城邑；“到我这里来”|11:20-30|||
+Galilee|A sinful woman anoints Jesus|有罪的女人膏耶稣|||7:36-50|
+Galilee|Women who served|服事耶稣的妇女|||8:1-3|
+Galilee|Beelzebub|论别西卜|12:22-37|3:20-30|11:14-23|
+Galilee|The sign of Jonah|约拿的神迹|12:38-45||11:24-32|
+Galilee|Jesus' true family|耶稣真正的亲属|12:46-50|3:31-35|8:19-21|
+Galilee|The parable of the sower|撒种的比喻|13:1-23|4:1-25|8:4-18|
+Galilee|The seed growing secretly|种子暗暗生长的比喻||4:26-29||
+Galilee|More parables of the kingdom|天国的其他比喻|13:24-53|4:30-34|13:18-21|
+Galilee|Calming the storm|平静风浪|8:18; 8:23-27|4:35-41|8:22-25|
+Galilee|The Gadarene demoniacs|格拉森被鬼附的人|8:28-34|5:1-20|8:26-39|
+Galilee|Jairus' daughter and the woman who touched his robe|睚鲁的女儿与摸衣裳繸子的女人|9:18-26|5:21-43|8:40-56|
+Galilee|Two blind men and a mute man|两个瞎子和一个哑巴|9:27-34|||
+Galilee|Rejected again at Nazareth|再次在拿撒勒被弃|13:54-58|6:1-6||
+Galilee|The twelve sent out|差遣十二使徒|9:35-10:42|6:7-13|9:1-6|
+Galilee|The death of John the Baptist|施洗约翰之死|14:1-12|6:14-29|9:7-9|
+Galilee|Feeding the five thousand|喂饱五千人|14:13-21|6:30-44|9:10-17|6:1-14
+Galilee|Walking on the water|在海面上行走|14:22-33|6:45-52||6:15-21
+Galilee|Healing at Gennesaret|在革尼撒勒治病|14:34-36|6:53-56||
+Galilee|The bread of life|生命的粮||||6:22-71
+Withdrawals|Clean and unclean|论洁与不洁|15:1-20|7:1-23||
+Withdrawals|The Syrophoenician woman|叙利非尼基妇人|15:21-28|7:24-30||
+Withdrawals|A deaf man healed; many healed|医治耳聋舌结的人|15:29-31|7:31-37||
+Withdrawals|Feeding the four thousand|喂饱四千人|15:32-39|8:1-10||
+Withdrawals|The Pharisees seek a sign|法利赛人求神迹|16:1-4|8:11-13||
+Withdrawals|The leaven of the Pharisees|法利赛人的酵|16:5-12|8:14-21||
+Withdrawals|A blind man at Bethsaida|伯赛大的瞎子||8:22-26||
+Withdrawals|Peter's confession|彼得认耶稣是基督|16:13-20|8:27-30|9:18-21|
+Withdrawals|Jesus foretells his death|耶稣预言受死|16:21-28|8:31-9:1|9:22-27|
+Withdrawals|The transfiguration|登山变像|17:1-13|9:2-13|9:28-36|
+Withdrawals|The boy with a demon|医治被鬼附的孩子|17:14-21|9:14-29|9:37-43|
+Withdrawals|Second prediction of his death|第二次预言受死|17:22-23|9:30-32|9:43-45|
+Withdrawals|The temple tax|纳殿税|17:24-27|||
+Withdrawals|Who is the greatest?|谁为大|18:1-14|9:33-50|9:46-50|
+Withdrawals|Forgiving a brother|饶恕弟兄|18:15-35|||
+Later ministry|At the Feast of Tabernacles|在住棚节||||7:2-52
+Later ministry|The woman taken in adultery|行淫时被拿的妇人||||7:53-8:11
+Later ministry|The light of the world|世界的光||||8:12-59
+Later ministry|Setting out for Jerusalem; the cost of following|往耶路撒冷去；跟从主的代价|8:19-22||9:51-62|
+Later ministry|The seventy sent out|差遣七十人|||10:1-24|
+Later ministry|The good Samaritan|好撒玛利亚人|||10:25-37|
+Later ministry|Mary and Martha|马利亚和马大|||10:38-42|
+Later ministry|Teaching on prayer|论祷告|6:9-13; 7:7-11||11:1-13|
+Later ministry|Woes to the Pharisees and lawyers|斥责法利赛人和律法师|||11:37-54|
+Later ministry|Warnings and the rich fool|警戒与无知的财主|||12:1-34|
+Later ministry|Be ready|要预备|||12:35-59|
+Later ministry|Repent or perish; the barren fig tree|不悔改就灭亡；不结果的无花果树|||13:1-9|
+Later ministry|A woman healed on the sabbath|安息日医治驼背的女人|||13:10-17|
+Later ministry|A man born blind|医治生来瞎眼的|||| 9:1-41
+Later ministry|The good shepherd|好牧人||||10:1-21
+Later ministry|At the Feast of Dedication|在修殿节||||10:22-42
+Later ministry|The narrow door; lament over Jerusalem|窄门；为耶路撒冷哀叹|||13:22-35|
+Later ministry|At a Pharisee's table; the great supper|在法利赛人家中；大筵席的比喻|||14:1-24|
+Later ministry|The cost of discipleship|作门徒的代价|||14:25-35|
+Later ministry|Lost sheep, lost coin, lost son|失羊、失钱、浪子|18:12-14||15:1-32|
+Later ministry|The unjust steward; the rich man and Lazarus|不义的管家；财主和拉撒路|||16:1-31|
+Later ministry|Faith and duty|信心与本分|||17:1-10|
+Later ministry|The raising of Lazarus|拉撒路复活||||11:1-44
+Later ministry|The plot to kill Jesus|谋害耶稣||||11:45-57
+Later ministry|Ten lepers|十个长大麻风的|||17:11-19|
+Later ministry|The coming of the kingdom|神国的降临|||17:20-37|
+Later ministry|The widow and the judge; the Pharisee and the tax collector|寡妇与不义的官；法利赛人和税吏|||18:1-14|
+Later ministry|Marriage and divorce|论休妻|19:1-12|10:1-12||
+Later ministry|Jesus blesses the children|耶稣为小孩子祝福|19:13-15|10:13-16|18:15-17|
+Later ministry|The rich young ruler|富有的少年官|19:16-30|10:17-31|18:18-30|
+Later ministry|The workers in the vineyard|葡萄园工人的比喻|20:1-16|||
+Later ministry|Third prediction of his death|第三次预言受死|20:17-19|10:32-34|18:31-34|
+Later ministry|James and John's request|雅各和约翰的请求|20:20-28|10:35-45||
+Later ministry|Blind Bartimaeus|瞎子巴底买|20:29-34|10:46-52|18:35-43|
+Later ministry|Zacchaeus|撒该|||19:1-10|
+Later ministry|The parable of the pounds|十锭银子的比喻|||19:11-27|
+Later ministry|Mary anoints Jesus at Bethany|马利亚在伯大尼膏耶稣|26:6-13|14:3-9||12:1-11
+Last week|The triumphal entry|骑驴进耶路撒冷|21:1-11|11:1-11|19:28-44|12:12-19
+Last week|The fig tree cursed|咒诅无花果树|21:18-19|11:12-14||
+Last week|Cleansing the temple|洁净圣殿|21:12-17|11:15-19|19:45-48|
+Last week|The withered fig tree; faith|无花果树枯干；论信心|21:20-22|11:20-26||
+Last week|Jesus' authority questioned|耶稣的权柄受质问|21:23-27|11:27-33|20:1-8|
+Last week|The two sons|两个儿子的比喻|21:28-32|||
+Last week|The wicked tenants|凶恶园户的比喻|21:33-46|12:1-12|20:9-19|
+Last week|The wedding feast|娶亲筵席的比喻|22:1-14|||
+Last week|Taxes to Caesar|纳税给凯撒|22:15-22|12:13-17|20:20-26|
+Last week|The resurrection question|论复活|22:23-33|12:18-27|20:27-40|
+Last week|The great commandment|最大的诫命|22:34-40|12:28-34||
+Last week|David's son and Lord|基督是谁的子孙|22:41-46|12:35-37|20:41-44|
+Last week|Woes to the scribes and Pharisees|斥责文士和法利赛人|23:1-39|12:38-40|20:45-47|
+Last week|The widow's mite|寡妇的两个小钱||12:41-44|21:1-4|
+Last week|Greeks seek Jesus; the hour has come|希腊人求见；时候到了||||12:20-50
+Last week|Signs of the end|末世的预兆|24:1-51|13:1-37|21:5-38|
+Last week|The ten virgins, the talents, the sheep and goats|十童女、按才受托、绵羊山羊|25:1-46|||
+Last week|The plot and Judas' bargain|谋害耶稣与犹大卖主|26:1-5; 26:14-16|14:1-2; 14:10-11|22:1-6|
+Last week|Preparing the Passover|预备逾越节|26:17-19|14:12-16|22:7-13|
+Last week|Washing the disciples' feet|为门徒洗脚||||13:1-20
+Last week|The betrayer foretold|预言被卖|26:20-25|14:17-21|22:21-23|13:21-30
+Last week|The Lord's Supper|设立圣餐|26:26-29|14:22-25|22:14-20|
+Last week|Who is the greatest; Peter's denial foretold|谁为大；预言彼得不认主|26:31-35|14:27-31|22:24-38|13:31-38
+Last week|The farewell discourse|临别赠言||||14:1-16:33
+Last week|Jesus' prayer for his disciples|耶稣为门徒祷告||||17:1-26
+Passion|Gethsemane|客西马尼|26:30; 26:36-46|14:26; 14:32-42|22:39-46|18:1
+Passion|The arrest|被捕|26:47-56|14:43-52|22:47-53|18:2-12
+Passion|Before Annas and Caiaphas|在亚那和该亚法面前|26:57-68|14:53-65|22:54; 22:63-65|18:13-14; 18:19-24
+Passion|Peter's denials|彼得三次不认主|26:69-75|14:66-72|22:55-62|18:15-18; 18:25-27
+Passion|Before the council|在公会面前|27:1-2|15:1|22:66-71|18:28
+Passion|The death of Judas|犹大之死|27:3-10|||
+Passion|Before Pilate and Herod|在彼拉多和希律面前|27:11-14|15:2-5|23:1-12|18:28-38
+Passion|Barabbas and the sentence|巴拉巴与定罪|27:15-26|15:6-15|23:13-25|18:39-19:16
+Passion|Mocked by the soldiers|兵丁戏弄耶稣|27:27-31|15:16-20||19:2-3
+Passion|The crucifixion|钉十字架|27:32-44|15:21-32|23:26-43|19:16-27
+Passion|The death of Jesus|耶稣之死|27:45-56|15:33-41|23:44-49|19:28-37
+Passion|The burial|安葬|27:57-61|15:42-47|23:50-56|19:38-42
+Passion|The guard at the tomb|看守坟墓|27:62-66|||
+Risen|The empty tomb|空坟墓|28:1-8|16:1-8|24:1-12|20:1-10
+Risen|Jesus appears to Mary Magdalene|向抹大拉的马利亚显现|28:9-10|16:9-11||20:11-18
+Risen|The guards' report|兵丁的报告|28:11-15|||
+Risen|On the road to Emmaus|往以马忤斯的路上||16:12-13|24:13-35|
+Risen|Appearing to the disciples|向门徒显现||16:14|24:36-43|20:19-23
+Risen|Thomas|多马||||20:24-31
+Risen|By the Sea of Galilee|在提比哩亚海边||||21:1-25
+Risen|The Great Commission|大使命|28:16-20|16:15-18||
+Risen|The ascension|升天||16:19-20|24:44-53|
