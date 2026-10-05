@@ -39,7 +39,9 @@ const L = {
     chapterNote: "Everything in this chapter. Tap a verse to see just that verse.",
     aboutBook: (n) => `About ${n}`, introAuthor: "Author", introDate: "Written", introKey: "Key verse", introOutline: "Outline",
     introRange: (a, z, one) => (one ? (a === z ? "v. " : "vv. ") : "Ch. ") + (a === z ? a : `${a}–${z}`),
-    introNote: "Authors and dates follow traditional views; scholars differ on some.", noXrefCh: "No cross-references for this chapter.",
+    introNote: "Authors and dates follow traditional views; scholars differ on some.",
+    topics: "Topics", topicRefs: (n) => `${n.toLocaleString("en")} references`, topicSee: "See", topicHere: "Cites this verse",
+    topicSrc: "From Nave's Topical Bible (1896).", popularTopics: "Popular topics", noXrefCh: "No cross-references for this chapter.",
     noPeopleSel: (m) => `No one is named in ${m ? "these verses" : "this verse"}.`,
     noPlacesSel: (m) => `No places are named in ${m ? "these verses" : "this verse"}.`, placesIn: (r) => `Named in ${r}`,
     rel: { father: "Father", mother: "Mother", partners: "Married to", children: "Children", siblings: "Brothers and sisters" },
@@ -129,7 +131,9 @@ const L = {
     chapterNote: "这一章的全部内容。点选一节经文，只看那一节。",
     aboutBook: (n) => `关于${n}`, introAuthor: "作者", introDate: "年代", introKey: "钥节", introOutline: "大纲",
     introRange: (a, z, one) => (a === z ? `第${a}` : `${a}–${z}`) + (one ? "节" : "章"),
-    introNote: "作者与年代采用传统看法，学者对其中一些看法不一。", noXrefCh: "这一章没有串珠。",
+    introNote: "作者与年代采用传统看法，学者对其中一些看法不一。",
+    topics: "主题", topicRefs: (n) => `${n} 处经文`, topicSee: "参见", topicHere: "引用了这节经文",
+    topicSrc: "取自 Nave's Topical Bible（1896 年）。分项说明为英文原文，部分主题暂无中文名称。", popularTopics: "常见主题", noXrefCh: "这一章没有串珠。",
     noPeopleSel: (m) => `${m ? "这几节" : "本节"}没有提到人名。`,
     noPlacesSel: (m) => `${m ? "这几节" : "本节"}没有提到地名。`, placesIn: (r) => `${r} 提到的地点`,
     rel: { father: "父亲", mother: "母亲", partners: "配偶", children: "儿女", siblings: "兄弟姐妹" },
@@ -505,6 +509,7 @@ async function renderContext() {
     renderMarkTools(sel.map((n) => `${b.id}.${c}.${n}`));
   }
   renderOrig(b, c, chapter ? [] : sel, orig, texts[vs.indexOf("kjv")] || await bookText(b.id, "kjv"), key);
+  renderTopics(b, c, sel, chapter, key).catch((e) => console.error(e));
   $("ctx-text").classList.toggle("chapter", chapter);
   document.querySelectorAll(".tabs button").forEach((t) => t.setAttribute("aria-selected", t.dataset.tab === state.tab));
   for (const t of TABS) $("tab-" + t).hidden = t !== state.tab;
@@ -585,6 +590,96 @@ async function renderOrig(b, c, sel, orig, kjv, key) {
     box.append(row);
   };
   if (box.open) fill();
+}
+
+// --- Topics ---------------------------------------------------------------------------------------------------
+// Nave's Topical Bible: some 5,000 topics, each a list of headings with the verses on them. A verse's topics show
+// under its text (a chapter's, most cited first); a topic opens in the picker, and the search box finds them.
+
+const topicIndex = () => loadJSON("data/topics/index.json");
+const verseTopics = (book) => loadJSON(`data/topics/v/${book}.json`).catch(() => ({}));
+const topicName = (x) => (zh() && x[1]) || x[0];
+const TOPIC_CHIPS = 12;
+
+async function renderTopics(b, c, sel, chapter, key) {
+  const box = $("ctx-topics"), [idx, vt] = await Promise.all([topicIndex().catch(() => null), verseTopics(b.id)]);
+  if (selKey() !== key) return;
+  // By how many of the verses each cites (a reference to the whole chapter counts for all of a chapter), then the
+  // broadest first: Faith before Condescension of God.
+  const score = new Map();
+  for (const n of sel) for (const i of vt[`${c}.${n}`] || []) score.set(i, (score.get(i) || 0) + 1);
+  if (chapter) for (const i of vt[`${c}`] || []) score.set(i, (score.get(i) || 0) + sel.length);
+  const list = [...score].sort((x, z) => z[1] - x[1] || idx[z[0]][2] - idx[x[0]][2]).map(([i]) => i);
+  box.hidden = !idx || !list.length;
+  if (box.hidden) return;
+  const summary = el("summary", "", t("topics"));
+  summary.append(" ", el("span", "count", list.length));
+  box.replaceChildren(summary);
+  box.open = store.get("bible-topics-open") !== false;
+  box.ontoggle = () => store.set("bible-topics-open", box.open);
+  const row = el("div", "topic-chips"), from = chapter ? null : `${b.id}.${c}.${sel[0]}`;
+  const chips = list.map((i) => {
+    const chip = el("button", "chip", topicName(idx[i]));
+    chip.onclick = () => openTopic(i, from);
+    return chip;
+  });
+  row.append(...chips.slice(0, TOPIC_CHIPS));
+  if (chips.length > TOPIC_CHIPS) {
+    const more = el("button", "chip more", `+${chips.length - TOPIC_CHIPS}`);
+    more.onclick = () => more.replaceWith(...chips.slice(TOPIC_CHIPS));
+    row.append(more);
+  }
+  box.append(row);
+}
+
+// A reference as Nave's gives it ("Exod.6.16-20", or "Num.17" for a chapter): does it take in verse "Exod.6.18"?
+const refHas = (ref, at) => {
+  if (!at) return false;
+  const [b, c, v] = ref.split("."), [ab, ac, av] = at.split(".");
+  if (b !== ab || c !== ac) return false;
+  if (v == null) return true;
+  const [lo, hi = lo] = v.split("-").map(Number);
+  return +av >= lo && +av <= hi;
+};
+function refShort(ref) {
+  const [b, c, v] = ref.split(".");
+  return shortRef(b, c, v ?? "").replace(/:$/, "").replace(/-(\d+)$/, "–$1");
+}
+
+// A topic: its headings, indented as Nave's has them, each with its references (the ones that take in the verse it
+// was opened from marked). "See" headings open those topics; tapping a reference goes there.
+async function openTopic(i, from = null, back = null) {
+  view.dialog = null; // not shareable
+  const idx = await topicIndex(), x = idx[i], body = $("picker-body");
+  $("picker-title").textContent = topicName(x);
+  view.back = back;
+  $("picker-back").hidden = !back;
+  if (!$("picker").open) { body.replaceChildren(el("p", "note", t("searching"))); $("picker").showModal(); }
+  const entries = (await loadJSON(`data/topics/${x[3]}.json`))[i % 100];
+  const head = el("p", "note small", [zh() && x[1] ? x[0] : null, t("topicRefs", x[2])].filter(Boolean).join(" · "));
+  const list = el("div", "topic");
+  for (const [depth, label, refs, see] of entries) {
+    const row = el("div", "topic-entry" + (refs.length || see != null ? "" : " topic-head"));
+    row.style.setProperty("--depth", depth);
+    if (see != null) {
+      const link = el("button", "link", topicName(idx[see]));
+      link.onclick = () => openTopic(see, from, () => openTopic(i, from, back));
+      row.append(el("span", "topic-label", t("topicSee") + " "), link);
+    } else {
+      if (label) row.append(el("span", "topic-label", label));
+      for (const ref of refs) {
+        const a = el("a", "topic-ref" + (refHas(ref, from) ? " here" : ""), refShort(ref));
+        const [b, c, v] = ref.split("."), [lo, hi] = (v || "").split("-").map(Number);
+        a.href = hashFor(b, +c, lo || undefined, hi);
+        if (refHas(ref, from)) a.title = t("topicHere");
+        a.onclick = () => $("picker").close();
+        row.append(" ", a);
+      }
+    }
+    list.append(row);
+  }
+  body.replaceChildren(head, list, el("p", "note small", t("topicSrc")));
+  body.querySelector(".topic-ref.here")?.scrollIntoView({ block: "center" });
 }
 
 // --- Cross-reference web ------------------------------------------------------------------------------------
@@ -1686,7 +1781,21 @@ function marked(text, q) {
 }
 async function runSearch() {
   const q = $("search-q").value.trim(), seq = ++searchSeq, out = $("search-results");
-  if (!q) { out.innerHTML = `<p class="note">${t("searchHint")}</p>`; return; }
+  if (!q) {
+    out.innerHTML = `<p class="note">${t("searchHint")}</p>`;
+    // With nothing typed, the most cited topics, as a way in.
+    topicIndex().then((idx) => {
+      if (seq !== searchSeq) return;
+      const row = el("div", "topic-chips");
+      for (const [x, i] of idx.map((x, i) => [x, i]).filter(([x]) => !zh() || x[1]).sort(([a], [z]) => z[2] - a[2]).slice(0, 40)) {
+        const chip = el("button", "chip", topicName(x));
+        chip.onclick = () => { $("search").close(); openTopic(i); };
+        row.append(chip);
+      }
+      out.append(el("div", "testament", t("popularTopics")), row);
+    }).catch(() => {});
+    return;
+  }
   const nq = norm(q), groups = [];
   const has = (...xs) => xs.some((x) => x && norm(x).includes(nq));
   const item = (title, sub, act, html) => ({ title, sub, act, html });
@@ -1714,6 +1823,11 @@ async function runSearch() {
     .sort((a, b) => (norm(label(b[0], b[1])).startsWith(nq) - norm(label(a[0], a[1])).startsWith(nq)) || b[4] - a[4]).slice(0, 30);
   add(t("places"), places.map(([name, nameZh, kind, first, n]) =>
     item(label(name, nameZh), [(zh() && KINDS_ZH[kind]) || kind, t("nVerses", n)].filter(Boolean).join(" · "), () => go(...first.split(".")))));
+  const topics = await topicIndex().catch(() => []);
+  if (seq !== searchSeq) return;
+  add(t("topics"), topics.map((x, i) => [x, i]).filter(([x]) => has(x[0], x[1]))
+    .sort(([a], [z]) => (norm(topicName(z)).startsWith(nq) - norm(topicName(a)).startsWith(nq)) || z[2] - a[2]).slice(0, 20)
+    .map(([x, i]) => item(topicName(x), t("topicRefs", x[2]), () => openTopic(i))));
   add(t("tours"), tours.filter((tr) => has(tr.title, tr.title_zh, tx(tr, "summary")))
     .map((tr) => item(tx(tr, "title"), tx(tr, "summary"), () => { $("search").close(); startTour(tr.id, 0); })));
   draw(out, groups, t("searching"));
@@ -2531,14 +2645,15 @@ function renderOffline(body) {
   if (!("serviceWorker" in navigator) || !window.caches) return;
   const vs = versions(), names = vs.map((v) => (v === "cuv" ? "和合本" : "KJV")).join(" + ");
   const box = el("div", "offline"), note = el("p", "note small", t("offlineNote"));
-  const btn = el("button", "pill", t("saveOffline", names, Math.round(3.8 * vs.length + 11)));
+  const btn = el("button", "pill", t("saveOffline", names, Math.round(3.8 * vs.length + 14)));
   if ((store.get("bible-offline") || []).includes(state.version)) { btn.textContent = t("saved", names); btn.disabled = true; }
   btn.onclick = async () => {
     btn.disabled = true;
-    const files = ["data/books.json", "data/places.json", "data/search.json", "data/people.json", "data/basemap.json", "data/timeline.json", "data/lands.json", "data/names.json", "data/kings.json",
+    const files = ["data/books.json", "data/places.json", "data/search.json", "data/people.json", "data/basemap.json", "data/timeline.json", "data/lands.json", "data/names.json", "data/kings.json", "data/intros.json", "data/topics/index.json",
       "atlas/tours.json", "atlas/eras.json", "atlas/events.json",
       ...Array.from({ length: 12 }, (_, i) => `data/people/${i}.json`),
       ...state.books.flatMap((b) => [...vs.map((v) => `data/text/${v}/${b.id}.json`), `data/xref/${b.id}.json`, `data/vctx/${b.id}.json`, `data/strongs/${b.id}.json`]),
+      ...Array.from({ length: 54 }, (_, i) => `data/topics/${i}.json`), ...state.books.map((b) => `data/topics/v/${b.id}.json`),
       ...Array.from({ length: 87 }, (_, i) => `data/lexicon/H${i}.json`), ...Array.from({ length: 57 }, (_, i) => `data/lexicon/G${i}.json`)];
     let failed = 0;
     try {

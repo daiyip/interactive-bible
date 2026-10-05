@@ -38,6 +38,12 @@ Above a chapter's context, **About** the book: what it is about, its author and 
 with its text, and an outline whose sections open their first chapter, with the open chapter's section marked. It
 folds away and stays folded until opened again.
 
+**Topics** under a verse's text are the topics of Nave's Topical Bible that cite it, the broadest first (a chapter's:
+those citing most of its verses). Tap one for the topic: its headings, as Nave's indents them, each with its
+references, the ones that take in your verse marked; "See" headings open related topics. The search box finds topics
+by name, and shows the most cited ones before you type. About half the topics have Chinese names (the main ones,
+and the people and places); the headings are Nave's English.
+
 **Listen** in the dock is a switch: on, it reads the chapter aloud in the device's own voice, one verse at a time from the
 selected verse (or the first), lighting the verse it reads and keeping it in view, then carries on into the next
 chapter. It reads the first translation shown, in English or Chinese. While it is on, a player above the dock pauses, steps a verse
@@ -172,6 +178,9 @@ with three lines of text, drawn in the same line style as the atlas's folded map
 | `data/strongs/<id>.json` | Per verse `"chapter.verse"`: `[[i, n], ...]`, the i-th word of the KJV verse (words as `Intl.Segmenter` splits them) translates Strong's number n (Hebrew in the Old Testament, Greek in the New), or a list of numbers. |
 | `data/lexicon/<H\|G><k>.json` | Strong's entries `k×100` to `k×100+99` as `{"n": [lemma, transliteration, pronunciation, definition, part of speech]}`. |
 | `data/intros.json` | Per book: `author`, `date` and `about` as `[English, Chinese]`, `key` (`"chapter.verse"`), and `outline` as `[[first chapter, title, title_zh], ...]` (verses for one-chapter books). Written for this app; authors and dates follow traditional views. |
+| `data/topics/index.json` | Nave's 5,319 topics as `[name, name_zh, references, file]`; a topic's number is its place in the list. |
+| `data/topics/<k>.json` | Topics `k×100` to `k×100+99`: `[[depth, heading, [refs]], ...]`, refs as `"Gen.6.16-20"` or `"Num.17"` (a whole chapter); a "See" heading is `[depth, name, [], topic]`. |
+| `data/topics/v/<id>.json` | Per verse `"chapter.verse"` (or `"chapter"`, for a whole chapter): the topics citing it. |
 | `data/basemap.json` | Land, lakes and main rivers of the Bible lands for the Places map (Natural Earth, simplified). |
 | `atlas/` | The atlas data pack (see above). |
 
@@ -179,7 +188,7 @@ To rebuild, run `tools/fetch_sources.sh` to download the sources into `tools/src
 `python3 tools/build_data.py` for `data/` and `python3 tools/build_atlas.py` for the pack's events and places.
 `python3 tools/build_kings.py` rebuilds the kings (checking every account against the KJV), and
 `python3 tools/build_names.py && python3 tools/build_lands.py` rebuild the place names and the land of Canaan from
-`data/`. `python3 tools/build_strongs.py` rebuilds the Hebrew and Greek words, matching MetaV's tagged words to the
+`data/`. `python3 tools/build_topics.py` rebuilds the topics (Chinese names for the main ones are in `tools/topics_zh.json`). `python3 tools/build_strongs.py` rebuilds the Hebrew and Greek words, matching MetaV's tagged words to the
 KJV text (99.9% match).
 
 ## Translation
@@ -198,6 +207,9 @@ folder per translation (`data/text/<translation>/`), so adding one does not chan
 - **Hebrew and Greek words**: Strong's numbers on each KJV word from
   [MetaV](https://github.com/theonize/KJV-bible-database-with-metadata-MetaV-) (CC BY-SA 3.0), with Strong's
   definitions from [Open Scriptures](https://github.com/openscriptures/strongs) (CC BY-SA).
+- **Topics**: Nave's Topical Bible (1896, public domain), from
+  [BibleData](https://github.com/BradyStephenson/bible-data) by Brady Stephenson: CC BY 4.0. Chinese topic names are
+  written for this app.
 - **Base map** from [Natural Earth](https://www.naturalearthdata.com/): public domain.
 
 Years follow a traditional chronology, with the Exodus in 1490 BC; many scholars date the early periods later. The
