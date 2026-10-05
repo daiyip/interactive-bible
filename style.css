@@ -33,6 +33,8 @@
 
 * { box-sizing: border-box; }
 html, body { height: 100%; margin: 0; }
+/* No pinch or double-tap zoom: the app sizes its own text (the Aa menu). The atlas map in its frame still zooms. */
+html { touch-action: pan-x pan-y; }
 body {
   background: var(--bg); color: var(--ink);
   font: 15px/1.5 "IBM Plex Sans", system-ui, sans-serif;
@@ -265,7 +267,7 @@ body:not(.playing) .tour-bar { visibility: hidden; }
   background: var(--panel); color: var(--ink); box-shadow: var(--shadow);
 }
 .picker::backdrop { background: rgba(10, 12, 20, .3); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
-.picker-head { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--panel); }
+.picker-head { z-index: 2; display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--panel); }
 .picker-head h2 { flex: 1; margin: 0; font-size: 17px; }
 #picker-body { padding: 12px 16px 20px; }
 .testament { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 8px 0 8px; }
@@ -425,3 +427,37 @@ body:not(.playing) .tour-bar { visibility: hidden; }
   .seg button { padding: 5px 12px; }
   select.badge { max-width: 66px; }
 }
+
+/* Family tree: an indented outline with connector lines, so a wide generation still fits a phone. */
+.family-h { display: flex; align-items: center; gap: 8px; }
+.family-h .pill { padding: 1px 10px; font-size: 12px; text-transform: none; letter-spacing: 0; color: var(--accent); border-color: var(--accent); }
+.tree-line { display: flex; align-items: center; gap: 2px; overflow-x: auto; white-space: nowrap; font-size: 13px; padding-bottom: 6px; scrollbar-width: none; mask-image: linear-gradient(90deg, transparent, #000 24px); }
+.tree-line b { color: var(--muted); font-weight: 600; margin-right: 4px; }
+.tree-line .sep { color: var(--line); }
+.tree-line .chip { flex: none; border: 0; background: none; color: var(--muted); padding: 2px 6px; }
+.tree-line .chip:hover { color: var(--accent); }
+.tree-line .chip.on { color: var(--accent); font-weight: 600; }
+/* The tree: soft curved elbows from each parent to its children. */
+.tree, .tree ul { list-style: none; margin: 0; padding: 0; }
+.tree { margin: 10px 0 18px; }
+.tree ul { margin-left: 9px; }
+.tree li { position: relative; }
+.tree ul > li { padding-left: 16px; }
+.tree ul > li::before { content: ""; position: absolute; left: 0; top: 0; width: 15px; height: 19px; border: solid var(--line); border-width: 0 0 1.5px 1.5px; border-bottom-left-radius: 10px; }
+.tree ul > li:not(:last-child)::after { content: ""; position: absolute; left: 0; top: 0; bottom: 0; border-left: 1.5px solid var(--line); }
+.trow { display: flex; align-items: flex-start; padding: 2px 0; }
+.ttog { flex: none; position: relative; width: 18px; height: 18px; margin: 9px 4px 0 0; padding: 0; border: 1.5px solid var(--line); border-radius: 50%; background: var(--panel); color: var(--muted); cursor: pointer; }
+.ttog::before { content: ""; position: absolute; left: 4px; top: 3.5px; width: 5px; height: 5px; border: solid currentColor; border-width: 0 1.5px 1.5px 0; transform: rotate(-45deg); transition: transform .15s; }
+.ttog[aria-expanded=true]::before { left: 4.5px; top: 2.5px; transform: rotate(45deg); }
+.ttog:hover { border-color: var(--accent); color: var(--accent); }
+.ttog.leaf { border: 0; background: none; cursor: default; }
+.ttog.leaf::before { left: 6px; top: 6px; width: 6px; height: 6px; border: 0; border-radius: 50%; background: var(--line); transform: none; }
+.tname { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 6px; padding: 6px 10px; border: 0; border-radius: 10px; background: none; color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
+.tname b { font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif; font-size: 16px; font-weight: 600; line-height: 1.25; }
+.tname .kids { font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tname .kids::before { content: "· "; }
+.tname .partners { flex-basis: 100%; font-size: 12px; font-style: italic; color: var(--muted); margin-top: 1px; }
+.tname:hover { background: var(--accent-soft); }
+.tname.path b { color: var(--accent); }
+.tname.me { background: var(--accent-soft); box-shadow: inset 3px 0 0 var(--accent); }
+.tname.me b { color: var(--accent); }

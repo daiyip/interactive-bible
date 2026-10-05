@@ -35,7 +35,8 @@ const L = {
     rel: { father: "Father", mother: "Mother", partners: "Married to", children: "Children", siblings: "Brothers and sisters" },
     childOf: (g, n) => `${g === "F" ? "Daughter" : "Son"} of ${n}`, partnerOf: (g, n) => `${g === "F" ? "Wife" : "Husband"} of ${n}`,
     firstIn: (r) => `First named in ${r}`, allPeople: "‹ People in this verse", bioSrc: "Easton’s Bible Dictionary",
-    family: "Family", namedIn: "Named in",
+    family: "Family", namedIn: "Named in", tree: "Family tree", treeTitle: (n) => `Family tree · ${n}`, treeLine: "Line:", treeWed: (n) => `m. ${n}`,
+    treeNote: "Tap a name to see the tree around them.", nKids: (n) => `${n} ${n === 1 ? "child" : "children"}`, showPerson: (n) => `Open ${n}`,
     inChapter: (r, m) => `No places named in ${m ? "these verses" : "this verse"}. Places in ${r}:`, partOf: "Part of",
     error: "Could not load this chapter. Check your connection and reload.", site: "Bible", atlas: "Atlas map",
     year: (y) => (y < 0 ? `${-y} BC` : `AD ${y}`),
@@ -88,7 +89,8 @@ const L = {
     rel: { father: "父亲", mother: "母亲", partners: "配偶", children: "儿女", siblings: "兄弟姐妹" },
     childOf: (g, n) => `${n}的${g === "F" ? "女儿" : "儿子"}`, partnerOf: (g, n) => `${n}的${g === "F" ? "妻子" : "丈夫"}`,
     firstIn: (r) => `首次出现于${r}`, allPeople: "‹ 本节的人物", bioSrc: "Easton 圣经辞典（英文）",
-    family: "家人", namedIn: "出现的经文",
+    family: "家人", namedIn: "出现的经文", tree: "家谱", treeTitle: (n) => `家谱 · ${n}`, treeLine: "世系：", treeWed: (n) => `配偶：${n}`,
+    treeNote: "轻点名字，查看以其为中心的家谱。", nKids: (n) => `${n} 个儿女`, showPerson: (n) => `查看${n}`,
     inChapter: (r, m) => `${m ? "这几节" : "本节"}没有提到地名。${r} 中的地点：`, partOf: "所属事件",
     error: "无法载入这一章。请检查网络后重新载入。", site: "圣经", atlas: "地图",
     year: (y) => (y < 0 ? `公元前${-y}年` : `公元${y}年`),
@@ -271,7 +273,7 @@ async function renderChapter() {
     const r = el.getBoundingClientRect(), box = $("reader").getBoundingClientRect();
     const top = $("tour").hidden ? 0 : $("tour").offsetHeight; // the tour card sits over the top of the text
     // On a phone the sheet covers the lower part of the text. Growing a selection leaves the text where it is.
-    const fresh = sheet.first !== `${state.book}.${state.chapter}.${state.verse}`;
+    const fresh = freshSelection();
     const bottom = phone() ? box.top + box.height * 0.4 : box.bottom;
     if (fresh && (r.top < box.top + top + 40 || r.top > bottom - 40)) {
       $("reader").scrollTo({ top: $("reader").scrollTop + r.top - box.top - top - 80, behavior: "smooth" });
@@ -297,7 +299,12 @@ const TABS = ["xref", "people", "places", "links"];
 // leaving the text above it free to tap), "half" and "full". Its handle drags or taps between them; scrolling the
 // text lowers it to a peek, and tapping the peek raises it again.
 const SHEET_PEEK = 112;
-const sheet = { size: "half", first: null };
+const sheet = { size: "half", sel: null };
+// A selection is new when it shares no verse with the one before (growing or trimming a selection is not).
+const freshSelection = () => {
+  const p = sheet.sel;
+  return !p || p.bc !== `${state.book}.${state.chapter}` || (state.to || state.verse) < p.a || state.verse > p.z;
+};
 const phone = () => matchMedia("(max-width: 800px)").matches;
 function setSheet(size) {
   sheet.size = size;
@@ -354,11 +361,11 @@ async function renderContext() {
   $("ctx-body").hidden = !open;
   $("context").classList.toggle("open", open);
   document.body.classList.toggle("sheet-open", open);
-  if (!open) { sheet.first = null; return; }
+  if (!open) { sheet.sel = null; return; }
   const b = state.byId[state.book], c = state.chapter, v = state.verse, sel = selVerses(), key = selKey();
-  // A new verse opens the sheet half way; growing the selection keeps the sheet as it is.
-  const first = `${b.id}.${c}.${v}`;
-  if (sheet.first !== first) { sheet.first = first; setSheet("half"); }
+  // A new selection opens the sheet half way; growing or trimming one keeps the sheet as it is.
+  if (freshSelection()) setSheet("half");
+  sheet.sel = { bc: `${b.id}.${c}`, a: v, z: sel.at(-1) };
   const span = sel.length > 1 ? `${v}–${sel.at(-1)}` : `${v}`;
   $("ctx-ref").textContent = `${bname(b)} ${c}:${span}`;
   const vs = versions(), texts = await Promise.all(vs.map((tr) => bookText(b.id, tr)));
@@ -667,7 +674,12 @@ async function renderPerson(people, i, key) {
     }
     fam.append(el("dt", "", t("rel")[k]), dd);
   }
-  if (fam.children.length) card.push(el("h4", "", t("family")), fam);
+  if (fam.children.length) {
+    const h = el("h4", "family-h", t("family")), tree = el("button", "pill small-pill", t("tree"));
+    tree.onclick = () => showTree(i);
+    h.append(tree);
+    card.push(h, fam);
+  }
   // Verses, by book; the open one is marked.
   card.push(el("h4", "", `${t("namedIn")} · ${t("nVerses", refs.length)}`));
   const vl = el("div", "person-verses"), here = `${state.book}.${state.chapter}.${state.verse}`;
@@ -686,6 +698,68 @@ async function renderPerson(people, i, key) {
   }
   card.push(vl);
   pane.replaceChildren(...card);
+}
+
+// A family tree around one person, drawn as an indented outline so it fits a phone: from their grandparents down to
+// their grandchildren, with the line through them opened out and other branches folded (▸ opens one in place).
+// Above it, their whole line back as far as the data goes. Tapping a name redraws the tree around that person.
+const TREE_UP = 2;
+async function showTree(i) {
+  const people = await loadPeople(), p = people[i];
+  const el = (tag, cls, text) => Object.assign(document.createElement(tag), cls ? { className: cls } : {}, text != null ? { textContent: text } : {});
+  const parent = (j) => people[j][P.FATHER] ?? people[j][P.MOTHER];
+  $("picker-title").textContent = t("treeTitle", pname(p));
+  $("picker-back").hidden = true;
+  // The line back: father (or mother) after father, to the first person the data has.
+  const line = [];
+  for (let j = i, n = 0; j != null && n < 200; j = parent(j), n++) line.unshift(j);
+  const lineBox = el("div", "tree-line");
+  lineBox.append(el("b", "", t("treeLine")));
+  line.forEach((j, k) => {
+    const b = el("button", "chip" + (j === i ? " on" : ""), pname(people[j]));
+    b.onclick = () => showTree(j);
+    lineBox.append(...(k ? [el("span", "sep", "›")] : []), b);
+  });
+  // The tree: opened along the path to this person and two generations below them.
+  const path = new Set(line.slice(-1 - TREE_UP));
+  const node = (j, depth) => {
+    const q = people[j], kids = q[P.CHILDREN], li = el("li"), row = el("div", "trow");
+    const name = el("button", "tname" + (j === i ? " me" : path.has(j) ? " path" : ""));
+    name.append(el("b", "", pname(q)));
+    if (kids.length) name.append(el("span", "kids", kids.length));
+    if (q[P.PARTNERS].length) name.append(el("span", "partners", t("treeWed", q[P.PARTNERS].map((k) => pname(people[k])).join(", "))));
+    name.onclick = () => showTree(j);
+    if (kids.length) {
+      const tog = el("button", "ttog"), ul = el("ul");
+      let built = false;
+      const set = (open) => {
+        if (open && !built) { for (const k of kids) ul.append(node(k, j === i ? 1 : path.has(j) ? 0 : depth - 1)); built = true; }
+        ul.hidden = !open;
+        tog.setAttribute("aria-expanded", open);
+        tog.title = t("nKids", kids.length);
+      };
+      tog.onclick = () => set(ul.hidden);
+      row.append(tog, name);
+      li.append(row, ul);
+      set(path.has(j) || depth > 0);
+    } else {
+      row.append(el("span", "ttog leaf"), name);
+      li.append(row);
+    }
+    return li;
+  };
+  const tree = el("ul", "tree");
+  tree.append(node(line[Math.max(0, line.length - 1 - TREE_UP)], 0));
+  const open = el("button", "pill", t("showPerson", pname(p)));
+  open.onclick = () => { $("picker").close(); openPerson(i, p[P.FIRST]); };
+  const box = el("div", "tree-box");
+  box.append(lineBox, el("p", "note small", t("treeNote")), tree, open);
+  $("picker-body").replaceChildren(box);
+  if (!$("picker").open) $("picker").showModal();
+  lineBox.scrollLeft = lineBox.scrollWidth;
+  const me = tree.querySelector(".me");
+  me.scrollIntoView({ block: "center" });
+  me.focus({ preventScroll: true });
 }
 
 // Open a person's card at a verse (from family links and search).
@@ -1785,6 +1859,8 @@ function step(dir) {
 }
 
 async function init() {
+  // iOS Safari ignores user-scalable=no in the viewport tag; its own gesture events still let a page refuse pinch zoom.
+  for (const g of ["gesturestart", "gesturechange"]) document.addEventListener(g, (e) => e.preventDefault(), { passive: false });
   state.books = await loadJSON("data/books.json");
   for (const b of state.books) state.byId[b.id] = b;
   setSize(store.get("bible-size") || 19);
@@ -1807,11 +1883,15 @@ async function init() {
   $("chapter").addEventListener("click", (e) => {
     const el = e.target.closest(".v");
     if (!el) return;
-    // Tapping a verse selects it; tapping another grows the selection to reach it; tapping the selection clears it.
-    const v = +el.dataset.v, a = state.verse, z = state.to || a;
-    location.hash = a == null ? hashFor(state.book, state.chapter, v)
-      : v >= a && v <= z ? hashFor(state.book, state.chapter)
-      : hashFor(state.book, state.chapter, Math.min(a, v), Math.max(z, v));
+    // Tapping a verse selects it; tapping another grows the selection to reach it. Tapping a selected verse lets go of
+    // it: the first or last drops off the end, one in the middle drops with the verses after it (a selection has no
+    // gaps), and the only one clears the selection.
+    const v = +el.dataset.v, a = state.verse, z = state.to || a, pick = (x, y) => hashFor(state.book, state.chapter, x, y);
+    location.hash = a == null ? pick(v)
+      : v < a || v > z ? pick(Math.min(a, v), Math.max(z, v))
+      : a === z ? pick(null)
+      : v === a ? pick(a + 1, z)
+      : pick(a, v - 1);
   });
   document.querySelector(".tabs").addEventListener("click", (e) => {
     const t = e.target.closest("button")?.dataset.tab;
