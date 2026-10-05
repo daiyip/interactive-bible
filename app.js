@@ -1489,6 +1489,8 @@ function openPerson(i, ref) {
 // The atlas runs in an iframe (?embed=1) with this site's pack. The pack's bridge plugin (atlas/plugins/bridge.js)
 // takes the messages below and reports tour steps and verse links back. ?atlas=<url> points at another atlas build.
 const ATLAS = new URLSearchParams(location.search).get("atlas") || "https://atlas.daiyip.com/";
+// The atlas's "Simple · dark" map, here and in the links that open the full atlas.
+const ATLAS_STYLE = "night";
 const atlas = { frame: null, ready: false, want: null, last: null };
 
 // Show the open tour step if the reader is on it, else this verse's places.
@@ -1515,7 +1517,7 @@ function openAtlas() {
   const pack = new URL("atlas/manifest.json", location.href).href;
   const f = document.createElement("iframe");
   f.title = t("atlas");
-  f.src = `${ATLAS}?pack=${encodeURIComponent(pack)}&packonly=1&embed=1&lang=${state.lang}`;
+  f.src = `${ATLAS}?pack=${encodeURIComponent(pack)}&packonly=1&embed=1&style=${ATLAS_STYLE}&lang=${state.lang}`;
   atlas.lang = state.lang;
   f.allow = "fullscreen";
   atlas.frame = f;
@@ -1671,7 +1673,7 @@ function renderTour() {
   $("tour-text").textContent = tx(s, "text");
   $("tour-prev").disabled = i === 0;
   $("tour-next").textContent = t(last ? "finish" : "next");
-  $("tour-map").href = `${ATLAS}?pack=${encodeURIComponent(PACK)}&lang=${state.lang}#tour=${tr.id}&s=${i + 1}`;
+  $("tour-map").href = `${ATLAS}?pack=${encodeURIComponent(PACK)}&style=${ATLAS_STYLE}&lang=${state.lang}#tour=${tr.id}&s=${i + 1}`;
   if (play.on && play.step !== `${tr.id}.${i}`) setPlaying(true);
   play.step = `${tr.id}.${i}`;
 }
@@ -2503,7 +2505,7 @@ async function showEra(i) {
   }
   if (e.id !== "before") {
     const map = el("a", "pill", t("map"));
-    map.href = `${ATLAS}?pack=${encodeURIComponent(PACK)}&lang=${state.lang}#y=${e.start}`;
+    map.href = `${ATLAS}?pack=${encodeURIComponent(PACK)}&style=${ATLAS_STYLE}&lang=${state.lang}#y=${e.start}`;
     map.target = "_blank";
     map.rel = "noopener";
     map.title = t("eraMapTitle");
