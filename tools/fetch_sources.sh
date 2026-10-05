@@ -18,3 +18,6 @@ for f in ne_50m_land ne_50m_lakes ne_50m_rivers_lake_centerlines; do curl -sSfo 
 mkdir -p src/metav
 M=https://raw.githubusercontent.com/theonize/KJV-bible-database-with-metadata-MetaV-/master/CSV
 for f in MainIndex StrongsIndex Strongs; do curl -sSfo src/metav/$f.csv $M/$f.csv; done
+# Topics: Nave's Topical Bible (public domain), as CSV from BradyStephenson/bible-data (CC BY 4.0).
+mkdir -p src/naves
+curl -sSfo src/naves/NavesTopicalDictionary.csv https://raw.githubusercontent.com/BradyStephenson/bible-data/main/NavesTopicalDictionary.csv
