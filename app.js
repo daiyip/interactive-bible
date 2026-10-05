@@ -52,6 +52,7 @@ const L = {
     mostIn: (s) => `Most in ${s}.`, allBooks: "All books",
     xrefList: "List", xrefWeb: "Web", webLabel: "This verse and its strongest cross-references",
     webNote: (n) => `The ${n} strongest cross-references, in Bible order from the top (grey for the Old Testament, blue for the New); bigger means more votes. Faint lines join ones that cross-reference each other. Tap one to move there.`,
+    play: "▶ Play", pause: "❚❚ Pause", playTitle: "Play the tour: steps move on by themselves and the map traces the route",
     mine: "My reading", plan: "Plan", marks: "Highlights", readingPlan: "Reading plan",
     planStart: "Read the Bible in a year", planPitch: "A few chapters a day, Genesis to Revelation in 365 days. Your progress stays in this browser.",
     planStartToday: "Start today", today: "Today", dayOf: (d, n) => `Day ${d} of ${n}`,
@@ -102,6 +103,7 @@ const L = {
     mostIn: (s) => `出现最多：${s}。`, allBooks: "全部书卷",
     xrefList: "列表", xrefWeb: "关系图", webLabel: "本节与它最主要的串珠",
     webNote: (n) => `最主要的 ${n} 条串珠，从顶部起按圣经顺序排列（灰色为旧约，蓝色为新约）；圆点越大，票数越多。淡线连接彼此互为串珠的经文。点选即可前往。`,
+    play: "▶ 播放", pause: "❚❚ 暂停", playTitle: "自动播放导览：逐站前进，地图描绘路线",
     mine: "我的读经", plan: "计划", marks: "标记", readingPlan: "读经计划",
     planStart: "一年读完圣经", planPitch: "每天几章，365 天从创世记读到启示录。进度保存在这个浏览器里。",
     planStartToday: "今天开始", today: "今天", dayOf: (d, n) => `第 ${d} 天，共 ${n} 天`,
@@ -265,6 +267,7 @@ async function renderChapter() {
       $("reader").scrollTo({ top: $("reader").scrollTop + r.top - box.top - top - 80, behavior: "smooth" });
     }
   }
+  lightVerses();
 }
 
 // The second translation of a verse, side by side.
@@ -774,6 +777,7 @@ async function startTour(id, i) {
   else location.hash = ref;
 }
 function endTour() {
+  setPlaying(false);
   state.tour = null;
   store.set("bible-tour", null);
   renderTour();
@@ -781,6 +785,7 @@ function endTour() {
 function renderTour() {
   const tour = state.tour;
   $("tour").hidden = !tour;
+  document.body.classList.toggle("touring", !!tour);
   if (!tour) return;
   const { tr, i } = tour, s = tr.steps[i], last = i === tr.steps.length - 1;
   $("tour-title").textContent = tx(tr, "title");
@@ -790,6 +795,41 @@ function renderTour() {
   $("tour-prev").disabled = i === 0;
   $("tour-next").textContent = t(last ? "finish" : "next");
   $("tour-map").href = `${ATLAS}?pack=${encodeURIComponent(PACK)}&lang=${state.lang}#tour=${tr.id}&s=${i + 1}`;
+  if (play.on && play.step !== `${tr.id}.${i}`) setPlaying(true);
+  play.step = `${tr.id}.${i}`;
+}
+
+// Playback: the tour moves on by itself, each step staying long enough to read its note, while its verses light up
+// one after another and the map traces the leg from the last stop (the pack's journey plugin, atlas/plugins/journey.js).
+const play = { on: false, timer: 0 };
+const stepTime = (s) => Math.min(15000, Math.max(7000, 3500 + 45 * tx(s, "text").length));
+function setPlaying(on) {
+  play.on = on && !!state.tour;
+  clearTimeout(play.timer);
+  $("tour-play").setAttribute("aria-pressed", play.on);
+  $("tour-play").textContent = play.on ? t("pause") : t("play");
+  document.body.classList.toggle("playing", play.on);
+  const bar = $("tour-progress");
+  bar.style.transition = "none";
+  bar.style.width = "0";
+  if (!play.on) return;
+  const { tr, i } = state.tour, ms = stepTime(tr.steps[i]);
+  void bar.offsetWidth; // start the bar from empty
+  bar.style.transition = `width ${ms}ms linear`;
+  bar.style.width = "100%";
+  play.timer = setTimeout(() => {
+    if (!state.tour) return;
+    if (state.tour.i === tr.steps.length - 1) return setPlaying(false); // stays on the last step
+    startTour(tr.id, state.tour.i + 1);
+  }, ms);
+}
+// The step's verses glow in turn, as if read aloud.
+function lightVerses() {
+  if (!play.on) return;
+  document.querySelectorAll(".v.lit").forEach((v) => v.classList.remove("lit"));
+  const vs = [...document.querySelectorAll(".v.sel, .v.rng")];
+  void document.body.offsetWidth;
+  vs.forEach((v, i) => { v.style.animationDelay = `${Math.min(i * 0.6, 6)}s`; v.classList.add("lit"); });
 }
 
 // --- Book and chapter picker -------------------------------------------------
@@ -1518,6 +1558,7 @@ async function init() {
     fillTourList($("ctx-tours")).catch((e) => console.error(e));
     renderTodayHint();
     if ($("mine").open) renderMine();
+    $("tour-play").textContent = play.on ? t("pause") : t("play");
     route();
   };
   if (TABS.includes(store.get("bible-tab"))) state.tab = store.get("bible-tab");
@@ -1587,6 +1628,13 @@ async function init() {
   $("tour-prev").onclick = () => startTour(state.tour.tr.id, state.tour.i - 1);
   $("tour-next").onclick = () => (state.tour.i === state.tour.tr.steps.length - 1 ? endTour() : startTour(state.tour.tr.id, state.tour.i + 1));
   $("tour-x").onclick = endTour;
+  $("tour-play").onclick = () => {
+    if (!play.on && state.tour.i === state.tour.tr.steps.length - 1) { setPlaying(true); return startTour(state.tour.tr.id, 0); } // play again
+    setPlaying(!play.on);
+    lightVerses();
+  };
+  // Picking a verse by hand stops the playback.
+  $("chapter").addEventListener("click", () => setPlaying(false), true);
   fillTourList($("ctx-tours")).catch((e) => console.error(e));
   const saved = store.get("bible-tour");
   if (Array.isArray(saved)) {
