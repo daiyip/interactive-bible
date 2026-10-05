@@ -69,7 +69,19 @@ a { color: var(--accent); }
   font-size: 12px; font-weight: 600; letter-spacing: .04em; color: var(--accent);
   border: 1px solid var(--accent); border-radius: 6px; padding: 1px 6px; margin-right: 6px;
 }
-select.badge { font-family: inherit; background: var(--panel); cursor: pointer; padding: 3px 4px; max-width: 128px; margin: 0 0 0 4px; }
+/* The translation button and its menu (styled like the text size menu). */
+.ver-wrap { position: relative; margin: 0 0 0 4px; }
+.ver-btn { display: flex; align-items: center; gap: 3px; font-family: inherit; background: var(--panel); cursor: pointer; padding: 3px 6px; margin: 0; max-width: 168px; white-space: nowrap; }
+.ver-btn #version-name { overflow: hidden; text-overflow: ellipsis; }
+.ver-btn .caret { font-weight: 400; }
+.ver-menu { left: 0; right: auto; width: 270px; max-height: min(70vh, 560px); overflow-y: auto; }
+.ver-menu button { flex-direction: column; align-items: flex-start; gap: 0; padding: 5px 10px; }
+.ver-menu button b { font-weight: 600; font-size: 14px; }
+.ver-menu button small { color: var(--muted); font-size: 12px; font-weight: 400; }
+.ver-menu button[aria-checked=true] { background: var(--accent-soft); }
+.menu-head { padding: 8px 10px 2px; font-size: 12px; font-weight: 600; color: var(--ink); }
+.menu-head:not(:first-child) { margin-top: 6px; border-top: 1px solid var(--line); padding-top: 10px; }
+.menu-group { padding: 4px 10px 2px; font-size: 11px; color: var(--muted); letter-spacing: .04em; text-transform: uppercase; }
 .size-wrap { position: relative; }
 #size-btn { display: flex; align-items: center; gap: 3px; font-family: "Source Serif 4", Georgia, serif; font-size: 16px; }
 #size-btn .caret { font-family: "IBM Plex Sans", system-ui, sans-serif; }
@@ -385,7 +397,9 @@ body:not(.playing) .tour-bar { visibility: hidden; }
   .timeline { gap: 1px; height: 24px; }
   .era { font-size: 11px; padding: 0 1px; }
   .text-btn { padding: 6px 6px; margin-right: 0; }
-  select.badge { max-width: 74px; margin-left: 2px; }
+  .ver-wrap { margin-left: 2px; }
+  .ver-btn { max-width: 96px; }
+  .ver-btn .caret { display: none; }
   .context {
     position: fixed; left: 0; right: 0; bottom: 0; height: 55vh; height: 55dvh; border-left: 0;
     border-top: 1px solid var(--line); border-radius: 16px 16px 0 0; box-shadow: var(--shadow);
@@ -427,7 +441,7 @@ body:not(.playing) .tour-bar { visibility: hidden; }
   .dock button { padding: 7px 11px; font-size: 13px; gap: 5px; }
   .icon { min-width: 28px; padding-left: 4px; padding-right: 4px; }
   .seg button { padding: 5px 12px; }
-  select.badge { max-width: 66px; }
+  .ver-btn { max-width: 80px; }
 }
 
 /* Family tree: an indented outline with connector lines, so a wide generation still fits a phone. */
@@ -691,3 +705,7 @@ body:not(.playing) .tour-bar { visibility: hidden; }
   .harmony-tabs { display: flex; width: max-content; max-width: calc(100% - 32px); margin: 10px 16px 0; overflow-x: auto; }
   .harmony-tabs button { padding: 3px 10px; font-size: 13px; white-space: nowrap; }
 }
+@media (max-width: 480px) {
+  .ver-menu { position: fixed; top: 50px; left: 8px; right: 8px; width: auto; }
+}
+#version-menu button { display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; text-align: left; min-height: 0; padding: 5px 10px; gap: 0; }

@@ -15,7 +15,7 @@ const state = {
   scope: "sel", // with verses selected, the panel shows them ("sel") or the whole chapter ("chapter")
   year: null, // the year of what is being read, marked on the timeline
   size: 19,
-  version: "kjv", // "kjv", "cuv", or two of them for side by side ("kjv+cuv"); the first sets the interface language
+  version: "kjv", // one of VERSIONS, or two side by side ("kjv+cuv"); the first sets the interface language
   lang: "en",
 };
 
@@ -40,6 +40,7 @@ const L = {
     aboutBook: (n) => `About ${n}`, introAuthor: "Author", introDate: "Written", introKey: "Key verse", introOutline: "Outline",
     introRange: (a, z, one) => (one ? (a === z ? "v. " : "vv. ") : "Ch. ") + (a === z ? a : `${a}–${z}`),
     introNote: "Authors and dates follow traditional views; scholars differ on some.",
+    readIn: "Read in", sideBy: "Side by side with", sideNone: "None",
     topics: "Topics", topicRefs: (n) => `${n.toLocaleString("en")} references`, topicSee: "See", topicHere: "Cites this verse",
     topicSrc: "From Nave's Topical Bible (1896).", popularTopics: "Popular topics",
     parallels: "Parallel accounts", harmony: "Gospel harmony", allSections: "All sections", compare: "Compare",
@@ -135,6 +136,7 @@ const L = {
     aboutBook: (n) => `关于${n}`, introAuthor: "作者", introDate: "年代", introKey: "钥节", introOutline: "大纲",
     introRange: (a, z, one) => (a === z ? `第${a}` : `${a}–${z}`) + (one ? "节" : "章"),
     introNote: "作者与年代采用传统看法，学者对其中一些看法不一。",
+    readIn: "阅读译本", sideBy: "并排对照", sideNone: "不对照",
     topics: "主题", topicRefs: (n) => `${n} 处经文`, topicSee: "参见", topicHere: "引用了这节经文",
     topicSrc: "取自 Nave's Topical Bible（1896 年）。分项说明为英文原文，部分主题暂无中文名称。", popularTopics: "常见主题",
     parallels: "平行记载", harmony: "四福音合参", allSections: "全部段落", compare: "对照",
@@ -221,7 +223,7 @@ const fmtYear = (y) => t("year", y);
 
 function applyLang() {
   const [first] = state.version.split("+");
-  state.lang = first === "cuv" ? "zh" : "en";
+  state.lang = isZh(first) ? "zh" : "en";
   document.documentElement.lang = zh() ? "zh-CN" : "en";
   document.querySelectorAll("[data-i18n]").forEach((el) => (el.textContent = t(el.dataset.i18n)));
   document.querySelectorAll("[data-i18n-title]").forEach((el) => {
@@ -230,7 +232,7 @@ function applyLang() {
   });
   document.querySelectorAll("[data-i18n-ph]").forEach((el) => (el.placeholder = el.ariaLabel = t(el.dataset.i18nPh)));
   $("credit").innerHTML = t("credit");
-  $("version").value = state.version;
+  $("version-name").textContent = versions().map((v) => VERSIONS[v].short).join(" + ");
 }
 const cache = new Map();
 
@@ -243,6 +245,23 @@ function loadJSON(url) {
   }
   return cache.get(url);
 }
+// The translations, all public domain (see tools/build_versions.py). Chinese ones set the interface to Chinese.
+const VERSIONS = {
+  kjv: { short: "KJV", name: "King James Version", year: 1769, lang: "en" },
+  web: { short: "WEB", name: "World English Bible", year: 2000, lang: "en" },
+  bsb: { short: "BSB", name: "Berean Standard Bible", year: 2022, lang: "en" },
+  asv: { short: "ASV", name: "American Standard Version", year: 1901, lang: "en" },
+  ylt: { short: "YLT", name: "Young's Literal Translation", year: 1898, lang: "en" },
+  darby: { short: "Darby", name: "Darby Bible", year: 1889, lang: "en" },
+  bbe: { short: "BBE", name: "Bible in Basic English", year: 1964, lang: "en" },
+  cuv: { short: "和合本", name: "和合本（简体）", year: 1919, lang: "zh-CN" },
+  cuvt: { short: "和合本繁", name: "和合本（繁體）", year: 1919, lang: "zh-TW" },
+  cuvl: { short: "文理", name: "文理和合本（文言文）", year: 1919, lang: "zh-TW" },
+};
+const isZh = (tr) => VERSIONS[tr]?.lang.startsWith("zh");
+const langOf = (tr) => VERSIONS[tr]?.lang || "en";
+// "kjv", or two different ones side by side ("kjv+cuv").
+const validVersion = (v) => typeof v === "string" && (([a, b, ...rest]) => VERSIONS[a] && (b == null || (VERSIONS[b] && b !== a)) && !rest.length)(v.split("+"));
 const versions = () => state.version.split("+");
 const bookText = (id, tr = versions()[0]) => loadJSON(`data/text/${tr}/${id}.json`);
 const bookXref = (id) => loadJSON(`data/xref/${id}.json`).catch(() => ({}));
@@ -328,7 +347,7 @@ async function renderChapter() {
     const art = $("chapter");
     art.innerHTML = "";
     art.classList.toggle("both", vs.length > 1);
-    art.lang = vs[0] === "cuv" ? "zh-CN" : "en";
+    art.lang = langOf(vs[0]);
     const h = document.createElement("h1");
     h.innerHTML = `<small>${t(state.books.indexOf(b) >= NT_START ? "nt" : "ot")}</small>`;
     h.append(`${bname(b)} ${state.chapter}`);
@@ -338,7 +357,7 @@ async function renderChapter() {
       s.className = "v";
       s.dataset.v = i + 1;
       s.innerHTML = `<sup>${i + 1}</sup>`;
-      s.append(verse + (vs[0] === "cuv" ? "" : " "));
+      s.append(verse + (isZh(vs[0]) ? "" : " "));
       if (vs[1]) s.append(secondLine(texts[1][state.chapter - 1][i], vs[1]));
       p.append(s);
     });
@@ -376,7 +395,7 @@ async function renderChapter() {
 function secondLine(text, tr) {
   const el = document.createElement("span");
   el.className = "v2";
-  el.lang = tr === "cuv" ? "zh-CN" : "en";
+  el.lang = langOf(tr);
   el.textContent = text || "";
   return el;
 }
@@ -490,7 +509,7 @@ async function renderContext() {
   }));
   const vs = versions(), orig = chapter ? {} : await bookStrongs(b.id);
   if (selKey() !== key) return;
-  $("ctx-text").lang = vs[0] === "cuv" ? "zh-CN" : "en";
+  $("ctx-text").lang = langOf(vs[0]);
   if (chapter) {
     const intro = await introCard(b, c);
     if (selKey() !== key) return;
@@ -755,7 +774,7 @@ async function openHarmony(i, from = null) {
     head.append(" ", el("small", "", refs.map((r) => spanNums(refSpan(r))).join(", ")));
     col.append(head);
     const text = el("div", "harmony-text");
-    text.lang = tr === "cuv" ? "zh-CN" : "en";
+    text.lang = langOf(tr);
     for (const ref of refs) {
       const [, c, v, c2, v2] = refSpan(ref), p = el("p");
       for (let ch = c; ch <= c2; ch++) {
@@ -931,7 +950,7 @@ function renderXref(refs, limit) {
     vt.textContent = `${votes} ▲`;
     const xt = document.createElement("div");
     xt.className = "xt loading";
-    xt.lang = versions()[0] === "cuv" ? "zh-CN" : "en";
+    xt.lang = langOf(versions()[0]);
     xt.textContent = "…";
     refText(ref).then((t) => { xt.textContent = t; xt.classList.remove("loading"); }).catch(() => (xt.textContent = ""));
     // For a chapter, the verse each one comes from.
@@ -1704,7 +1723,7 @@ const svgIcon = (paths) => {
 };
 const RATES = [0.8, 1, 1.25, 1.5];
 const listen = { on: false, paused: false, v: 1, at: null, next: false, utter: null };
-const speechLang = () => (versions()[0] === "cuv" ? "zh" : "en");
+const speechLang = () => (isZh(versions()[0]) ? "zh" : "en");
 // The voices for the language, the best first: a remembered choice, then ones marked as higher quality, then the
 // browser's default for that language.
 function listenVoices() {
@@ -2035,7 +2054,7 @@ const WORD_LIST = 200; // verses listed before "Show more"
 // Text as [piece, is a word], words as the browser splits them (the Hebrew and Greek data counts words the same way).
 const segmenters = {};
 function segments(text, tr) {
-  const lang = tr === "cuv" ? "zh" : "en";
+  const lang = isZh(tr) ? "zh" : "en";
   if (!window.Intl?.Segmenter) return text.split(/(\p{L}+(?:['’]\p{L}+)*)/u).map((s, i) => [s, i % 2 === 1]);
   segmenters[lang] ||= new Intl.Segmenter(lang, { granularity: "word" });
   return [...segmenters[lang].segment(text)].map((s) => [s.segment, s.isWordLike]);
@@ -2054,14 +2073,14 @@ function wordSpans(text, tr, tags = null) {
   return frag;
 }
 const wordTest = (word, tr) => {
-  if (tr === "cuv") return (text) => text.includes(word);
+  if (isZh(tr)) return (text) => text.includes(word);
   const re = new RegExp(`(^|[^\\p{L}])${norm(word).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?=$|[^\\p{L}])`, "u");
   return (text) => re.test(norm(text));
 };
 async function openWord(word, tr, book = null, limit = WORD_LIST, orig = null) {
   view.dialog = null; // not shareable
   view.back = null;
-  $("picker-title").textContent = `${tr === "cuv" ? "“" + word + "”" : "“" + word.toLowerCase() + "”"} · ${tr === "cuv" ? "和合本" : "KJV"}`;
+  $("picker-title").textContent = `${isZh(tr) ? "“" + word + "”" : "“" + word.toLowerCase() + "”"} · ${VERSIONS[tr].short}`;
   $("picker-back").hidden = true;
   const body = $("picker-body");
   if (!$("picker").open) { body.replaceChildren(el("p", "note", t("searching"))); $("picker").showModal(); }
@@ -2081,7 +2100,7 @@ async function openWord(word, tr, book = null, limit = WORD_LIST, orig = null) {
   }
   // Chinese words run together, and the browser's split is a guess: offer the shorter words inside this one.
   const seg = (state.wordFrom || "").includes(word) ? state.wordFrom : word;
-  if (tr === "cuv" && seg.length > 1) {
+  if (isZh(tr) && seg.length > 1) {
     const parts = [seg, ...Array.from({ length: seg.length - 1 }, (_, i) => seg.slice(i, i + 2)), ...seg];
     const row = el("div", "word-parts");
     for (const w of [...new Set(parts)]) {
@@ -2122,7 +2141,7 @@ async function openWord(word, tr, book = null, limit = WORD_LIST, orig = null) {
     const li = el("li"), btn = el("button");
     btn.append(el("b", "", `${bname(state.books[bi])} ${c}:${v}`));
     const small = el("small");
-    small.lang = tr === "cuv" ? "zh-CN" : "en";
+    small.lang = langOf(tr);
     small.innerHTML = markWord(text, word, tr);
     btn.append(small);
     btn.onclick = () => { $("picker").close(); go(state.books[bi].id, c, v); };
@@ -2139,7 +2158,7 @@ async function openWord(word, tr, book = null, limit = WORD_LIST, orig = null) {
 // The verse with each use of the word in <mark>.
 function markWord(text, word, tr, escaped = false) {
   const h = escaped ? text : esc(text);
-  if (tr === "cuv") return h.split(esc(word)).join(`<mark>${esc(word)}</mark>`);
+  if (isZh(tr)) return h.split(esc(word)).join(`<mark>${esc(word)}</mark>`);
   const w = esc(word).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   return h.replace(new RegExp(`(^|[^\\p{L}])(${w})(?=$|[^\\p{L}])`, "giu"), "$1<mark>$2</mark>");
 }
@@ -2239,7 +2258,7 @@ async function openStrong(sid, book = null, limit = WORD_LIST, rendering = null,
     btn.append(el("b", "", `${bname(state.books[bi])} ${c}:${v}`));
     if (tr !== "kjv") btn.append(" ", el("span", "rendered", used.join(", ")));
     const small = el("small");
-    small.lang = tr === "cuv" ? "zh-CN" : "en";
+    small.lang = langOf(tr);
     small.innerHTML = tr === "kjv" ? used.reduce((h, u) => markWord(h, u, "kjv", true), esc(text || "")) : esc(text || "");
     btn.append(small);
     btn.onclick = () => { $("picker").close(); go(state.books[bi].id, c, v); };
@@ -2333,14 +2352,14 @@ async function drawCard(theme) {
   // The words, as large as fit between the fade and the footer.
   const lines = vs.map((tr, i) => ({ tr, text: texts[i][c - 1][v - 1] || "", second: i > 0 }));
   const top = 690, bottom = CARD.h - 190, width = CARD.w - 160;
-  const fontFor = (l, size) => `${l.second ? 400 : 400} ${l.second ? Math.round(size * 0.78) : size}px ${l.tr === "cuv" ? '"Noto Serif SC", "Source Serif 4", serif' : '"Source Serif 4", Georgia, serif'}`;
+  const fontFor = (l, size) => `${l.second ? 400 : 400} ${l.second ? Math.round(size * 0.78) : size}px ${isZh(l.tr) ? '"Noto Serif SC", "Source Serif 4", serif' : '"Source Serif 4", Georgia, serif'}`;
   const wrap = (l, size) => {
     g.font = fontFor(l, size);
-    const words = l.tr === "cuv" ? [...l.text] : l.text.split(/(?<= )/), out = [];
+    const words = isZh(l.tr) ? [...l.text] : l.text.split(/(?<= )/), out = [];
     let line = "";
     for (const w of words) {
       // Chinese punctuation that may not start a line stays at the end of the one before.
-      if (line && g.measureText(line + w).width > width && !(l.tr === "cuv" && /^[，。、；：！？）」』”’]/.test(w))) {
+      if (line && g.measureText(line + w).width > width && !(isZh(l.tr) && /^[，。、；：！？）」』”’]/.test(w))) {
         out.push(line.trimEnd()); line = w.trimStart();
       } else line += w;
     }
@@ -2349,7 +2368,7 @@ async function drawCard(theme) {
   };
   let size = 60, laid;
   for (; size >= 26; size -= 2) {
-    laid = lines.map((l) => ({ l, rows: wrap(l, size), lh: (l.second ? 0.78 : 1) * size * (l.tr === "cuv" ? 1.6 : 1.42) }));
+    laid = lines.map((l) => ({ l, rows: wrap(l, size), lh: (l.second ? 0.78 : 1) * size * (isZh(l.tr) ? 1.6 : 1.42) }));
     const hgt = laid.reduce((sum, x) => sum + x.rows.length * x.lh, 0) + (laid.length - 1) * size * 0.6;
     if (hgt <= bottom - top) break;
   }
@@ -2371,7 +2390,7 @@ async function drawCard(theme) {
   g.textAlign = "right";
   g.fillText("bible.daiyip.com", CARD.w - 80, CARD.h - 112);
   g.drawImage(logo, CARD.w - 80 - g.measureText("bible.daiyip.com").width - 52, CARD.h - 146, 40, 40);
-  g.fillText(vs.map((tr) => (tr === "cuv" ? "和合本" : "KJV")).join(" · "), CARD.w - 80, CARD.h - 70);
+  g.fillText(vs.map((tr) => VERSIONS[tr].short).join(" · "), CARD.w - 80, CARD.h - 70);
   return cv;
 }
 
@@ -2706,7 +2725,7 @@ function renderMarks(body) {
     a.href = hashFor(b, c, v);
     a.onclick = () => $("mine").close();
     const xt = el("div", "xt", "…");
-    xt.lang = versions()[0] === "cuv" ? "zh-CN" : "en";
+    xt.lang = langOf(versions()[0]);
     bookText(b).then((tx) => (xt.textContent = tx[c - 1][v - 1])).catch(() => (xt.textContent = ""));
     li.append(a, xt);
     if (m.n) li.append(el("p", "mark-note", m.n));
@@ -2794,7 +2813,7 @@ function paintMarks() {
 const OFFLINE_CACHE = "bible-data"; // shared with sw.js
 function renderOffline(body) {
   if (!("serviceWorker" in navigator) || !window.caches) return;
-  const vs = versions(), names = vs.map((v) => (v === "cuv" ? "和合本" : "KJV")).join(" + ");
+  const vs = versions(), names = vs.map((v) => VERSIONS[v].short).join(" + ");
   const box = el("div", "offline"), note = el("p", "note small", t("offlineNote"));
   const btn = el("button", "pill", t("saveOffline", names, Math.round(3.8 * vs.length + 14)));
   if ((store.get("bible-offline") || []).includes(state.version)) { btn.textContent = t("saved", names); btn.disabled = true; }
@@ -2942,6 +2961,49 @@ function setSize(px) {
   document.documentElement.style.setProperty("--read-size", state.size + "px");
   store.set("bible-size", state.size);
 }
+// Translation: a menu of the versions, by language, each with its full name, and a second one to read beside it.
+function versionMenu(onPick) {
+  const btn = $("version"), menu = $("version-menu");
+  const show = (on) => {
+    menu.hidden = !on;
+    btn.setAttribute("aria-expanded", on);
+    if (on) { render(); menu.querySelector("[aria-checked=true]")?.focus(); }
+  };
+  const pick = (v) => { show(false); if (v !== state.version) onPick(v); };
+  const item = (v, checked, act) => {
+    const b = el("button");
+    b.setAttribute("role", "menuitemradio");
+    b.setAttribute("aria-checked", checked);
+    if (v) {
+      b.lang = langOf(v);
+      b.append(el("b", "", VERSIONS[v].short), el("small", "", `${VERSIONS[v].name} · ${VERSIONS[v].year}`));
+    } else b.append(el("b", "", t("sideNone")));
+    b.onclick = act;
+    return b;
+  };
+  const render = () => {
+    const [a, second] = versions(), out = [el("div", "menu-head", t("readIn"))];
+    for (const [label, zhs] of [["English", false], ["中文", true]]) {
+      out.push(el("div", "menu-group", label));
+      for (const v of Object.keys(VERSIONS).filter((v) => !!isZh(v) === zhs))
+        out.push(item(v, v === a, () => pick(second && second !== v ? `${v}+${second}` : v)));
+    }
+    out.push(el("div", "menu-head", t("sideBy")), item(null, !second, () => pick(a)));
+    for (const v of Object.keys(VERSIONS).filter((v) => v !== a)) out.push(item(v, v === second, () => pick(`${a}+${v}`)));
+    menu.replaceChildren(...out);
+  };
+  btn.onclick = () => show(menu.hidden);
+  document.addEventListener("click", (e) => { if (!e.target.closest(".ver-wrap")) show(false); });
+  menu.addEventListener("keydown", (e) => {
+    const items = [...menu.querySelectorAll("button")], i = items.indexOf(document.activeElement);
+    if (e.key === "Escape") { e.stopPropagation(); show(false); btn.focus(); }
+    else if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault(); e.stopPropagation();
+      items[(i + (e.key === "ArrowDown" ? 1 : items.length - 1)) % items.length].focus();
+    }
+  });
+}
+
 // Text size: one menu of named sizes, each shown at its own size.
 const SIZES = [15, 17, 19, 22, 25, 28];
 function nearestSize(px) {
@@ -3036,12 +3098,12 @@ async function init() {
   setSize(store.get("bible-size") || 19);
   // The translation: remembered, or 和合本 for a browser set to Chinese.
   const v = store.get("bible-version");
-  state.version = ["kjv", "cuv", "kjv+cuv", "cuv+kjv"].includes(v) ? v : /^zh\b/i.test(navigator.language) ? "cuv" : "kjv";
+  state.version = validVersion(v) ? v : /^zh\b/i.test(navigator.language) ? "cuv" : "kjv";
   const shared = sharedView();
-  if (shared && ["kjv", "cuv", "kjv+cuv", "cuv+kjv"].includes(shared.v)) state.version = shared.v; // for this visit only
+  if (shared && validVersion(shared.v)) state.version = shared.v; // for this visit only
   applyLang();
-  $("version").onchange = () => {
-    state.version = $("version").value;
+  versionMenu((v) => {
+    state.version = v;
     store.set("bible-version", state.version);
     applyLang();
     fillTourList($("ctx-tours")).catch((e) => console.error(e));
@@ -3049,7 +3111,7 @@ async function init() {
     if ($("mine").open) renderMine();
     $("tour-play").textContent = play.on ? t("pause") : t("play");
     route();
-  };
+  });
   if (TABS.includes(store.get("bible-tab"))) state.tab = store.get("bible-tab");
   if (TABS.includes(shared?.tab)) state.tab = shared.tab;
   // Chapter context: remembered on a computer, and opened by a link to it.

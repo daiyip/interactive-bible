@@ -83,9 +83,12 @@ open them too.
 **Search** (the magnifier, or `/`) finds references ("John 3:16", "约翰福音 3"), books, people, places, events, tours
 and words in the text.
 
-**Translations**: the switch in the top bar picks the King James Version, 和合本 (the Chinese Union Version, in
-simplified characters), or both side by side, verse by verse. With 和合本 first, the whole app is in Chinese: book
-names, people, places, events, tours and the atlas map.
+**Translations**: the translation button in the top bar opens a menu of ten public-domain translations, each with
+its full name and year. English: King James Version (1769), World English Bible, Berean Standard Bible, American
+Standard Version (1901), Young's Literal Translation, Darby (1889) and the Bible in Basic English. 中文: 和合本 in
+simplified or traditional characters, and the classical 文理和合本. **Side by side with** adds a second translation
+under each verse. With a Chinese translation first, the whole app is in Chinese: book names, people, places, events,
+tours and the atlas map. The Hebrew and Greek words follow the KJV's wording, whatever you read.
 
 **Timeline** (in the dock): a card above the dock that runs through the eras of the Bible, from the beginnings in Genesis to the
 early church, and marks the year of the chapter or verse being read. Each era opens a card with its dates, a summary,
@@ -194,7 +197,7 @@ To rebuild, run `tools/fetch_sources.sh` to download the sources into `tools/src
 `python3 tools/build_data.py` for `data/` and `python3 tools/build_atlas.py` for the pack's events and places.
 `python3 tools/build_kings.py` rebuilds the kings (checking every account against the KJV), and
 `python3 tools/build_names.py && python3 tools/build_lands.py` rebuild the place names and the land of Canaan from
-`data/`. `python3 tools/build_harmony.py` rebuilds the Gospel harmony from `tools/harmony.txt`, checking every reference against the KJV. `python3 tools/build_topics.py` rebuilds the topics (Chinese names for the main ones are in `tools/topics_zh.json`). `python3 tools/build_strongs.py` rebuilds the Hebrew and Greek words, matching MetaV's tagged words to the
+`data/`. `python3 tools/build_versions.py` rebuilds the other translations on the KJV's verse numbers. `python3 tools/build_harmony.py` rebuilds the Gospel harmony from `tools/harmony.txt`, checking every reference against the KJV. `python3 tools/build_topics.py` rebuilds the topics (Chinese names for the main ones are in `tools/topics_zh.json`). `python3 tools/build_strongs.py` rebuilds the Hebrew and Greek words, matching MetaV's tagged words to the
 KJV text (99.9% match).
 
 ## Translation
@@ -205,8 +208,9 @@ folder per translation (`data/text/<translation>/`), so adding one does not chan
 
 ## Sources and licences
 
-- **King James Version (1769)** and **和合本**: public domain, via
-  [scrollmapper/bible_databases](https://github.com/scrollmapper/bible_databases).
+- **King James Version (1769)**, **和合本**, **文理和合本**, **BSB**, **ASV**, **YLT**, **Darby** and **BBE**: public
+  domain, via [scrollmapper/bible_databases](https://github.com/scrollmapper/bible_databases).
+- **World English Bible**: public domain, via [TehShrike/world-english-bible](https://github.com/TehShrike/world-english-bible).
 - **Cross-references** from [OpenBible.info](https://www.openbible.info/labs/cross-references/): CC BY.
 - **People, places and events** from [Theographic Bible Metadata](https://github.com/robertrouse/theographic-bible-metadata):
   CC BY-SA 4.0. Biographies are the opening of each person's entry in Easton's Bible Dictionary (1897, public domain). The `atlas/` pack is shared under CC BY-SA 4.0 too.
