@@ -37,7 +37,8 @@ moves between them and their chapter. On a computer the panel keeps showing the 
 **Listen** in the dock is a switch: on, it reads the chapter aloud in the device's own voice, one verse at a time from the
 selected verse (or the first), lighting the verse it reads and keeping it in view, then carries on into the next
 chapter. It reads the first translation shown, in English or Chinese. While it is on, a player above the dock pauses, steps a verse
-back or forward, changes the speed (0.8× to 1.5×) and, on wider screens, the voice; speed and voice are remembered.
+back or forward, changes the speed (0.8× to 1.5×) and picks the voice from those the device has for the language (each with its
+region, higher-quality ones marked HD); speed and voice are remembered.
 Turning Listen off, or moving to another chapter by hand, stops it. It needs no connection when the device's voices are installed.
 
 **Tours** walk through a journey one step at a time, with no verse to pick first: Abraham, Joseph, the Exodus,
