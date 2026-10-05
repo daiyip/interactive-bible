@@ -35,7 +35,8 @@ const L = {
     rel: { father: "Father", mother: "Mother", partners: "Married to", children: "Children", siblings: "Brothers and sisters" },
     childOf: (g, n) => `${g === "F" ? "Daughter" : "Son"} of ${n}`, partnerOf: (g, n) => `${g === "F" ? "Wife" : "Husband"} of ${n}`,
     firstIn: (r) => `First named in ${r}`, allPeople: "‹ People in this verse", bioSrc: "Easton’s Bible Dictionary",
-    family: "Family", namedIn: "Named in", tree: "Family tree", treeTitle: (n) => `Family tree · ${n}`, kingsTitle: "Kings of Israel and Judah", kingsBtn: "Kings of Israel and Judah ›", kingsShort: "Kings chart", israel: "Israel (north)", judah: "Judah (south)",
+    family: "Family", namedIn: "Named in", tree: "Family tree", treeTitle: (n) => `Family tree · ${n}`, share: "Share this view", copied: "Link copied", shareTitle: (r) => `${r} · Interactive Bible`,
+    kingsTitle: "Kings of Israel and Judah", kingsBtn: "Kings of Israel and Judah ›", kingsShort: "Kings chart", israel: "Israel (north)", judah: "Judah (south)",
     united: "the united kingdom", kingOf: (k) => `King of ${k}`, prophetTo: (k) => `Prophet to ${k}`, nYears: (n) => `${n} ${n === 1 ? "year" : "years"}`,
     kingGood: "Did right", kingEvil: "Did evil", kingNone: "No verdict", prophets: "Prophets", readRef: (r) => `Read ${r}`,
     verdictGood: "“He did that which was right in the sight of the LORD.”", verdictEvil: "“He did evil in the sight of the LORD.”",
@@ -97,7 +98,8 @@ const L = {
     rel: { father: "父亲", mother: "母亲", partners: "配偶", children: "儿女", siblings: "兄弟姐妹" },
     childOf: (g, n) => `${n}的${g === "F" ? "女儿" : "儿子"}`, partnerOf: (g, n) => `${n}的${g === "F" ? "妻子" : "丈夫"}`,
     firstIn: (r) => `首次出现于${r}`, allPeople: "‹ 本节的人物", bioSrc: "Easton 圣经辞典（英文）",
-    family: "家人", namedIn: "出现的经文", tree: "家谱", treeTitle: (n) => `家谱 · ${n}`, kingsTitle: "以色列和犹大的君王", kingsBtn: "以色列和犹大的君王 ›", kingsShort: "君王图", israel: "以色列（北国）", judah: "犹大（南国）",
+    family: "家人", namedIn: "出现的经文", tree: "家谱", treeTitle: (n) => `家谱 · ${n}`, share: "分享当前视图", copied: "链接已复制", shareTitle: (r) => `${r} · 互动圣经`,
+    kingsTitle: "以色列和犹大的君王", kingsBtn: "以色列和犹大的君王 ›", kingsShort: "君王图", israel: "以色列（北国）", judah: "犹大（南国）",
     united: "统一王国", kingOf: (k) => `${k}的王`, prophetTo: (k) => `向${k}说话的先知`, nYears: (n) => `${n} 年`,
     kingGood: "行耶和华眼中看为正的事", kingEvil: "行耶和华眼中看为恶的事", kingNone: "未作评价", prophets: "先知", readRef: (r) => `阅读${r}`,
     verdictGood: "“他行耶和华眼中看为正的事。”", verdictEvil: "“他行耶和华眼中看为恶的事。”", verdictNone: "列王纪未对这位君王作出评价。",
@@ -772,6 +774,7 @@ function treeItem(label, kids, open, title, extra = []) {
 const TREE_UP = 2;
 async function showTree(i) {
   const people = await loadPeople(), p = people[i];
+  view.dialog = `tree:${i}`;
   const el = make, parent = (j) => people[j][P.FATHER] ?? people[j][P.MOTHER];
   $("picker-title").textContent = t("treeTitle", pname(p));
   $("picker-back").hidden = true;
@@ -840,6 +843,7 @@ async function landAt(book, c, v) {
 async function showLand(focus = "canaan", pick = null) {
   const [land, places, names, base] = await Promise.all([
     loadJSON("data/lands.json"), loadJSON("data/places.json"), loadNames(), loadJSON("data/basemap.json")]);
+  view.dialog = `land:${focus}${pick != null ? ":" + pick : ""}`;
   const nm = (n) => (zh() && n.zh) || n.name, pn = (i) => (zh() && places[i][5]) || places[i][1];
   const pt = (i) => { const [id, , lon, lat, kind] = places[i]; return [id, pn(i), lon, lat, kind]; };
   const byId = new Map(), up = new Map();
@@ -936,7 +940,9 @@ async function showKings(pickName = null) {
   body.append(...Object.values(lanes));
   let height = 0;
   const card = make("div", "king-card");
+  view.dialog = "kings";
   const select = (row, btn) => {
+    view.dialog = `kings:${row[0]}${row[1]}`;
     chart.querySelectorAll(".me").forEach((x) => x.classList.remove("me"));
     btn.classList.add("me");
     fillKingCard(card, row, row.length === 9);
@@ -1190,6 +1196,7 @@ async function fillTourList(list) {
   }));
 }
 function showTours() {
+  view.dialog = null; // not shareable
   $("picker-title").textContent = t("tours");
   $("picker-back").hidden = true;
   const list = document.createElement("div");
@@ -1269,6 +1276,7 @@ function lightVerses() {
 // --- Book and chapter picker -------------------------------------------------
 
 function showBooks() {
+  view.dialog = null; // not shareable
   $("picker-title").textContent = t("books");
   $("picker-back").hidden = true;
   const body = $("picker-body");
@@ -1290,6 +1298,7 @@ function showBooks() {
   }
 }
 function showChapters(b) {
+  view.dialog = null; // not shareable
   $("picker-title").textContent = bname(b);
   $("picker-back").hidden = false;
   const grid = document.createElement("div");
@@ -1447,6 +1456,7 @@ const wordTest = (word, tr) => {
   return (text) => re.test(norm(text));
 };
 async function openWord(word, tr, book = null, limit = WORD_LIST) {
+  view.dialog = null; // not shareable
   $("picker-title").textContent = `${tr === "cuv" ? "“" + word + "”" : "“" + word.toLowerCase() + "”"} · ${tr === "cuv" ? "和合本" : "KJV"}`;
   $("picker-back").hidden = true;
   const body = $("picker-body");
@@ -1646,6 +1656,7 @@ async function drawCard(theme) {
 
 async function openCard(theme = store.get("bible-card-theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")) {
   const b = state.byId[state.book], ref = `${bname(b)} ${state.chapter}:${state.verse}`;
+  view.dialog = null; // not shareable
   $("picker-title").textContent = t("cardTitle");
   $("picker-back").hidden = true;
   const body = $("picker-body");
@@ -1728,6 +1739,7 @@ async function renderTimeline() {
 
 async function showEra(i) {
   const eras = await loadEras(), e = eras[i];
+  view.dialog = `era:${i}`;
   $("picker-title").textContent = eraName(e);
   $("picker-back").hidden = true;
   const body = $("picker-body");
@@ -2096,8 +2108,8 @@ function route() {
   Object.assign(state, r);
   store.set("bible-pos", [r.book, r.chapter, r.verse].filter((x) => x != null).join("."));
   renderTour();
-  renderChapter().then(renderContext).catch(showError);
   renderTimeline().catch((e) => console.error(e));
+  return renderChapter().then(renderContext).catch(showError);
 }
 function showError(e) {
   console.error(e);
@@ -2141,6 +2153,57 @@ function step(dir) {
   if (n) location.hash = hashFor(n.book, n.chapter);
 }
 
+// --- Sharing ------------------------------------------------------------------------
+
+// The open dialog, for share links: "tree:57", "land:judah:123", "kings:JAsa", "era:4". Set by the dialogs that can be
+// shared, and cleared when the dialog closes.
+const view = { dialog: null };
+
+// A link to what is on screen: the passage in the hash as always, and the rest in the query: v translation, tab,
+// p person, s sheet size (phones), tour "id.step", d dialog. Opening it restores all of that once, then drops the query.
+function shareURL() {
+  const q = new URLSearchParams({ v: state.version });
+  if (state.verse != null || state.tour) q.set("tab", state.tab);
+  if (state.tab === "people" && state.person != null) q.set("p", state.person);
+  if (phone() && state.verse != null && sheet.size !== "half") q.set("s", sheet.size);
+  if (state.tour) q.set("tour", `${state.tour.tr.id}.${state.tour.i}`);
+  if (view.dialog && $("picker").open) q.set("d", view.dialog);
+  return `${location.origin}${location.pathname}?${q}${hashFor(state.book, state.chapter, state.verse, state.to)}`;
+}
+
+async function share() {
+  const url = shareURL(), b = state.byId[state.book];
+  const title = t("shareTitle", `${bname(b)} ${state.chapter}${state.verse ? ":" + state.verse + (state.to ? "–" + state.to : "") : ""}`);
+  if (navigator.share && phone()) return navigator.share({ title, url }).catch(() => {});
+  try { await navigator.clipboard.writeText(url); } catch { prompt(t("share"), url); return; }
+  toast(t("copied"));
+}
+
+function toast(text) {
+  const el = make("div", "toast", text);
+  document.body.append(el);
+  if ($("picker").open) $("picker").append(el); // above the modal dialog
+  setTimeout(() => el.remove(), 1800);
+}
+
+// What a share link asks for, read before the first render (translation, tab, person, tour) and after it (sheet, dialog).
+function sharedView() {
+  const q = new URLSearchParams(location.search);
+  if (!q.has("v")) return null;
+  history.replaceState(null, "", location.pathname + location.hash);
+  return {
+    v: q.get("v"), tab: q.get("tab"), p: q.has("p") ? +q.get("p") : null, s: q.get("s"), tour: q.get("tour"), d: q.get("d"),
+  };
+}
+
+async function openShared(d) {
+  const [kind, a, b] = (d || "").split(":");
+  if (kind === "tree" && a) return showTree(+a);
+  if (kind === "land") return showLand(a || "canaan", b ? +b : null);
+  if (kind === "kings") return showKings(a || null);
+  if (kind === "era" && a) return showEra(+a);
+}
+
 async function init() {
   // iOS Safari ignores user-scalable=no in the viewport tag; its own gesture events still let a page refuse pinch zoom.
   for (const g of ["gesturestart", "gesturechange"]) document.addEventListener(g, (e) => e.preventDefault(), { passive: false });
@@ -2150,6 +2213,8 @@ async function init() {
   // The translation: remembered, or 和合本 for a browser set to Chinese.
   const v = store.get("bible-version");
   state.version = ["kjv", "cuv", "kjv+cuv", "cuv+kjv"].includes(v) ? v : /^zh\b/i.test(navigator.language) ? "cuv" : "kjv";
+  const shared = sharedView();
+  if (shared && ["kjv", "cuv", "kjv+cuv", "cuv+kjv"].includes(shared.v)) state.version = shared.v; // for this visit only
   applyLang();
   $("version").onchange = () => {
     state.version = $("version").value;
@@ -2162,6 +2227,8 @@ async function init() {
     route();
   };
   if (TABS.includes(store.get("bible-tab"))) state.tab = store.get("bible-tab");
+  if (TABS.includes(shared?.tab)) state.tab = shared.tab;
+  if (shared?.p != null) state.person = shared.p;
 
   $("chapter").addEventListener("click", (e) => {
     const el = e.target.closest(".v");
@@ -2250,7 +2317,15 @@ async function init() {
     if (tr && tr.steps[saved[1]]) state.tour = { tr, i: saved[1] };
   }
   addEventListener("hashchange", route);
-  route();
+  $("share-btn").onclick = $("picker-share").onclick = share;
+  $("picker").addEventListener("close", () => (view.dialog = null));
+  if (shared?.tour) {
+    const [id, i] = shared.tour.split("."), tr = (await loadTours().catch(() => [])).find((x) => x.id === id);
+    if (tr && tr.steps[+i]) return startTour(id, +i);
+  }
+  await route();
+  if (shared?.s && phone() && state.verse != null) setSheet(shared.s);
+  if (shared?.d) openShared(shared.d).catch((e) => console.error(e));
   // Works offline once loaded (sw.js), and can be installed from the browser's menu.
   if ("serviceWorker" in navigator && location.protocol !== "file:") navigator.serviceWorker.register("sw.js").catch((e) => console.error(e));
 }

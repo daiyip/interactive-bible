@@ -58,6 +58,12 @@ early church, and marks the year of the chapter or verse being read. Each era op
 the chapters set in it (book by book), its events, and a link to that time on the atlas map. The eras are the atlas
 pack's (`atlas/eras.json`), shown at equal widths so the short ones can be tapped.
 
+**Share** (the arrow in the top bar, and in every dialog) gives a link to exactly what is on screen: the passage and
+selected verses, the translation, the open tab, the person whose card is open, the sheet's size on phones, a running
+tour, and an open family tree, land of Canaan, kings chart or era. On a phone it opens the share sheet; elsewhere it
+copies the link. Opening the link restores that view once (the translation only for that visit), then the address
+goes back to the plain passage.
+
 **Kings of Israel and Judah** opens from the eras of the kings and from any king's or prophet's card: Saul to Zedekiah
 with the two kingdoms side by side and time running down, each reign as long as its years (Thiele's dates), coloured by
 the verdict the book of Kings gives, with the prophets of each kingdom beside it and the division, the fall of Samaria
