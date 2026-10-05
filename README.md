@@ -11,8 +11,8 @@
 
 A Bible reader with the context of every verse beside it. The text is on the left. Selecting a verse opens a panel
 on the right with four tabs. Tapping another verse grows the selection to reach it, and the tabs then cover every
-verse in it. Tapping a selected verse lets go of it (one in the middle takes the verses after it along, since a
-selection has no gaps), and × closes the panel. On a phone the panel is a sheet over the bottom of the text: drag or tap
+verse in it. Tapping any selected verse clears the whole selection, as do a tap on the page outside the verses,
+the panel's ×, and Esc. On a phone the panel is a sheet over the bottom of the text: drag or tap
 its handle to make it taller or shorter, and scrolling the text lowers it to a strip so the verses stay in reach.
 
 - **Cross-references**: the verses most often linked to this one, strongest first, as a list or as a web: the verse
@@ -114,13 +114,16 @@ the verdict the book of Kings gives, with the prophets of each kingdom beside it
 and the fall of Jerusalem across both. Tapping a king shows his years and verdict, links to his account in Kings and
 Chronicles, and his family tree. Opened while reading a king's account, it starts at him.
 
-**My reading** (in the dock) holds four things, all kept in the browser with nothing sent anywhere:
+**My reading** (in the dock) holds these, all kept in the browser with nothing sent anywhere:
 
 - **Plan**: the Bible in a year, Genesis to Revelation in 365 days of whole chapters, each day about the same
   length. It shows today's chapters, how far along you are, and what to catch up on. A chapter counts as read once
   you reach its end, or tick it off by hand. Today's reading also sits in the empty context panel.
+- **Streak**: at the top of Plan, how many days in a row you have read, your best run, and a calendar of the last
+  17 weeks, darker for days with more chapters. A day counts once you reach the end of a chapter that has been open
+  for 20 seconds, or finish practising a memory passage; plan or no plan.
 - **Highlights**: the verses you have coloured (yellow, green, blue or pink) or written a note on, in Bible order.
-  Colour a verse or add a note under its text in the context panel. **Export** saves the plan, highlights and notes
+  Colour a verse or add a note under its text in the context panel. **Export** saves the plan, streak, highlights and notes
   to a file; **Import** merges one back, for moving to another browser.
 - **Memory**: passages to learn by heart. **Memorize** under a verse's text adds it (or the selected verses, as one
   passage). Practise by typing: the first letter of each word is enough, whole words work too (in Chinese, each
