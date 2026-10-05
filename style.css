@@ -5,6 +5,7 @@
   --water: #7d9cc4;
   --bg: #f5f4f0;
   --panel: #fefefc;
+  --dock: #ffffff;
   --ink: #1f2024;
   --muted: #686a70;
   --line: #e2e1dc;
@@ -17,14 +18,14 @@
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #151618; --panel: #1c1d21; --ink: #e9e7e2; --muted: #9c9a94; --line: #32343a;
+    --bg: #151618; --panel: #1c1d21; --dock: #2a2d35; --ink: #e9e7e2; --muted: #9c9a94; --line: #32343a;
     --accent: #9fb6e2; --accent-soft: #252b38; --sel: #4a4120; --shadow: 0 8px 24px rgba(0, 0, 0, .4);
     --sea: #1a2230; --land: #2a2925; --coast: #4a4740; --water: #5a7aa6;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #151618; --panel: #1c1d21; --ink: #e9e7e2; --muted: #9c9a94; --line: #32343a;
+  --bg: #151618; --panel: #1c1d21; --dock: #2a2d35; --ink: #e9e7e2; --muted: #9c9a94; --line: #32343a;
   --accent: #9fb6e2; --accent-soft: #252b38; --sel: #4a4120; --shadow: 0 8px 24px rgba(0, 0, 0, .4);
   --sea: #1a2230; --land: #2a2925; --coast: #4a4740; --water: #5a7aa6;
   color-scheme: dark;
@@ -275,17 +276,21 @@ body:not(.playing) .tour-bar { visibility: hidden; }
 /* The dock: a floating row of buttons at the bottom of the reader, and the timeline card it opens */
 .dock-wrap { position: sticky; bottom: 14px; z-index: 4; max-width: 680px; margin: 24px auto 0; display: grid; justify-items: center; gap: 8px; pointer-events: none; }
 .dock-wrap > * { pointer-events: auto; }
-/* With the timeline open, the text behind the card and the dock is frosted, so they stand out from it */
-.dock-wrap:has(.timeline-card:not([hidden]))::before {
+/* The text behind the dock (and the timeline card, when open) is frosted, so they stand out from it */
+.dock-wrap::before {
   content: ""; position: absolute; z-index: -1; left: 50%; width: calc(100cqw + 32px); transform: translateX(-50%); top: -28px; bottom: -14px;
   background: color-mix(in srgb, var(--bg) 55%, transparent); -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);
   -webkit-mask-image: linear-gradient(transparent, #000 28px); mask-image: linear-gradient(transparent, #000 28px);
 }
-.dock { display: flex; gap: 2px; padding: 4px; background: var(--panel); border: 1px solid var(--line); border-radius: 999px; box-shadow: var(--shadow); }
-.dock button { display: flex; align-items: center; gap: 6px; border: 0; background: none; border-radius: 999px; padding: 7px 14px; color: var(--muted); font-size: 14px; font-weight: 500; white-space: nowrap; }
+.dock {
+  display: flex; gap: 2px; padding: 4px; background: var(--dock); border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--line));
+  border-radius: 999px; box-shadow: var(--shadow), 0 0 0 4px color-mix(in srgb, var(--bg) 70%, transparent);
+}
+.dock button { display: flex; align-items: center; gap: 6px; border: 0; background: none; border-radius: 999px; padding: 7px 14px; color: var(--ink); font-size: 14px; font-weight: 500; white-space: nowrap; }
+.dock button svg { color: var(--accent); }
 .dock button:hover { color: var(--accent); background: var(--accent-soft); }
-.dock button[aria-pressed="true"] { color: var(--accent); background: var(--accent-soft); }
-.timeline-card { width: 100%; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 8px 10px 6px; }
+.dock button[aria-pressed="true"] { color: var(--accent); background: color-mix(in srgb, var(--accent) 18%, var(--dock)); }
+.timeline-card { width: 100%; background: var(--dock); border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--line)); border-radius: 12px; box-shadow: var(--shadow); padding: 8px 10px 6px; }
 .timeline-card[hidden] { display: none; }
 .timeline-card { container-type: inline-size; }
 .tl-now { display: block; border: 0; background: none; padding: 0 2px 6px; font-size: 14px; color: var(--ink); text-align: left; }
