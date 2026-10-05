@@ -102,7 +102,19 @@ const L = {
     play: "▶ Play", pause: "❚❚ Pause", playTitle: "Play the tour: steps move on by themselves and the map traces the route",
     card: "Card", cardTip: "A picture of this verse over a map of its places, to share", cardTitle: "Verse card",
     light: "Light", dark: "Dark", share: "Share…", download: "Download",
-    mine: "My reading", plan: "Plan", marks: "Highlights", readingPlan: "Reading plan",
+    mine: "My reading", plan: "Plan", marks: "Highlights", memory: "Memory",
+    memorize: "Memorize", memorizing: "✓ Memorizing", memorizeTip: "Add to your memory verses, to practise in My reading",
+    noMemory: "No memory verses yet. Tap a verse (or select a few), then Memorize.",
+    nMemory: (n, due) => `${n} ${n === 1 ? "passage" : "passages"} · ${due ? `${due} due today` : "none due today"}`,
+    practise: (n) => `Practise ${n}`, practiseAll: "Practise all", memDue: (n) => `${n} memory ${n === 1 ? "verse" : "verses"} to practise`,
+    memPassages: (n) => (n === 1 ? "passage" : "passages"), memDueToday: "due today", memBack: "Back to the list",
+    memDoneN: (n) => `${n} ${n === 1 ? "passage" : "passages"} practised.`,
+    memMode: { dim: "Dimmed", some: "Some hidden", blank: "Blank" }, memHint: "Hint", memRestart: "Start over",
+    memType: "Type the first letter of each word", memTypeZh: "逐字输入",
+    memScore: (r, n, s, h) => `${r} of ${n} words first time` + (s ? ` · ${s} ${s === 1 ? "slip" : "slips"}` : "") + (h ? ` · ${h} ${h === 1 ? "hint" : "hints"}` : ""),
+    again: "Again", gotIt: "Got it", memNext: (d) => d <= 1 ? "again tomorrow" : `again in ${d} days`,
+    memDone: "All done for today.", memLeft: (n) => `${n} left`, memRemove: "Remove", memBox: (n) => `Box ${n} of 6`,
+    memNew: "New", memToday: "Due today", memOn: (d) => `Due ${d}`, readingPlan: "Reading plan",
     planStart: "Read the Bible in a year", planPitch: "A few chapters a day, Genesis to Revelation in 365 days. Your progress stays in this browser.",
     planStartToday: "Start today", today: "Today", dayOf: (d, n) => `Day ${d} of ${n}`,
     chaptersRead: (a, n) => `${a.toLocaleString("en")} of ${n.toLocaleString("en")} chapters read`,
@@ -200,7 +212,19 @@ const L = {
     play: "▶ 播放", pause: "❚❚ 暂停", playTitle: "自动播放导览：逐站前进，地图描绘路线",
     card: "卡片", cardTip: "把这节经文配上地图做成图片分享", cardTitle: "经文卡片",
     light: "浅色", dark: "深色", share: "分享…", download: "下载",
-    mine: "我的读经", plan: "计划", marks: "标记", readingPlan: "读经计划",
+    mine: "我的读经", plan: "计划", marks: "标记", memory: "背诵",
+    memorize: "背诵", memorizing: "✓ 背诵中", memorizeTip: "加入背诵经文，在“我的读经”里练习",
+    noMemory: "还没有背诵经文。点选一节经文（或选几节），再点“背诵”。",
+    nMemory: (n, due) => `${n} 段 · ${due ? `今天要复习 ${due} 段` : "今天没有要复习的"}`,
+    practise: (n) => `练习 ${n} 段`, practiseAll: "全部练习", memDue: (n) => `${n} 段背诵经文要复习`,
+    memPassages: () => "段经文", memDueToday: "今天要复习", memBack: "回到列表",
+    memDoneN: (n) => `练习了 ${n} 段。`,
+    memMode: { dim: "淡显", some: "部分遮盖", blank: "空白" }, memHint: "提示", memRestart: "重来",
+    memType: "输入每个词的首字母", memTypeZh: "逐字输入",
+    memScore: (r, n, s, h) => `${n} 字中一次答对 ${r} 字` + (s ? ` · 错 ${s} 次` : "") + (h ? ` · 提示 ${h} 次` : ""),
+    again: "再来", gotIt: "背出了", memNext: (d) => d <= 1 ? "明天再复习" : `${d} 天后再复习`,
+    memDone: "今天都完成了。", memLeft: (n) => `还有 ${n} 段`, memRemove: "移除", memBox: (n) => `第 ${n} 级，共 6 级`,
+    memNew: "新加", memToday: "今天复习", memOn: (d) => `${d} 复习`, readingPlan: "读经计划",
     planStart: "一年读完圣经", planPitch: "每天几章，365 天从创世记读到启示录。进度保存在这个浏览器里。",
     planStartToday: "今天开始", today: "今天", dayOf: (d, n) => `第 ${d} 天，共 ${n} 天`,
     chaptersRead: (a, n) => `已读 ${a} / ${n} 章`,
@@ -2636,7 +2660,8 @@ async function showEra(i) {
 
 // --- My reading: a Bible-in-a-year plan, highlights and notes -----------------------------------------
 // Kept in this browser only (localStorage): "bible-plan" {start: "YYYY-MM-DD"}, "bible-read" ["Gen.1", ...],
-// "bible-marks" {"John.3.16": {c: colour, n: note, t: time}}. Export and import move them to another browser.
+// "bible-marks" {"John.3.16": {c: colour, n: note, t: time}}, "bible-memory" {"Rom.8.28-30": {box, due, t}}. Export and
+// import move them to another browser.
 
 const PLAN_DAYS = 365;
 const COLORS = ["y", "g", "b", "p"]; // highlight colours: yellow, green, blue, pink
@@ -2644,10 +2669,12 @@ const mine = {
   plan: store.get("bible-plan"),
   read: new Set(store.get("bible-read") || []),
   marks: store.get("bible-marks") || {},
+  memory: store.get("bible-memory") || {},
   tab: "plan",
 };
 const saveRead = () => store.set("bible-read", [...mine.read]);
 const saveMarks = () => store.set("bible-marks", mine.marks);
+const saveMemory = () => store.set("bible-memory", mine.memory);
 
 // The whole Bible in 365 days of whole chapters, each day about the same number of verses.
 let planDays = null;
@@ -2708,10 +2735,18 @@ function renderTodayHint() {
     btn.onclick = () => go(...next.split("."));
   }
   box.append(btn);
+  const due = memDue().length;
+  if (due) {
+    const m = el("button", "tour-item today");
+    m.append(el("b", "", t("memDue", due)), el("span", "", t("memory")));
+    m.onclick = () => { openMine("memory"); startPractice(memDue()); };
+    box.append(m);
+  }
 }
 
 function openMine(tab) {
   if (tab) mine.tab = tab;
+  memo.queue = null;
   renderMine();
   $("mine").showModal();
 }
@@ -2719,7 +2754,8 @@ function renderMine() {
   document.querySelectorAll("#mine .seg button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.mine === mine.tab));
   const body = $("mine-body");
   body.replaceChildren();
-  (mine.tab === "plan" ? renderPlan : renderMarks)(body);
+  if (mine.tab === "memory" && memo.queue) { renderPractice(body); return; }
+  ({ plan: renderPlan, marks: renderMarks, memory: renderMemory })[mine.tab](body);
   renderOffline(body);
 }
 const el = (tag, cls, text) => Object.assign(document.createElement(tag), cls ? { className: cls } : {}, text != null ? { textContent: text } : {});
@@ -2817,7 +2853,7 @@ function renderMarks(body) {
   }
 }
 function exportMine() {
-  const data = { app: "bible.daiyip.com", version: 1, plan: mine.plan, read: [...mine.read], marks: mine.marks };
+  const data = { app: "bible.daiyip.com", version: 1, plan: mine.plan, read: [...mine.read], marks: mine.marks, memory: mine.memory };
   const a = el("a");
   a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 1)], { type: "application/json" }));
   a.download = `bible-${today()}.json`;
@@ -2834,9 +2870,10 @@ function importMine() {
       if (data.app !== "bible.daiyip.com") throw new Error("not a backup from this site");
       // Merge: the backup adds to what is here; a verse in both keeps the backup's highlight and note.
       Object.assign(mine.marks, data.marks || {});
+      Object.assign(mine.memory, data.memory || {});
       for (const c of data.read || []) mine.read.add(c);
       if (data.plan && !mine.plan) mine.plan = data.plan;
-      saveMarks(); saveRead(); store.set("bible-plan", mine.plan);
+      saveMarks(); saveMemory(); saveRead(); store.set("bible-plan", mine.plan);
       rendered = ""; route(); renderMine(); renderTodayHint();
     } catch (e) { alert(t("importFailed") + " " + e.message); }
   };
@@ -2862,7 +2899,17 @@ function renderMarkTools(keys = markKeys) {
   const card = el("button", "pill small-pill", t("card"));
   card.title = t("cardTip");
   card.onclick = () => openCard().catch(showError);
-  row.append(note, card);
+  // The selection as one passage to learn ("Rom.8.28-30").
+  const [b, c, v] = keys[0].split("."), z = keys.at(-1).split(".")[2], memKey = `${b}.${c}.${v}` + (z !== v ? `-${z}` : "");
+  const mem = el("button", "pill small-pill", mine.memory[memKey] ? t("memorizing") : t("memorize"));
+  mem.title = t("memorizeTip");
+  mem.setAttribute("aria-pressed", !!mine.memory[memKey]);
+  mem.onclick = () => {
+    if (mine.memory[memKey]) delete mine.memory[memKey];
+    else mine.memory[memKey] = { box: 0, due: today(), t: Date.now() };
+    saveMemory(); renderMarkTools(); renderTodayHint();
+  };
+  row.append(note, mem, card);
   box.append(row);
   const area = el("textarea", "note-box");
   area.placeholder = t("notePh");
@@ -2889,6 +2936,231 @@ function paintMarks() {
     if (m?.c) v.classList.add("hl-" + m.c);
     if (m?.n) v.classList.add("noted");
   });
+}
+
+// --- Memory verses ------------------------------------------------------------------------------------
+// Passages to learn by heart, practised by typing them (see renderPractice). Spaced like a Leitner box: "Got it" moves a passage up a box and waits longer before it comes back (1, 2,
+// 4, 8, 16, then every 32 days); "Again" sends it back to the first box, to come round once more today.
+
+const MEM_DAYS = [1, 2, 4, 8, 16, 32];
+const memo = { queue: null, total: 0 };
+const memDue = () => Object.keys(mine.memory).filter((k) => mine.memory[k].due <= today()).sort(bibleOrder);
+const addDays = (n) => { const d = new Date(); d.setDate(d.getDate() + n); return d.toLocaleDateString("sv"); };
+function bibleOrder(a, b) {
+  const [x, y] = [a, b].map((r) => r.split("."));
+  return state.books.indexOf(state.byId[x[0]]) - state.books.indexOf(state.byId[y[0]]) || x[1] - y[1] || parseInt(x[2]) - parseInt(y[2]);
+}
+// "Rom.8.28-30" → "Romans 8:28–30"
+function memLabel(key) {
+  const [b, c, v] = key.split(".");
+  return `${bname(state.byId[b])} ${c}:${v.replace("-", "–")}`;
+}
+// The passage's verses in the first translation, joined.
+async function memText(key) {
+  const [b, c, v] = key.split("."), [lo, hi = lo] = v.split("-").map(Number), tr = versions()[0];
+  const text = await bookText(b, tr);
+  return { lang: langOf(tr), text: text[c - 1].slice(lo - 1, hi).join(" ") };
+}
+
+function renderMemory(body) {
+  const keys = Object.keys(mine.memory).sort(bibleOrder), due = memDue();
+  if (!keys.length) { body.append(el("p", "note", t("noMemory"))); return; }
+  // A summary with the one thing to do next, then every passage with how far along it is.
+  const top = el("div", "mem-top"), stats = el("div", "mem-stats");
+  stats.append(el("b", "", keys.length), el("span", "", t("memPassages", keys.length)), el("b", "", due.length), el("span", "", t("memDueToday")));
+  const go = el("div", "mem-go");
+  const start = el("button", "mem-start", due.length ? t("practise", due.length) : t("practiseAll"));
+  start.onclick = () => startPractice(due.length ? due : keys);
+  go.append(start);
+  if (due.length && due.length < keys.length) {
+    const all = el("button", "link", t("practiseAll"));
+    all.onclick = () => startPractice(keys);
+    go.append(all);
+  }
+  top.append(stats, go);
+  body.append(top);
+  const ul = el("ul", "mem-list");
+  for (const key of keys) {
+    const m = mine.memory[key], li = el("li", m.due <= today() ? "due" : ""), head = el("div", "mem-head");
+    const a = el("a", "", memLabel(key)), [b, c, v] = key.split("."), [lo, hi] = v.split("-").map(Number);
+    a.href = hashFor(b, +c, lo, hi);
+    a.onclick = () => $("mine").close();
+    const day = new Date(m.due + "T12:00").toLocaleDateString(zh() ? "zh-CN" : "en", { month: "short", day: "numeric" });
+    const when = m.due <= today() ? (m.box ? t("memToday") : t("memNew")) : t("memOn", day);
+    const dots = el("span", "mem-dots");
+    dots.title = t("memBox", m.box + 1);
+    for (let i = 0; i < MEM_DAYS.length; i++) dots.append(el("i", i < m.box ? "on" : ""));
+    const rm = el("button", "icon mem-rm", "×");
+    rm.title = rm.ariaLabel = t("memRemove");
+    rm.onclick = () => { delete mine.memory[key]; saveMemory(); renderMine(); renderTodayHint(); paintMemTools(); };
+    head.append(a, el("small", "", when), dots, rm);
+    const xt = el("div", "xt", "…");
+    memText(key).then(({ lang, text }) => { xt.lang = lang; xt.textContent = text; }).catch(() => (xt.textContent = ""));
+    li.append(head, xt);
+    ul.append(li);
+  }
+  body.append(ul);
+}
+const paintMemTools = () => { if (markKeys.length) renderMarkTools(); };
+
+function startPractice(keys) {
+  memo.queue = [...keys];
+  memo.total = keys.length;
+  mine.tab = "memory";
+  renderMine();
+}
+
+// Practice by typing. Each word wants its first letter (typing the rest of it is fine too); in Chinese, each
+// character. Three ways to see the passage: every word dimmed, some hidden at random, or nothing until typed.
+const MEM_MODES = ["dim", "some", "blank"];
+const memMode = () => (MEM_MODES.includes(store.get("bible-mem-mode")) ? store.get("bible-mem-mode") : "dim");
+const isCJK = (lang) => lang.startsWith("zh");
+// The passage as words to type: [shown text, letters to match, text after it].
+function memWords(text, lang) {
+  if (isCJK(lang)) {
+    const out = [], lead = /^[^\p{L}\p{N}]*/u.exec(text)[0];
+    for (const [, ch, after] of text.slice(lead.length).matchAll(/([\p{L}\p{N}])([^\p{L}\p{N}]*)/gu)) out.push({ w: ch, key: ch, after });
+    return { lead, words: out };
+  }
+  const lead = /^\s*/.exec(text)[0];
+  return { lead, words: [...text.slice(lead.length).matchAll(/(\S+)(\s*)/g)].map(([, w, after]) => ({
+    w, after, key: w.normalize("NFD").toLowerCase().replace(/[^a-z0-9]/g, "") || w,
+  })) };
+}
+
+async function renderPractice(body) {
+  const key = memo.queue[0];
+  if (!key) {
+    memo.queue = null;
+    const done = el("div", "mem-card mem-finish");
+    done.append(el("div", "mem-big", "✓"), el("p", "plan-day", t("memDone")), el("p", "note", t("memDoneN", memo.total)));
+    const back = el("button", "mem-start", t("memBack"));
+    back.onclick = () => renderMine();
+    done.append(back);
+    body.append(done);
+    renderTodayHint();
+    return;
+  }
+  const mode = memMode(), card = el("div", "mem-card");
+  // Header: the reference, how many are left, and the mode switch.
+  const head = el("div", "mem-card-head");
+  head.append(el("h3", "", memLabel(key)), el("span", "mem-count", t("memLeft", memo.queue.length)));
+  const seg = el("div", "seg mem-modes");
+  for (const md of MEM_MODES) {
+    const b = el("button", "", t("memMode")[md]);
+    b.setAttribute("aria-pressed", md === mode);
+    b.onclick = () => { store.set("bible-mem-mode", md); renderMine(); };
+    seg.append(b);
+  }
+  const bar = el("div", "progress mem-progress");
+  bar.append(el("i"));
+  const box = el("p", "mem-text mode-" + mode);
+  const input = el("input", "mem-input");
+  Object.assign(input, { type: "text", autocomplete: "off", autocapitalize: "off", spellcheck: false, enterKeyHint: "next" });
+  input.setAttribute("autocorrect", "off");
+  const tools = el("div", "mem-tools"), hint = el("button", "pill", t("memHint")), restart = el("button", "pill", t("memRestart"));
+  tools.append(hint, restart);
+  card.append(head, seg, bar, box, input, tools);
+  body.replaceChildren(card);
+  const { lang, text } = await memText(key);
+  if (memo.queue?.[0] !== key) return;
+  box.lang = lang;
+  input.placeholder = t(isCJK(lang) ? "memTypeZh" : "memType");
+  const { lead, words } = memWords(text, lang);
+  // Some hidden: about two words in five, never the first.
+  words.forEach((x, i) => { x.hide = mode === "blank" || (mode === "some" && i > 0 && Math.random() < 0.4); x.slips = 0; });
+  box.append(lead);
+  for (const x of words) {
+    // Punctuation goes with its word; spaces stay between, so lines can break there.
+    const [punct, space] = /^(\S*)(\s*)$/.exec(x.after).slice(1);
+    x.span = el("span", "mem-w" + (x.hide ? " hide" : ""), x.w + punct);
+    box.append(x.span, space);
+  }
+  box.onclick = () => input.focus();
+  let cur = 0, pos = 0, slips = 0, hints = 0;
+  const show = (x, how) => { x.span.classList.remove("hide", "cur", "slip", "done", "missed"); x.span.classList.add(how); };
+  const mark = () => {
+    words.forEach((x, i) => x.span.classList.toggle("cur", i === cur));
+    bar.firstChild.style.width = `${(100 * cur) / words.length}%`;
+    if (cur >= words.length) finish();
+  };
+  const next = (how) => { show(words[cur], how); cur++; pos = 0; mark(); };
+  let skip = false; // after a typo inside a word, the rest of it up to the next space
+  const slip = (x) => {
+    slips++;
+    x.slips++;
+    x.span.classList.remove("slip");
+    void x.span.offsetWidth; // restart the shake
+    x.span.classList.add("slip");
+  };
+  const type = (raw) => {
+    if (cur >= words.length) return;
+    if (/\s/.test(raw)) { skip = false; if (pos > 0) { cur++; pos = 0; mark(); } return; }
+    const ch = isCJK(lang) ? raw.replace(/[^\p{L}\p{N}]/gu, "") : raw.normalize("NFD").toLowerCase().replace(/[^a-z0-9]/g, "");
+    if (!ch || skip) return;
+    const x = words[cur];
+    if (pos < x.key.length && ch === x.key[pos]) {
+      if (pos === 0) show(x, x.slips ? "missed" : "done");
+      pos++;
+      if (pos === x.key.length || cur === words.length - 1) { cur++; pos = 0; mark(); } // the last word ends on its first letter
+      return;
+    }
+    if (pos > 0) {
+      // Typing first letters: this letter starts the next word. Typing whole words: a typo in this one.
+      if (pos === 1 || ch === words[cur + 1]?.key[0]) { cur++; pos = 0; mark(); type(raw); return; }
+      slip(x);
+      show(x, "missed");
+      skip = true;
+      cur++; pos = 0; mark();
+      return;
+    }
+    slip(x);
+    if (x.slips >= 3) next("missed");
+  };
+  // Typed text is taken letter by letter and the box cleared. A phone keyboard may hold a word open (composing) until
+  // a space: its letters are taken as they come and the box cleared after. A Chinese input method's text is taken
+  // once it is chosen.
+  let taken = 0;
+  const take = (composing) => {
+    const v = input.value;
+    if (v.length < taken) taken = 0;
+    if (!(composing && isCJK(lang))) { for (const ch of v.slice(taken)) type(ch); taken = v.length; }
+    if (!composing) { input.value = ""; taken = 0; }
+  };
+  input.addEventListener("input", (e) => take(e.isComposing));
+  input.addEventListener("compositionend", () => setTimeout(() => take(false)));
+  hint.onclick = () => { if (cur < words.length) { hints++; words[cur].slips++; next("missed"); } input.focus(); };
+  restart.onclick = () => renderMine();
+  mark();
+  input.focus({ preventScroll: true });
+
+  function finish() {
+    input.disabled = true;
+    tools.remove();
+    input.remove();
+    const right = words.filter((x) => !x.slips).length, pct = Math.round((100 * right) / words.length);
+    const m = mine.memory[key], counts = m && m.due <= today();
+    const wait = MEM_DAYS[Math.min(m?.box ?? 0, MEM_DAYS.length - 1)];
+    const res = el("div", "mem-result" + (pct >= 90 ? " good" : ""));
+    res.append(el("b", "", `${pct}%`), el("span", "", t("memScore", right, words.length, slips, hints)));
+    const grade = el("div", "mem-grade");
+    const again = el("button", "pill", t("again")), got = el("button", "pill primary", t("gotIt"));
+    if (counts) got.append(el("small", "", t("memNext", wait)));
+    again.onclick = () => {
+      if (m) { m.box = 0; m.due = today(); saveMemory(); }
+      memo.queue.push(memo.queue.shift());
+      renderMine();
+    };
+    got.onclick = () => {
+      if (counts) { m.due = addDays(wait); m.box = Math.min(m.box + 1, MEM_DAYS.length - 1); m.t = Date.now(); saveMemory(); }
+      memo.queue.shift();
+      renderMine();
+    };
+    // The better choice for the score goes first and takes the focus, so Enter picks it.
+    pct >= 80 ? grade.append(got, again) : grade.append(again, got);
+    card.append(res, grade);
+    grade.firstChild.focus();
+  }
 }
 
 // --- Offline ----------------------------------------------------------------------------------------

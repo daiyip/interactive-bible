@@ -114,7 +114,7 @@ the verdict the book of Kings gives, with the prophets of each kingdom beside it
 and the fall of Jerusalem across both. Tapping a king shows his years and verdict, links to his account in Kings and
 Chronicles, and his family tree. Opened while reading a king's account, it starts at him.
 
-**My reading** (in the dock) holds three things, all kept in the browser with nothing sent anywhere:
+**My reading** (in the dock) holds four things, all kept in the browser with nothing sent anywhere:
 
 - **Plan**: the Bible in a year, Genesis to Revelation in 365 days of whole chapters, each day about the same
   length. It shows today's chapters, how far along you are, and what to catch up on. A chapter counts as read once
@@ -122,6 +122,13 @@ Chronicles, and his family tree. Opened while reading a king's account, it start
 - **Highlights**: the verses you have coloured (yellow, green, blue or pink) or written a note on, in Bible order.
   Colour a verse or add a note under its text in the context panel. **Export** saves the plan, highlights and notes
   to a file; **Import** merges one back, for moving to another browser.
+- **Memory**: passages to learn by heart. **Memorize** under a verse's text adds it (or the selected verses, as one
+  passage). Practise by typing: the first letter of each word is enough, whole words work too (in Chinese, each
+  character). Three ways to see the passage while you type: **Dimmed** (every word shown faintly), **Some hidden**
+  (about two words in five blanked at random) or **Blank** (nothing until you type it). A wrong letter shakes the word;
+  three wrong, or **Hint**, gives it away. At the end, the score, then **Got it**, which moves the passage up a box and
+  brings it back after 1, 2, 4, 8, 16, then every 32 days, or **Again**, which brings it round once more today.
+  Passages due today are also offered in the empty context panel. Export and Import carry them too.
 - **Offline**: every chapter you open stays readable offline. **Save for offline** keeps the rest of the Bible in
   the current translation too (about 13 MB, or 17 MB for both). Add the site to the home screen to use it as an
   app. The atlas map needs a connection; offline, the small built-in map stands in.
