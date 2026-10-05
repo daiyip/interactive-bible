@@ -590,3 +590,22 @@ body:not(.playing) .tour-bar { visibility: hidden; }
 .orig-def { font-size: 14px; line-height: 1.5; margin: 0 0 8px; }
 .renderings .chip { font-size: 13px; }
 .results .rendered { color: var(--accent); font-size: 13px; }
+
+/* Read aloud: the button by the chapter title, the verse being read, and the player that takes the dock's place. */
+.chapter { position: relative; }
+.listen-btn { position: absolute; right: 0; top: 0; display: inline-flex; align-items: center; gap: 4px; font-size: 13px; padding: 4px 12px 4px 8px; }
+.listen-btn .ico, .listen-pp .ico { display: inline-flex; color: var(--accent); }
+.listen-btn[hidden] { display: none; }
+.v.reading { background: var(--accent-soft); border-radius: 4px; box-shadow: 0 0 0 3px var(--accent-soft); }
+.listen-bar {
+  pointer-events: auto; display: flex; align-items: center; gap: 2px; padding: 4px 6px; background: var(--dock); max-width: calc(100vw - 24px);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--line)); border-radius: 999px; box-shadow: var(--shadow), 0 0 0 4px color-mix(in srgb, var(--bg) 70%, transparent);
+}
+.listen-bar[hidden] { display: none; }
+.listen-bar .icon { color: var(--accent); }
+.listen-pp { width: 36px; height: 36px; border-radius: 50%; background: var(--accent-soft); }
+.listen-ref { font-size: 13px; font-weight: 500; padding: 0 8px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.listen-rate { font-size: 13px; font-weight: 600; min-width: 40px; }
+.listen-voice { max-width: 150px; font-size: 13px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); color: var(--ink); padding: 3px 8px; }
+.listen-voice[hidden] { display: none; }
+@media (max-width: 480px) { .listen-voice { display: none; } }
