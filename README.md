@@ -10,7 +10,9 @@
 **Live at [bible.daiyip.com](https://bible.daiyip.com)**
 
 A Bible reader with the context of every verse beside it. The text is on the left. Selecting a verse opens a panel
-on the right with four tabs:
+on the right with four tabs. Tapping another verse grows the selection to reach it, and the tabs then cover every
+verse in it; tapping the selection clears it. On a phone the panel is a sheet over the bottom of the text: drag or tap
+its handle to make it taller or shorter, and scrolling the text lowers it to a strip so the verses stay in reach.
 
 - **Cross-references**: the verses most often linked to this one, strongest first, as a list or as a web: the verse
   in the middle and its 12 strongest links around it in Bible order, sized by votes, with faint lines between the
@@ -85,7 +87,7 @@ References use OSIS-style ids in the hash:
 | --- | --- |
 | [`#John.3`](https://bible.daiyip.com/#John.3) | a chapter |
 | [`#John.3.16`](https://bible.daiyip.com/#John.3.16) | a chapter with a verse selected |
-| [`#Acts.13.4-5`](https://bible.daiyip.com/#Acts.13.4-5) | a range of verses, with the first one selected (the links from the atlas look like this) |
+| [`#Acts.13.4-5`](https://bible.daiyip.com/#Acts.13.4-5) | a range of verses, all selected (the links from the atlas look like this) |
 
 The arrow keys change chapter, `/` opens search, and Esc closes the context panel.
 

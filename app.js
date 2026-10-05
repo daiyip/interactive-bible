@@ -25,18 +25,18 @@ const L = {
     ot: "Old Testament", nt: "New Testament", version: "Translation",
     tapVerse: "Tap a verse", tapHint: "Its cross-references, people, places and links show up here.", orTour: "Or take a tour",
     prevCh: "Previous chapter (←)", nextCh: "Next chapter (→)", textSize: "Text size", sizes: ["Smallest", "Small", "Normal", "Large", "Larger", "Largest"],
-    close: "Close", backBooks: "Back to books", endTour: "End tour",
+    close: "Close", sheetHandle: "Drag or tap to resize", backBooks: "Back to books", endTour: "End tour",
     back: "‹ Back", next: "Next ›", finish: "Finish", map: "Map ↗", mapTitle: "Follow this step on the atlas map",
     stepOf: (i, n) => `${i} of ${n}`, steps: (n) => `${n} steps`,
     noXref: "No cross-references for this verse.", votes: "Votes on OpenBible.info: how many readers found this link helpful",
     showAll: (n) => `Show all ${n}`,
-    noPlaces: (r) => `No places are named in ${r}.`, named: "Named in this verse",
-    noPeople: (r) => `No one is named in ${r}.`, peopleIn: (r) => `No one is named in this verse. People in ${r}:`,
+    noPlaces: (r) => `No places are named in ${r}.`, named: (m) => m ? "Named in these verses" : "Named in this verse",
+    noPeople: (r) => `No one is named in ${r}.`, peopleIn: (r, m) => `No one is named in ${m ? "these verses" : "this verse"}. People in ${r}:`,
     rel: { father: "Father", mother: "Mother", partners: "Married to", children: "Children", siblings: "Brothers and sisters" },
     childOf: (g, n) => `${g === "F" ? "Daughter" : "Son"} of ${n}`, partnerOf: (g, n) => `${g === "F" ? "Wife" : "Husband"} of ${n}`,
     firstIn: (r) => `First named in ${r}`, allPeople: "‹ People in this verse", bioSrc: "Easton’s Bible Dictionary",
     family: "Family", namedIn: "Named in",
-    inChapter: (r) => `No places named in this verse. Places in ${r}:`, partOf: "Part of",
+    inChapter: (r, m) => `No places named in ${m ? "these verses" : "this verse"}. Places in ${r}:`, partOf: "Part of",
     error: "Could not load this chapter. Check your connection and reload.", site: "Bible", atlas: "Atlas map",
     year: (y) => (y < 0 ? `${-y} BC` : `AD ${y}`),
     search: "Search (/)", searchPh: "Search the Bible",
@@ -78,18 +78,18 @@ const L = {
     ot: "旧约", nt: "新约", version: "译本",
     tapVerse: "点选一节经文", tapHint: "它的串珠、人物、地点和链接会显示在这里。", orTour: "或者跟随导览",
     prevCh: "上一章 (←)", nextCh: "下一章 (→)", textSize: "字体大小", sizes: ["最小", "小", "标准", "大", "较大", "最大"],
-    close: "关闭", backBooks: "返回书卷", endTour: "结束导览",
+    close: "关闭", sheetHandle: "拖动或轻点以调整大小", backBooks: "返回书卷", endTour: "结束导览",
     back: "‹ 上一步", next: "下一步 ›", finish: "完成", map: "地图 ↗", mapTitle: "在历代地图上查看这一步",
     stepOf: (i, n) => `${i} / ${n}`, steps: (n) => `${n} 站`,
     noXref: "这节经文没有串珠。", votes: "OpenBible.info 上认为这条串珠有帮助的读者人数",
     showAll: (n) => `显示全部 ${n} 条`,
-    noPlaces: (r) => `${r} 没有提到地名。`, named: "本节提到的地点",
-    noPeople: (r) => `${r} 没有提到人名。`, peopleIn: (r) => `本节没有提到人名。${r} 中的人物：`,
+    noPlaces: (r) => `${r} 没有提到地名。`, named: (m) => m ? "这几节提到的地点" : "本节提到的地点",
+    noPeople: (r) => `${r} 没有提到人名。`, peopleIn: (r, m) => `${m ? "这几节" : "本节"}没有提到人名。${r} 中的人物：`,
     rel: { father: "父亲", mother: "母亲", partners: "配偶", children: "儿女", siblings: "兄弟姐妹" },
     childOf: (g, n) => `${n}的${g === "F" ? "女儿" : "儿子"}`, partnerOf: (g, n) => `${n}的${g === "F" ? "妻子" : "丈夫"}`,
     firstIn: (r) => `首次出现于${r}`, allPeople: "‹ 本节的人物", bioSrc: "Easton 圣经辞典（英文）",
     family: "家人", namedIn: "出现的经文",
-    inChapter: (r) => `本节没有提到地名。${r} 中的地点：`, partOf: "所属事件",
+    inChapter: (r, m) => `${m ? "这几节" : "本节"}没有提到地名。${r} 中的地点：`, partOf: "所属事件",
     error: "无法载入这一章。请检查网络后重新载入。", site: "圣经", atlas: "地图",
     year: (y) => (y < 0 ? `公元前${-y}年` : `公元${y}年`),
     search: "搜索 (/)", searchPh: "搜索圣经",
@@ -208,7 +208,10 @@ async function refText(s) {
   }
   return out.join(zh() ? "" : " ");
 }
-const hashFor = (b, c, v) => "#" + [b, c, v].filter((x) => x != null).join(".");
+const hashFor = (b, c, v, to) => "#" + [b, c, v].filter((x) => x != null).join(".") + (v != null && to > v ? "-" + to : "");
+// The selection: one verse, or a run of verses in the chapter ("Gen.45.1-3").
+const selVerses = () => state.verse == null ? [] : Array.from({ length: (state.to || state.verse) - state.verse + 1 }, (_, i) => state.verse + i);
+const selKey = () => `${state.book}.${state.chapter}.${state.verse}${state.to ? "-" + state.to : ""}`;
 
 // --- Reading panel ----------------------------------------------------------
 
@@ -267,7 +270,10 @@ async function renderChapter() {
     el.classList.add("sel");
     const r = el.getBoundingClientRect(), box = $("reader").getBoundingClientRect();
     const top = $("tour").hidden ? 0 : $("tour").offsetHeight; // the tour card sits over the top of the text
-    if (r.top < box.top + top + 40 || r.bottom > box.bottom - 40 || document.body.classList.contains("sheet-open")) {
+    // On a phone the sheet covers the lower part of the text. Growing a selection leaves the text where it is.
+    const fresh = sheet.first !== `${state.book}.${state.chapter}.${state.verse}`;
+    const bottom = phone() ? box.top + box.height * 0.4 : box.bottom;
+    if (fresh && (r.top < box.top + top + 40 || r.top > bottom - 40)) {
       $("reader").scrollTo({ top: $("reader").scrollTop + r.top - box.top - top - 80, behavior: "smooth" });
     }
   }
@@ -287,30 +293,100 @@ function secondLine(text, tr) {
 
 const TABS = ["xref", "people", "places", "links"];
 
+// On a phone the panel is a sheet over the bottom of the text, in three sizes: "peek" (a strip with the reference,
+// leaving the text above it free to tap), "half" and "full". Its handle drags or taps between them; scrolling the
+// text lowers it to a peek, and tapping the peek raises it again.
+const SHEET_PEEK = 112;
+const sheet = { size: "half", first: null };
+const phone = () => matchMedia("(max-width: 800px)").matches;
+function setSheet(size) {
+  sheet.size = size;
+  $("context").dataset.size = size;
+  if (size === "peek") $("context").scrollTop = 0;
+}
+function sheetControls() {
+  const ctx = $("context"), handle = $("sheet-handle");
+  const heights = () => ({ peek: SHEET_PEEK, half: innerHeight * 0.55, full: innerHeight - 60 });
+  let drag = null;
+  handle.addEventListener("pointerdown", (e) => {
+    drag = { y: e.clientY, h: ctx.offsetHeight, moved: false };
+    handle.setPointerCapture(e.pointerId);
+    ctx.classList.add("dragging");
+  });
+  handle.addEventListener("pointermove", (e) => {
+    if (!drag) return;
+    const dy = drag.y - e.clientY;
+    if (Math.abs(dy) > 4) drag.moved = true;
+    if (drag.moved) ctx.style.height = Math.max(40, Math.min(innerHeight - 60, drag.h + dy)) + "px";
+  });
+  const end = () => {
+    if (!drag) return;
+    const h = ctx.offsetHeight, moved = drag.moved;
+    drag = null;
+    ctx.classList.remove("dragging");
+    ctx.style.height = "";
+    if (!moved) return setSheet(sheet.size === "half" ? "full" : "half");
+    if (h < SHEET_PEEK * 0.6) return (location.hash = hashFor(state.book, state.chapter)); // dragged away: close
+    const hs = heights();
+    setSheet(Object.keys(hs).reduce((a, z) => (Math.abs(hs[z] - h) < Math.abs(hs[a] - h) ? z : a)));
+  };
+  handle.addEventListener("pointerup", end);
+  handle.addEventListener("pointercancel", end);
+  // Tapping the peek raises the sheet (and the tap does nothing else).
+  ctx.addEventListener("click", (e) => {
+    if (!phone() || sheet.size !== "peek" || e.target.closest("#sheet-x")) return;
+    e.stopPropagation();
+    e.preventDefault();
+    setSheet("half");
+  }, true);
+  // Scrolling the text lowers the sheet, so the verses behind it can be read and tapped.
+  let y0 = null;
+  const lower = () => { if (phone() && state.verse != null && sheet.size !== "peek") setSheet("peek"); };
+  $("reader").addEventListener("touchstart", (e) => { y0 = e.touches[0].clientY; }, { passive: true });
+  $("reader").addEventListener("touchmove", (e) => { if (y0 != null && Math.abs(e.touches[0].clientY - y0) > 12) lower(); }, { passive: true });
+  $("reader").addEventListener("wheel", lower, { passive: true });
+  $("sheet-x").onclick = () => (location.hash = hashFor(state.book, state.chapter));
+}
+
 async function renderContext() {
   const open = state.verse != null;
   $("ctx-empty").hidden = open;
   $("ctx-body").hidden = !open;
   $("context").classList.toggle("open", open);
   document.body.classList.toggle("sheet-open", open);
-  if (!open) return;
-  const b = state.byId[state.book], v = state.verse, key = `${b.id}.${state.chapter}.${v}`;
-  $("ctx-ref").textContent = `${bname(b)} ${state.chapter}:${v}`;
+  if (!open) { sheet.first = null; return; }
+  const b = state.byId[state.book], c = state.chapter, v = state.verse, sel = selVerses(), key = selKey();
+  // A new verse opens the sheet half way; growing the selection keeps the sheet as it is.
+  const first = `${b.id}.${c}.${v}`;
+  if (sheet.first !== first) { sheet.first = first; setSheet("half"); }
+  const span = sel.length > 1 ? `${v}–${sel.at(-1)}` : `${v}`;
+  $("ctx-ref").textContent = `${bname(b)} ${c}:${span}`;
   const vs = versions(), texts = await Promise.all(vs.map((tr) => bookText(b.id, tr)));
   $("ctx-text").lang = vs[0] === "cuv" ? "zh-CN" : "en";
-  // Each word opens a word study (see openWord).
+  // Each word opens a word study (see openWord). A run of verses shows each with its number.
+  const words = (tr, text) => {
+    const frag = document.createDocumentFragment();
+    for (const n of sel) {
+      if (sel.length > 1) frag.append(el("sup", "vn", n));
+      frag.append(wordSpans(text[c - 1][n - 1] || "", tr), " ");
+    }
+    return frag;
+  };
   const line2 = vs[1] ? secondLine("", vs[1]) : null;
-  if (line2) line2.append(wordSpans(texts[1][state.chapter - 1][v - 1] || "", vs[1]));
-  $("ctx-text").replaceChildren(wordSpans(texts[0][state.chapter - 1][v - 1] || "", vs[0]), ...(line2 ? [line2] : []));
+  if (line2) line2.append(words(vs[1], texts[1]));
+  $("ctx-text").replaceChildren(words(vs[0], texts[0]), ...(line2 ? [line2] : []));
   $("ctx-text").title = t("tapWord");
-  renderMarkTools(key);
+  renderMarkTools(sel.map((n) => `${b.id}.${c}.${n}`));
   document.querySelectorAll(".tabs button").forEach((t) => t.setAttribute("aria-selected", t.dataset.tab === state.tab));
   for (const t of TABS) $("tab-" + t).hidden = t !== state.tab;
-  renderLinks(b, state.chapter, v);
-  renderPeople(b, state.chapter, v, key).catch((e) => console.error(e));
-  renderPlaces(b, state.chapter, v, key).catch((e) => console.error(e));
-  const refs = (await bookXref(b.id))[`${state.chapter}.${v}`] || [];
-  if (`${state.book}.${state.chapter}.${state.verse}` !== key) return;
+  renderLinks(b, c, span.replace("–", "-"));
+  renderPeople(b, c, sel, key).catch((e) => console.error(e));
+  renderPlaces(b, c, sel, key).catch((e) => console.error(e));
+  // Cross-references of every selected verse, each kept once with its best vote count.
+  const all = await bookXref(b.id), best = new Map();
+  for (const n of sel) for (const [r, votes] of all[`${c}.${n}`] || []) best.set(r, Math.max(best.get(r) || 0, votes));
+  const refs = [...best].sort((x, z) => z[1] - x[1]);
+  if (selKey() !== key) return;
   $("xref-count").textContent = refs.length || "";
   renderXref(refs, XREF_FIRST);
 }
@@ -370,7 +446,7 @@ async function drawWeb(box, refs, key) {
   await Promise.all(nodes.map(async (n) => {
     const [b, c, v] = n.start.split(".");
     const theirs = (await bookXref(b))[`${c}.${v}`] || [];
-    if (`${state.book}.${state.chapter}.${state.verse}` !== key) return;
+    if (selKey() !== key) return;
     for (const [r] of theirs) {
       const m = byStart.get(r.split("-")[0]);
       if (!m || m === n) continue;
@@ -401,7 +477,7 @@ function renderXref(refs, limit) {
   if (view === "web") {
     const box = el("div", "web-box");
     pane.append(box, el("p", "note small", t("webNote", Math.min(WEB_SIZE, refs.length))));
-    drawWeb(box, refs, `${state.book}.${state.chapter}.${state.verse}`).catch((e) => console.error(e));
+    drawWeb(box, refs, selKey()).catch((e) => console.error(e));
     return;
   }
   const ul = document.createElement("ul");
@@ -451,11 +527,11 @@ function renderLinks(b, c, v) {
 
 // Places named in the verse (or, if none, in the chapter) on the atlas map, and the events the verse belongs to.
 // Until the atlas has loaded (or if it can't), a small SVG map stands in for it.
-async function renderPlaces(b, c, v, key) {
+async function renderPlaces(b, c, sel, key) {
   const [places, { places: vp, events: ve, years = {} }, base] = await Promise.all([
     loadJSON("data/places.json"), bookContext(b.id), loadJSON("data/basemap.json")]);
-  if (`${state.book}.${state.chapter}.${state.verse}` !== key) return;
-  const here = vp[`${c}.${v}`] || [];
+  if (selKey() !== key) return;
+  const v = sel[0], here = [...new Set(sel.flatMap((n) => vp[`${c}.${n}`] || []))];
   let ids = here, scope = "verse";
   if (!ids.length) {
     ids = [...new Set(Object.entries(vp).filter(([k]) => k.startsWith(c + ".")).flatMap(([, l]) => l))];
@@ -463,10 +539,10 @@ async function renderPlaces(b, c, v, key) {
   }
   // Places as [id, name, lon, lat, kind], with the name in the interface language where there is one.
   const pts = ids.map((i) => places[i]).map(([id, name, lon, lat, kind, nameZh]) => [id, (zh() && nameZh) || name, lon, lat, kind]);
-  const evs = ve[`${c}.${v}`] || [];
+  const evs = [...new Map(sel.flatMap((n) => ve[`${c}.${n}`] || []).map((e) => [e[0], e])).values()];
   $("places-count").textContent = here.length || "";
   $("places-note").textContent = !ids.length ? t("noPlaces", `${bname(b)} ${c}`)
-    : scope === "verse" ? t("named") : t("inChapter", `${bname(b)} ${c}`);
+    : scope === "verse" ? t("named", sel.length > 1) : t("inChapter", `${bname(b)} ${c}`, sel.length > 1);
   $("map-fallback").replaceChildren(...(pts.length ? [drawMap(pts, base)] : []));
   $("map-box").hidden = !pts.length && !atlas.ready && !state.tour;
   // The map's year: the verse's first dated event, else the year Theographic gives the verse (or its chapter).
@@ -527,19 +603,19 @@ function personLine(people, p, bio) {
 // Escaped biography text, with its verse links ([Ex. 6:20](#Exod.6.20)) as reader links.
 const bioHTML = (s) => esc(s).replace(/\[([^\]]+)\]\((#[1-3]?[A-Za-z]+\.\d+(?:\.\d+)?)\)/g, '<a href="$2">$1</a>');
 
-async function renderPeople(b, c, v, key) {
+async function renderPeople(b, c, sel, key) {
   const [people, ctx] = await Promise.all([loadPeople(), bookContext(b.id)]);
-  if (`${state.book}.${state.chapter}.${state.verse}` !== key) return;
-  const vp = ctx.people || {}, here = vp[`${c}.${v}`] || [];
+  if (selKey() !== key) return;
+  const vp = ctx.people || {}, here = [...new Set(sel.flatMap((n) => vp[`${c}.${n}`] || []))];
   $("people-count").textContent = here.length || "";
   if (state.person != null) return renderPerson(people, state.person, key);
   let ids = here, note = "";
   if (!ids.length) {
     ids = [...new Set(Object.entries(vp).filter(([k]) => k.startsWith(c + ".")).flatMap(([, l]) => l))];
-    note = ids.length ? t("peopleIn", `${bname(b)} ${c}`) : t("noPeople", `${bname(b)} ${c}`);
+    note = ids.length ? t("peopleIn", `${bname(b)} ${c}`, sel.length > 1) : t("noPeople", `${bname(b)} ${c}`);
   }
   const more = await Promise.all(ids.map(personMore));
-  if (`${state.book}.${state.chapter}.${state.verse}` !== key || state.person != null) return;
+  if (selKey() !== key || state.person != null) return;
   const pane = $("tab-people");
   pane.replaceChildren();
   if (note) pane.append(Object.assign(document.createElement("p"), { className: "note small", textContent: note }));
@@ -551,7 +627,7 @@ async function renderPeople(b, c, v, key) {
     btn.children[0].textContent = pname(p);
     btn.children[1].textContent = t("nVerses", p[P.COUNT]);
     btn.children[2].textContent = personLine(people, p, more[k][0]);
-    btn.onclick = () => { state.person = i; renderPeople(b, c, v, key); $("context").scrollTop = 0; };
+    btn.onclick = () => { state.person = i; renderPeople(b, c, sel, key); $("context").scrollTop = 0; };
     li.append(btn);
     ul.append(li);
   });
@@ -561,7 +637,7 @@ async function renderPeople(b, c, v, key) {
 // One person: biography, family and every verse that names them. It stays open while moving between those verses.
 async function renderPerson(people, i, key) {
   const p = people[i], [bio, refs] = await personMore(i);
-  if (`${state.book}.${state.chapter}.${state.verse}` !== key || state.person !== i) return;
+  if (selKey() !== key || state.person !== i) return;
   const pane = $("tab-people"), el = (tag, cls, text) => Object.assign(document.createElement(tag), cls ? { className: cls } : {}, text != null ? { textContent: text } : {});
   const back = el("button", "pill back", t("allPeople"));
   back.onclick = () => { state.person = null; renderContext(); };
@@ -1575,15 +1651,18 @@ function importMine() {
 }
 
 // The verse's highlight and note, under its text in the context panel.
-function renderMarkTools(key) {
-  const box = $("ctx-mark"), m = mine.marks[key] || {};
+// Highlight colours apply to every selected verse; the note belongs to the first.
+let markKeys = [];
+function renderMarkTools(keys = markKeys) {
+  markKeys = keys;
+  const key = keys[0], box = $("ctx-mark"), m = mine.marks[key] || {};
   box.replaceChildren();
   const row = el("div", "swatches");
   for (const c of COLORS) {
-    const s = el("button", "swatch hl-" + c);
+    const s = el("button", "swatch hl-" + c), on = keys.every((k) => mine.marks[k]?.c === c);
     s.title = s.ariaLabel = t("hl")[c];
-    s.setAttribute("aria-pressed", m.c === c);
-    s.onclick = () => setMark(key, { c: m.c === c ? null : c });
+    s.setAttribute("aria-pressed", on);
+    s.onclick = () => { for (const k of keys) setMark(k, { c: on ? null : c }, false); renderMarkTools(); };
     row.append(s);
   }
   const note = el("button", "pill small-pill", m.n ? t("editNote") : t("addNote"));
@@ -1607,7 +1686,7 @@ function setMark(key, change, redraw = true) {
   if (m.c || m.n) mine.marks[key] = m; else delete mine.marks[key];
   saveMarks();
   paintMarks();
-  if (redraw) renderMarkTools(key);
+  if (redraw) renderMarkTools();
 }
 // Highlight colours and note dots on the open chapter.
 function paintMarks() {
@@ -1728,8 +1807,11 @@ async function init() {
   $("chapter").addEventListener("click", (e) => {
     const el = e.target.closest(".v");
     if (!el) return;
-    const v = +el.dataset.v;
-    location.hash = hashFor(state.book, state.chapter, v === state.verse ? null : v);
+    // Tapping a verse selects it; tapping another grows the selection to reach it; tapping the selection clears it.
+    const v = +el.dataset.v, a = state.verse, z = state.to || a;
+    location.hash = a == null ? hashFor(state.book, state.chapter, v)
+      : v >= a && v <= z ? hashFor(state.book, state.chapter)
+      : hashFor(state.book, state.chapter, Math.min(a, v), Math.max(z, v));
   });
   document.querySelector(".tabs").addEventListener("click", (e) => {
     const t = e.target.closest("button")?.dataset.tab;
@@ -1737,9 +1819,10 @@ async function init() {
     if (t === "people" && state.tab === "people") state.person = null; // the tab again goes back to the verse's people
     state.tab = t;
     store.set("bible-tab", t);
+    if (phone() && sheet.size !== "full") setSheet("full"); // room for the map and lists
     renderContext();
   });
-  $("sheet-close").onclick = () => (location.hash = hashFor(state.book, state.chapter));
+  sheetControls();
   $("prev").onclick = $("prev2").onclick = () => step(-1);
   $("next").onclick = $("next2").onclick = () => step(1);
   $("size-btn").onclick = () => showSizeMenu($("size-menu").hidden);

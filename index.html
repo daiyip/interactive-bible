@@ -73,7 +73,7 @@
   </section>
 
   <aside id="context" class="context" aria-label="Context panel">
-    <div class="sheet-handle" id="sheet-close" data-i18n-title="close" title="Close"><span></span></div>
+    <div class="sheet-handle" id="sheet-handle" data-i18n-title="sheetHandle" title="Drag or tap to resize"><span></span></div>
     <div id="ctx-empty" class="ctx-empty">
       <picture class="ctx-logo">
         <source media="(prefers-color-scheme: dark)" srcset="img/logo-white.svg">
@@ -88,7 +88,7 @@
     </div>
     <div id="ctx-body" hidden>
       <div class="ctx-head">
-        <h2 id="ctx-ref"></h2>
+        <div class="ctx-title"><h2 id="ctx-ref"></h2><button id="sheet-x" class="icon" data-i18n-title="close" title="Close" aria-label="Close">×</button></div>
         <blockquote id="ctx-text"></blockquote>
         <div id="ctx-mark" class="ctx-mark"></div>
       </div>
