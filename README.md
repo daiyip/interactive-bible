@@ -45,6 +45,12 @@ references, the ones that take in your verse marked; "See" headings open related
 by name, and shows the most cited ones before you type. About half the topics have Chinese names (the main ones,
 and the people and places); the headings are Nave's English.
 
+**Commentary** under a verse's text is Matthew Henry's Concise Commentary on the section that takes it in, with its
+verses and title from Henry's outline of the chapter; a long section shows its first lines and **Read more**. A
+chapter's context lists all its sections (and, on chapter 1, Henry's introduction to the book), each opening in place.
+References in the comment go to that passage. The comment is in English in both languages. Henry has no comment on
+Leviticus 19 or Psalm 108.
+
 **Parallel accounts**: in the Gospels, a verse lists the sections of a harmony of the Gospels it belongs to, with the
 other Gospels' passages. A section opens with the accounts side by side (on a phone, swiped across, with a tab for
 each), your verse marked; ‹ › step through the life of Jesus in order, and the back button lists all 164 sections by
@@ -194,6 +200,7 @@ with three lines of text, drawn in the same line style as the atlas's folded map
 | `data/topics/index.json` | Nave's 5,319 topics as `[name, name_zh, references, file]`; a topic's number is its place in the list. |
 | `data/topics/<k>.json` | Topics `k×100` to `k×100+99`: `[[depth, heading, [refs]], ...]`, refs as `"Gen.6.16-20"` or `"Num.17"` (a whole chapter); a "See" heading is `[depth, name, [], topic]`. |
 | `data/topics/v/<id>.json` | Per verse `"chapter.verse"` (or `"chapter"`, for a whole chapter): the topics citing it. |
+| `data/commentary/<book>.json` | Matthew Henry's Concise Commentary: `intro` (the book's introduction, as paragraphs) and `ch`, per chapter `{"o": [[title, from, to], ...], "s": [[from, to, [paragraph, ...]], ...]}`, the outline and the sections. A paragraph marks a reference as `{text\|Osis.ref}`. Built by `tools/build_commentary.py`. |
 | `data/harmony.json` | A harmony of the Gospels: `parts` as `[name, name_zh]`, and 164 `sections` as `[part, title, title_zh, [Matthew refs], [Mark refs], [Luke refs], [John refs]]`, refs as `"Matt.3.13-17"` or `"Matt.5.1-Matt.7.29"`. Built by `tools/build_harmony.py` from `tools/harmony.txt`. |
 | `data/basemap.json` | Land, lakes and main rivers of the Bible lands for the Places map (Natural Earth, simplified). |
 | `atlas/` | The atlas data pack (see above). |
@@ -202,7 +209,7 @@ To rebuild, run `tools/fetch_sources.sh` to download the sources into `tools/src
 `python3 tools/build_data.py` for `data/` and `python3 tools/build_atlas.py` for the pack's events and places.
 `python3 tools/build_kings.py` rebuilds the kings (checking every account against the KJV), and
 `python3 tools/build_names.py && python3 tools/build_lands.py` rebuild the place names and the land of Canaan from
-`data/`. `python3 tools/build_versions.py` rebuilds the other translations on the KJV's verse numbers. `python3 tools/build_harmony.py` rebuilds the Gospel harmony from `tools/harmony.txt`, checking every reference against the KJV. `python3 tools/build_topics.py` rebuilds the topics (Chinese names for the main ones are in `tools/topics_zh.json`). `python3 tools/build_strongs.py` rebuilds the Hebrew and Greek words, matching MetaV's tagged words to the
+`data/`. `python3 tools/build_versions.py` rebuilds the other translations on the KJV's verse numbers. `python3 tools/build_harmony.py` rebuilds the Gospel harmony from `tools/harmony.txt`, checking every reference against the KJV. `python3 tools/build_commentary.py` rebuilds the commentary from the SWORD module MHCC (its docstring says how to install it and diatheke). `python3 tools/build_topics.py` rebuilds the topics (Chinese names for the main ones are in `tools/topics_zh.json`). `python3 tools/build_strongs.py` rebuilds the Hebrew and Greek words, matching MetaV's tagged words to the
 KJV text (99.9% match).
 
 ## Translation
@@ -225,6 +232,8 @@ folder per translation (`data/text/<translation>/`), so adding one does not chan
 - **Topics**: Nave's Topical Bible (1896, public domain), from
   [BibleData](https://github.com/BradyStephenson/bible-data) by Brady Stephenson: CC BY 4.0. Chinese topic names are
   written for this app.
+- **Commentary**: Matthew Henry's Concise Commentary (public domain), from the CrossWire SWORD module MHCC as
+  packaged by Debian and Ubuntu (`sword-comm-mhcc`).
 - **Gospel harmony**: written for this app, after the order of the classic harmonies.
 - **Base map** from [Natural Earth](https://www.naturalearthdata.com/): public domain.
 
