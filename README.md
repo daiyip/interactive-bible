@@ -23,7 +23,8 @@ its handle to make it taller or shorter, and scrolling the text lowers it to a s
   from their grandparents down to their grandchildren as a foldable outline, under their whole line back; tapping a
   name redraws the tree around that person.
 - **Places**: the [atlas](https://atlas.daiyip.com) map with the places the verse names pinned, and the events it
-  belongs to. The map is the atlas itself, embedded with this site's pack; a small built-in map stands in while it
+  belongs to. The map is the atlas itself, embedded with this site's pack in its simple dark style (`?style=night`, also used by the links that
+  open the full atlas); a small built-in map stands in while it
   loads. Places the Bible renames show their other names (Luz and Bethel, Jebus and Jerusalem), each linked to its
   verse. **Land of Canaan** opens the land as Joshua 13–21 divides it: east and west of the Jordan, the tribes (Judah
   by district), and the Levites' cities, each place with its verse, beside a map that pins the tribe you pick.
