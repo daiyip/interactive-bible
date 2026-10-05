@@ -35,13 +35,19 @@ const L = {
     rel: { father: "Father", mother: "Mother", partners: "Married to", children: "Children", siblings: "Brothers and sisters" },
     childOf: (g, n) => `${g === "F" ? "Daughter" : "Son"} of ${n}`, partnerOf: (g, n) => `${g === "F" ? "Wife" : "Husband"} of ${n}`,
     firstIn: (r) => `First named in ${r}`, allPeople: "‹ People in this verse", bioSrc: "Easton’s Bible Dictionary",
-    family: "Family", namedIn: "Named in", tree: "Family tree", treeTitle: (n) => `Family tree · ${n}`, landTitle: "Land of Canaan", landBtn: "Land of Canaan ›", nPlaces: (n) => `${n} places`, landmarks: "Borders and landmarks",
+    family: "Family", namedIn: "Named in", tree: "Family tree", treeTitle: (n) => `Family tree · ${n}`, kingsTitle: "Kings of Israel and Judah", kingsBtn: "Kings of Israel and Judah ›", kingsShort: "Kings chart", israel: "Israel (north)", judah: "Judah (south)",
+    united: "the united kingdom", kingOf: (k) => `King of ${k}`, prophetTo: (k) => `Prophet to ${k}`, nYears: (n) => `${n} ${n === 1 ? "year" : "years"}`,
+    kingGood: "Did right", kingEvil: "Did evil", kingNone: "No verdict", prophets: "Prophets", readRef: (r) => `Read ${r}`,
+    verdictGood: "“He did that which was right in the sight of the LORD.”", verdictEvil: "“He did evil in the sight of the LORD.”",
+    verdictNone: "Kings gives no verdict on this reign.",
+    kingsNote: "Years BC, after Thiele. A reign that overlaps the one before (a co-regency or a rival) starts where it ends. Tap a king or prophet.",
+    landTitle: "Land of Canaan", landBtn: "Land of Canaan ›", nPlaces: (n) => `${n} places`, landmarks: "Borders and landmarks",
     alsoCalled: (n) => `Also called ${n}`, landNote: "How Joshua divided the land (Joshua 13–21). Tap a tribe to pin its places on the map, a place to label it, and a verse number to read it.",
     treeLine: "Line:", treeWed: (n) => `m. ${n}`,
     treeNote: "Tap a name to see the tree around them.", nKids: (n) => `${n} ${n === 1 ? "child" : "children"}`, showPerson: (n) => `Open ${n}`,
     inChapter: (r, m) => `No places named in ${m ? "these verses" : "this verse"}. Places in ${r}:`, partOf: "Part of",
     error: "Could not load this chapter. Check your connection and reload.", site: "Bible", atlas: "Atlas map",
-    year: (y) => (y < 0 ? `${-y} BC` : `AD ${y}`),
+    year: (y) => (y < 0 ? `${-y} BC` : `AD ${y}`), yearSpan: (a, z) => `${-a}–${-z} BC`,
     search: "Search (/)", searchPh: "Search the Bible",
     searchHint: "A reference, a word, a place, an event or a tour. Try “John 3:16”, “Bethlehem” or “shepherd”.",
     goTo: "Go to", events: "Events", verses: "Verses", nVerses: (n) => `${n.toLocaleString("en")} ${n === 1 ? "verse" : "verses"}`,
@@ -91,13 +97,18 @@ const L = {
     rel: { father: "父亲", mother: "母亲", partners: "配偶", children: "儿女", siblings: "兄弟姐妹" },
     childOf: (g, n) => `${n}的${g === "F" ? "女儿" : "儿子"}`, partnerOf: (g, n) => `${n}的${g === "F" ? "妻子" : "丈夫"}`,
     firstIn: (r) => `首次出现于${r}`, allPeople: "‹ 本节的人物", bioSrc: "Easton 圣经辞典（英文）",
-    family: "家人", namedIn: "出现的经文", tree: "家谱", treeTitle: (n) => `家谱 · ${n}`, landTitle: "迦南地", landBtn: "迦南地 ›", nPlaces: (n) => `${n} 处`, landmarks: "边界与地标",
+    family: "家人", namedIn: "出现的经文", tree: "家谱", treeTitle: (n) => `家谱 · ${n}`, kingsTitle: "以色列和犹大的君王", kingsBtn: "以色列和犹大的君王 ›", kingsShort: "君王图", israel: "以色列（北国）", judah: "犹大（南国）",
+    united: "统一王国", kingOf: (k) => `${k}的王`, prophetTo: (k) => `向${k}说话的先知`, nYears: (n) => `${n} 年`,
+    kingGood: "行耶和华眼中看为正的事", kingEvil: "行耶和华眼中看为恶的事", kingNone: "未作评价", prophets: "先知", readRef: (r) => `阅读${r}`,
+    verdictGood: "“他行耶和华眼中看为正的事。”", verdictEvil: "“他行耶和华眼中看为恶的事。”", verdictNone: "列王纪未对这位君王作出评价。",
+    kingsNote: "公元前年份，依泰利（Thiele）年表。与前一位重叠的在位（共治或对立）从前一位结束处开始画。轻点君王或先知。",
+    landTitle: "迦南地", landBtn: "迦南地 ›", nPlaces: (n) => `${n} 处`, landmarks: "边界与地标",
     alsoCalled: (n) => `又名${n}`, landNote: "约书亚分地（书 13–21）。轻点支派，在地图上标出其地方；轻点地名，在地图上显示名称；轻点节数，阅读经文。",
     treeLine: "世系：", treeWed: (n) => `配偶：${n}`,
     treeNote: "轻点名字，查看以其为中心的家谱。", nKids: (n) => `${n} 个儿女`, showPerson: (n) => `查看${n}`,
     inChapter: (r, m) => `${m ? "这几节" : "本节"}没有提到地名。${r} 中的地点：`, partOf: "所属事件",
     error: "无法载入这一章。请检查网络后重新载入。", site: "圣经", atlas: "地图",
-    year: (y) => (y < 0 ? `公元前${-y}年` : `公元${y}年`),
+    year: (y) => (y < 0 ? `公元前${-y}年` : `公元${y}年`), yearSpan: (a, z) => `公元前${-a}–${-z}年`,
     search: "搜索 (/)", searchPh: "搜索圣经",
     searchHint: "经文出处、字词、地点、事件或导览。试试“约翰福音 3:16”“伯利恒”或“牧人”。",
     goTo: "前往", events: "事件", verses: "经文", nVerses: (n) => `${n} 节`,
@@ -665,7 +676,7 @@ async function renderPeople(b, c, sel, key) {
 
 // One person: biography, family and every verse that names them. It stays open while moving between those verses.
 async function renderPerson(people, i, key) {
-  const p = people[i], [bio, refs] = await personMore(i);
+  const p = people[i], [[bio, refs], { kings, prophets }] = await Promise.all([personMore(i), loadKings()]);
   if (selKey() !== key || state.person !== i) return;
   const pane = $("tab-people"), el = (tag, cls, text) => Object.assign(document.createElement(tag), cls ? { className: cls } : {}, text != null ? { textContent: text } : {});
   const back = el("button", "pill back", t("allPeople"));
@@ -700,6 +711,13 @@ async function renderPerson(people, i, key) {
     const h = el("h4", "family-h", t("family")), tree = el("button", "pill small-pill", t("tree"));
     tree.onclick = () => showTree(i);
     h.append(tree);
+    // Kings and the prophets of their time also open the chart of the two kingdoms at them.
+    const row = kings.find((k) => k.at(-1) === i) || prophets.find((q) => q.at(-1) === i);
+    if (row) {
+      const k = el("button", "pill small-pill", t("kingsShort"));
+      k.onclick = () => showKings(row[0] + row[1]);
+      h.append(k);
+    }
     card.push(h, fam);
   }
   // Verses, by book; the open one is marked.
@@ -882,6 +900,136 @@ async function showLand(focus = "canaan", pick = null) {
   const me = tree.querySelector(".me");
   if (me && f !== land) me.scrollIntoView({ block: "nearest" });
   else $("picker-body").scrollTop = 0;
+}
+
+// --- Kings of Israel and Judah ---------------------------------------------------------
+
+// data/kings.json (tools/build_kings.py): kings as [kingdom U/I/J, name, name_zh, from, to (negative = BC), verdict g/e/null,
+// account, account in Chronicles, person], prophets as [kingdom, name, name_zh, from, to, verse, person], and the turning
+// points as [year, title, title_zh, verse].
+// Scale and the shortest block: a reign of a few months still shows its name; its years show from about 7 years up.
+const KING_PX = 4.5, KING_MIN = 22;
+const loadKings = () => loadJSON("data/kings.json");
+const kname = (k) => (zh() && k[2]) || k[1];
+// The king whose account a verse is in ("1Kgs.15.12" is Asa's).
+const refIn = (range, b, c, v) => {
+  const [a, z] = range.split("-").map((x) => x.split(".")), order = (x) => state.books.findIndex((bk) => bk.id === x[0]) * 1e6 + +x[1] * 1e3 + +(x[2] ?? 0);
+  const here = order([b, c, v ?? 0]);
+  return here >= order(a) && here <= order(z);
+};
+
+// Both kingdoms side by side, time running down: each king a block as long as his reign (at least tall enough to read),
+// coloured by the verdict of Kings, with the prophets of the time beside them and the turning points across.
+async function showKings(pickName = null) {
+  const { kings, prophets, events } = await loadKings();
+  const top = Math.min(...kings.map((k) => k[3]), ...prophets.map((p) => p[3])), Y = (y) => (y - top) * KING_PX;
+  $("picker-title").textContent = t("kingsTitle");
+  $("picker-back").hidden = true;
+  const here = kings.find((k) => [k[6], k[7]].some((r) => r && refIn(r, state.book, state.chapter, state.verse)));
+  const pick = pickName ? kings.find((k) => k[0] + k[1] === pickName) || prophets.find((p) => p[0] + p[1] === pickName) : here;
+
+  const chart = make("div", "kings");
+  const head = make("div", "kings-head");
+  head.append(make("span"), make("span"), make("b", "", t("israel")), make("b", "", t("judah")), make("span"));
+  const body = make("div", "kings-body");
+  const lanes = { axis: make("div", "k-axis"), pi: make("div", "k-lane"), I: make("div", "k-col"), J: make("div", "k-col"), pj: make("div", "k-lane") };
+  body.append(...Object.values(lanes));
+  let height = 0;
+  const card = make("div", "king-card");
+  const select = (row, btn) => {
+    chart.querySelectorAll(".me").forEach((x) => x.classList.remove("me"));
+    btn.classList.add("me");
+    fillKingCard(card, row, row.length === 9);
+  };
+  // Kings: each block starts at its first year or where the one before ends, whichever is later.
+  const bottom = { I: 0, J: 0, U: 0 };
+  for (const k of kings) {
+    const col = k[0] === "U" ? "U" : k[0], y = Math.max(Y(k[3]), bottom[col] + 2, k[0] !== "U" ? bottom.U + 2 : 0);
+    const h = Math.max(Y(k[4] + 1) - y, KING_MIN);
+    const b = make("button", "king " + (k[5] === "g" ? "good" : k[5] === "e" ? "evil" : "none") + (k[0] === "U" ? " united" : ""));
+    b.style.top = y + "px";
+    b.style.height = h + "px";
+    if (h < 32) b.classList.add("short");
+    b.append(make("b", "", kname(k)), make("span", "", k[3] === k[4] ? fmtYear(k[3]) : `${-k[3]}–${-k[4]}`));
+    b.onclick = () => select(k, b);
+    if (k === pick) b.classList.add("me");
+    (k[0] === "U" ? body : lanes[col]).append(b);
+    if (k[0] === "U") bottom.U = bottom.I = bottom.J = y + h;
+    else bottom[col] = y + h;
+    height = Math.max(height, y + h);
+  }
+  // Prophets: a thin bar for their years with the name beside it, in the lane next to the kingdom they spoke to.
+  // Prophets whose years overlap in one lane take side-by-side slots.
+  const slots = new Map([[lanes.pi, []], [lanes.pj, []]]);
+  for (const p of prophets) {
+    const lane = p[0] === "J" ? lanes.pj : lanes.pi, ends = slots.get(lane);
+    let slot = ends.findIndex((end) => end < p[3]);
+    if (slot < 0) slot = ends.length;
+    ends[slot] = p[4];
+    const b = make("button", "prophet");
+    b.style.setProperty("--slot", slot);
+    b.style.top = Y(p[3]) + "px";
+    b.style.height = Math.max(Y(p[4] + 1) - Y(p[3]), 14) + "px";
+    b.append(make("span", "", (zh() && p[2]) || p[1]));
+    b.onclick = () => select(p, b);
+    if (p === pick) b.classList.add("me");
+    lane.append(b);
+  }
+  // The axis every 50 years, and the turning points across both kingdoms.
+  for (let y = Math.ceil(top / 50) * 50; Y(y) < height && y < 0; y += 50) {
+    const tk = make("span", "tick", `${-y}`);
+    tk.style.top = Y(y) + "px";
+    lanes.axis.append(tk);
+  }
+  // Labels sit below the line, where Israel's column has ended (722, 586); the division's sits above, on Solomon.
+  for (const [y, en, zhName, ref] of events) {
+    const line = make("div", "k-event" + (y === events[0][0] ? " up" : "")), label = make("a", "", `${-y} · ${(zh() && zhName) || en}`);
+    label.href = "#" + ref;
+    label.onclick = () => $("picker").close();
+    line.append(label);
+    line.style.top = Y(y) + "px";
+    body.append(line);
+  }
+  body.style.height = height + 24 + "px";
+  // Legend.
+  const legend = make("p", "kings-legend");
+  for (const [cls, k] of [["good", "kingGood"], ["evil", "kingEvil"], ["none", "kingNone"], ["lg-prophet", "prophets"]]) {
+    const s = make("span", "lg " + cls);
+    s.append(make("i"), t(k));
+    legend.append(s);
+  }
+  chart.append(legend, make("p", "note small", t("kingsNote")), head, body);
+  card.hidden = true;
+  $("picker-body").replaceChildren(chart, card);
+  if (!$("picker").open) $("picker").showModal();
+  chart.style.setProperty("--head", $("picker").querySelector(".picker-head").offsetHeight + "px");
+  const me = chart.querySelector(".me");
+  if (me) { me.scrollIntoView({ block: "center" }); select(pick, me); }
+  else $("picker").scrollTop = 0;
+}
+
+// The card under the chart for the king or prophet picked: years, verdict, and links to read and to their family.
+function fillKingCard(card, r, isKing) {
+  const [k, , , a, z] = r, person = r.at(-1), n = z - a;
+  const kingdom = t(k === "U" ? "united" : k === "I" ? "israel" : "judah");
+  const years = a === z ? fmtYear(a) : t("yearSpan", a, z);
+  const sub = isKing ? `${t("kingOf", kingdom)} · ${years}${n > 0 ? " · " + t("nYears", n) : ""}` : `${t("prophetTo", kingdom)} · ${years}`;
+  const acts = make("div", "card-acts");
+  for (const ref of isKing ? [r[6], r[7]].filter(Boolean) : [`${r[5]}-${r[5]}`]) {
+    const [first] = ref.split("-"), [b, c, v] = first.split(".");
+    const b2 = make("button", "pill", t("readRef", ref.split("-")[0] === ref.split("-")[1] ? `${bname(state.byId[b])} ${c}:${v}` : refLabel(ref)));
+    b2.onclick = () => { $("picker").close(); location.hash = "#" + first; };
+    acts.append(b2);
+  }
+  if (person != null) {
+    const fam = make("button", "pill", t("tree"));
+    fam.onclick = () => showTree(person);
+    acts.append(fam);
+  }
+  const out = [make("h3", "", (zh() && r[2]) || r[1]), make("p", "king-sub", sub)];
+  if (isKing) out.push(make("p", "verdict " + (r[5] === "g" ? "good" : r[5] === "e" ? "evil" : "none"), t(r[5] === "g" ? "verdictGood" : r[5] === "e" ? "verdictEvil" : "verdictNone")));
+  card.replaceChildren(...out, acts);
+  card.hidden = false;
 }
 
 // Open a person's card at a verse (from family links and search).
@@ -1596,6 +1744,11 @@ async function showEra(i) {
     b.onclick = () => showEra(j);
     nav.append(b);
   }
+  if (e.start <= -586 && e.end >= -1050) {
+    const k = el("button", "pill", t("kingsBtn"));
+    k.onclick = () => showKings();
+    nav.append(k);
+  }
   if (e.id !== "before") {
     const map = el("a", "pill", t("map"));
     map.href = `${ATLAS}?pack=${encodeURIComponent(PACK)}&lang=${state.lang}#y=${e.start}`;
@@ -1914,7 +2067,7 @@ function renderOffline(body) {
   if ((store.get("bible-offline") || []).includes(state.version)) { btn.textContent = t("saved", names); btn.disabled = true; }
   btn.onclick = async () => {
     btn.disabled = true;
-    const files = ["data/books.json", "data/places.json", "data/search.json", "data/people.json", "data/basemap.json", "data/timeline.json", "data/lands.json", "data/names.json",
+    const files = ["data/books.json", "data/places.json", "data/search.json", "data/people.json", "data/basemap.json", "data/timeline.json", "data/lands.json", "data/names.json", "data/kings.json",
       "atlas/tours.json", "atlas/eras.json", "atlas/events.json",
       ...Array.from({ length: 12 }, (_, i) => `data/people/${i}.json`),
       ...state.books.flatMap((b) => [...vs.map((v) => `data/text/${v}/${b.id}.json`), `data/xref/${b.id}.json`, `data/vctx/${b.id}.json`])];
