@@ -45,6 +45,9 @@ const L = {
     topicSrc: "From Nave's Topical Bible (1896).", popularTopics: "Popular topics",
     parallels: "Parallel accounts", harmony: "Gospel harmony", allSections: "All sections", compare: "Compare",
     harmonyNote: "Sections follow the order of the classic harmonies; where the Gospels tell an event at different points, it sits where most place it.",
+    commentary: "Commentary", commBy: "Matthew Henry", commVerses: (a, z) => (a === z ? `Verse ${a}` : `Verses ${a}–${z}`),
+    commIntro: "Introduction", readMore: "Read more", readLess: "Show less",
+    commNote: "From Matthew Henry's Concise Commentary, abridged from his Commentary on the Whole Bible (1706–1714).",
     onlyIn: (g) => `Only in ${g}`, noXrefCh: "No cross-references for this chapter.",
     noPeopleSel: (m) => `No one is named in ${m ? "these verses" : "this verse"}.`,
     noPlacesSel: (m) => `No places are named in ${m ? "these verses" : "this verse"}.`, placesIn: (r) => `Named in ${r}`,
@@ -141,6 +144,9 @@ const L = {
     topicSrc: "取自 Nave's Topical Bible（1896 年）。分项说明为英文原文，部分主题暂无中文名称。", popularTopics: "常见主题",
     parallels: "平行记载", harmony: "四福音合参", allSections: "全部段落", compare: "对照",
     harmonyNote: "段落按传统合参的次序排列；各福音书记载次序不同的事件，按多数福音书的位置排列。",
+    commentary: "注释", commBy: "马太·亨利", commVerses: (a, z) => (a === z ? `第${a}节` : `第${a}–${z}节`),
+    commIntro: "引言", readMore: "展开", readLess: "收起",
+    commNote: "取自马太·亨利《圣经简明注释》，节选自其《圣经全书注释》（1706–1714 年）。注释为英文原文。",
     onlyIn: (g) => `只记于${g}`, noXrefCh: "这一章没有串珠。",
     noPeopleSel: (m) => `${m ? "这几节" : "本节"}没有提到人名。`,
     noPlacesSel: (m) => `${m ? "这几节" : "本节"}没有提到地名。`, placesIn: (r) => `${r} 提到的地点`,
@@ -536,6 +542,7 @@ async function renderContext() {
   renderOrig(b, c, chapter ? [] : sel, orig, texts[vs.indexOf("kjv")] || await bookText(b.id, "kjv"), key);
   renderParallels(b, c, sel, chapter, key).catch((e) => console.error(e));
   renderTopics(b, c, sel, chapter, key).catch((e) => console.error(e));
+  renderCommentary(b, c, sel, chapter, key).catch((e) => console.error(e));
   $("ctx-text").classList.toggle("chapter", chapter);
   document.querySelectorAll(".tabs button").forEach((t) => t.setAttribute("aria-selected", t.dataset.tab === state.tab));
   for (const t of TABS) $("tab-" + t).hidden = t !== state.tab;
@@ -706,6 +713,81 @@ async function openTopic(i, from = null, back = null) {
   }
   body.replaceChildren(head, list, el("p", "note small", t("topicSrc")));
   body.querySelector(".topic-ref.here")?.scrollIntoView({ block: "center" });
+}
+
+// --- Commentary -----------------------------------------------------------------------------------------------
+// Matthew Henry's Concise Commentary (data/commentary/<book>.json, built by tools/build_commentary.py): each chapter
+// in sections on runs of verses. Selected verses show the sections on them, a long one folded to its first lines; a
+// chapter lists its sections, each opening in place. References in the text go there.
+
+const bookComm = (book) => loadJSON(`data/commentary/${book}.json`);
+const COMM_FOLD = 600; // characters shown of a long section before "Read more"
+
+// "{Joh 5:23|John.5.23}" → a link; the rest stays text.
+function commPara(text) {
+  const p = el("p");
+  for (const part of text.split(/(\{[^{}|]*\|[^{}]*\})/)) {
+    const m = /^\{([^|]*)\|(.*)\}$/.exec(part);
+    if (!m) { p.append(part); continue; }
+    const a = el("a", "", m[1]);
+    a.href = "#" + m[2];
+    p.append(a);
+  }
+  return p;
+}
+// A section's title from the chapter's outline: the parts that start within it.
+const commTitle = (ch, [a, z]) => ch.o.filter(([, from]) => from >= a && from <= z).map(([title]) => title).join(" ");
+
+function commSection(ch, s, fold) {
+  const box = el("section", "comm-sec"), head = el("h4", "", t("commVerses", s[0], s[1])), title = commTitle(ch, s);
+  if (title) head.append(" ", el("span", "", title));
+  const text = el("div", "comm-text");
+  text.lang = "en";
+  text.append(...s[2].map(commPara));
+  box.append(head, text);
+  if (fold && s[2].join(" ").length > COMM_FOLD * 1.4) {
+    text.classList.add("folded");
+    const more = el("button", "link", t("readMore"));
+    more.onclick = () => { const f = text.classList.toggle("folded"); more.textContent = t(f ? "readMore" : "readLess"); };
+    box.append(more);
+  }
+  return box;
+}
+
+async function renderCommentary(b, c, sel, chapter, key) {
+  const box = $("ctx-comm"), data = await bookComm(b.id).catch(() => null);
+  if (selKey() !== key) return;
+  const ch = data?.ch[c - 1], secs = (ch?.s || []).filter((s) => chapter || sel.some((n) => n >= s[0] && n <= s[1]));
+  const intro = chapter && c === 1 && data?.intro.length ? data.intro : null;
+  box.hidden = !secs.length && !intro;
+  if (box.hidden) return;
+  const summary = el("summary", "", t("commentary"));
+  summary.append(" ", el("span", "count", t("commBy")));
+  box.replaceChildren(summary);
+  box.open = store.get("bible-comm-open") !== false;
+  box.ontoggle = () => store.set("bible-comm-open", box.open);
+  const list = el("div", "comm");
+  if (chapter) {
+    // Each section folded under its verses and title; the book's introduction first, on its first chapter.
+    const fold = (label, sub, paras) => {
+      const d = el("details", "comm-fold"), s = el("summary", "", label);
+      if (sub) s.append(" ", el("span", "", sub));
+      d.append(s);
+      d.ontoggle = () => {
+        if (!d.open || d.querySelector(".comm-text")) return;
+        const text = el("div", "comm-text");
+        text.lang = "en";
+        text.append(...paras.map(commPara));
+        d.append(text);
+      };
+      return d;
+    };
+    if (intro) list.append(fold(t("commIntro"), bname(b), intro));
+    for (const s of secs) list.append(fold(t("commVerses", s[0], s[1]), commTitle(ch, s), s[2]));
+  } else {
+    list.append(...secs.map((s) => commSection(ch, s, true)));
+  }
+  box.append(list, el("p", "note small", t("commNote")));
 }
 
 // --- Gospel harmony -----------------------------------------------------------------------------------------
