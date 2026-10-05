@@ -12,6 +12,7 @@
   --accent: #2f4a7a;
   --accent-soft: #e4e9f2;
   --sel: #fbefb8;
+  --good: #3d7a50; --evil: #a5463a;
   --shadow: 0 1px 2px rgba(20, 25, 40, .06), 0 8px 24px rgba(20, 25, 40, .08);
   --read-size: 19px;
   color-scheme: light;
@@ -19,14 +20,14 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #151618; --panel: #1c1d21; --dock: #2a2d35; --ink: #e9e7e2; --muted: #9c9a94; --line: #32343a;
-    --accent: #9fb6e2; --accent-soft: #252b38; --sel: #4a4120; --shadow: 0 8px 24px rgba(0, 0, 0, .4);
+    --accent: #9fb6e2; --accent-soft: #252b38; --sel: #4a4120; --good: #8cc49c; --evil: #e39a8e; --shadow: 0 8px 24px rgba(0, 0, 0, .4);
     --sea: #1a2230; --land: #2a2925; --coast: #4a4740; --water: #5a7aa6;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #151618; --panel: #1c1d21; --dock: #2a2d35; --ink: #e9e7e2; --muted: #9c9a94; --line: #32343a;
-  --accent: #9fb6e2; --accent-soft: #252b38; --sel: #4a4120; --shadow: 0 8px 24px rgba(0, 0, 0, .4);
+  --accent: #9fb6e2; --accent-soft: #252b38; --sel: #4a4120; --good: #8cc49c; --evil: #e39a8e; --shadow: 0 8px 24px rgba(0, 0, 0, .4);
   --sea: #1a2230; --land: #2a2925; --coast: #4a4740; --water: #5a7aa6;
   color-scheme: dark;
 }
@@ -61,6 +62,7 @@ a { color: var(--accent); }
   border: 0; background: none; min-width: 34px; height: 34px; border-radius: 8px;
   font-size: 15px; color: var(--muted); padding: 0 6px;
 }
+.icon[hidden] { display: none; }
 #prev, #next { font-size: 24px; line-height: 1; }
 .spacer { flex: 1; }
 .badge {
@@ -484,3 +486,55 @@ body:not(.playing) .tour-bar { visibility: hidden; }
   .land .tree { margin-top: 0; }
   .land .tname { scroll-margin-top: calc(var(--head, 50px) + 12px); }
 }
+
+/* Kings of Israel and Judah: two columns, time running down, prophets in the outer lanes. */
+.picker:has(.kings) { width: min(720px, calc(100vw - 32px)); }
+.kings-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 0 0 4px; font-size: 12px; color: var(--muted); }
+.kings-legend .lg { display: inline-flex; align-items: center; gap: 5px; }
+.kings-legend i { width: 10px; height: 10px; border-radius: 3px; background: var(--muted); }
+.kings-legend .good i { background: var(--good); }
+.kings-legend .evil i { background: var(--evil); }
+.kings-legend .none i { background: var(--line); }
+.kings-legend .lg-prophet i { width: 4px; background: var(--accent); }
+.kings-head, .kings-body { display: grid; grid-template-columns: 30px 46px 1fr 1fr 46px; column-gap: 3px; }
+.kings-head { position: sticky; top: var(--head, 50px); z-index: 1; background: var(--panel); padding: 8px 0 6px; font-size: 13px; text-align: center; }
+.kings-body { position: relative; margin-bottom: 8px; }
+.k-axis, .k-lane, .k-col { position: relative; }
+.k-axis .tick { position: absolute; right: 2px; transform: translateY(-50%); font-size: 10px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.k-col { border-left: 1px dashed var(--line); }
+.king { position: absolute; left: 2px; right: 2px; display: flex; flex-direction: column; justify-content: flex-start; gap: 0; overflow: hidden; padding: 3px 6px 3px 9px; border: 0; border-radius: 8px; background: var(--bg); color: var(--ink); text-align: left; font: inherit; cursor: pointer; box-shadow: inset 4px 0 0 var(--line); }
+.king.good { box-shadow: inset 4px 0 0 var(--good); background: color-mix(in srgb, var(--good) 10%, var(--panel)); }
+.king.evil { box-shadow: inset 4px 0 0 var(--evil); background: color-mix(in srgb, var(--evil) 9%, var(--panel)); }
+.king.united { left: calc(30px + 46px + 8px); right: calc(46px + 5px); }
+.king b { font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif; font-size: 14px; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.king span { font-size: 11px; line-height: 1.3; color: var(--muted); font-variant-numeric: tabular-nums; }
+.king.short { padding-top: 1px; padding-bottom: 1px; }
+.king.short span { display: none; }
+.king:hover { outline: 1px solid var(--accent); }
+.king.me { outline: 2px solid var(--accent); outline-offset: -1px; }
+.prophet { position: absolute; width: 16px; padding: 0; border: 0; background: none; color: var(--accent); font: inherit; font-size: 11px; cursor: pointer; }
+.prophet::before { content: ""; position: absolute; top: 0; bottom: 0; width: 3px; border-radius: 2px; background: var(--accent); opacity: .7; }
+.prophet span { position: absolute; top: 0; writing-mode: vertical-rl; white-space: nowrap; line-height: 12px; letter-spacing: .02em; }
+.k-axis + .k-lane .prophet { right: calc(var(--slot) * 17px + 1px); }
+.k-axis + .k-lane .prophet::before { right: 0; }
+.k-axis + .k-lane .prophet span { right: 4px; }
+.k-lane:last-child .prophet { left: calc(var(--slot) * 17px + 1px); }
+.k-lane:last-child .prophet::before { left: 0; }
+.k-lane:last-child .prophet span { left: 4px; }
+.prophet.me span { font-weight: 700; }
+.prophet.me::before { opacity: 1; width: 4px; }
+.k-event { position: absolute; left: 30px; right: 0; height: 0; border-top: 1.5px dashed color-mix(in srgb, var(--evil) 55%, transparent); z-index: 1; pointer-events: none; }
+.k-event.up a { top: auto; bottom: 2px; }
+.k-event a { position: absolute; left: 49px; top: 2px; padding: 0 6px; border-radius: 6px; background: color-mix(in srgb, var(--panel) 88%, transparent); color: var(--evil); font-size: 11px; white-space: nowrap; pointer-events: auto; }
+.king-card { position: sticky; bottom: -20px; z-index: 2; margin: 0 -16px -20px; padding: 10px 16px 14px; background: var(--panel); border-top: 1px solid var(--line); box-shadow: 0 -8px 16px rgba(0,0,0,.06); }
+.king-card h3 { margin: 0; font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif; font-size: 18px; }
+.king-card p { margin: 1px 0; font-size: 13px; color: var(--muted); }
+.king-card .verdict.good { color: var(--good); }
+.king-card .verdict.evil { color: var(--evil); }
+.king-card .card-acts { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 6px; margin-top: 8px; }
+.king-card .pill { font-size: 12px; padding: 3px 10px; margin: 0; }
+
+/* Share: the link to this view, copied or handed to the phone's share sheet. */
+.share-btn svg { display: block; }
+.toast { position: fixed; left: 50%; bottom: 88px; z-index: 100; transform: translateX(-50%); padding: 8px 14px; border-radius: 999px; background: var(--ink); color: var(--panel); font-size: 14px; box-shadow: var(--shadow); animation: toast 1.8s ease both; pointer-events: none; }
+@keyframes toast { 0% { opacity: 0; transform: translate(-50%, 6px); } 10%, 85% { opacity: 1; transform: translate(-50%, 0); } 100% { opacity: 0; } }

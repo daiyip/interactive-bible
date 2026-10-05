@@ -58,6 +58,18 @@ early church, and marks the year of the chapter or verse being read. Each era op
 the chapters set in it (book by book), its events, and a link to that time on the atlas map. The eras are the atlas
 pack's (`atlas/eras.json`), shown at equal widths so the short ones can be tapped.
 
+**Share** (the arrow in the top bar, and in every dialog) gives a link to exactly what is on screen: the passage and
+selected verses, the translation, the open tab, the person whose card is open, the sheet's size on phones, a running
+tour, and an open family tree, land of Canaan, kings chart or era. On a phone it opens the share sheet; elsewhere it
+copies the link. Opening the link restores that view once (the translation only for that visit), then the address
+goes back to the plain passage.
+
+**Kings of Israel and Judah** opens from the eras of the kings and from any king's or prophet's card: Saul to Zedekiah
+with the two kingdoms side by side and time running down, each reign as long as its years (Thiele's dates), coloured by
+the verdict the book of Kings gives, with the prophets of each kingdom beside it and the division, the fall of Samaria
+and the fall of Jerusalem across both. Tapping a king shows his years and verdict, links to his account in Kings and
+Chronicles, and his family tree. Opened while reading a king's account, it starts at him.
+
 **My reading** (in the dock) holds three things, all kept in the browser with nothing sent anywhere:
 
 - **Plan**: the Bible in a year, Genesis to Revelation in 365 days of whole chapters, each day about the same
@@ -124,11 +136,13 @@ with three lines of text, drawn in the same line style as the atlas's folded map
 | `data/search.json` | For the search box: every place and event with its Chinese name, first verse and verse count. |
 | `data/lands.json` | The land as Joshua 13–21 divides it: nested `{id, name, zh, kids}` groups down to `{..., ref, towns}`, each town `[place number, "chapter.verse"]`. Built from the verse-to-place links in `data/vctx/Josh.json`. |
 | `data/names.json` | Places the Bible renames or calls by other names: `[[place numbers], [[name, name_zh, verse], ...]]`, every verse checked against the KJV. |
+| `data/kings.json` | 42 kings as `[kingdom U/I/J, name, name_zh, from, to, verdict g/e/null, account, account in Chronicles, person]` (years negative for BC), 15 prophets as `[kingdom, name, name_zh, from, to, verse, person]`, and turning points as `[year, title, title_zh, verse]`. |
 | `data/basemap.json` | Land, lakes and main rivers of the Bible lands for the Places map (Natural Earth, simplified). |
 | `atlas/` | The atlas data pack (see above). |
 
 To rebuild, run `tools/fetch_sources.sh` to download the sources into `tools/src/`. Then run
 `python3 tools/build_data.py` for `data/` and `python3 tools/build_atlas.py` for the pack's events and places.
+`python3 tools/build_kings.py` rebuilds the kings (checking every account against the KJV), and
 `python3 tools/build_names.py && python3 tools/build_lands.py` rebuild the place names and the land of Canaan from
 `data/`.
 
