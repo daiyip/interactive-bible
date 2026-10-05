@@ -271,7 +271,7 @@ async function renderChapter() {
     const r = el.getBoundingClientRect(), box = $("reader").getBoundingClientRect();
     const top = $("tour").hidden ? 0 : $("tour").offsetHeight; // the tour card sits over the top of the text
     // On a phone the sheet covers the lower part of the text. Growing a selection leaves the text where it is.
-    const fresh = sheet.first !== `${state.book}.${state.chapter}.${state.verse}`;
+    const fresh = freshSelection();
     const bottom = phone() ? box.top + box.height * 0.4 : box.bottom;
     if (fresh && (r.top < box.top + top + 40 || r.top > bottom - 40)) {
       $("reader").scrollTo({ top: $("reader").scrollTop + r.top - box.top - top - 80, behavior: "smooth" });
@@ -297,7 +297,12 @@ const TABS = ["xref", "people", "places", "links"];
 // leaving the text above it free to tap), "half" and "full". Its handle drags or taps between them; scrolling the
 // text lowers it to a peek, and tapping the peek raises it again.
 const SHEET_PEEK = 112;
-const sheet = { size: "half", first: null };
+const sheet = { size: "half", sel: null };
+// A selection is new when it shares no verse with the one before (growing or trimming a selection is not).
+const freshSelection = () => {
+  const p = sheet.sel;
+  return !p || p.bc !== `${state.book}.${state.chapter}` || (state.to || state.verse) < p.a || state.verse > p.z;
+};
 const phone = () => matchMedia("(max-width: 800px)").matches;
 function setSheet(size) {
   sheet.size = size;
@@ -354,11 +359,11 @@ async function renderContext() {
   $("ctx-body").hidden = !open;
   $("context").classList.toggle("open", open);
   document.body.classList.toggle("sheet-open", open);
-  if (!open) { sheet.first = null; return; }
+  if (!open) { sheet.sel = null; return; }
   const b = state.byId[state.book], c = state.chapter, v = state.verse, sel = selVerses(), key = selKey();
-  // A new verse opens the sheet half way; growing the selection keeps the sheet as it is.
-  const first = `${b.id}.${c}.${v}`;
-  if (sheet.first !== first) { sheet.first = first; setSheet("half"); }
+  // A new selection opens the sheet half way; growing or trimming one keeps the sheet as it is.
+  if (freshSelection()) setSheet("half");
+  sheet.sel = { bc: `${b.id}.${c}`, a: v, z: sel.at(-1) };
   const span = sel.length > 1 ? `${v}–${sel.at(-1)}` : `${v}`;
   $("ctx-ref").textContent = `${bname(b)} ${c}:${span}`;
   const vs = versions(), texts = await Promise.all(vs.map((tr) => bookText(b.id, tr)));
@@ -1807,11 +1812,15 @@ async function init() {
   $("chapter").addEventListener("click", (e) => {
     const el = e.target.closest(".v");
     if (!el) return;
-    // Tapping a verse selects it; tapping another grows the selection to reach it; tapping the selection clears it.
-    const v = +el.dataset.v, a = state.verse, z = state.to || a;
-    location.hash = a == null ? hashFor(state.book, state.chapter, v)
-      : v >= a && v <= z ? hashFor(state.book, state.chapter)
-      : hashFor(state.book, state.chapter, Math.min(a, v), Math.max(z, v));
+    // Tapping a verse selects it; tapping another grows the selection to reach it. Tapping a selected verse lets go of
+    // it: the first or last drops off the end, one in the middle drops with the verses after it (a selection has no
+    // gaps), and the only one clears the selection.
+    const v = +el.dataset.v, a = state.verse, z = state.to || a, pick = (x, y) => hashFor(state.book, state.chapter, x, y);
+    location.hash = a == null ? pick(v)
+      : v < a || v > z ? pick(Math.min(a, v), Math.max(z, v))
+      : a === z ? pick(null)
+      : v === a ? pick(a + 1, z)
+      : pick(a, v - 1);
   });
   document.querySelector(".tabs").addEventListener("click", (e) => {
     const t = e.target.closest("button")?.dataset.tab;
