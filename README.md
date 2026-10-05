@@ -11,8 +11,8 @@
 
 A Bible reader with the context of every verse beside it. The text is on the left. Selecting a verse opens a panel
 on the right with four tabs. Tapping another verse grows the selection to reach it, and the tabs then cover every
-verse in it. Tapping a selected verse lets go of it (one in the middle takes the verses after it along, since a
-selection has no gaps), and × closes the panel. On a phone the panel is a sheet over the bottom of the text: drag or tap
+verse in it. Tapping any selected verse clears the whole selection, as do a tap on the page outside the verses,
+the panel's ×, and Esc. On a phone the panel is a sheet over the bottom of the text: drag or tap
 its handle to make it taller or shorter, and scrolling the text lowers it to a strip so the verses stay in reach.
 
 - **Cross-references**: the verses most often linked to this one, strongest first, as a list or as a web: the verse

@@ -27,7 +27,7 @@ const L = {
     ot: "Old Testament", nt: "New Testament", version: "Translation",
     tapVerse: "Tap a verse", tapHint: "Its cross-references, people, places and links show up here.", orTour: "Or take a tour",
     prevCh: "Previous chapter (←)", nextCh: "Next chapter (→)", histBack: "Back", histFwd: "Forward", textSize: "Text size", sizes: ["Smallest", "Small", "Normal", "Large", "Larger", "Largest"],
-    close: "Close", sheetHandle: "Drag or tap to resize", backBooks: "Back to books", endTour: "End tour",
+    close: "Close", clearSel: "Clear selection (Esc)", sheetHandle: "Drag or tap to resize", backBooks: "Back to books", endTour: "End tour",
     back: "‹ Back", next: "Next ›", finish: "Finish", map: "Map ↗", mapTitle: "Follow this step on the atlas map",
     stepOf: (i, n) => `${i} of ${n}`, steps: (n) => `${n} steps`,
     noXref: "No cross-references for this verse.", votes: "Votes on OpenBible.info: how many readers found this link helpful",
@@ -138,7 +138,7 @@ const L = {
     ot: "旧约", nt: "新约", version: "译本",
     tapVerse: "点选一节经文", tapHint: "它的串珠、人物、地点和链接会显示在这里。", orTour: "或者跟随导览",
     prevCh: "上一章 (←)", nextCh: "下一章 (→)", histBack: "后退", histFwd: "前进", textSize: "字体大小", sizes: ["最小", "小", "标准", "大", "较大", "最大"],
-    close: "关闭", sheetHandle: "拖动或轻点以调整大小", backBooks: "返回书卷", endTour: "结束导览",
+    close: "关闭", clearSel: "取消选择（Esc）", sheetHandle: "拖动或轻点以调整大小", backBooks: "返回书卷", endTour: "结束导览",
     back: "‹ 上一步", next: "下一步 ›", finish: "完成", map: "地图 ↗", mapTitle: "在历代地图上查看这一步",
     stepOf: (i, n) => `${i} / ${n}`, steps: (n) => `${n} 站`,
     noXref: "这节经文没有串珠。", votes: "OpenBible.info 上认为这条串珠有帮助的读者人数",
@@ -528,6 +528,7 @@ async function renderContext() {
   const sel = chapter ? texts[0][c - 1].map((_, i) => i + 1) : picked;
   const span = picked.length > 1 ? `${v}–${picked.at(-1)}` : `${v}`;
   $("ctx-ref").textContent = chapter ? `${bname(b)} ${c}` : `${bname(b)} ${c}:${span}`;
+  $("sheet-x").title = $("sheet-x").ariaLabel = t(v != null ? "clearSel" : "close");
   // With verses selected, a switch between them and their chapter.
   const seg = $("ctx-scope");
   seg.hidden = v == null;
@@ -3505,15 +3506,18 @@ async function init() {
   $("chapter").addEventListener("click", (e) => {
     const el = e.target.closest(".v");
     if (!el) return;
-    // Tapping a verse selects it; tapping another grows the selection to reach it. Tapping a selected verse lets go of
-    // it: the first or last drops off the end, one in the middle drops with the verses after it (a selection has no
-    // gaps), and the only one clears the selection.
+    // Tapping a verse selects it; tapping another grows the selection to reach it. Tapping any selected verse clears
+    // the selection, however long it is.
     const v = +el.dataset.v, a = state.verse, z = state.to || a, pick = (x, y) => hashFor(state.book, state.chapter, x, y);
     location.hash = a == null ? pick(v)
       : v < a || v > z ? pick(Math.min(a, v), Math.max(z, v))
-      : a === z ? pick(null)
-      : v === a ? pick(a + 1, z)
-      : pick(a, v - 1);
+      : pick(null);
+  });
+  // A tap on the page outside the verses (the margins, the space between paragraphs) clears the selection too.
+  $("reader").addEventListener("click", (e) => {
+    if (state.verse == null || e.target.closest(".v, a, button, input, select, textarea, summary, .tour, .dock")) return;
+    if (getSelection()?.toString()) return; // copying text, not tapping
+    location.hash = hashFor(state.book, state.chapter);
   });
   document.querySelector(".tabs").addEventListener("click", (e) => {
     const t = e.target.closest("button")?.dataset.tab;
