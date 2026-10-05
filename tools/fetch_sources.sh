@@ -21,3 +21,9 @@ for f in MainIndex StrongsIndex Strongs; do curl -sSfo src/metav/$f.csv $M/$f.cs
 # Topics: Nave's Topical Bible (public domain), as CSV from BradyStephenson/bible-data (CC BY 4.0).
 mkdir -p src/naves
 curl -sSfo src/naves/NavesTopicalDictionary.csv https://raw.githubusercontent.com/BradyStephenson/bible-data/main/NavesTopicalDictionary.csv
+# More translations, all public domain: from scrollmapper (above), and the World English Bible from TehShrike.
+mkdir -p src/versions src/web
+for f in BSB ASV YLT Darby BBE ChiUnL; do curl -sSfo src/versions/$f.json $B/formats/json/$f.json; done
+W=https://raw.githubusercontent.com/TehShrike/world-english-bible/master/json
+python3 -c "import json; [print(b['id'], b['name'].lower().replace(' ', '')) for b in json.load(open('../data/books.json'))]" |
+  while read id name; do curl -sSfo src/web/$id.json $W/$name.json; done
