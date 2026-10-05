@@ -53,6 +53,8 @@ const L = {
     xrefList: "List", xrefWeb: "Web", webLabel: "This verse and its strongest cross-references",
     webNote: (n) => `The ${n} strongest cross-references, in Bible order from the top (grey for the Old Testament, blue for the New); bigger means more votes. Faint lines join ones that cross-reference each other. Tap one to move there.`,
     play: "▶ Play", pause: "❚❚ Pause", playTitle: "Play the tour: steps move on by themselves and the map traces the route",
+    card: "Card", cardTip: "A picture of this verse over a map of its places, to share", cardTitle: "Verse card",
+    light: "Light", dark: "Dark", share: "Share…", download: "Download",
     mine: "My reading", plan: "Plan", marks: "Highlights", readingPlan: "Reading plan",
     planStart: "Read the Bible in a year", planPitch: "A few chapters a day, Genesis to Revelation in 365 days. Your progress stays in this browser.",
     planStartToday: "Start today", today: "Today", dayOf: (d, n) => `Day ${d} of ${n}`,
@@ -104,6 +106,8 @@ const L = {
     xrefList: "列表", xrefWeb: "关系图", webLabel: "本节与它最主要的串珠",
     webNote: (n) => `最主要的 ${n} 条串珠，从顶部起按圣经顺序排列（灰色为旧约，蓝色为新约）；圆点越大，票数越多。淡线连接彼此互为串珠的经文。点选即可前往。`,
     play: "▶ 播放", pause: "❚❚ 暂停", playTitle: "自动播放导览：逐站前进，地图描绘路线",
+    card: "卡片", cardTip: "把这节经文配上地图做成图片分享", cardTitle: "经文卡片",
+    light: "浅色", dark: "深色", share: "分享…", download: "下载",
     mine: "我的读经", plan: "计划", marks: "标记", readingPlan: "读经计划",
     planStart: "一年读完圣经", planPitch: "每天几章，365 天从创世记读到启示录。进度保存在这个浏览器里。",
     planStartToday: "今天开始", today: "今天", dayOf: (d, n) => `第 ${d} 天，共 ${n} 天`,
@@ -673,6 +677,8 @@ addEventListener("message", (e) => {
   }
 });
 
+const LANDMARKS_ZH = { Jerusalem: "耶路撒冷", Damascus: "大马士革", Babylon: "巴比伦", Nineveh: "尼尼微", Memphis: "挪弗",
+  Antioch: "安提阿", Athens: "雅典", Rome: "罗马", Ephesus: "以弗所", Tyre: "推罗" };
 const LANDMARKS = [["Jerusalem", 35.234, 31.777], ["Damascus", 36.309, 33.512], ["Babylon", 44.421, 32.536],
   ["Nineveh", 43.161, 36.348], ["Memphis", 31.255, 29.845], ["Antioch", 36.165, 36.201], ["Athens", 23.727, 37.972],
   ["Rome", 12.484, 41.893], ["Ephesus", 27.340, 37.942], ["Tyre", 35.209, 33.268]];
@@ -1090,6 +1096,159 @@ function markWord(text, word, tr) {
   return esc(text).replace(new RegExp(`(^|[^\\p{L}])(${w})(?=$|[^\\p{L}])`, "giu"), "$1<mark>$2</mark>");
 }
 
+// --- Verse card -----------------------------------------------------------------------------------------
+// A picture to share: the verse over a map of the places it names (or its chapter's, or the Holy Land), 1080×1350
+// for phones and social posts, drawn on a canvas from the same base map as the Places tab. Light or dark.
+
+const CARD = { w: 1080, h: 1350 };
+const CARD_THEMES = {
+  light: { sea: "#d9e2ec", land: "#efe9dc", coast: "#b9b3a5", water: "#7d9cc4", ink: "#1f2024", muted: "#5e6066", fade: "254,254,252", pin: "#b8432f", logo: "img/logo.svg" },
+  dark: { sea: "#16202d", land: "#2a2925", coast: "#4a4740", water: "#4f6f99", ink: "#ece9e2", muted: "#a3a19b", fade: "24,25,29", pin: "#e07a5f", logo: "img/logo-white.svg" },
+};
+const loadImage = (src) => new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = src; });
+
+async function drawCard(theme) {
+  const T = CARD_THEMES[theme], b = state.byId[state.book], c = state.chapter, v = state.verse;
+  const vs = versions();
+  const [texts, places, ctx, base, logo] = await Promise.all([Promise.all(vs.map((tr) => bookText(b.id, tr))),
+    loadJSON("data/places.json"), bookContext(b.id), loadJSON("data/basemap.json"), loadImage(T.logo)]);
+  await Promise.all(['600 40px "Source Serif 4"', '400 40px "Source Serif 4"', '400 40px "Noto Serif SC"', '600 30px "IBM Plex Sans"']
+    .map((f) => document.fonts?.load(f).catch(() => {})));
+  // The places: this verse's, else the chapter's.
+  let ids = ctx.places[`${c}.${v}`] || [];
+  if (!ids.length) ids = [...new Set(Object.entries(ctx.places).filter(([k]) => k.startsWith(c + ".")).flatMap(([, l]) => l))];
+  const pts = ids.map((i) => places[i]).map(([, name, lon, lat, , nameZh]) => [(zh() && nameZh) || name, lon, lat]).slice(0, 12);
+  const cv = Object.assign(document.createElement("canvas"), { width: CARD.w, height: CARD.h }), g = cv.getContext("2d");
+
+  // Map: the places framed in the top part of the card, the land carrying on under the text.
+  const lons = pts.length ? pts.map((p) => p[1]) : [34.2, 36.2], lats = pts.length ? pts.map((p) => p[2]) : [30.8, 33.2];
+  const midLat = (Math.min(...lats) + Math.max(...lats)) / 2, k = Math.cos((midLat * Math.PI) / 180);
+  const box = { x0: 120, x1: CARD.w - 120, y0: 150, y1: 600 };
+  const spanX = Math.max((Math.max(...lons) - Math.min(...lons)) * k, 4), spanY = Math.max(Math.max(...lats) - Math.min(...lats), 3);
+  const s = Math.min((box.x1 - box.x0) / spanX, (box.y1 - box.y0) / spanY);
+  const cxl = (Math.min(...lons) + Math.max(...lons)) / 2, cyl = (Math.min(...lats) + Math.max(...lats)) / 2;
+  const X = (lon) => (box.x0 + box.x1) / 2 + (lon - cxl) * k * s, Y = (lat) => (box.y0 + box.y1) / 2 - (lat - cyl) * s;
+  g.fillStyle = T.sea;
+  g.fillRect(0, 0, CARD.w, CARD.h);
+  const rings = (list, close) => { g.beginPath(); for (const r of list) r.forEach(([lon, lat], i) => (i ? g.lineTo : g.moveTo).call(g, X(lon), Y(lat))); if (close) g.closePath(); };
+  g.lineJoin = "round";
+  rings(base.land, true); g.fillStyle = T.land; g.fill("evenodd"); g.strokeStyle = T.coast; g.lineWidth = 1.5; g.stroke();
+  rings(base.lakes, true); g.fillStyle = T.sea; g.fill(); g.strokeStyle = T.water; g.lineWidth = 1.2; g.stroke();
+  rings(base.rivers, false); g.strokeStyle = T.water; g.lineWidth = 2; g.stroke();
+  // A name beside a point, on whichever side has room, with a halo; cut short if it still runs off the card.
+  const label = (x, y, text, font, color) => {
+    g.font = font;
+    const roomR = CARD.w - 40 - (x + 22), roomL = x - 22 - 40;
+    const right = g.measureText(text).width <= roomR || roomR >= roomL, room = right ? roomR : roomL;
+    let s = text;
+    while (g.measureText(s).width > room && s.length > 2) s = s.slice(0, -2).trimEnd() + "…";
+    const tx = right ? x + 22 : x - 22;
+    g.textAlign = right ? "left" : "right";
+    g.lineWidth = 8; g.strokeStyle = T.land; g.strokeText(s, tx, y + 10);
+    g.fillStyle = color; g.fillText(s, tx, y + 10);
+  };
+  // Landmarks for orientation, in frame and not near a place.
+  for (const [name, lon, lat] of LANDMARKS) {
+    const x = X(lon), y = Y(lat);
+    if (x < 60 || x > CARD.w - 60 || y < 60 || y > 640) continue;
+    if (pts.some((p) => Math.hypot(X(p[1]) - x, Y(p[2]) - y) < 90)) continue;
+    g.beginPath(); g.arc(x, y, 6, 0, 2 * Math.PI); g.fillStyle = T.muted; g.fill();
+    label(x, y - 2, zh() ? LANDMARKS_ZH[name] || name : name, '500 24px "IBM Plex Sans", system-ui, sans-serif', T.muted);
+  }
+  // Pins and names (places a few pixels apart share a name).
+  const groups = [];
+  for (const [name, lon, lat] of pts) {
+    const x = X(lon), y = Y(lat), gr = groups.find((q) => Math.hypot(q.x - x, q.y - y) < 36);
+    if (gr) gr.names.push(name); else groups.push({ x, y, names: [name] });
+  }
+  for (const { x, y, names } of groups) {
+    g.beginPath(); g.arc(x, y, 11, 0, 2 * Math.PI); g.fillStyle = T.pin; g.fill(); g.lineWidth = 4; g.strokeStyle = T.land; g.stroke();
+    label(x, y, names.join(zh() ? "、" : ", "), '600 30px "IBM Plex Sans", system-ui, sans-serif', T.ink);
+  }
+  // A fade into a plain panel for the words.
+  const fade = g.createLinearGradient(0, 560, 0, 760);
+  fade.addColorStop(0, `rgba(${T.fade},0)`); fade.addColorStop(1, `rgba(${T.fade},0.94)`);
+  g.fillStyle = fade; g.fillRect(0, 560, CARD.w, 200);
+  g.fillStyle = `rgba(${T.fade},0.94)`; g.fillRect(0, 760, CARD.w, CARD.h - 760);
+
+  // The words, as large as fit between the fade and the footer.
+  const lines = vs.map((tr, i) => ({ tr, text: texts[i][c - 1][v - 1] || "", second: i > 0 }));
+  const top = 690, bottom = CARD.h - 190, width = CARD.w - 160;
+  const fontFor = (l, size) => `${l.second ? 400 : 400} ${l.second ? Math.round(size * 0.78) : size}px ${l.tr === "cuv" ? '"Noto Serif SC", "Source Serif 4", serif' : '"Source Serif 4", Georgia, serif'}`;
+  const wrap = (l, size) => {
+    g.font = fontFor(l, size);
+    const words = l.tr === "cuv" ? [...l.text] : l.text.split(/(?<= )/), out = [];
+    let line = "";
+    for (const w of words) {
+      // Chinese punctuation that may not start a line stays at the end of the one before.
+      if (line && g.measureText(line + w).width > width && !(l.tr === "cuv" && /^[，。、；：！？）」』”’]/.test(w))) {
+        out.push(line.trimEnd()); line = w.trimStart();
+      } else line += w;
+    }
+    if (line) out.push(line.trimEnd());
+    return out;
+  };
+  let size = 60, laid;
+  for (; size >= 26; size -= 2) {
+    laid = lines.map((l) => ({ l, rows: wrap(l, size), lh: (l.second ? 0.78 : 1) * size * (l.tr === "cuv" ? 1.6 : 1.42) }));
+    const hgt = laid.reduce((sum, x) => sum + x.rows.length * x.lh, 0) + (laid.length - 1) * size * 0.6;
+    if (hgt <= bottom - top) break;
+  }
+  const total = laid.reduce((sum, x) => sum + x.rows.length * x.lh, 0) + (laid.length - 1) * size * 0.6;
+  let y = top + Math.max(0, (bottom - top - total) / 2);
+  g.textAlign = "left";
+  for (const { l, rows, lh } of laid) {
+    g.font = fontFor(l, size);
+    g.fillStyle = l.second ? T.muted : T.ink;
+    for (const r of rows) { g.fillText(r, 80, y + lh * 0.78); y += lh; }
+    y += size * 0.6;
+  }
+  // Reference, and the site with its logo.
+  g.fillStyle = T.ink;
+  g.font = '600 38px "IBM Plex Sans", system-ui, sans-serif';
+  g.fillText(`${bname(b)} ${c}:${v}`, 80, CARD.h - 112);
+  g.fillStyle = T.muted;
+  g.font = '500 26px "IBM Plex Sans", system-ui, sans-serif';
+  g.textAlign = "right";
+  g.fillText("bible.daiyip.com", CARD.w - 80, CARD.h - 112);
+  g.drawImage(logo, CARD.w - 80 - g.measureText("bible.daiyip.com").width - 52, CARD.h - 146, 40, 40);
+  g.fillText(vs.map((tr) => (tr === "cuv" ? "和合本" : "KJV")).join(" · "), CARD.w - 80, CARD.h - 70);
+  return cv;
+}
+
+async function openCard(theme = store.get("bible-card-theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")) {
+  const b = state.byId[state.book], ref = `${bname(b)} ${state.chapter}:${state.verse}`;
+  $("picker-title").textContent = t("cardTitle");
+  $("picker-back").hidden = true;
+  const body = $("picker-body");
+  if (!$("picker").open) { body.replaceChildren(el("p", "note", "…")); $("picker").showModal(); }
+  const cv = await drawCard(theme);
+  const blob = await new Promise((ok) => cv.toBlob(ok, "image/png"));
+  const name = `${b.id}-${state.chapter}-${state.verse}.png`, file = new File([blob], name, { type: "image/png" });
+  const img = el("img", "card-preview");
+  img.src = URL.createObjectURL(blob);
+  img.alt = ref;
+  const seg = el("div", "seg");
+  for (const k of ["light", "dark"]) {
+    const btn = el("button", "", t(k));
+    btn.setAttribute("aria-pressed", k === theme);
+    btn.onclick = () => { store.set("bible-card-theme", k); openCard(k); };
+    seg.append(btn);
+  }
+  const acts = el("div", "card-acts");
+  acts.append(seg);
+  if (navigator.canShare?.({ files: [file] })) {
+    const share = el("button", "pill primary", t("share"));
+    share.onclick = () => navigator.share({ files: [file], title: ref, text: `${ref} · bible.daiyip.com` }).catch(() => {});
+    acts.append(share);
+  }
+  const save = el("a", "pill" + (navigator.canShare?.({ files: [file] }) ? "" : " primary"), t("download"));
+  save.href = img.src;
+  save.download = name;
+  acts.append(save);
+  body.replaceChildren(img, acts);
+}
+
 // --- Timeline -------------------------------------------------------------------------------------------
 // A strip under the top bar with the eras of the atlas pack, from the beginnings to the early church, and a mark for
 // the year of what is being read. Each era is the same width, so the short ones (the Exodus, Jesus) can be tapped;
@@ -1428,7 +1587,10 @@ function renderMarkTools(key) {
     row.append(s);
   }
   const note = el("button", "pill small-pill", m.n ? t("editNote") : t("addNote"));
-  row.append(note);
+  const card = el("button", "pill small-pill", t("card"));
+  card.title = t("cardTip");
+  card.onclick = () => openCard().catch(showError);
+  row.append(note, card);
   box.append(row);
   const area = el("textarea", "note-box");
   area.placeholder = t("notePh");

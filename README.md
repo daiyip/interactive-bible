@@ -29,6 +29,10 @@ stepping on the map moves the reader along too. **Play** runs a tour by itself: 
 bar shows how long), its verses light up one after another, and the map traces the leg from the last stop. Tapping
 a verse or Pause stops it.
 
+**Verse card**: **Card**, under the selected verse, draws a picture to share (1080×1350, light or dark): the verse
+over a map of the places it names (or its chapter's, or the Holy Land), with the reference and the site. Phones
+share it straight to an app; elsewhere it downloads as a PNG.
+
 **Word study**: every word of the selected verse, in the context panel, can be tapped. It opens every verse of that
 translation that uses the word, with a bar for each book from Genesis to Revelation (tap one to keep that book's
 verses) and the books that use it most. English matches the whole word, ignoring case; 和合本 has no spaces, so the
