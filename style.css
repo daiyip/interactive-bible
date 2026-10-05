@@ -734,3 +734,18 @@ body:not(.playing) .tour-bar { visibility: hidden; }
 .comm-fold[open] summary { margin-bottom: 6px; }
 .comm-fold summary span { color: var(--muted); }
 .ctx-comm .note { margin: 6px 0 0; }
+
+/* Memory verses: the list in My reading, and a passage to practise from its first letters. */
+.mem-head { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.mem-head small { color: var(--muted); font-size: 12px; flex: 1; }
+.mem-head .link { border: 0; background: none; padding: 0; color: var(--muted); font-size: 12px; cursor: pointer; }
+.mem-head .link:hover { color: var(--accent); }
+.mem-list { margin-top: 12px; }
+.mem-text { font: 20px/1.9 "Source Serif 4", Georgia, serif; margin: 12px 0 18px; }
+.mem-text:lang(zh) { font-family: "Source Serif 4", "Noto Serif SC", "Songti SC", serif; letter-spacing: .04em; }
+.mem-w { cursor: pointer; border-radius: 4px; color: var(--muted); letter-spacing: .06em; }
+.mem-w:hover { background: var(--accent-soft); }
+.mem-w.open { color: var(--ink); letter-spacing: normal; cursor: default; }
+.mem-w.open:hover { background: none; }
+.mem-grade { flex-wrap: wrap; }
+.small-pill[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); }
