@@ -128,6 +128,10 @@ On a Mac the card shows too. In Safari 17 or later it points to File › Add to 
 the install icon in the address bar and adds a one-click **Install** button when the browser offers one. Firefox and
 older Safari can't install web apps, so nothing shows there.
 
+An installed app has no browser toolbar, so the top bar gains **‹** and **›** to go back and forward through the
+passages you've visited, handy after following cross-references. The chapter buttons there become **⌃** and **⌄**
+for the previous and next chapter. In the browser the top bar is unchanged.
+
 It is a static site with no build step and no backend, served by GitHub Pages. `sw.js` is the service worker that
 keeps it working offline, and `manifest.webmanifest` makes it installable.
 
