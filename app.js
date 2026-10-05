@@ -26,7 +26,7 @@ const L = {
     xref: "Cross-references", people: "People", places: "Places", links: "Links", tours: "Tours", books: "Books",
     ot: "Old Testament", nt: "New Testament", version: "Translation",
     tapVerse: "Tap a verse", tapHint: "Its cross-references, people, places and links show up here.", orTour: "Or take a tour",
-    prevCh: "Previous chapter (←)", nextCh: "Next chapter (→)", textSize: "Text size", sizes: ["Smallest", "Small", "Normal", "Large", "Larger", "Largest"],
+    prevCh: "Previous chapter (←)", nextCh: "Next chapter (→)", histBack: "Back", histFwd: "Forward", textSize: "Text size", sizes: ["Smallest", "Small", "Normal", "Large", "Larger", "Largest"],
     close: "Close", sheetHandle: "Drag or tap to resize", backBooks: "Back to books", endTour: "End tour",
     back: "‹ Back", next: "Next ›", finish: "Finish", map: "Map ↗", mapTitle: "Follow this step on the atlas map",
     stepOf: (i, n) => `${i} of ${n}`, steps: (n) => `${n} steps`,
@@ -122,7 +122,7 @@ const L = {
     xref: "串珠", people: "人物", places: "地点", links: "链接", tours: "导览", books: "书卷",
     ot: "旧约", nt: "新约", version: "译本",
     tapVerse: "点选一节经文", tapHint: "它的串珠、人物、地点和链接会显示在这里。", orTour: "或者跟随导览",
-    prevCh: "上一章 (←)", nextCh: "下一章 (→)", textSize: "字体大小", sizes: ["最小", "小", "标准", "大", "较大", "最大"],
+    prevCh: "上一章 (←)", nextCh: "下一章 (→)", histBack: "后退", histFwd: "前进", textSize: "字体大小", sizes: ["最小", "小", "标准", "大", "较大", "最大"],
     close: "关闭", sheetHandle: "拖动或轻点以调整大小", backBooks: "返回书卷", endTour: "结束导览",
     back: "‹ 上一步", next: "下一步 ›", finish: "完成", map: "地图 ↗", mapTitle: "在历代地图上查看这一步",
     stepOf: (i, n) => `${i} / ${n}`, steps: (n) => `${n} 站`,
@@ -3004,6 +3004,25 @@ function versionMenu(onPick) {
   });
 }
 
+// Installed as an app there is no browser toolbar, so the top bar takes its back and forward buttons (for following
+// cross-references and back again), and the chapter buttons turn to up and down so the two pairs don't look alike.
+const CHEVRON = (d) => `<svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path d="${d}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+function appNav() {
+  if (!runningAsApp()) return;
+  document.body.classList.add("app");
+  $("prev").innerHTML = CHEVRON("M4 10l4-4 4 4");
+  $("next").innerHTML = CHEVRON("M4 6l4 4 4-4");
+  $("hist-back").hidden = $("hist-fwd").hidden = false;
+  $("hist-back").onclick = () => history.back();
+  $("hist-fwd").onclick = () => history.forward();
+  // Where the browser can tell (the Navigation API), a button with nowhere to go is greyed out.
+  const nav = window.navigation;
+  if (!nav || !("canGoBack" in nav)) return;
+  const update = () => { $("hist-back").disabled = !nav.canGoBack; $("hist-fwd").disabled = !nav.canGoForward; };
+  nav.addEventListener("currententrychange", update);
+  update();
+}
+
 // Text size: one menu of named sizes, each shown at its own size.
 const SIZES = [15, 17, 19, 22, 25, 28];
 function nearestSize(px) {
@@ -3150,6 +3169,7 @@ async function init() {
     renderContext();
   });
   sheetControls();
+  appNav();
   $("prev").onclick = $("prev2").onclick = () => step(-1);
   $("next").onclick = $("next2").onclick = () => step(1);
   $("size-btn").onclick = () => showSizeMenu($("size-menu").hidden);
