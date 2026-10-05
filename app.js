@@ -35,7 +35,7 @@ const L = {
     rel: { father: "Father", mother: "Mother", partners: "Married to", children: "Children", siblings: "Brothers and sisters" },
     childOf: (g, n) => `${g === "F" ? "Daughter" : "Son"} of ${n}`, partnerOf: (g, n) => `${g === "F" ? "Wife" : "Husband"} of ${n}`,
     firstIn: (r) => `First named in ${r}`, allPeople: "‹ People in this verse", bioSrc: "Easton’s Bible Dictionary",
-    family: "Family", namedIn: "Named in", tree: "Family tree", treeTitle: (n) => `Family tree · ${n}`, treeLine: "Line:",
+    family: "Family", namedIn: "Named in", tree: "Family tree", treeTitle: (n) => `Family tree · ${n}`, treeLine: "Line:", treeWed: (n) => `m. ${n}`,
     treeNote: "Tap a name to see the tree around them.", nKids: (n) => `${n} ${n === 1 ? "child" : "children"}`, showPerson: (n) => `Open ${n}`,
     inChapter: (r, m) => `No places named in ${m ? "these verses" : "this verse"}. Places in ${r}:`, partOf: "Part of",
     error: "Could not load this chapter. Check your connection and reload.", site: "Bible", atlas: "Atlas map",
@@ -89,7 +89,7 @@ const L = {
     rel: { father: "父亲", mother: "母亲", partners: "配偶", children: "儿女", siblings: "兄弟姐妹" },
     childOf: (g, n) => `${n}的${g === "F" ? "女儿" : "儿子"}`, partnerOf: (g, n) => `${n}的${g === "F" ? "妻子" : "丈夫"}`,
     firstIn: (r) => `首次出现于${r}`, allPeople: "‹ 本节的人物", bioSrc: "Easton 圣经辞典（英文）",
-    family: "家人", namedIn: "出现的经文", tree: "家谱", treeTitle: (n) => `家谱 · ${n}`, treeLine: "世系：",
+    family: "家人", namedIn: "出现的经文", tree: "家谱", treeTitle: (n) => `家谱 · ${n}`, treeLine: "世系：", treeWed: (n) => `配偶：${n}`,
     treeNote: "轻点名字，查看以其为中心的家谱。", nKids: (n) => `${n} 个儿女`, showPerson: (n) => `查看${n}`,
     inChapter: (r, m) => `${m ? "这几节" : "本节"}没有提到地名。${r} 中的地点：`, partOf: "所属事件",
     error: "无法载入这一章。请检查网络后重新载入。", site: "圣经", atlas: "地图",
@@ -726,7 +726,8 @@ async function showTree(i) {
     const q = people[j], kids = q[P.CHILDREN], li = el("li"), row = el("div", "trow");
     const name = el("button", "tname" + (j === i ? " me" : path.has(j) ? " path" : ""));
     name.append(el("b", "", pname(q)));
-    if (q[P.PARTNERS].length) name.append(el("span", "partners", "∞ " + q[P.PARTNERS].map((k) => pname(people[k])).join(", ")));
+    if (kids.length) name.append(el("span", "kids", kids.length));
+    if (q[P.PARTNERS].length) name.append(el("span", "partners", t("treeWed", q[P.PARTNERS].map((k) => pname(people[k])).join(", "))));
     name.onclick = () => showTree(j);
     if (kids.length) {
       const tog = el("button", "ttog"), ul = el("ul");
@@ -734,7 +735,6 @@ async function showTree(i) {
       const set = (open) => {
         if (open && !built) { for (const k of kids) ul.append(node(k, j === i ? 1 : path.has(j) ? 0 : depth - 1)); built = true; }
         ul.hidden = !open;
-        tog.textContent = (open ? "▾ " : "▸ ") + kids.length;
         tog.setAttribute("aria-expanded", open);
         tog.title = t("nKids", kids.length);
       };
@@ -743,7 +743,7 @@ async function showTree(i) {
       li.append(row, ul);
       set(path.has(j) || depth > 0);
     } else {
-      row.append(el("span", "ttog none"), name);
+      row.append(el("span", "ttog leaf"), name);
       li.append(row);
     }
     return li;
