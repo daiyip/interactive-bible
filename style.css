@@ -172,7 +172,13 @@ body:not(.playing) .tour-bar { visibility: hidden; }
 .tour-ctl #tour-next { margin-left: auto; color: var(--accent); border-color: var(--accent); }
 .pill:disabled { opacity: .45; cursor: default; border-color: var(--line); color: var(--muted); }
 .tour-list { display: grid; gap: 8px; text-align: left; margin-top: 10px; }
-.tour-item { display: grid; gap: 2px; text-align: left; border: 1px solid var(--line); background: var(--bg); border-radius: 10px; padding: 10px 12px; }
+.tour-group { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+.tour-group h3 { grid-column: 1 / -1; }
+.tour-group h3 { display: flex; align-items: center; gap: 6px; margin: 8px 0 0; font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.tour-group:first-child h3 { margin-top: 0; }
+.tour-group h3 .ico { display: inline-flex; color: var(--accent); }
+.tour-group h3 svg.line { fill: none; stroke: currentColor; stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+.tour-item { display: grid; align-content: start; gap: 2px; text-align: left; border: 1px solid var(--line); background: var(--bg); border-radius: 10px; padding: 10px 12px; }
 .tour-item:hover { border-color: var(--accent); }
 .tour-item b { color: var(--ink); }
 .tour-item span { font-size: 12px; color: var(--muted); }
@@ -524,7 +530,7 @@ body:not(.playing) .tour-bar { visibility: hidden; }
 .kings-legend .none i { background: var(--line); }
 .kings-legend .lg-prophet i { width: 4px; background: var(--accent); }
 .kings-head, .kings-body { display: grid; grid-template-columns: 30px 46px 1fr 1fr 46px; column-gap: 3px; }
-.kings-head { position: sticky; top: var(--head, 50px); z-index: 1; background: var(--panel); padding: 8px 0 6px; font-size: 13px; text-align: center; }
+.kings-head { position: sticky; top: var(--head, 50px); z-index: 3; background: var(--panel); padding: 8px 0 6px; font-size: 13px; text-align: center; }
 .kings-body { position: relative; margin-bottom: 8px; }
 .k-axis, .k-lane, .k-col { position: relative; }
 .k-axis .tick { position: absolute; right: 2px; transform: translateY(-50%); font-size: 10px; color: var(--muted); font-variant-numeric: tabular-nums; }
@@ -553,6 +559,18 @@ body:not(.playing) .tour-bar { visibility: hidden; }
 .k-event { position: absolute; left: 30px; right: 0; height: 0; border-top: 1.5px dashed color-mix(in srgb, var(--evil) 55%, transparent); z-index: 1; pointer-events: none; }
 .k-event.up a { top: auto; bottom: 2px; }
 .k-event a { position: absolute; left: 49px; top: 2px; padding: 0 6px; border-radius: 6px; background: color-mix(in srgb, var(--panel) 88%, transparent); color: var(--evil); font-size: 11px; white-space: nowrap; pointer-events: auto; }
+/* Key events: a dot on the column's right edge at the year, its title to the left where the column has room. */
+.k-col { container-type: inline-size; }
+.k-act { position: absolute; right: 2px; z-index: 1; display: flex; align-items: center; gap: 4px; max-width: calc(100% - 4px); height: 14px; padding: 0; transform: translateY(-50%); border: 0; background: none; color: var(--ink); font: inherit; cursor: pointer; }
+.k-act i { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 2px var(--panel); }
+.k-act span { overflow: hidden; padding: 0 5px; border-radius: 6px; background: color-mix(in srgb, var(--panel) 85%, transparent); font-size: 10.5px; line-height: 14px; white-space: nowrap; text-overflow: ellipsis; }
+.k-act:hover span, .k-act.me span { color: var(--accent); }
+.k-act.me i { box-shadow: 0 0 0 2px var(--accent); }
+@container (max-width: 200px) { .k-act span { display: none; } }
+.king-acts { margin: 6px 0 0; padding: 0; list-style: none; }
+.king-acts button { padding: 1px 0; border: 0; background: none; color: var(--ink); font: inherit; font-size: 13px; text-align: left; cursor: pointer; }
+.king-acts button span { color: var(--muted); font-variant-numeric: tabular-nums; }
+.king-acts button:hover { color: var(--accent); }
 .king-card { position: sticky; bottom: -20px; z-index: 2; margin: 0 -16px -20px; padding: 10px 16px 14px; background: var(--panel); border-top: 1px solid var(--line); box-shadow: 0 -8px 16px rgba(0,0,0,.06); }
 .king-card h3 { margin: 0; font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif; font-size: 18px; }
 .king-card p { margin: 1px 0; font-size: 13px; color: var(--muted); }

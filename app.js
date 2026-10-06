@@ -28,6 +28,8 @@ const L = {
     bookFilter: "Find a book, or type “John 3”", recent: "Recent", nChaptersOf: (n) => `${n} ${n === 1 ? "chapter" : "chapters"}`,
     grp_law: "Law", grp_history: "History", grp_poetry: "Poetry & Wisdom", grp_major: "Major Prophets", grp_minor: "Minor Prophets",
     grp_gospels: "Gospels", grp_acts: "History", grp_paul: "Paul’s Letters", grp_general: "General Letters", grp_apocalypse: "Prophecy",
+    tg_patriarchs: "The patriarchs", tg_land: "Into the land", tg_kingdom: "Kings and prophets", tg_exile: "Exile and return",
+    tg_jesus: "Jesus", tg_church: "The early church",
     tapVerse: "Tap a verse", tapHint: "Its cross-references, people, places and links show up here.", orTour: "Or take a tour",
     prevCh: "Previous chapter (←)", nextCh: "Next chapter (→)", histBack: "Back", histFwd: "Forward", textSize: "Text size", sizes: ["Smallest", "Small", "Normal", "Large", "Larger", "Largest"],
     close: "Close", clearSel: "Clear selection (Esc)", sheetHandle: "Drag or tap to resize", backBooks: "Back to books", endTour: "End tour",
@@ -72,7 +74,7 @@ const L = {
     share: "Share this view", copied: "Link copied", shareTitle: (r) => `${r} · Interactive Bible`,
     kingsTitle: "Kings of Israel and Judah", kingsBtn: "Kings of Israel and Judah ›", kingsShort: "Kings chart", israel: "Israel (north)", judah: "Judah (south)",
     united: "the united kingdom", kingOf: (k) => `King of ${k}`, prophetTo: (k) => `Prophet to ${k}`, nYears: (n) => `${n} ${n === 1 ? "year" : "years"}`,
-    kingGood: "Did right", kingEvil: "Did evil", kingNone: "No verdict", prophets: "Prophets", readRef: (r) => `Read ${r}`,
+    kingGood: "Did right", kingEvil: "Did evil", kingNone: "No verdict", prophets: "Prophets", readRef: (r) => `Read ${r}`, onMap: "On the map",
     verdictGood: "“He did that which was right in the sight of the LORD.”", verdictEvil: "“He did evil in the sight of the LORD.”",
     verdictNone: "Kings gives no verdict on this reign.",
     kingsNote: "Years BC, after Thiele. A reign that overlaps the one before (a co-regency or a rival) starts where it ends. Tap a king or prophet.",
@@ -149,6 +151,8 @@ const L = {
     bookFilter: "查找书卷，或输入“约翰福音 3”", recent: "最近", nChaptersOf: (n) => `${n} 章`,
     grp_law: "律法书", grp_history: "历史书", grp_poetry: "诗歌智慧书", grp_major: "大先知书", grp_minor: "小先知书",
     grp_gospels: "福音书", grp_acts: "历史书", grp_paul: "保罗书信", grp_general: "普通书信", grp_apocalypse: "预言书",
+    tg_patriarchs: "列祖", tg_land: "进入应许之地", tg_kingdom: "君王与先知", tg_exile: "被掳与归回",
+    tg_jesus: "耶稣", tg_church: "初期教会",
     tapVerse: "点选一节经文", tapHint: "它的串珠、人物、地点和链接会显示在这里。", orTour: "或者跟随导览",
     prevCh: "上一章 (←)", nextCh: "下一章 (→)", histBack: "后退", histFwd: "前进", textSize: "字体大小", sizes: ["最小", "小", "标准", "大", "较大", "最大"],
     close: "关闭", clearSel: "取消选择（Esc）", sheetHandle: "拖动或轻点以调整大小", backBooks: "返回书卷", endTour: "结束导览",
@@ -193,7 +197,7 @@ const L = {
     share: "分享当前视图", copied: "链接已复制", shareTitle: (r) => `${r} · 互动圣经`,
     kingsTitle: "以色列和犹大的君王", kingsBtn: "以色列和犹大的君王 ›", kingsShort: "君王图", israel: "以色列（北国）", judah: "犹大（南国）",
     united: "统一王国", kingOf: (k) => `${k}的王`, prophetTo: (k) => `向${k}说话的先知`, nYears: (n) => `${n} 年`,
-    kingGood: "行耶和华眼中看为正的事", kingEvil: "行耶和华眼中看为恶的事", kingNone: "未作评价", prophets: "先知", readRef: (r) => `阅读${r}`,
+    kingGood: "行耶和华眼中看为正的事", kingEvil: "行耶和华眼中看为恶的事", kingNone: "未作评价", prophets: "先知", readRef: (r) => `阅读${r}`, onMap: "在地图上看",
     verdictGood: "“他行耶和华眼中看为正的事。”", verdictEvil: "“他行耶和华眼中看为恶的事。”", verdictNone: "列王纪未对这位君王作出评价。",
     kingsNote: "公元前年份，依泰利（Thiele）年表。与前一位重叠的在位（共治或对立）从前一位结束处开始画。轻点君王或先知。",
     landTitle: "迦南地", landBtn: "迦南地 ›", nPlaces: (n) => `${n} 处`, landmarks: "边界与地标",
@@ -1486,7 +1490,7 @@ async function showLand(focus = "canaan", pick = null) {
 
 // data/kings.json (tools/build_kings.py): kings as [kingdom U/I/J, name, name_zh, from, to (negative = BC), verdict g/e/null,
 // account, account in Chronicles, person], prophets as [kingdom, name, name_zh, from, to, verse, person], and the turning
-// points as [year, title, title_zh, verse].
+// points as [year, title, title_zh, verse], and key events in each kingdom as [kingdom, year, title, title_zh, verses].
 // Scale and the shortest block: a reign of a few months still shows its name; its years show from about 7 years up.
 const KING_PX = 4.5, KING_MIN = 22;
 const loadKings = () => loadJSON("data/kings.json");
@@ -1501,12 +1505,12 @@ const refIn = (range, b, c, v) => {
 // Both kingdoms side by side, time running down: each king a block as long as his reign (at least tall enough to read),
 // coloured by the verdict of Kings, with the prophets of the time beside them and the turning points across.
 async function showKings(pickName = null) {
-  const { kings, prophets, events } = await loadKings();
+  const { kings, prophets, events, acts = [] } = await loadKings();
   const top = Math.min(...kings.map((k) => k[3]), ...prophets.map((p) => p[3])), Y = (y) => (y - top) * KING_PX;
   $("picker-title").textContent = t("kingsTitle");
   $("picker-back").hidden = true;
   const here = kings.find((k) => [k[6], k[7]].some((r) => r && refIn(r, state.book, state.chapter, state.verse)));
-  const pick = pickName ? kings.find((k) => k[0] + k[1] === pickName) || prophets.find((p) => p[0] + p[1] === pickName) : here;
+  const pick = pickName ? kings.find((k) => k[0] + k[1] === pickName) || prophets.find((p) => p[0] + p[1] === pickName) || acts.find((a) => a[0] + a[1] === pickName) : here;
 
   const chart = make("div", "kings");
   const head = make("div", "kings-head");
@@ -1521,8 +1525,11 @@ async function showKings(pickName = null) {
     view.dialog = `kings:${row[0]}${row[1]}`;
     chart.querySelectorAll(".me").forEach((x) => x.classList.remove("me"));
     btn.classList.add("me");
-    fillKingCard(card, row, row.length === 9);
+    if (row.length === 5) return fillActCard(card, row, kingAt(row[0], row[1]));
+    fillKingCard(card, row, row.length === 9, acts.filter((a) => a[0] === row[0] && a[1] >= row[3] && a[1] <= row[4]), (a) => select(a, actBtn.get(a)));
   };
+  // The king of a kingdom in a year: the last one whose reign had begun.
+  const kingAt = (k, y) => kings.filter((x) => x[0] === k && x[3] <= y).at(-1);
   // Kings: each block starts at its first year or where the one before ends, whichever is later.
   const bottom = { I: 0, J: 0, U: 0 };
   for (const k of kings) {
@@ -1556,6 +1563,18 @@ async function showKings(pickName = null) {
     b.onclick = () => select(p, b);
     if (p === pick) b.classList.add("me");
     lane.append(b);
+  }
+  // Key events: a dot on the kingdom's column at its year, with its title beside it where the column is wide enough.
+  const actBtn = new Map();
+  for (const a of acts) {
+    const b = make("button", "k-act");
+    b.style.top = Y(a[1]) + "px";
+    b.title = `${-a[1]} · ${(zh() && a[3]) || a[2]}`;
+    b.append(make("span", "", (zh() && a[3]) || a[2]), make("i"));
+    b.onclick = () => select(a, b);
+    if (a === pick) b.classList.add("me");
+    actBtn.set(a, b);
+    lanes[a[0]].append(b);
   }
   // The axis every 50 years, and the turning points across both kingdoms.
   for (let y = Math.ceil(top / 50) * 50; Y(y) < height && y < 0; y += 50) {
@@ -1591,26 +1610,52 @@ async function showKings(pickName = null) {
 }
 
 // The card under the chart for the king or prophet picked: years, verdict, and links to read and to their family.
-function fillKingCard(card, r, isKing) {
+function fillKingCard(card, r, isKing, acts = [], pickAct = null) {
   const [k, , , a, z] = r, person = r.at(-1), n = z - a;
   const kingdom = t(k === "U" ? "united" : k === "I" ? "israel" : "judah");
   const years = a === z ? fmtYear(a) : t("yearSpan", a, z);
   const sub = isKing ? `${t("kingOf", kingdom)} · ${years}${n > 0 ? " · " + t("nYears", n) : ""}` : `${t("prophetTo", kingdom)} · ${years}`;
-  const acts = make("div", "card-acts");
+  const links = make("div", "card-acts");
   for (const ref of isKing ? [r[6], r[7]].filter(Boolean) : [`${r[5]}-${r[5]}`]) {
     const [first] = ref.split("-"), [b, c, v] = first.split(".");
     const b2 = make("button", "pill", t("readRef", ref.split("-")[0] === ref.split("-")[1] ? `${bname(state.byId[b])} ${c}:${v}` : refLabel(ref)));
     b2.onclick = () => { $("picker").close(); location.hash = "#" + first; };
-    acts.append(b2);
+    links.append(b2);
   }
   if (person != null) {
     const fam = make("button", "pill", t("tree"));
     fam.onclick = () => showTree(person);
-    acts.append(fam);
+    links.append(fam);
   }
   const out = [make("h3", "", (zh() && r[2]) || r[1]), make("p", "king-sub", sub)];
   if (isKing) out.push(make("p", "verdict " + (r[5] === "g" ? "good" : r[5] === "e" ? "evil" : "none"), t(r[5] === "g" ? "verdictGood" : r[5] === "e" ? "verdictEvil" : "verdictNone")));
-  card.replaceChildren(...out, acts);
+  if (acts.length) {
+    const list = make("ul", "king-acts");
+    for (const a of acts) {
+      const li = make("li"), b = make("button", "", (zh() && a[3]) || a[2]);
+      b.prepend(make("span", "", `${-a[1]} `));
+      b.onclick = () => pickAct(a);
+      li.append(b);
+      list.append(li);
+    }
+    out.push(list);
+  }
+  card.replaceChildren(...out, links);
+  card.hidden = false;
+}
+
+// The card for a key event: its year, the kingdom and king, and links to read it and to see its places on the map.
+function fillActCard(card, a, king) {
+  const [k, y, en, zhName, ref] = a, [first] = ref.split("-"), [b, c, v] = first.split(".");
+  const kingdom = t(k === "I" ? "israel" : "judah");
+  const sub = `${fmtYear(y)} · ${kingdom}${king ? " · " + kname(king) : ""}`;
+  const read = make("button", "pill", t("readRef", refLabel(ref)));
+  read.onclick = () => { $("picker").close(); location.hash = "#" + first; };
+  const map = make("button", "pill", t("onMap"));
+  map.onclick = () => { $("picker").close(); state.tab = "places"; store.set("bible-tab", "places"); go(b, +c, +v); };
+  const links = make("div", "card-acts");
+  links.append(read, map);
+  card.replaceChildren(make("h3", "", (zh() && zhName) || en), make("p", "king-sub", sub), links);
   card.hidden = false;
 }
 
@@ -1759,19 +1804,35 @@ function drawMap(pts, base, o = {}) {
 const PACK = "https://bible.daiyip.com/atlas/manifest.json";
 const loadTours = () => loadJSON("atlas/tours.json");
 
+// Tours come grouped by period (each tour's "group"), in the order of atlas/tours.json.
 async function fillTourList(list) {
-  const tours = await loadTours();
-  list.replaceChildren(...tours.map((tr) => {
-    const btn = document.createElement("button");
-    btn.className = "tour-item";
-    const [b, span, small] = ["b", "span", "small"].map((t) => document.createElement(t));
-    b.textContent = tx(tr, "title");
-    span.textContent = `${fmtYear(tr.start)}${tr.end !== tr.start ? "–" + fmtYear(tr.end) : ""} · ${t("steps", tr.steps.length)}`;
-    small.textContent = tx(tr, "summary");
-    btn.append(b, span, small);
-    btn.onclick = () => startTour(tr.id, 0);
-    return btn;
+  const tours = await loadTours(), groups = new Map();
+  for (const tr of tours) {
+    const g = tr.group || "";
+    if (!groups.has(g)) groups.set(g, []);
+    groups.get(g).push(tr);
+  }
+  list.replaceChildren(...[...groups].map(([g, trs]) => {
+    const sec = el("section", "tour-group");
+    if (g) {
+      const h = el("h3");
+      h.append(...(TOUR_ICONS[g] ? [groupIcon(g, TOUR_ICONS)] : []), t("tg_" + g));
+      sec.append(h);
+    }
+    sec.append(...trs.map(tourItem));
+    return sec;
   }));
+}
+function tourItem(tr) {
+  const btn = document.createElement("button");
+  btn.className = "tour-item";
+  const [b, span, small] = ["b", "span", "small"].map((t) => document.createElement(t));
+  b.textContent = tx(tr, "title");
+  span.textContent = `${fmtYear(tr.start)}${tr.end !== tr.start ? "–" + fmtYear(tr.end) : ""} · ${t("steps", tr.steps.length)}`;
+  small.textContent = tx(tr, "summary");
+  btn.append(b, span, small);
+  btn.onclick = () => startTour(tr.id, 0);
+  return btn;
 }
 function showTours() {
   view.dialog = null; // not shareable
@@ -1876,8 +1937,17 @@ const GROUP_ICONS = {
   general: '<path d="M11.5 1.5 14.5 4.5 6 13H3v-3ZM9.5 3.5l3 3M2 14.5h12"/>',
   apocalypse: '<path d="M8 1.5v2.5M8 12v2.5M1.5 8H4M12 8h2.5M3.4 3.4l1.8 1.8M10.8 10.8l1.8 1.8M3.4 12.6l1.8-1.8M10.8 5.2l1.8-1.8"/><circle cx="8" cy="8" r="2.3"/>',
 };
-const groupIcon = (g) => {
-  const span = svgIcon(GROUP_ICONS[g]);
+// And for the tour groups: a tent, hills, a crown, the rivers of Babylon, a cross and a flame.
+const TOUR_ICONS = {
+  patriarchs: '<path d="M1.5 13.5 8 2.5l6.5 11ZM8 2.5v11M5.8 13.5 8 9.5l2.2 4"/>',
+  land: '<path d="M1.5 13.5 5.5 6l3 4.5L10.5 7.5l4 6ZM11 3.5a1.5 1.5 0 1 0 0 .01"/>',
+  kingdom: GROUP_ICONS.history,
+  exile: '<path d="M1.5 5.5c1.6-1.5 3.2-1.5 4.3 0s2.7 1.5 4.3 0 3.2-1.5 4.4 0M1.5 10.5c1.6-1.5 3.2-1.5 4.3 0s2.7 1.5 4.3 0 3.2-1.5 4.4 0"/>',
+  jesus: GROUP_ICONS.gospels,
+  church: GROUP_ICONS.acts,
+};
+const groupIcon = (g, icons = GROUP_ICONS) => {
+  const span = svgIcon(icons[g]);
   span.querySelector("svg").setAttribute("class", "line");
   return span;
 };

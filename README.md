@@ -63,8 +63,11 @@ back or forward, changes the speed (0.8× to 1.5×) and picks the voice from tho
 region, higher-quality ones marked HD); speed and voice are remembered.
 Turning Listen off, or moving to another chapter by hand, stops it. It needs no connection when the device's voices are installed.
 
-**Tours** walk through a journey one step at a time, with no verse to pick first: Abraham, Joseph, the Exodus,
-David, Elijah, Jonah, the exile and return, Jesus, and Paul's journeys. Open them from **Tours** in the dock (the floating buttons at the bottom of the text), or
+**Tours** walk through a journey one step at a time, with no verse to pick first. There are 24, grouped by period:
+the patriarchs (Abraham, Jacob, Joseph); into the land (the Exodus, Joshua, Ruth, the ark of the covenant); kings
+and prophets (David, the rise and fall of the kings of Israel and Judah, Elijah, Elisha, Jonah, Hezekiah and Assyria); exile and return (Daniel, the exile and return);
+Jesus (his life, the last week); and the early church (the gospel spreading from Pentecost, Saul becoming Paul, Paul's
+three journeys and his voyage to Rome, the seven churches of Revelation). Open them from **Tours** in the dock (the floating buttons at the bottom of the text), or
 from the list in the empty context panel. Each step opens its verses and flies the map to it, tracing the journey;
 stepping on the map moves the reader along too. **Play** runs a tour by itself: each step stays long enough to read its note (a
 bar shows how long), its verses light up one after another, and the map traces the leg from the last stop. Tapping
@@ -116,8 +119,10 @@ goes back to the plain passage.
 **Kings of Israel and Judah** opens from the eras of the kings and from any king's or prophet's card: Saul to Zedekiah
 with the two kingdoms side by side and time running down, each reign as long as its years (Thiele's dates), coloured by
 the verdict the book of Kings gives, with the prophets of each kingdom beside it and the division, the fall of Samaria
-and the fall of Jerusalem across both. Tapping a king shows his years and verdict, links to his account in Kings and
-Chronicles, and his family tree. Opened while reading a king's account, it starts at him.
+and the fall of Jerusalem across both. Dots on each kingdom's column mark 25 key events (Jeroboam's calves, Elijah on
+Carmel, Jehu's revolt, Isaiah's vision, Sennacherib turned back, the book of the law found, ...), named beside the dot
+where there is room. Tapping a king shows his years and verdict, the key events of his reign, links to his account in
+Kings and Chronicles, and his family tree; tapping an event links to its verses and to its places on the map. Opened while reading a king's account, it starts at him.
 
 **My reading** (in the dock) holds these, all kept in the browser with nothing sent anywhere:
 
@@ -164,7 +169,7 @@ keeps it working offline, and `manifest.webmanifest` makes it installable.
 ## The Bible on the atlas
 
 `atlas/` is the Bible Lands data pack for the [atlas](https://atlas.daiyip.com) engine. It holds 298 events,
-1,220 places, 11 eras and 11 tours (the same tours as the reader).
+1,220 places, 11 eras and 24 tours (the same tours as the reader).
 Open it on the atlas map and timeline:
 
 - [Alongside the atlas's own history](https://atlas.daiyip.com/?pack=https://bible.daiyip.com/atlas/manifest.json)
