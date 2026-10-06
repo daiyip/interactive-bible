@@ -1,6 +1,7 @@
 [
  {
   "id": "abraham",
+  "group": "patriarchs",
   "era": "patriarchs",
   "start": -1950,
   "end": -1820,
@@ -104,7 +105,132 @@
   ]
  },
  {
+  "id": "jacob",
+  "group": "patriarchs",
+  "era": "patriarchs",
+  "start": -1760,
+  "end": -1716,
+  "path": true,
+  "title": "Jacob, the wrestler",
+  "title_zh": "雅各：与神角力的人",
+  "summary": "Jacob flees his brother to Haran, works twenty years for Laban, wrestles with God at the Jabbok and comes home as Israel.",
+  "summary_zh": "雅各逃避哥哥往哈兰去，为拉班服事二十年，在雅博渡口与神角力，改名以色列回到故乡。",
+  "steps": [
+   {
+    "year": -1760,
+    "at": [
+     34.841,
+     31.245
+    ],
+    "zoom": 7.2,
+    "ref": "Gen.27.41-28.5",
+    "text": "Having taken Esau's blessing, Jacob flees his brother's anger. Isaac sends him from Beersheba to find a wife among his mother's family in Haran.",
+    "text_zh": "雅各得了以扫的祝福，为躲避哥哥的怒气，以撒打发他离开别是巴，往哈兰母家去娶妻。"
+   },
+   {
+    "year": -1760,
+    "at": [
+     35.221,
+     31.931
+    ],
+    "zoom": 7.4,
+    "ref": "Gen.28.10-22",
+    "text": "Sleeping on a stone at Luz, he dreams of a ladder reaching to heaven with angels going up and down on it. He names the place Bethel, the house of God.",
+    "text_zh": "他在路斯枕着石头睡觉，梦见一个梯子立在地上，梯子的头顶着天，神的使者在梯子上，上去下来。他给那地方起名叫伯特利，就是神的殿。"
+   },
+   {
+    "year": -1760,
+    "at": [
+     39.031,
+     36.86
+    ],
+    "zoom": 5.6,
+    "ref": "Gen.29.1-30",
+    "text": "At a well near Haran he meets Rachel. He serves Laban seven years for her, is given Leah instead, and serves seven more.",
+    "text_zh": "他在哈兰附近的井旁遇见拉结，为她服事拉班七年，拉班却把利亚给了他，他又服事了七年。"
+   },
+   {
+    "year": -1740,
+    "at": [
+     35.8,
+     32.3
+    ],
+    "zoom": 6.8,
+    "ref": "Gen.31.17-55",
+    "text": "Twenty years on, rich in flocks and children, Jacob slips away with his family. Laban overtakes him in the hills of Gilead, and they make a covenant over a heap of stones.",
+    "text_zh": "二十年后，雅各儿女成群、牲畜众多，带着全家悄悄离开。拉班在基列山追上他，两人堆石为证，彼此立约。"
+   },
+   {
+    "year": -1740,
+    "at": [
+     35.703,
+     32.184
+    ],
+    "zoom": 7.6,
+    "ref": "Gen.32.22-32",
+    "text": "At the ford of the Jabbok he wrestles all night with a man. At daybreak the man blesses him and names him Israel, and Jacob limps on, calling the place Peniel.",
+    "text_zh": "他在雅博渡口与一个人摔跤，直到黎明。那人给他祝福，改名叫以色列。雅各给那地方起名叫毗努伊勒，瘸着腿往前走。"
+   },
+   {
+    "year": -1740,
+    "at": [
+     35.622,
+     32.196
+    ],
+    "zoom": 7.6,
+    "ref": "Gen.33.1-17",
+    "text": "Esau runs to meet him, embraces him and weeps. The brothers part in peace, and Jacob builds booths for his cattle at Succoth.",
+    "text_zh": "以扫跑来迎接他，抱着他的颈项与他亲嘴，二人就哭了。兄弟和好分手，雅各在疏割为牲畜搭棚。"
+   },
+   {
+    "year": -1739,
+    "at": [
+     35.254,
+     32.221
+    ],
+    "zoom": 7.4,
+    "ref": "Gen.33.18-20",
+    "text": "He crosses the Jordan, buys a field at Shechem and builds an altar there to El-elohe-Israel.",
+    "text_zh": "他过了约旦河，在示剑城买了一块地，在那里筑了一座坛，起名叫伊利·伊罗伊·以色列。"
+   },
+   {
+    "year": -1732,
+    "at": [
+     35.221,
+     31.931
+    ],
+    "zoom": 7.4,
+    "ref": "Gen.35.1-15",
+    "text": "God sends him back to Bethel. His household buries its foreign gods, and God renews the promise made to Abraham.",
+    "text_zh": "神吩咐他回到伯特利。他的家人除掉外邦的神像，神在那里重申对亚伯拉罕的应许。"
+   },
+   {
+    "year": -1732,
+    "at": [
+     35.208,
+     31.704
+    ],
+    "zoom": 7.6,
+    "ref": "Gen.35.16-20",
+    "text": "On the road to Ephrath, which is Bethlehem, Rachel dies giving birth to Benjamin, and Jacob sets a pillar on her grave.",
+    "text_zh": "在往以法他（就是伯利恒）的路上，拉结生便雅悯时难产而死。雅各在她的坟上立了一根柱子。"
+   },
+   {
+    "year": -1716,
+    "at": [
+     35.11,
+     31.524
+    ],
+    "zoom": 7.4,
+    "ref": "Gen.35.27-29",
+    "text": "Jacob comes home to his father at Mamre, by Hebron. Isaac dies old and full of days, and Esau and Jacob bury him together.",
+    "text_zh": "雅各回到希伯仑的幔利，到他父亲以撒那里。以撒年纪老迈，日子满足而死，以扫和雅各一同埋葬了他。"
+   }
+  ]
+ },
+ {
   "id": "joseph",
+  "group": "patriarchs",
   "era": "patriarchs",
   "start": -1727,
   "end": -1688,
@@ -221,6 +347,7 @@
  },
  {
   "id": "exodus",
+  "group": "land",
   "era": "wilderness",
   "start": -1490,
   "end": -1450,
@@ -334,7 +461,292 @@
   ]
  },
  {
+  "id": "conquest",
+  "group": "land",
+  "era": "judges",
+  "start": -1450,
+  "end": -1444,
+  "path": true,
+  "title": "Joshua takes the land",
+  "title_zh": "约书亚得地",
+  "summary": "Israel crosses into Canaan: the spies at Jericho, the falling walls, Ai, the long day at Gibeon, Hazor in the north and the tabernacle at Shiloh.",
+  "summary_zh": "以色列人进入迦南：耶利哥的探子、倒塌的城墙、艾城、基遍日头停留、北方的夏琐，最后会幕设在示罗。",
+  "steps": [
+   {
+    "year": -1450,
+    "at": [
+     35.444,
+     31.87
+    ],
+    "zoom": 7.6,
+    "ref": "Josh.2.1-24",
+    "text": "From Shittim Joshua sends two spies into Jericho. Rahab hides them on her roof and lets them down from her window by a cord; a scarlet thread there will mark her house.",
+    "text_zh": "约书亚从什亭打发两个探子进耶利哥。喇合把他们藏在房顶上，用绳子从窗户把他们缒下去，约定以朱红线绳系在窗上为记号。"
+   },
+   {
+    "year": -1450,
+    "at": [
+     35.47,
+     31.86
+    ],
+    "zoom": 7.8,
+    "ref": "Josh.5.10-12",
+    "text": "Across the Jordan, Israel camps at Gilgal and keeps the Passover. The manna stops: from now on they eat the produce of the land.",
+    "text_zh": "以色列人过了约旦河，在吉甲安营，守逾越节。从此吗哪止住了，他们吃迦南地的出产。"
+   },
+   {
+    "year": -1450,
+    "at": [
+     35.444,
+     31.87
+    ],
+    "zoom": 7.8,
+    "ref": "Josh.6.1-27",
+    "text": "Seven days they march around Jericho. On the seventh, at the trumpets and the shout, the wall falls flat. Only Rahab's family is spared.",
+    "text_zh": "他们绕耶利哥城走了七日。第七日吹角呼喊，城墙就塌陷了，只有喇合一家得以存活。"
+   },
+   {
+    "year": -1450,
+    "at": [
+     35.262,
+     31.917
+    ],
+    "zoom": 7.6,
+    "ref": "Josh.8.1-29",
+    "text": "Beaten once at Ai because of Achan's theft, Israel comes back and takes the city with an ambush.",
+    "text_zh": "因亚干取了当灭的物，以色列人在艾城败退。除掉罪后，他们设下伏兵，攻取了艾城。"
+   },
+   {
+    "year": -1450,
+    "at": [
+     35.27,
+     32.23
+    ],
+    "zoom": 7.4,
+    "ref": "Josh.8.30-35",
+    "text": "On Mount Ebal, above Shechem, Joshua builds an altar and reads the whole law, its blessings and curses, before all Israel.",
+    "text_zh": "约书亚在示剑旁的以巴路山上筑坛，在全以色列人面前宣读律法上祝福和咒诅的话。"
+   },
+   {
+    "year": -1449,
+    "at": [
+     35.185,
+     31.847
+    ],
+    "zoom": 7.6,
+    "ref": "Josh.10.1-14",
+    "text": "Five Amorite kings attack Gibeon, which has made peace with Israel. Joshua marches all night to its aid, and the sun stands still over Gibeon.",
+    "text_zh": "五个亚摩利王攻打与以色列人立约的基遍。约书亚连夜上去援救，日头就在基遍停留。"
+   },
+   {
+    "year": -1445,
+    "at": [
+     35.568,
+     33.018
+    ],
+    "zoom": 7.0,
+    "ref": "Josh.11.1-15",
+    "text": "In the north Jabin king of Hazor gathers the kings by the waters of Merom. Joshua defeats them and burns Hazor.",
+    "text_zh": "北方夏琐王耶宾召集诸王在米伦水边安营。约书亚击败他们，焚烧了夏琐。"
+   },
+   {
+    "year": -1444,
+    "at": [
+     35.29,
+     32.056
+    ],
+    "zoom": 7.4,
+    "ref": "Josh.18.1-10",
+    "text": "The tabernacle is set up at Shiloh, and Joshua divides the land among the tribes by lot.",
+    "text_zh": "会幕设立在示罗，约书亚在那里为各支派拈阄分地。"
+   }
+  ]
+ },
+ {
+  "id": "ruth",
+  "group": "land",
+  "era": "judges",
+  "start": -1160,
+  "end": -1150,
+  "path": true,
+  "title": "Ruth and Naomi",
+  "title_zh": "路得与拿俄米",
+  "summary": "In the days of the judges a Moabite widow follows her mother-in-law to Bethlehem and becomes the great-grandmother of David.",
+  "summary_zh": "士师时代，一位摩押寡妇跟随婆婆回到伯利恒，后来成了大卫的曾祖母。",
+  "steps": [
+   {
+    "year": -1160,
+    "at": [
+     35.208,
+     31.704
+    ],
+    "zoom": 7.6,
+    "ref": "Ruth.1.1-5",
+    "text": "In a famine Elimelech and Naomi leave Bethlehem for Moab. Their sons marry Moabite women, Orpah and Ruth, and then all three men die.",
+    "text_zh": "国中遭遇饥荒，以利米勒和拿俄米离开伯利恒往摩押地去。两个儿子娶了摩押女子俄珥巴和路得，后来父子三人都死了。"
+   },
+   {
+    "year": -1150,
+    "at": [
+     35.78,
+     31.5
+    ],
+    "zoom": 7.2,
+    "ref": "Ruth.1.6-18",
+    "text": "Naomi turns for home. Orpah kisses her goodbye, but Ruth holds on to her: \"Whither thou goest, I will go.\"",
+    "text_zh": "拿俄米要回本地。俄珥巴与婆婆亲嘴告别，路得却舍不得她，说：\"你往哪里去，我也往哪里去。\""
+   },
+   {
+    "year": -1150,
+    "at": [
+     35.22,
+     31.7
+    ],
+    "zoom": 8.2,
+    "ref": "Ruth.2.1-23",
+    "text": "At the barley harvest Ruth gleans in the field of Boaz, a kinsman of Elimelech, who treats her kindly.",
+    "text_zh": "正是收割大麦的时候，路得在以利米勒的亲族波阿斯的田里拾取麦穗，波阿斯厚待她。"
+   },
+   {
+    "year": -1150,
+    "at": [
+     35.208,
+     31.704
+    ],
+    "zoom": 8.4,
+    "ref": "Ruth.4.9-17",
+    "text": "At the city gate Boaz redeems Naomi's land and marries Ruth. Their son Obed is the grandfather of David.",
+    "text_zh": "波阿斯在城门口赎回拿俄米的地业，娶了路得。他们生了俄备得，就是大卫的祖父。"
+   }
+  ]
+ },
+ {
+  "id": "ark",
+  "group": "land",
+  "era": "judges",
+  "start": -1141,
+  "end": -1004,
+  "path": true,
+  "title": "The ark of the covenant",
+  "title_zh": "约柜的去向",
+  "summary": "Captured by the Philistines, the ark passes from city to city until it comes home, and at last rests in Solomon's temple.",
+  "summary_zh": "约柜被非利士人掳去，辗转各城后被送回，最后安放在所罗门的圣殿里。",
+  "steps": [
+   {
+    "year": -1141,
+    "at": [
+     34.932,
+     32.105
+    ],
+    "zoom": 7.4,
+    "ref": "1Sam.4.1-11",
+    "text": "Losing to the Philistines at Aphek, Israel fetches the ark from Shiloh into battle. Israel is routed, Eli's two sons are killed, and the ark is taken.",
+    "text_zh": "以色列人在亚弗与非利士人交战失利，就从示罗把约柜抬到营中。结果大败，以利的两个儿子被杀，约柜被掳去。"
+   },
+   {
+    "year": -1141,
+    "at": [
+     35.29,
+     32.056
+    ],
+    "zoom": 7.6,
+    "ref": "1Sam.4.12-22",
+    "text": "A runner brings the news to Shiloh. Old Eli falls backward and dies, and his daughter-in-law names her newborn Ichabod: the glory is departed.",
+    "text_zh": "有人跑回示罗报信。年老的以利仰面跌倒，折断颈项而死。他的儿妇给孩子起名叫以迦博，说：荣耀离开以色列了。"
+   },
+   {
+    "year": -1141,
+    "at": [
+     34.656,
+     31.756
+    ],
+    "zoom": 7.6,
+    "ref": "1Sam.5.1-7",
+    "text": "The Philistines set the ark in Dagon's temple at Ashdod. Next morning Dagon lies on his face before it, and the city is struck with emerods.",
+    "text_zh": "非利士人把约柜抬到亚实突，放在大衮庙里。次日清早，大衮仆倒在约柜前，脸伏于地。神又用痔疮击打亚实突人。"
+   },
+   {
+    "year": -1141,
+    "at": [
+     34.844,
+     31.694
+    ],
+    "zoom": 7.8,
+    "ref": "1Sam.5.8-9",
+    "text": "They move it to Gath, and the plague follows it there.",
+    "text_zh": "他们把约柜运到迦特，灾祸也随之临到那城。"
+   },
+   {
+    "year": -1141,
+    "at": [
+     34.851,
+     31.778
+    ],
+    "zoom": 7.8,
+    "ref": "1Sam.5.10-12",
+    "text": "Sent on to Ekron, it is met with a cry: send it back to its own place.",
+    "text_zh": "约柜又被送到以革伦，以革伦人呼喊说：要把约柜送回原处。"
+   },
+   {
+    "year": -1141,
+    "at": [
+     34.993,
+     31.731
+    ],
+    "zoom": 7.8,
+    "ref": "1Sam.6.10-16",
+    "text": "After seven months two milk cows, never yoked, pull a cart with the ark straight up the road to Beth-shemesh.",
+    "text_zh": "七个月后，两头未曾负轭的母牛拉着载约柜的车，直行大道，往伯示麦去。"
+   },
+   {
+    "year": -1141,
+    "at": [
+     34.994,
+     31.771
+    ],
+    "zoom": 7.8,
+    "ref": "1Sam.7.1-2",
+    "text": "The men of Kirjath-jearim bring the ark to the house of Abinadab on the hill, where it stays twenty years.",
+    "text_zh": "基列耶琳人把约柜接到山上亚比拿达的家中，约柜在那里二十年。"
+   },
+   {
+    "year": -1042,
+    "at": [
+     35.15,
+     31.78
+    ],
+    "zoom": 7.8,
+    "ref": "2Sam.6.1-11",
+    "text": "David sets out to bring the ark to Jerusalem on a new cart. Uzzah puts out his hand to steady it and dies, and the ark stays three months in the house of Obed-edom.",
+    "text_zh": "大卫要把约柜用新车运上耶路撒冷。乌撒伸手扶住约柜，当时死在那里。约柜就在俄别以东家中停了三个月。"
+   },
+   {
+    "year": -1042,
+    "at": [
+     35.235,
+     31.778
+    ],
+    "zoom": 8.2,
+    "ref": "2Sam.6.12-19",
+    "text": "Then David brings it up with shouting and trumpets, dancing before the Lord with all his might, and sets it in the tent he has pitched for it.",
+    "text_zh": "大卫欢欢喜喜地把约柜抬上大卫城，在耶和华面前极力跳舞，把约柜安放在他所搭的帐幕里。"
+   },
+   {
+    "year": -1004,
+    "at": [
+     35.235,
+     31.778
+    ],
+    "zoom": 8.4,
+    "ref": "1Kgs.8.1-11",
+    "text": "Solomon's priests carry the ark into the most holy place of the new temple, and the cloud of the Lord's glory fills the house.",
+    "text_zh": "所罗门的祭司把约柜抬进新殿的至圣所，有云充满耶和华的殿。"
+   }
+  ]
+ },
+ {
   "id": "david",
+  "group": "kingdom",
   "era": "united-kingdom",
   "start": -1063,
   "end": -1047,
@@ -425,6 +837,7 @@
  },
  {
   "id": "elijah",
+  "group": "kingdom",
   "era": "divided-kingdom",
   "start": -910,
   "end": -896,
@@ -536,7 +949,110 @@
   ]
  },
  {
+  "id": "elisha",
+  "group": "kingdom",
+  "era": "divided-kingdom",
+  "start": -896,
+  "end": -838,
+  "path": true,
+  "title": "Elisha the prophet",
+  "title_zh": "先知以利沙",
+  "summary": "With Elijah's mantle Elisha parts the Jordan, raises a boy at Shunem, heals Naaman, and sees the hills full of horses and chariots of fire.",
+  "summary_zh": "以利沙拿着以利亚的外衣分开约旦河，在书念使孩子复活，医好乃缦，又看见满山的火车火马。",
+  "steps": [
+   {
+    "year": -896,
+    "at": [
+     35.55,
+     31.84
+    ],
+    "zoom": 7.6,
+    "ref": "2Kgs.2.12-15",
+    "text": "Elijah taken up, Elisha picks up his mantle and strikes the Jordan, and the water parts for him too.",
+    "text_zh": "以利亚被接去后，以利沙拾起他的外衣，用它打水，水也左右分开。"
+   },
+   {
+    "year": -896,
+    "at": [
+     35.444,
+     31.87
+    ],
+    "zoom": 7.8,
+    "ref": "2Kgs.2.19-22",
+    "text": "At Jericho he heals the city's bad spring with salt from a new bowl.",
+    "text_zh": "在耶利哥，他把盐倒在新瓶里，治好了那城的恶水。"
+   },
+   {
+    "year": -893,
+    "at": [
+     35.334,
+     32.606
+    ],
+    "zoom": 7.6,
+    "ref": "2Kgs.4.8-37",
+    "text": "At Shunem a woman and her husband build him a small room on their roof. He promises her a son, and when the boy dies, raises him to life.",
+    "text_zh": "书念有一位妇人和丈夫为他在墙上盖了一间小楼。他应许她生一个儿子；后来孩子死了，以利沙使他复活。"
+   },
+   {
+    "year": -890,
+    "at": [
+     36.309,
+     33.512
+    ],
+    "zoom": 6.8,
+    "ref": "2Kgs.5.1-5",
+    "text": "In Damascus Naaman, commander of Syria's army, is a leper. A captive Israelite girl tells his wife of the prophet in Samaria.",
+    "text_zh": "亚兰王的元帅乃缦在大马士革，长了大麻风。一个被掳的以色列小女子告诉主母，撒玛利亚有一位先知。"
+   },
+   {
+    "year": -890,
+    "at": [
+     35.55,
+     31.84
+    ],
+    "zoom": 7.6,
+    "ref": "2Kgs.5.9-14",
+    "text": "Told to wash seven times in the Jordan, Naaman goes off in a rage, but at last he dips himself, and his flesh is like a little child's.",
+    "text_zh": "以利沙叫他在约旦河中沐浴七回。乃缦发怒转身而去，后来还是照着做了，他的肉复原，好像小孩子的肉。"
+   },
+   {
+    "year": -885,
+    "at": [
+     35.18,
+     32.42
+    ],
+    "zoom": 7.6,
+    "ref": "2Kgs.6.8-23",
+    "text": "The king of Syria sends an army by night to seize Elisha at Dothan. His servant's eyes are opened to see the mountain full of horses and chariots of fire.",
+    "text_zh": "亚兰王夜间派军队到多坍要捉拿以利沙。以利沙的仆人眼目被开，看见满山有火车火马围绕。"
+   },
+   {
+    "year": -884,
+    "at": [
+     35.229,
+     32.331
+    ],
+    "zoom": 7.6,
+    "ref": "2Kgs.6.24-7.16",
+    "text": "Syria besieges Samaria until the famine is terrible. Elisha promises food by this time tomorrow, and four lepers find the Syrian camp deserted.",
+    "text_zh": "亚兰人围困撒玛利亚，城中饥荒甚大。以利沙说明日约在这时必有粮食；四个长大麻风的人发现亚兰营中空无一人。"
+   },
+   {
+    "year": -838,
+    "at": [
+     35.229,
+     32.331
+    ],
+    "zoom": 7.4,
+    "ref": "2Kgs.13.14-21",
+    "text": "Dying, Elisha has King Joash strike the ground with arrows. Later a dead man thrown into his grave touches his bones and stands up alive.",
+    "text_zh": "以利沙得了必死的病，叫约阿施王用箭击地。后来有死人被抛进以利沙的坟墓，一碰着以利沙的骸骨就复活站起来了。"
+   }
+  ]
+ },
+ {
   "id": "jonah",
+  "group": "kingdom",
   "era": "divided-kingdom",
   "start": -862,
   "end": -862,
@@ -604,7 +1120,190 @@
   ]
  },
  {
+  "id": "hezekiah",
+  "group": "kingdom",
+  "era": "divided-kingdom",
+  "start": -725,
+  "end": -711,
+  "path": true,
+  "title": "Hezekiah and Assyria",
+  "title_zh": "希西家与亚述",
+  "summary": "Samaria falls to Assyria. Then Sennacherib comes for Judah, takes Lachish and surrounds Jerusalem, and Hezekiah spreads his letter before the Lord.",
+  "summary_zh": "撒玛利亚亡于亚述。随后西拿基立来攻犹大，攻取拉吉、围困耶路撒冷，希西家把亚述王的信展开在耶和华面前。",
+  "steps": [
+   {
+    "year": -725,
+    "at": [
+     35.235,
+     31.778
+    ],
+    "zoom": 7.8,
+    "ref": "2Chr.30.1-12",
+    "text": "Hezekiah reopens the temple and sends letters from Beersheba to Dan, inviting north and south alike to keep the Passover in Jerusalem.",
+    "text_zh": "希西家重开圣殿，差人从别是巴直到但遍传书信，请南北众人都到耶路撒冷守逾越节。"
+   },
+   {
+    "year": -720,
+    "at": [
+     35.229,
+     32.331
+    ],
+    "zoom": 7.2,
+    "ref": "2Kgs.18.9-12",
+    "text": "Shalmaneser of Assyria besieges Samaria for three years. The northern kingdom falls, and Israel is carried away to Assyria.",
+    "text_zh": "亚述王撒缦以色围困撒玛利亚三年，北国以色列灭亡，以色列人被掳到亚述。"
+   },
+   {
+    "year": -711,
+    "at": [
+     34.849,
+     31.565
+    ],
+    "zoom": 7.6,
+    "ref": "2Kgs.18.13-17",
+    "text": "In Hezekiah's fourteenth year Sennacherib takes the fortified cities of Judah and lays siege to Lachish, sending his officers from there to Jerusalem.",
+    "text_zh": "希西家王十四年，亚述王西拿基立攻取犹大一切坚固城，围攻拉吉，又从拉吉差遣大臣往耶路撒冷去。"
+   },
+   {
+    "year": -711,
+    "at": [
+     35.235,
+     31.778
+    ],
+    "zoom": 8.0,
+    "ref": "2Kgs.18.17-37",
+    "text": "By the conduit of the upper pool, Rabshakeh shouts in Hebrew to the men on the wall: do not let Hezekiah make you trust in the Lord.",
+    "text_zh": "拉伯沙基站在上池的水沟旁，用犹大言语向城上的百姓大声说：不要听希西家使你们倚靠耶和华。"
+   },
+   {
+    "year": -711,
+    "at": [
+     35.235,
+     31.778
+    ],
+    "zoom": 8.4,
+    "ref": "2Kgs.19.14-34",
+    "text": "Hezekiah spreads Sennacherib's letter before the Lord in the temple and prays. Isaiah answers: the king of Assyria shall not shoot an arrow into this city.",
+    "text_zh": "希西家把西拿基立的信在耶和华面前展开祷告。以赛亚回话说：亚述王必不得来到这城，也不在这里射箭。"
+   },
+   {
+    "year": -711,
+    "at": [
+     43.161,
+     36.348
+    ],
+    "zoom": 6.0,
+    "ref": "2Kgs.19.35-37",
+    "text": "That night the angel of the Lord strikes 185,000 in the Assyrian camp. Sennacherib goes home to Nineveh, where his own sons kill him as he worships.",
+    "text_zh": "当夜耶和华的使者击杀亚述营中十八万五千人。西拿基立回到尼尼微，在庙里叩拜时被他的儿子所杀。"
+   }
+  ]
+ },
+ {
+  "id": "daniel",
+  "group": "exile",
+  "era": "exile",
+  "start": -606,
+  "end": -536,
+  "path": true,
+  "title": "Daniel in Babylon",
+  "title_zh": "但以理在巴比伦",
+  "summary": "Taken from Jerusalem as a young man, Daniel serves the kings of Babylon and Persia, stays true to his God, and sees visions of the kingdoms to come.",
+  "summary_zh": "但以理少年时被掳离开耶路撒冷，服事巴比伦和波斯的君王，始终忠于神，又看见日后列国的异象。",
+  "steps": [
+   {
+    "year": -606,
+    "at": [
+     35.235,
+     31.778
+    ],
+    "zoom": 7.6,
+    "ref": "Dan.1.1-2",
+    "text": "In the third year of Jehoiakim, Nebuchadnezzar besieges Jerusalem and carries off the temple vessels and young nobles, Daniel among them.",
+    "text_zh": "约雅敬三年，尼布甲尼撒围困耶路撒冷，掠去圣殿的器皿和一些贵胄少年，但以理也在其中。"
+   },
+   {
+    "year": -606,
+    "at": [
+     44.421,
+     32.536
+    ],
+    "zoom": 6.6,
+    "ref": "Dan.1.3-20",
+    "text": "At court in Babylon Daniel and his three friends refuse the king's meat and wine. On pulse and water they prove ten times wiser than all the magicians.",
+    "text_zh": "在巴比伦王宫，但以理和三个朋友不用王的膳和酒，只吃素菜喝白水，智慧比通国的术士强十倍。"
+   },
+   {
+    "year": -603,
+    "at": [
+     44.421,
+     32.536
+    ],
+    "zoom": 6.8,
+    "ref": "Dan.2.31-49",
+    "text": "Daniel tells Nebuchadnezzar his dream of a great image of gold, silver, brass and iron, broken by a stone cut out without hands.",
+    "text_zh": "但以理为尼布甲尼撒说出并讲解他的梦：一个金、银、铜、铁的大像，被一块非人手凿出来的石头打碎。"
+   },
+   {
+    "year": -590,
+    "at": [
+     44.45,
+     32.45
+    ],
+    "zoom": 6.8,
+    "ref": "Dan.3.1-30",
+    "text": "Shadrach, Meshach and Abed-nego will not bow to the golden image on the plain of Dura. Thrown into the furnace, they walk unhurt with a fourth like the Son of God.",
+    "text_zh": "沙得拉、米煞、亚伯尼歌不肯在杜拉平原跪拜金像，被扔进烈火的窑中，却与第四位相貌好像神子的一同在火中游行，毫无损伤。"
+   },
+   {
+    "year": -551,
+    "at": [
+     48.225,
+     32.179
+    ],
+    "zoom": 6.4,
+    "ref": "Dan.8.1-27",
+    "text": "In a vision Daniel stands at Shushan by the river Ulai and sees a ram and a he-goat: the kingdoms of Media-Persia and Greece.",
+    "text_zh": "但以理在异象中见自己在书珊城的乌莱河边，看见一只公绵羊和一只公山羊，就是玛代波斯和希腊的国。"
+   },
+   {
+    "year": -539,
+    "at": [
+     44.421,
+     32.536
+    ],
+    "zoom": 6.8,
+    "ref": "Dan.5.1-31",
+    "text": "At Belshazzar's feast a hand writes on the wall. Daniel reads it: weighed in the balances and found wanting. That night Babylon falls.",
+    "text_zh": "伯沙撒王设摆筵席时，有指头在墙上写字。但以理讲解说：你被称在天平里，显出你的亏欠。当夜巴比伦就倾覆了。"
+   },
+   {
+    "year": -538,
+    "at": [
+     44.421,
+     32.536
+    ],
+    "zoom": 6.8,
+    "ref": "Dan.6.10-23",
+    "text": "Under Darius, Daniel keeps praying three times a day with his windows open toward Jerusalem. Thrown to the lions, he is untouched.",
+    "text_zh": "大流士年间，但以理照常一日三次开着窗户向耶路撒冷祷告。他被扔进狮子坑，神差遣使者封住了狮子的口。"
+   },
+   {
+    "year": -536,
+    "at": [
+     44.4,
+     33.3
+    ],
+    "zoom": 6.4,
+    "ref": "Dan.10.1-14",
+    "text": "In the third year of Cyrus, by the great river Hiddekel, the Tigris, Daniel sees a man clothed in linen who tells him what will befall his people.",
+    "text_zh": "古列王第三年，但以理在希底结大河边，看见一人身穿细麻衣，向他说明他本国之民日后必遇的事。"
+   }
+  ]
+ },
+ {
   "id": "exile",
+  "group": "exile",
   "era": "exile",
   "start": -586,
   "end": -445,
@@ -706,6 +1405,7 @@
  },
  {
   "id": "jesus",
+  "group": "jesus",
   "era": "jesus",
   "start": -3,
   "end": 30,
@@ -833,7 +1533,347 @@
   ]
  },
  {
+  "id": "passion",
+  "group": "jesus",
+  "era": "jesus",
+  "start": 30,
+  "end": 30,
+  "path": true,
+  "title": "The last week",
+  "title_zh": "受难周",
+  "summary": "From the supper at Bethany to the road to Emmaus: Jesus' last week in and around Jerusalem, his death and resurrection.",
+  "summary_zh": "从伯大尼的筵席到以马忤斯的路上：耶稣在耶路撒冷内外的最后一周、受死与复活。",
+  "steps": [
+   {
+    "year": 30,
+    "at": [
+     35.269,
+     31.771
+    ],
+    "zoom": 9.0,
+    "ref": "John.12.1-8",
+    "text": "Six days before the Passover Jesus comes to Bethany. At supper Mary anoints his feet with costly spikenard and wipes them with her hair.",
+    "text_zh": "逾越节前六日，耶稣来到伯大尼。在筵席上，马利亚拿着极贵的真哪哒香膏抹耶稣的脚，又用自己的头发去擦。"
+   },
+   {
+    "year": 30,
+    "at": [
+     35.257,
+     31.79
+    ],
+    "zoom": 9.0,
+    "ref": "Luke.19.29-44",
+    "text": "From Bethphage he rides a colt down the Mount of Olives. The crowd spreads clothes on the road, and he weeps over the city.",
+    "text_zh": "他从伯法其骑着驴驹下橄榄山，众人把衣服铺在路上。他看见城，就为它哀哭。"
+   },
+   {
+    "year": 30,
+    "at": [
+     35.2354,
+     31.7781
+    ],
+    "zoom": 9.4,
+    "ref": "Mark.11.15-18",
+    "text": "In the temple he overturns the tables of the money changers: my house shall be called of all nations the house of prayer.",
+    "text_zh": "他进入圣殿，推倒兑换银钱之人的桌子，说：我的殿必称为万国祷告的殿。"
+   },
+   {
+    "year": 30,
+    "at": [
+     35.244,
+     31.779
+    ],
+    "zoom": 9.2,
+    "ref": "Matt.24.1-3",
+    "text": "Sitting on the Mount of Olives across from the temple, he tells his disciples that not one stone will be left upon another.",
+    "text_zh": "他在橄榄山上对着圣殿坐着，告诉门徒：将来这殿没有一块石头留在石头上。"
+   },
+   {
+    "year": 30,
+    "at": [
+     35.229,
+     31.772
+    ],
+    "zoom": 9.4,
+    "ref": "Luke.22.7-20",
+    "text": "In an upper room he eats the Passover with the twelve, breaks the bread and gives the cup: this do in remembrance of me.",
+    "text_zh": "他在一间楼房里与十二使徒吃逾越节的筵席，擘开饼，又拿起杯来，说：你们也应当如此行，为的是记念我。"
+   },
+   {
+    "year": 30,
+    "at": [
+     35.24,
+     31.779
+    ],
+    "zoom": 9.4,
+    "ref": "Matt.26.36-56",
+    "text": "In Gethsemane he prays, \"not as I will, but as thou wilt.\" Judas comes with a crowd and betrays him with a kiss.",
+    "text_zh": "在客西马尼他祷告说：\"不要照我的意思，只要照你的意思。\"犹大带着众人来，用亲嘴为暗号出卖了他。"
+   },
+   {
+    "year": 30,
+    "at": [
+     35.231,
+     31.772
+    ],
+    "zoom": 9.4,
+    "ref": "Matt.26.57-75",
+    "text": "He is tried by night at the house of Caiaphas the high priest, while in the courtyard Peter denies him three times.",
+    "text_zh": "他夜里在大祭司该亚法家里受审；彼得在院子里三次不认主。"
+   },
+   {
+    "year": 30,
+    "at": [
+     35.2337,
+     31.7801
+    ],
+    "zoom": 9.4,
+    "ref": "John.19.1-16",
+    "text": "At dawn Pilate examines him, has him scourged, and hands him over to be crucified.",
+    "text_zh": "天亮时彼拉多审问他，把他鞭打了，就交给人钉十字架。"
+   },
+   {
+    "year": 30,
+    "at": [
+     35.2296,
+     31.7784
+    ],
+    "zoom": 9.4,
+    "ref": "Luke.23.33-46",
+    "text": "At Golgotha he is crucified between two thieves. At the ninth hour he cries \"Father, into thy hands I commend my spirit\" and dies.",
+    "text_zh": "他在各各他与两个犯人同钉十字架。到了申初，他大声喊着说：\"父啊，我将我的灵魂交在你手里。\"说了这话，气就断了。"
+   },
+   {
+    "year": 30,
+    "at": [
+     35.2296,
+     31.7784
+    ],
+    "zoom": 9.4,
+    "ref": "John.20.1-18",
+    "text": "On the first day of the week Mary Magdalene finds the stone rolled away, and the risen Jesus calls her by name.",
+    "text_zh": "七日的头一日，抹大拉的马利亚看见石头已从坟墓挪开；复活的耶稣叫她的名字。"
+   },
+   {
+    "year": 30,
+    "at": [
+     34.99,
+     31.84
+    ],
+    "zoom": 8.2,
+    "ref": "Luke.24.13-35",
+    "text": "That evening two disciples walking to Emmaus know him at last as he breaks the bread.",
+    "text_zh": "当天傍晚，两个门徒往以马忤斯去，耶稣与他们同行；他擘饼的时候，他们的眼睛明亮了，才认出他来。"
+   }
+  ]
+ },
+ {
+  "id": "acts",
+  "group": "church",
+  "era": "early-church",
+  "start": 30,
+  "end": 44,
+  "path": true,
+  "title": "The gospel spreads",
+  "title_zh": "福音传开",
+  "summary": "From Pentecost in Jerusalem the word goes out to Samaria, the road to Gaza, Joppa, a Roman centurion in Caesarea and the Greeks of Antioch.",
+  "summary_zh": "福音从耶路撒冷的五旬节传开，到撒玛利亚、往迦萨的路上、约帕、该撒利亚的罗马百夫长，直到安提阿的希腊人。",
+  "steps": [
+   {
+    "year": 30,
+    "at": [
+     35.235,
+     31.778
+    ],
+    "zoom": 8.0,
+    "ref": "Acts.2.1-41",
+    "text": "At Pentecost the Spirit comes with a sound like a rushing wind and tongues like fire. Peter preaches, and about three thousand are baptized.",
+    "text_zh": "五旬节到了，圣灵降临，有响声好像一阵大风，又有舌头如火焰。彼得讲道，那一天门徒约添了三千人。"
+   },
+   {
+    "year": 31,
+    "at": [
+     35.235,
+     31.778
+    ],
+    "zoom": 8.0,
+    "ref": "Acts.7.54-8.1",
+    "text": "Stephen is stoned outside the city, praying for those who kill him. A young man named Saul minds their clothes, and the church is scattered.",
+    "text_zh": "司提反被推到城外用石头打死，临死为杀他的人祷告。一个名叫扫罗的少年人看守众人的衣裳。教会大遭逼迫，门徒都分散了。"
+   },
+   {
+    "year": 31,
+    "at": [
+     35.229,
+     32.331
+    ],
+    "zoom": 7.6,
+    "ref": "Acts.8.4-17",
+    "text": "Philip preaches Christ in Samaria. Peter and John come down, and the Samaritans receive the Holy Spirit.",
+    "text_zh": "腓利下撒玛利亚城去宣讲基督；彼得、约翰下去为他们祷告，他们就受了圣灵。"
+   },
+   {
+    "year": 31,
+    "at": [
+     34.6,
+     31.55
+    ],
+    "zoom": 7.4,
+    "ref": "Acts.8.26-40",
+    "text": "On the desert road to Gaza Philip meets an Ethiopian official reading Isaiah, explains it to him, and baptizes him.",
+    "text_zh": "腓利在往迦萨的旷野路上，遇见一个念以赛亚书的埃提阿伯太监，给他讲解，为他施洗。"
+   },
+   {
+    "year": 38,
+    "at": [
+     34.752,
+     32.054
+    ],
+    "zoom": 7.6,
+    "ref": "Acts.9.32-43",
+    "text": "At Lydda Peter heals Aeneas, and at Joppa he raises Tabitha, called Dorcas.",
+    "text_zh": "彼得在吕大医好了以尼雅，又在约帕使大比大（就是多加）复活。"
+   },
+   {
+    "year": 38,
+    "at": [
+     34.891,
+     32.499
+    ],
+    "zoom": 7.6,
+    "ref": "Acts.10.1-48",
+    "text": "After a vision on a rooftop in Joppa, Peter goes to Caesarea, and the Holy Spirit falls on the Roman centurion Cornelius and his household.",
+    "text_zh": "彼得在约帕房顶上见了异象，随后到该撒利亚，圣灵降在罗马百夫长哥尼流全家身上。"
+   },
+   {
+    "year": 43,
+    "at": [
+     36.165,
+     36.201
+    ],
+    "zoom": 6.6,
+    "ref": "Acts.11.19-26",
+    "text": "Believers scattered as far as Antioch preach to Greeks too. Barnabas brings Saul from Tarsus, and at Antioch the disciples are first called Christians.",
+    "text_zh": "分散的门徒直走到安提阿，也向希腊人传讲主耶稣。巴拿巴到大数去找扫罗；门徒称为基督徒是从安提阿起首。"
+   },
+   {
+    "year": 44,
+    "at": [
+     35.235,
+     31.778
+    ],
+    "zoom": 8.0,
+    "ref": "Acts.12.1-17",
+    "text": "Herod kills James and imprisons Peter. The night before his trial an angel leads Peter out past the guards to the house of Mary, John Mark's mother.",
+    "text_zh": "希律杀了雅各，又把彼得下在监里。受审前一夜，天使领彼得出监，经过看守，来到约翰马可的母亲马利亚家。"
+   }
+  ]
+ },
+ {
+  "id": "saul",
+  "group": "church",
+  "era": "early-church",
+  "start": 31,
+  "end": 43,
+  "path": true,
+  "title": "Saul becomes Paul",
+  "title_zh": "扫罗归主",
+  "summary": "The persecutor is stopped on the Damascus road, preaches the faith he tried to destroy, escapes over a wall, and is brought to Antioch.",
+  "summary_zh": "逼迫教会的扫罗在大马士革路上被主拦住，转而传扬他曾残害的真道，从城墙上缒下逃生，后被带到安提阿。",
+  "steps": [
+   {
+    "year": 31,
+    "at": [
+     35.235,
+     31.778
+    ],
+    "zoom": 8.0,
+    "ref": "Acts.8.1-3",
+    "text": "Saul, who approved of Stephen's death, ravages the church in Jerusalem, dragging men and women off to prison.",
+    "text_zh": "扫罗也喜悦司提反被害。他残害教会，进各人的家，拉着男女送进监牢。"
+   },
+   {
+    "year": 32,
+    "at": [
+     36.15,
+     33.42
+    ],
+    "zoom": 7.6,
+    "ref": "Acts.9.1-9",
+    "text": "Near Damascus a light from heaven flashes around him: \"Saul, Saul, why persecutest thou me?\" He rises blind.",
+    "text_zh": "将到大马士革，忽然从天上发光，四面照着他。他仆倒在地，听见有声音说：\"扫罗，扫罗，你为什么逼迫我？\"他起来，却什么也看不见。"
+   },
+   {
+    "year": 32,
+    "at": [
+     36.309,
+     33.512
+    ],
+    "zoom": 8.0,
+    "ref": "Acts.9.10-22",
+    "text": "In the street called Straight, Ananias lays hands on him. He sees again, is baptized, and preaches Jesus in the synagogues.",
+    "text_zh": "在直街上，亚拿尼亚按手在他身上，他就能看见，受了洗，随即在各会堂里宣传耶稣。"
+   },
+   {
+    "year": 33,
+    "at": [
+     35.44,
+     30.33
+    ],
+    "zoom": 6.4,
+    "ref": "Gal.1.15-17",
+    "text": "He goes away into Arabia, and comes back again to Damascus.",
+    "text_zh": "他随即往阿拉伯去，后又回到大马士革。"
+   },
+   {
+    "year": 35,
+    "at": [
+     36.309,
+     33.512
+    ],
+    "zoom": 8.0,
+    "ref": "Acts.9.23-25",
+    "text": "When the Jews plot to kill him, the disciples let him down over the city wall by night in a basket.",
+    "text_zh": "犹太人商议要杀他，门徒就在夜间用筐子把他从城墙上缒下去。"
+   },
+   {
+    "year": 35,
+    "at": [
+     35.235,
+     31.778
+    ],
+    "zoom": 8.0,
+    "ref": "Acts.9.26-29",
+    "text": "In Jerusalem the disciples are afraid of him until Barnabas brings him to the apostles.",
+    "text_zh": "到了耶路撒冷，门徒都怕他，惟有巴拿巴接待他，领去见使徒。"
+   },
+   {
+    "year": 36,
+    "at": [
+     34.896,
+     36.912
+    ],
+    "zoom": 6.8,
+    "ref": "Acts.9.30",
+    "text": "When the Grecians try to kill him, the brethren take him down to Caesarea and send him home to Tarsus.",
+    "text_zh": "说希腊话的犹太人想法子要杀他，弟兄们知道了，就送他下该撒利亚，打发他往大数去。"
+   },
+   {
+    "year": 43,
+    "at": [
+     36.165,
+     36.201
+    ],
+    "zoom": 6.8,
+    "ref": "Acts.11.25-26",
+    "text": "Years later Barnabas finds him in Tarsus and brings him to Antioch, where they teach a whole year.",
+    "text_zh": "多年后，巴拿巴往大数去找扫罗，带他到安提阿，二人在教会里聚集了整一年。"
+   }
+  ]
+ },
+ {
   "id": "paul-first",
+  "group": "church",
   "era": "early-church",
   "start": 45,
   "end": 47,
@@ -925,6 +1965,7 @@
  },
  {
   "id": "paul-second",
+  "group": "church",
   "era": "early-church",
   "start": 47,
   "end": 50,
@@ -1039,7 +2080,121 @@
   ]
  },
  {
+  "id": "paul-third",
+  "group": "church",
+  "era": "early-church",
+  "start": 51,
+  "end": 54,
+  "path": true,
+  "title": "Paul's third journey",
+  "title_zh": "保罗第三次旅行布道",
+  "summary": "Two years teaching in Ephesus, a riot in the theatre, a farewell on the beach at Miletus, and the road up to Jerusalem.",
+  "summary_zh": "在以弗所教导两年，剧场里的暴乱，米利都海边的告别，最后上耶路撒冷。",
+  "steps": [
+   {
+    "year": 51,
+    "at": [
+     36.165,
+     36.201
+    ],
+    "zoom": 6.0,
+    "ref": "Acts.18.23",
+    "text": "After some time in Antioch, Paul sets out again through Galatia and Phrygia, strengthening the disciples.",
+    "text_zh": "保罗在安提阿住了些日子，又离开那里，挨次经过加拉太和弗吕家地方，坚固众门徒。"
+   },
+   {
+    "year": 52,
+    "at": [
+     27.34,
+     37.942
+    ],
+    "zoom": 7.0,
+    "ref": "Acts.19.1-10",
+    "text": "At Ephesus he teaches daily in the school of Tyrannus for two years, so that all Asia hears the word.",
+    "text_zh": "他在以弗所推喇奴的学房天天辩论，这样有两年之久，叫一切住在亚细亚的都听见主的道。"
+   },
+   {
+    "year": 53,
+    "at": [
+     27.34,
+     37.942
+    ],
+    "zoom": 7.4,
+    "ref": "Acts.19.23-41",
+    "text": "Demetrius the silversmith stirs up a riot, and for two hours the theatre roars \"Great is Diana of the Ephesians.\"",
+    "text_zh": "银匠底米丢煽动众人，满城都轰动起来，众人约有两小时同声喊着说：\"大哉，以弗所人的亚底米啊！\""
+   },
+   {
+    "year": 53,
+    "at": [
+     22.879,
+     37.906
+    ],
+    "zoom": 6.8,
+    "ref": "Acts.20.1-3",
+    "text": "He travels through Macedonia into Greece and stays three months, by tradition in Corinth, where he writes his letter to the Romans.",
+    "text_zh": "他经过马其顿到了希腊，在那里住了三个月。按传统的说法，他这时在哥林多写了罗马书。"
+   },
+   {
+    "year": 54,
+    "at": [
+     26.158,
+     39.751
+    ],
+    "zoom": 7.0,
+    "ref": "Acts.20.6-12",
+    "text": "At Troas he talks until midnight. Young Eutychus falls asleep in a window and drops three floors, and is brought back alive.",
+    "text_zh": "在特罗亚，保罗讲论直到半夜。少年人犹推古坐在窗台上睡熟了，从三层楼上掉下去，后来众人把他活活地领回来。"
+   },
+   {
+    "year": 54,
+    "at": [
+     27.278,
+     37.529
+    ],
+    "zoom": 7.0,
+    "ref": "Acts.20.17-38",
+    "text": "At Miletus he calls the elders of Ephesus and says goodbye: they will see his face no more. They kneel on the shore and weep.",
+    "text_zh": "保罗在米利都请以弗所教会的长老来，向他们告别，说他们以后不得再见他的面。众人跪下祷告，痛哭。"
+   },
+   {
+    "year": 54,
+    "at": [
+     35.209,
+     33.268
+    ],
+    "zoom": 7.2,
+    "ref": "Acts.21.3-6",
+    "text": "At Tyre the disciples beg him not to go up to Jerusalem; they kneel and pray together on the beach.",
+    "text_zh": "在推罗，门徒劝保罗不要上耶路撒冷；众人一同跪在岸上祷告。"
+   },
+   {
+    "year": 54,
+    "at": [
+     34.891,
+     32.499
+    ],
+    "zoom": 7.4,
+    "ref": "Acts.21.8-14",
+    "text": "In Caesarea the prophet Agabus binds his own hands and feet with Paul's belt: so shall the Jews bind the man who owns it.",
+    "text_zh": "在该撒利亚，先知亚迦布拿保罗的腰带捆上自己的手脚，说：犹太人在耶路撒冷要这样捆绑这腰带的主人。"
+   },
+   {
+    "year": 54,
+    "at": [
+     35.235,
+     31.778
+    ],
+    "zoom": 8.0,
+    "ref": "Acts.21.27-36",
+    "text": "In the temple a crowd seizes him, and Roman soldiers carry him off to save his life.",
+    "text_zh": "在圣殿里，众人拿住保罗要杀他，罗马千夫长带兵把他救出，带进营楼。"
+   }
+  ]
+ },
+ {
   "id": "paul-rome",
+  "group": "church",
   "era": "early-church",
   "start": 56,
   "end": 57,
@@ -1126,6 +2281,108 @@
     "ref": "Acts.28.16-31",
     "text": "In Rome Paul lives two years in his own rented house under guard, welcoming all who come to him.",
     "text_zh": "保罗在罗马自己租的房子里住了足足两年，有兵看守，凡来见他的人他都接待。"
+   }
+  ]
+ },
+ {
+  "id": "churches",
+  "group": "church",
+  "era": "early-church",
+  "start": 96,
+  "end": 96,
+  "path": true,
+  "title": "The seven churches",
+  "title_zh": "七个教会",
+  "summary": "From exile on Patmos, John sends the risen Christ's letters to seven churches of Asia, one city after another along the Roman road.",
+  "summary_zh": "约翰在拔摩海岛上，把复活的基督写给亚细亚七个教会的书信，沿着罗马大道一城一城送去。",
+  "steps": [
+   {
+    "year": 96,
+    "at": [
+     26.548,
+     37.308
+    ],
+    "zoom": 7.4,
+    "ref": "Rev.1.9-11",
+    "text": "Exiled on Patmos, John hears a voice like a trumpet: write what you see and send it to the seven churches in Asia.",
+    "text_zh": "约翰在拔摩海岛上，听见大声音如吹号，说：你所看见的当写在书上，达与亚细亚的七个教会。"
+   },
+   {
+    "year": 96,
+    "at": [
+     27.34,
+     37.942
+    ],
+    "zoom": 7.6,
+    "ref": "Rev.2.1-7",
+    "text": "Ephesus: you have laboured and not fainted, but you have left your first love.",
+    "text_zh": "以弗所：你劳碌忍耐，却把起初的爱心离弃了。"
+   },
+   {
+    "year": 96,
+    "at": [
+     27.162,
+     38.452
+    ],
+    "zoom": 7.6,
+    "ref": "Rev.2.8-11",
+    "text": "Smyrna: poor, yet rich. Be faithful unto death, and I will give thee a crown of life.",
+    "text_zh": "士每拿：你虽贫穷，却是富足。你务要至死忠心，我就赐给你那生命的冠冕。"
+   },
+   {
+    "year": 96,
+    "at": [
+     27.165,
+     39.119
+    ],
+    "zoom": 7.6,
+    "ref": "Rev.2.12-17",
+    "text": "Pergamos, where Satan's seat is: you hold fast my name, yet some there hold the doctrine of Balaam.",
+    "text_zh": "别迦摩，有撒但座位之处：你坚守我的名，但有人服从了巴兰的教训。"
+   },
+   {
+    "year": 96,
+    "at": [
+     27.84,
+     38.923
+    ],
+    "zoom": 7.6,
+    "ref": "Rev.2.18-29",
+    "text": "Thyatira: your last works are more than the first, but you suffer that woman Jezebel.",
+    "text_zh": "推雅推喇：你末后所行的善事比起初所行的更多，只是你容让那自称是先知的妇人耶洗别。"
+   },
+   {
+    "year": 96,
+    "at": [
+     28.114,
+     38.477
+    ],
+    "zoom": 7.6,
+    "ref": "Rev.3.1-6",
+    "text": "Sardis: you have a name that you live, and are dead. Be watchful.",
+    "text_zh": "撒狄：你按名是活的，其实是死的。你要警醒。"
+   },
+   {
+    "year": 96,
+    "at": [
+     28.52,
+     38.349
+    ],
+    "zoom": 7.6,
+    "ref": "Rev.3.7-13",
+    "text": "Philadelphia: you have a little strength. I have set before thee an open door, and no man can shut it.",
+    "text_zh": "非拉铁非：你略有一点力量。我在你面前给你一个敞开的门，是无人能关的。"
+   },
+   {
+    "year": 96,
+    "at": [
+     29.108,
+     37.837
+    ],
+    "zoom": 7.6,
+    "ref": "Rev.3.14-22",
+    "text": "Laodicea: neither cold nor hot. Behold, I stand at the door, and knock.",
+    "text_zh": "老底嘉：你也不冷也不热。看哪，我站在门外叩门。"
    }
   ]
  }

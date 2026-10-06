@@ -28,6 +28,8 @@ const L = {
     bookFilter: "Find a book, or type “John 3”", recent: "Recent", nChaptersOf: (n) => `${n} ${n === 1 ? "chapter" : "chapters"}`,
     grp_law: "Law", grp_history: "History", grp_poetry: "Poetry & Wisdom", grp_major: "Major Prophets", grp_minor: "Minor Prophets",
     grp_gospels: "Gospels", grp_acts: "History", grp_paul: "Paul’s Letters", grp_general: "General Letters", grp_apocalypse: "Prophecy",
+    tg_patriarchs: "The patriarchs", tg_land: "Into the land", tg_kingdom: "Kings and prophets", tg_exile: "Exile and return",
+    tg_jesus: "Jesus", tg_church: "The early church",
     tapVerse: "Tap a verse", tapHint: "Its cross-references, people, places and links show up here.", orTour: "Or take a tour",
     prevCh: "Previous chapter (←)", nextCh: "Next chapter (→)", histBack: "Back", histFwd: "Forward", textSize: "Text size", sizes: ["Smallest", "Small", "Normal", "Large", "Larger", "Largest"],
     close: "Close", clearSel: "Clear selection (Esc)", sheetHandle: "Drag or tap to resize", backBooks: "Back to books", endTour: "End tour",
@@ -149,6 +151,8 @@ const L = {
     bookFilter: "查找书卷，或输入“约翰福音 3”", recent: "最近", nChaptersOf: (n) => `${n} 章`,
     grp_law: "律法书", grp_history: "历史书", grp_poetry: "诗歌智慧书", grp_major: "大先知书", grp_minor: "小先知书",
     grp_gospels: "福音书", grp_acts: "历史书", grp_paul: "保罗书信", grp_general: "普通书信", grp_apocalypse: "预言书",
+    tg_patriarchs: "列祖", tg_land: "进入应许之地", tg_kingdom: "君王与先知", tg_exile: "被掳与归回",
+    tg_jesus: "耶稣", tg_church: "初期教会",
     tapVerse: "点选一节经文", tapHint: "它的串珠、人物、地点和链接会显示在这里。", orTour: "或者跟随导览",
     prevCh: "上一章 (←)", nextCh: "下一章 (→)", histBack: "后退", histFwd: "前进", textSize: "字体大小", sizes: ["最小", "小", "标准", "大", "较大", "最大"],
     close: "关闭", clearSel: "取消选择（Esc）", sheetHandle: "拖动或轻点以调整大小", backBooks: "返回书卷", endTour: "结束导览",
@@ -1759,19 +1763,31 @@ function drawMap(pts, base, o = {}) {
 const PACK = "https://bible.daiyip.com/atlas/manifest.json";
 const loadTours = () => loadJSON("atlas/tours.json");
 
+// Tours come grouped by period (each tour's "group"), in the order of atlas/tours.json.
 async function fillTourList(list) {
-  const tours = await loadTours();
-  list.replaceChildren(...tours.map((tr) => {
-    const btn = document.createElement("button");
-    btn.className = "tour-item";
-    const [b, span, small] = ["b", "span", "small"].map((t) => document.createElement(t));
-    b.textContent = tx(tr, "title");
-    span.textContent = `${fmtYear(tr.start)}${tr.end !== tr.start ? "–" + fmtYear(tr.end) : ""} · ${t("steps", tr.steps.length)}`;
-    small.textContent = tx(tr, "summary");
-    btn.append(b, span, small);
-    btn.onclick = () => startTour(tr.id, 0);
-    return btn;
+  const tours = await loadTours(), groups = new Map();
+  for (const tr of tours) {
+    const g = tr.group || "";
+    if (!groups.has(g)) groups.set(g, []);
+    groups.get(g).push(tr);
+  }
+  list.replaceChildren(...[...groups].map(([g, trs]) => {
+    const sec = el("section", "tour-group");
+    if (g) sec.append(el("h3", "", t("tg_" + g)));
+    sec.append(...trs.map(tourItem));
+    return sec;
   }));
+}
+function tourItem(tr) {
+  const btn = document.createElement("button");
+  btn.className = "tour-item";
+  const [b, span, small] = ["b", "span", "small"].map((t) => document.createElement(t));
+  b.textContent = tx(tr, "title");
+  span.textContent = `${fmtYear(tr.start)}${tr.end !== tr.start ? "–" + fmtYear(tr.end) : ""} · ${t("steps", tr.steps.length)}`;
+  small.textContent = tx(tr, "summary");
+  btn.append(b, span, small);
+  btn.onclick = () => startTour(tr.id, 0);
+  return btn;
 }
 function showTours() {
   view.dialog = null; // not shareable

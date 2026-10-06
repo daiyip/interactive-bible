@@ -63,8 +63,11 @@ back or forward, changes the speed (0.8× to 1.5×) and picks the voice from tho
 region, higher-quality ones marked HD); speed and voice are remembered.
 Turning Listen off, or moving to another chapter by hand, stops it. It needs no connection when the device's voices are installed.
 
-**Tours** walk through a journey one step at a time, with no verse to pick first: Abraham, Joseph, the Exodus,
-David, Elijah, Jonah, the exile and return, Jesus, and Paul's journeys. Open them from **Tours** in the dock (the floating buttons at the bottom of the text), or
+**Tours** walk through a journey one step at a time, with no verse to pick first. There are 23, grouped by period:
+the patriarchs (Abraham, Jacob, Joseph); into the land (the Exodus, Joshua, Ruth, the ark of the covenant); kings
+and prophets (David, Elijah, Elisha, Jonah, Hezekiah and Assyria); exile and return (Daniel, the exile and return);
+Jesus (his life, the last week); and the early church (the gospel spreading from Pentecost, Saul becoming Paul, Paul's
+three journeys and his voyage to Rome, the seven churches of Revelation). Open them from **Tours** in the dock (the floating buttons at the bottom of the text), or
 from the list in the empty context panel. Each step opens its verses and flies the map to it, tracing the journey;
 stepping on the map moves the reader along too. **Play** runs a tour by itself: each step stays long enough to read its note (a
 bar shows how long), its verses light up one after another, and the map traces the leg from the last stop. Tapping
@@ -164,7 +167,7 @@ keeps it working offline, and `manifest.webmanifest` makes it installable.
 ## The Bible on the atlas
 
 `atlas/` is the Bible Lands data pack for the [atlas](https://atlas.daiyip.com) engine. It holds 298 events,
-1,220 places, 11 eras and 11 tours (the same tours as the reader).
+1,220 places, 11 eras and 23 tours (the same tours as the reader).
 Open it on the atlas map and timeline:
 
 - [Alongside the atlas's own history](https://atlas.daiyip.com/?pack=https://bible.daiyip.com/atlas/manifest.json)

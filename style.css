@@ -172,7 +172,11 @@ body:not(.playing) .tour-bar { visibility: hidden; }
 .tour-ctl #tour-next { margin-left: auto; color: var(--accent); border-color: var(--accent); }
 .pill:disabled { opacity: .45; cursor: default; border-color: var(--line); color: var(--muted); }
 .tour-list { display: grid; gap: 8px; text-align: left; margin-top: 10px; }
-.tour-item { display: grid; gap: 2px; text-align: left; border: 1px solid var(--line); background: var(--bg); border-radius: 10px; padding: 10px 12px; }
+.tour-group { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+.tour-group h3 { grid-column: 1 / -1; }
+.tour-group h3 { margin: 8px 0 0; font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.tour-group:first-child h3 { margin-top: 0; }
+.tour-item { display: grid; align-content: start; gap: 2px; text-align: left; border: 1px solid var(--line); background: var(--bg); border-radius: 10px; padding: 10px 12px; }
 .tour-item:hover { border-color: var(--accent); }
 .tour-item b { color: var(--ink); }
 .tour-item span { font-size: 12px; color: var(--muted); }
