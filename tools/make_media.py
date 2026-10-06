@@ -12,7 +12,7 @@ Usage: python3 tools/make_media.py generate [pictures] [narration] [music]   # m
        python3 tools/make_media.py upload                                    # send what R2 lacks
        python3 tools/make_media.py all                                       # the three in turn
        python3 tools/make_media.py status
-Keys: GOOGLE_API_KEY (narration with Gemini 2.5 Pro TTS, music with Lyria 3.5), OPENAI_API_KEY (pictures with GPT Image 2,
+Keys: GOOGLE_API_KEY or GEMINI_AUTH=adc (see google() below) (narration with Gemini 2.5 Pro TTS, music with Lyria 3.5), OPENAI_API_KEY (pictures with GPT Image 2,
 or PICTURES=gemini for Gemini), ATLAS_R2_ACCOUNT_ID / ATLAS_R2_ACCESS_KEY_ID / ATLAS_R2_SECRET_ACCESS_KEY / ATLAS_R2_BUCKET.
 Needs Pillow and boto3 (pip install pillow boto3), and afconvert (macOS) or ffmpeg.
 
@@ -64,7 +64,28 @@ def post(url, body, headers, tries=6, timeout=600):
             if k == tries - 1: raise
             time.sleep(10)
 
+# GEMINI_AUTH=adc sends Gemini requests through Vertex AI with the gcloud login (gcloud auth application-default login)
+# instead of GOOGLE_API_KEY, so they count against that Cloud project's quota rather than the key's. The project comes
+# from GOOGLE_CLOUD_PROJECT or gcloud's default; the region from GOOGLE_CLOUD_LOCATION (default global). Vertex names
+# some models differently: VERTEX_MODELS maps them, and VERTEX_TTS overrides the narration model.
+ADC = os.environ.get("GEMINI_AUTH") == "adc"
+VERTEX_MODELS = {"gemini-2.5-pro-preview-tts": os.environ.get("VERTEX_TTS", "gemini-2.5-pro-tts")}
+_token = {"value": None, "at": 0}
+
+def gcloud(*args):
+    return subprocess.run(["gcloud", *args], check=True, capture_output=True, text=True).stdout.strip()
+
+def adc_headers():
+    if time.time() - _token["at"] > 1800:  # tokens last an hour
+        _token.update(value=gcloud("auth", "application-default", "print-access-token"), at=time.time())
+    return {"Authorization": "Bearer " + _token["value"], "x-goog-user-project": VERTEX_PROJECT}
+
 def google(model, body):
+    if ADC:
+        loc = os.environ.get("GOOGLE_CLOUD_LOCATION", "global")
+        host = "aiplatform.googleapis.com" if loc == "global" else f"{loc}-aiplatform.googleapis.com"
+        return post(f"https://{host}/v1/projects/{VERTEX_PROJECT}/locations/{loc}/publishers/google/models/"
+                    f"{VERTEX_MODELS.get(model, model)}:generateContent", body, adc_headers())
     return post(f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent", body,
                 {"x-goog-api-key": os.environ["GOOGLE_API_KEY"]})
 
@@ -257,6 +278,7 @@ def status():
     print("music:", sum(os.path.exists(os.path.join(WORK, "music", k.replace("/", "__") + ".mp3")) for k in mus), "/", len(mus))
 
 if __name__ == "__main__":
+    VERTEX_PROJECT = (os.environ.get("GOOGLE_CLOUD_PROJECT") or gcloud("config", "get-value", "project")) if ADC else None
     cmd, what = sys.argv[1], sys.argv[2:] or ["pictures", "narration", "music"]
     gens = {"pictures": gen_pictures, "narration": gen_narration, "music": gen_music}
     if cmd in ("generate", "all"):
