@@ -1814,7 +1814,11 @@ async function fillTourList(list) {
   }
   list.replaceChildren(...[...groups].map(([g, trs]) => {
     const sec = el("section", "tour-group");
-    if (g) sec.append(el("h3", "", t("tg_" + g)));
+    if (g) {
+      const h = el("h3");
+      h.append(...(TOUR_ICONS[g] ? [groupIcon(g, TOUR_ICONS)] : []), t("tg_" + g));
+      sec.append(h);
+    }
     sec.append(...trs.map(tourItem));
     return sec;
   }));
@@ -1933,8 +1937,17 @@ const GROUP_ICONS = {
   general: '<path d="M11.5 1.5 14.5 4.5 6 13H3v-3ZM9.5 3.5l3 3M2 14.5h12"/>',
   apocalypse: '<path d="M8 1.5v2.5M8 12v2.5M1.5 8H4M12 8h2.5M3.4 3.4l1.8 1.8M10.8 10.8l1.8 1.8M3.4 12.6l1.8-1.8M10.8 5.2l1.8-1.8"/><circle cx="8" cy="8" r="2.3"/>',
 };
-const groupIcon = (g) => {
-  const span = svgIcon(GROUP_ICONS[g]);
+// And for the tour groups: a tent, hills, a crown, the rivers of Babylon, a cross and a flame.
+const TOUR_ICONS = {
+  patriarchs: '<path d="M1.5 13.5 8 2.5l6.5 11ZM8 2.5v11M5.8 13.5 8 9.5l2.2 4"/>',
+  land: '<path d="M1.5 13.5 5.5 6l3 4.5L10.5 7.5l4 6ZM11 3.5a1.5 1.5 0 1 0 0 .01"/>',
+  kingdom: GROUP_ICONS.history,
+  exile: '<path d="M1.5 5.5c1.6-1.5 3.2-1.5 4.3 0s2.7 1.5 4.3 0 3.2-1.5 4.4 0M1.5 10.5c1.6-1.5 3.2-1.5 4.3 0s2.7 1.5 4.3 0 3.2-1.5 4.4 0"/>',
+  jesus: GROUP_ICONS.gospels,
+  church: GROUP_ICONS.acts,
+};
+const groupIcon = (g, icons = GROUP_ICONS) => {
+  const span = svgIcon(icons[g]);
   span.querySelector("svg").setAttribute("class", "line");
   return span;
 };
