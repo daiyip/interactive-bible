@@ -836,6 +836,229 @@
   ]
  },
  {
+  "id": "kings",
+  "group": "kingdom",
+  "era": "divided-kingdom",
+  "start": -975,
+  "end": -560,
+  "path": true,
+  "title": "The kings of Israel and Judah",
+  "title_zh": "以色列与犹大列王的兴衰",
+  "summary": "Four centuries of ups and downs: the kingdom splits after Solomon, Israel follows Jeroboam's calves to its fall, and Judah swings between good kings and bad until Babylon.",
+  "summary_zh": "四百年的起起落落：所罗门之后国度分裂，以色列随从耶罗波安的金牛犊直到灭亡，犹大在好王与恶王之间反复，直到被巴比伦所灭。",
+  "steps": [
+   {
+    "year": -975,
+    "at": [
+     35.235,
+     31.778
+    ],
+    "zoom": 7.8,
+    "ref": "1Kgs.11.1-13",
+    "text": "Solomon's kingdom is at its height, but in his old age his foreign wives turn his heart to other gods. God says the kingdom will be torn from his son, all but one tribe.",
+    "text_zh": "所罗门的国度极其强盛，但他年老的时候，外邦的妃嫔诱惑他的心去随从别神。神说必将国从他儿子手里夺回，只留一个支派给他。"
+   },
+   {
+    "year": -974,
+    "at": [
+     35.254,
+     32.221
+    ],
+    "zoom": 7.6,
+    "ref": "1Kgs.12.1-20",
+    "text": "At Shechem Rehoboam refuses to lighten the people's yoke: \"my father chastised you with whips, but I will chastise you with scorpions.\" Ten tribes break away and make Jeroboam king.",
+    "text_zh": "在示剑，罗波安不肯减轻百姓的重轭，说：\"我父亲用鞭子责打你们，我要用蝎子鞭责打你们。\"十个支派就背叛了，立耶罗波安为王。"
+   },
+   {
+    "year": -974,
+    "at": [
+     35.221,
+     31.931
+    ],
+    "zoom": 7.4,
+    "ref": "1Kgs.12.25-33",
+    "text": "To keep his people from going up to Jerusalem, Jeroboam sets up golden calves at Bethel and Dan. It becomes the sin every king of Israel after him follows.",
+    "text_zh": "耶罗波安怕百姓上耶路撒冷去，就铸造两个金牛犊，一个安在伯特利，一个安在但。这成了以后以色列诸王都随从的罪。"
+   },
+   {
+    "year": -970,
+    "at": [
+     35.235,
+     31.778
+    ],
+    "zoom": 7.8,
+    "ref": "1Kgs.14.25-28",
+    "text": "In Rehoboam's fifth year Shishak king of Egypt comes up and carries off the treasures of the temple and Solomon's shields of gold.",
+    "text_zh": "罗波安王第五年，埃及王示撒上来攻取耶路撒冷，夺了耶和华殿和王宫的宝物，并所罗门制造的金盾牌。"
+   },
+   {
+    "year": -917,
+    "at": [
+     35.229,
+     32.331
+    ],
+    "zoom": 7.6,
+    "ref": "1Kgs.16.23-33",
+    "text": "Omri buys a hill and builds Samaria as Israel's capital. His son Ahab marries Jezebel of Sidon and builds a temple for Baal there.",
+    "text_zh": "暗利买了一座山，建造撒玛利亚城作京城。他儿子亚哈娶了西顿王的女儿耶洗别，在撒玛利亚为巴力建庙。"
+   },
+   {
+    "year": -913,
+    "at": [
+     35.235,
+     31.778
+    ],
+    "zoom": 7.8,
+    "ref": "2Chr.17.1-10",
+    "text": "In Judah Jehoshaphat walks in the ways of David, sends teachers with the book of the law through the cities, and the fear of the Lord falls on the kingdoms around.",
+    "text_zh": "在犹大，约沙法行他祖大卫初行的道，差人带着律法书走遍各城教训百姓，耶和华使周围列国都甚惧怕。"
+   },
+   {
+    "year": -897,
+    "at": [
+     36.006,
+     32.565
+    ],
+    "zoom": 7.2,
+    "ref": "1Kgs.22.29-38",
+    "text": "Ahab and Jehoshaphat go to war together at Ramoth-gilead. An arrow drawn at a venture strikes Ahab between the joints of his armour, and he dies.",
+    "text_zh": "亚哈和约沙法一同上基列的拉末去打仗。有一人随便开弓，恰巧射入亚哈的甲缝里，他就死了。"
+   },
+   {
+    "year": -885,
+    "at": [
+     35.331,
+     32.556
+    ],
+    "zoom": 7.6,
+    "ref": "2Kgs.9.14-37",
+    "text": "Anointed by Elisha's messenger, Jehu drives furiously to Jezreel. He kills Joram of Israel and Ahaziah of Judah, and Jezebel is thrown from a window.",
+    "text_zh": "耶户受以利沙门徒的膏立，赶车猛烈地来到耶斯列，杀了以色列王约兰和犹大王亚哈谢，又叫人把耶洗别从窗户扔下去。"
+   },
+   {
+    "year": -878,
+    "at": [
+     35.235,
+     31.778
+    ],
+    "zoom": 7.8,
+    "ref": "2Kgs.11.1-21",
+    "text": "Athaliah kills the royal family and seizes Judah's throne, but the infant Joash is hidden in the temple. Six years later the priest Jehoiada crowns him.",
+    "text_zh": "亚她利雅剿灭王室，篡了犹大的王位；婴孩约阿施却被藏在耶和华殿里。过了六年，祭司耶何耶大为他戴上冠冕，立他作王。"
+   },
+   {
+    "year": -824,
+    "at": [
+     35.229,
+     32.331
+    ],
+    "zoom": 7.4,
+    "ref": "2Kgs.14.23-29",
+    "text": "Under Jeroboam II Israel's borders stretch again from Hamath to the Dead Sea. In these rich years Amos and Hosea warn that the end is near.",
+    "text_zh": "耶罗波安二世年间，以色列的境界又从哈马口直到亚拉巴海。在这富足的年日里，阿摩司和何西阿警告说结局近了。"
+   },
+   {
+    "year": -809,
+    "at": [
+     35.235,
+     31.778
+    ],
+    "zoom": 7.8,
+    "ref": "2Chr.26.1-21",
+    "text": "Uzziah makes Judah strong, with towers, engines of war and a name that spreads far abroad. But in pride he burns incense in the temple and is struck with leprosy.",
+    "text_zh": "乌西雅使犹大强盛，修筑城楼，制造机器，名声传到远方。他却心高气傲，进殿烧香，额上就发出大麻风来。"
+   },
+   {
+    "year": -740,
+    "at": [
+     36.309,
+     33.512
+    ],
+    "zoom": 6.8,
+    "ref": "2Kgs.16.5-16",
+    "text": "Attacked by Syria and Israel, Ahaz pays Tiglath-pileser of Assyria to rescue him. In Damascus he sees a pagan altar and has a copy made for the temple.",
+    "text_zh": "亚哈斯被亚兰和以色列围攻，就送礼物给亚述王提革拉毗列色求救。他在大马士革看见一座坛，就照样在耶和华殿里造了一座。"
+   },
+   {
+    "year": -725,
+    "at": [
+     35.235,
+     31.778
+    ],
+    "zoom": 7.8,
+    "ref": "2Kgs.18.1-8",
+    "text": "Hezekiah trusts in the Lord as no king of Judah before or after him: he breaks the high places and the bronze serpent, and the Lord is with him.",
+    "text_zh": "希西家倚靠耶和华以色列的神，在他前后的犹大列王中没有一个及他的。他废去邱坛，打碎铜蛇，耶和华与他同在。"
+   },
+   {
+    "year": -720,
+    "at": [
+     35.229,
+     32.331
+    ],
+    "zoom": 7.2,
+    "ref": "2Kgs.17.5-18",
+    "text": "Assyria takes Samaria after a three-year siege and carries Israel away, because they would not listen to the prophets. Only Judah is left.",
+    "text_zh": "亚述围困撒玛利亚三年，攻取了城，把以色列人掳到亚述，因为他们不听众先知的话。只剩下犹大一个支派。"
+   },
+   {
+    "year": -696,
+    "at": [
+     35.235,
+     31.778
+    ],
+    "zoom": 7.8,
+    "ref": "2Kgs.21.1-16",
+    "text": "His son Manasseh undoes it all: altars for Baal in the temple, his son passed through the fire, and innocent blood filling Jerusalem.",
+    "text_zh": "他儿子玛拿西却全然败坏：在耶和华殿里为巴力筑坛，使他的儿子经火，又流许多无辜人的血，充满了耶路撒冷。"
+   },
+   {
+    "year": -622,
+    "at": [
+     35.235,
+     31.778
+    ],
+    "zoom": 7.8,
+    "ref": "2Kgs.22.8-23.3",
+    "text": "Repairing the temple, the priests find the book of the law. Young Josiah tears his clothes, reads it to all the people, and leads them in renewing the covenant.",
+    "text_zh": "修殿的时候，祭司找到律法书。年轻的约西亚王听了就撕裂衣服，向众民宣读，带领他们在耶和华面前立约。"
+   },
+   {
+    "year": -608,
+    "at": [
+     35.184,
+     32.585
+    ],
+    "zoom": 7.4,
+    "ref": "2Kgs.23.29-30",
+    "text": "Josiah goes out to stop Pharaoh Necho at Megiddo and is killed. Judah's last good king is carried home dead in his chariot.",
+    "text_zh": "约西亚上去在米吉多抵挡埃及王法老尼哥，被他杀了。犹大最后一位好王死在车上，被运回耶路撒冷。"
+   },
+   {
+    "year": -586,
+    "at": [
+     35.235,
+     31.778
+    ],
+    "zoom": 7.6,
+    "ref": "2Kgs.25.1-12",
+    "text": "Zedekiah rebels against Babylon. Nebuchadnezzar besieges Jerusalem, breaks the wall, burns the temple and carries the people away.",
+    "text_zh": "西底家背叛巴比伦王。尼布甲尼撒围困耶路撒冷，攻破城墙，焚烧圣殿，把百姓掳去。"
+   },
+   {
+    "year": -560,
+    "at": [
+     44.421,
+     32.536
+    ],
+    "zoom": 6.0,
+    "ref": "2Kgs.25.27-30",
+    "text": "Thirty-seven years on, in Babylon, Evil-merodach frees Jehoiachin from prison and seats him at the king's table: David's line is not ended.",
+    "text_zh": "过了三十七年，在巴比伦，以未米罗达把约雅斤从监里提出来，使他终身在王面前吃饭。大卫的后裔并没有断绝。"
+   }
+  ]
+ },
+ {
   "id": "elijah",
   "group": "kingdom",
   "era": "divided-kingdom",

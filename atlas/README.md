@@ -9,7 +9,7 @@ so the Bible reader can link to the map and back.
 | `eras.json` | 11 periods from the Patriarchs (2000 BC) to the Early Church (AD 100), English and Chinese. `snapshots` are empty until the world map has borders for the region. |
 | `events.json` | 298 events that have a known place, from Theographic Bible Metadata: year (and `endYear`), `level`, `category`, title and place in English and Chinese, `lat`/`lon`, the first verse as `summary` (KJV) and `summary_zh` (和合本), `refs`, `people` and `places`. Level 1 is a short hand-picked list of key events; level 2 are top-level events; level 3 are events that are part of a larger one. |
 | `places.json` | 1,220 places with coordinates: `id`, `name`, `name_zh`, `lon`, `lat`, `kind`, `precision` and how many verses name it. |
-| `tours.json` | 23 hand-written tours, 186 steps, each with a `ref`. Each tour has a `group` (`patriarchs`, `land`, `kingdom`, `exile`, `jesus`, `church`), and the file is in that order, oldest first within a group. The reader shows the same tours. AI-drafted from the biblical text; the coordinates of the stops were set by hand. |
+| `tours.json` | 24 hand-written tours, 205 steps, each with a `ref`. Each tour has a `group` (`patriarchs`, `land`, `kingdom`, `exile`, `jesus`, `church`), and the file is in that order, oldest first within a group. The reader shows the same tours. AI-drafted from the biblical text; the coordinates of the stops were set by hand. |
 
 `events.json` and `places.json` are built by `tools/build_atlas.py` (run `tools/fetch_sources.sh` first);
 Chinese names come from `tools/atlas_zh.json` (和合本 spellings, AI-drafted). `manifest.json`, `eras.json` and `tours.json` are edited by hand.
