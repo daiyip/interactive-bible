@@ -25,6 +25,9 @@ const L = {
   en: {
     xref: "Cross-references", people: "People", places: "Places", links: "Links", tours: "Tours", books: "Books",
     ot: "Old Testament", nt: "New Testament", version: "Translation",
+    bookFilter: "Find a book, or type “John 3”", recent: "Recent", nChaptersOf: (n) => `${n} ${n === 1 ? "chapter" : "chapters"}`,
+    grp_law: "Law", grp_history: "History", grp_poetry: "Poetry & Wisdom", grp_major: "Major Prophets", grp_minor: "Minor Prophets",
+    grp_gospels: "Gospels", grp_acts: "History", grp_paul: "Paul’s Letters", grp_general: "General Letters", grp_apocalypse: "Prophecy",
     tapVerse: "Tap a verse", tapHint: "Its cross-references, people, places and links show up here.", orTour: "Or take a tour",
     prevCh: "Previous chapter (←)", nextCh: "Next chapter (→)", histBack: "Back", histFwd: "Forward", textSize: "Text size", sizes: ["Smallest", "Small", "Normal", "Large", "Larger", "Largest"],
     close: "Close", clearSel: "Clear selection (Esc)", sheetHandle: "Drag or tap to resize", backBooks: "Back to books", endTour: "End tour",
@@ -143,6 +146,9 @@ const L = {
   zh: {
     xref: "串珠", people: "人物", places: "地点", links: "链接", tours: "导览", books: "书卷",
     ot: "旧约", nt: "新约", version: "译本",
+    bookFilter: "查找书卷，或输入“约翰福音 3”", recent: "最近", nChaptersOf: (n) => `${n} 章`,
+    grp_law: "律法书", grp_history: "历史书", grp_poetry: "诗歌智慧书", grp_major: "大先知书", grp_minor: "小先知书",
+    grp_gospels: "福音书", grp_acts: "历史书", grp_paul: "保罗书信", grp_general: "普通书信", grp_apocalypse: "预言书",
     tapVerse: "点选一节经文", tapHint: "它的串珠、人物、地点和链接会显示在这里。", orTour: "或者跟随导览",
     prevCh: "上一章 (←)", nextCh: "下一章 (→)", histBack: "后退", histFwd: "前进", textSize: "字体大小", sizes: ["最小", "小", "标准", "大", "较大", "最大"],
     close: "关闭", clearSel: "取消选择（Esc）", sheetHandle: "拖动或轻点以调整大小", backBooks: "返回书卷", endTour: "结束导览",
@@ -419,6 +425,7 @@ async function renderChapter() {
     }
     art.append(p);
     rendered = key;
+    noteRecent(b.id, state.chapter);
     for (const [id, dir] of [["prev2", -1], ["next2", 1]]) {
       const n = neighbour(dir);
       $(id).hidden = !n;
@@ -2000,27 +2007,96 @@ function listenControls() {
 
 // --- Book and chapter picker -------------------------------------------------
 
+// The books in their traditional groups, each with its own colour, under a filter box and the chapters read lately.
+const BOOK_GROUPS = [
+  ["law", "Gen", "Deut"], ["history", "Josh", "Esth"], ["poetry", "Job", "Song"], ["major", "Isa", "Dan"], ["minor", "Hos", "Mal"],
+  ["gospels", "Matt", "John"], ["acts", "Acts", "Acts"], ["paul", "Rom", "Phlm"], ["general", "Heb", "Jude"], ["apocalypse", "Rev", "Rev"],
+];
+const RECENT_MAX = 6;
+// "bible-recent": the chapters opened lately, newest first (["John.3", "Gen.1"]).
+function noteRecent(b, c) {
+  const key = `${b}.${c}`;
+  store.set("bible-recent", [key, ...(store.get("bible-recent") || []).filter((k) => k !== key && k.split(".")[0] !== b)].slice(0, RECENT_MAX));
+}
 function showBooks() {
   view.dialog = null; // not shareable
   $("picker-title").textContent = t("books");
   $("picker-back").hidden = true;
   const body = $("picker-body");
   body.innerHTML = "";
-  for (const [label, list] of [[t("ot"), state.books.slice(0, NT_START)], [t("nt"), state.books.slice(NT_START)]]) {
-    const h = document.createElement("div");
-    h.className = "testament";
-    h.textContent = label;
-    const grid = document.createElement("div");
-    grid.className = "grid";
-    for (const b of list) {
-      const btn = document.createElement("button");
-      btn.textContent = bname(b);
-      if (b.id === state.book) btn.classList.add("cur");
-      btn.onclick = () => (b.chapters.length === 1 ? go(b.id, 1) : showChapters(b));
-      grid.append(btn);
+  // Typing narrows the books; "john 3" (or "约 3") and Enter opens that chapter.
+  const q = el("input", "book-filter");
+  q.type = "search";
+  q.placeholder = t("bookFilter");
+  q.ariaLabel = t("bookFilter");
+  q.autocomplete = "off";
+  q.spellcheck = false;
+  const recent = el("div", "recent");
+  const here = `${state.book}.${state.chapter}`;
+  const ids = (store.get("bible-recent") || []).filter((k) => k !== here && state.byId[k.split(".")[0]]);
+  if (ids.length) {
+    recent.append(el("span", "recent-label", t("recent")));
+    for (const k of ids) {
+      const [b, c] = k.split("."), a = el("button", "pill", `${bname(state.byId[b])} ${c}`);
+      a.onclick = () => go(b, +c);
+      recent.append(a);
     }
-    body.append(h, grid);
   }
+  const lists = el("div", "book-lists");
+  body.append(q, recent, lists);
+  const buttons = [];
+  for (const [label, from, to] of [[t("ot"), 0, NT_START], [t("nt"), NT_START, state.books.length]]) {
+    const sec = el("section", "testament-sec");
+    sec.append(el("div", "testament", label));
+    for (const [g, a, z] of BOOK_GROUPS) {
+      const i = state.books.indexOf(state.byId[a]), j = state.books.indexOf(state.byId[z]);
+      if (i < from || i >= to) continue;
+      const grp = el("div", `book-group g-${g}`);
+      grp.append(el("div", "group-name", t("grp_" + g)));
+      const grid = el("div", "grid books");
+      for (const b of state.books.slice(i, j + 1)) {
+        const btn = el("button");
+        btn.append(el("span", "bn", bname(b)), el("small", "", String(b.chapters.length)));
+        btn.title = t("nChaptersOf", b.chapters.length);
+        if (b.id === state.book) btn.classList.add("cur");
+        btn.onclick = () => (b.chapters.length === 1 ? go(b.id, 1) : showChapters(b));
+        btn.dataset.keys = [b.id, b.name, b.name_zh].map((x) => norm(x).replace(/\s+/g, "")).join("|");
+        buttons.push([btn, b]);
+        grid.append(btn);
+      }
+      grp.append(grid);
+      sec.append(grp);
+    }
+    lists.append(sec);
+  }
+  const parse = () => {
+    const m = /^(.*?)\s*(\d+)?$/.exec(q.value.trim());
+    return { name: norm(m[1]).replace(/\s+/g, ""), ch: m[2] ? +m[2] : null };
+  };
+  // The books matching the text, those whose name starts with it first.
+  const matches = () => {
+    const { name } = parse(), keys = (btn) => btn.dataset.keys.split("|");
+    const hits = buttons.filter(([btn]) => !name || keys(btn).some((k) => k.includes(name)));
+    return { hits: [...hits.filter(([btn]) => keys(btn).some((k) => k.startsWith(name))), ...hits.filter(([btn]) => !keys(btn).some((k) => k.startsWith(name)))] };
+  };
+  q.oninput = () => {
+    const { hits } = matches(), on = new Set(hits.map(([btn]) => btn));
+    for (const [btn] of buttons) btn.hidden = !on.has(btn);
+    lists.querySelectorAll(".book-group").forEach((g) => (g.hidden = !g.querySelector("button:not([hidden])")));
+    lists.querySelectorAll(".testament-sec").forEach((g) => (g.hidden = !g.querySelector(".book-group:not([hidden])")));
+    recent.hidden = !!q.value.trim();
+  };
+  q.onkeydown = (e) => {
+    if (e.key !== "Enter") return;
+    const { hits } = matches(), { ch } = parse();
+    if (!q.value.trim() || !hits.length) return;
+    const b = hits[0][1];
+    if (ch && ch >= 1 && ch <= b.chapters.length) go(b.id, ch);
+    else if (b.chapters.length === 1) go(b.id, 1);
+    else showChapters(b);
+  };
+  // On a computer the filter takes the keyboard at once; on a phone that would raise the keyboard over the books.
+  if (!phone()) requestAnimationFrame(() => q.focus());
 }
 function showChapters(b) {
   view.dialog = null; // not shareable
@@ -2033,10 +2109,12 @@ function showChapters(b) {
     const btn = document.createElement("button");
     btn.textContent = i + 1;
     if (b.id === state.book && i + 1 === state.chapter) btn.classList.add("cur");
+    if (mine.read.has(`${b.id}.${i + 1}`)) { btn.classList.add("read"); btn.title = t("markRead"); }
     btn.onclick = () => go(b.id, i + 1);
     grid.append(btn);
   });
   $("picker-body").replaceChildren(grid);
+  grid.querySelector(".cur")?.scrollIntoView({ block: "center" });
 }
 function go(book, chapter, verse) {
   if ($("picker").open) $("picker").close();

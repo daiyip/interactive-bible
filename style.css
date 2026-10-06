@@ -864,3 +864,31 @@ body:not(.playing) .tour-bar { visibility: hidden; }
     background: var(--glass); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px);
   }
 }
+
+/* Book picker: a filter, the chapters read lately, and the books in their groups, each with its own colour */
+.book-filter { width: 100%; font: inherit; font-size: 15px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--ink); margin: 2px 0 10px; }
+.book-filter:focus { outline: none; border-color: var(--accent); }
+.recent { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0 0 6px; }
+.recent:empty { display: none; }
+.recent-label { font-size: 12px; color: var(--muted); margin-right: 2px; }
+.recent .pill { padding: 4px 11px; font-size: 13px; }
+.testament-sec .testament { margin-top: 14px; }
+.book-group { --g: var(--accent); display: grid; grid-template-columns: 7.5em 1fr; gap: 0 10px; align-items: start; padding: 6px 0; border-top: 1px solid var(--line); }
+.book-group .group-name { font-size: 12px; font-weight: 600; color: var(--g); padding-top: 9px; }
+.grid.books { grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); margin: 0; gap: 5px; }
+.grid.books button { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; padding: 7px 9px; border-left: 3px solid color-mix(in srgb, var(--g) 70%, transparent); }
+.grid.books button small { font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.grid.books button .bn { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.g-law { --g: #b07a2a; } .g-history { --g: #5f8a4a; } .g-poetry { --g: #8a5fa8; } .g-major { --g: #b5524a; } .g-minor { --g: #c27a5a; }
+.g-gospels { --g: #3f78b5; } .g-acts { --g: #3f9a8f; } .g-paul { --g: #5a6fc0; } .g-general { --g: #4f97b0; } .g-apocalypse { --g: #a8456f; }
+.grid.nums button.read { color: var(--muted); background: color-mix(in srgb, var(--accent) 10%, var(--bg)); }
+.grid.nums button.read::after { content: "✓"; font-size: 9px; color: var(--accent); margin-left: 2px; vertical-align: super; }
+@media (max-width: 560px) {
+  .book-group { grid-template-columns: 1fr; }
+  .book-group .group-name { padding: 2px 0 5px; }
+  .grid.books { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); }
+  /* Whole names matter more than chapter counts on a phone: the count goes, and a long name wraps. */
+  .grid.books button { padding: 7px 7px 7px 8px; font-size: 14px; line-height: 1.25; }
+  .grid.books button small { display: none; }
+  .grid.books button .bn { white-space: normal; overflow: visible; }
+}

@@ -90,6 +90,11 @@ open them too.
 **Search** (the magnifier, or `/`) finds references ("John 3:16", "约翰福音 3"), books, people, places, events, tours
 and words in the text.
 
+**Books** (the book name in the top bar) lists the books by section, each coloured: Law, History, Poetry & Wisdom,
+Major and Minor Prophets, Gospels, Acts, Paul's letters, General letters and Revelation. Type in the box at the top to
+narrow the list by English or Chinese name; "John 3" or "约翰福音 3" and Enter opens that chapter. Under the box are the
+last chapters read in other books, and a book's chapters tick off the ones already read.
+
 **Translations**: the translation button in the top bar opens a menu of ten public-domain translations, each with
 its full name and year. English: King James Version (1769), World English Bible, Berean Standard Bible, American
 Standard Version (1901), Young's Literal Translation, Darby (1889) and the Bible in Basic English. 中文: 和合本 in
