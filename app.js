@@ -104,6 +104,8 @@ const L = {
     listen: "Listen", listenTitle: "Read this chapter aloud", listenPause: "Pause", listenGo: "Play", listenStop: "Stop reading",
     listenPrev: "Previous verse", listenNext: "Next verse", listenRate: "Reading speed", listenVoice: "Voice",
     voiceMore: "More voices can be added in your device's settings (Accessibility › Spoken Content on iPhone and Mac).",
+    picTitle: "AI-generated picture · tap to enlarge", soundTitle: "Narration and music: male voice, female voice or off",
+    voice_Charon: "Male", voice_Kore: "Female", voice_off: "Off",
     play: "▶ Play", pause: "❚❚ Pause", playTitle: "Play the tour: steps move on by themselves and the map traces the route",
     card: "Card", cardTip: "A picture of this verse over a map of its places, to share", cardTitle: "Verse card",
     light: "Light", dark: "Dark", share: "Share…", download: "Download",
@@ -226,6 +228,8 @@ const L = {
     listen: "朗读", listenTitle: "朗读本章", listenPause: "暂停", listenGo: "播放", listenStop: "停止朗读",
     listenPrev: "上一节", listenNext: "下一节", listenRate: "语速", listenVoice: "声音",
     voiceMore: "可在设备设置中添加更多声音（iPhone 与 Mac：辅助功能 › 朗读内容）。",
+    picTitle: "AI 生成的插图 · 轻点放大", soundTitle: "旁白与音乐：男声、女声或关闭",
+    voice_Charon: "男声", voice_Kore: "女声", voice_off: "静音",
     play: "▶ 播放", pause: "❚❚ 暂停", playTitle: "自动播放导览：逐站前进，地图描绘路线",
     card: "卡片", cardTip: "把这节经文配上地图做成图片分享", cardTitle: "经文卡片",
     light: "浅色", dark: "深色", share: "分享…", download: "下载",
@@ -1859,6 +1863,8 @@ async function startTour(id, i) {
 function endTour() {
   setPlaying(false);
   state.tour = null;
+  play.step = null;
+  syncMusic();
   store.set("bible-tour", null);
   renderTour();
 }
@@ -1875,33 +1881,44 @@ function renderTour() {
   $("tour-prev").disabled = i === 0;
   $("tour-next").textContent = t(last ? "finish" : "next");
   $("tour-map").href = `${ATLAS}?pack=${encodeURIComponent(PACK)}&style=${ATLAS_STYLE}&lang=${state.lang}#tour=${tr.id}&s=${i + 1}`;
-  if (play.on && play.step !== `${tr.id}.${i}`) setPlaying(true);
+  if (play.step !== `${tr.id}.${i}`) {
+    showTourPic(tr, i);
+    syncMusic();
+    const clip = narrate(tr, i);
+    if (play.on) setPlaying(true, clip);
+  }
   play.step = `${tr.id}.${i}`;
 }
 
-// Playback: the tour moves on by itself, each step staying long enough to read its note, while its verses light up
-// one after another and the map traces the leg from the last stop (the pack's journey plugin, atlas/plugins/journey.js).
-const play = { on: false, timer: 0 };
+// Playback: the tour moves on by itself, each step staying long enough to read its note (or, with the sound on, until
+// its narration ends), while its verses light up one after another and the map traces the leg from the last stop (the
+// pack's journey plugin, atlas/plugins/journey.js). clip: the step's narration already started (narrate()).
+const play = { on: false, timer: 0, tok: 0 };
 const stepTime = (s) => Math.min(15000, Math.max(7000, 3500 + 45 * tx(s, "text").length));
-function setPlaying(on) {
+function setPlaying(on, clip) {
   play.on = on && !!state.tour;
   clearTimeout(play.timer);
+  const tok = ++play.tok;
   $("tour-play").setAttribute("aria-pressed", play.on);
   $("tour-play").textContent = play.on ? t("pause") : t("play");
   document.body.classList.toggle("playing", play.on);
   const bar = $("tour-progress");
   bar.style.transition = "none";
   bar.style.width = "0";
-  if (!play.on) return;
-  const { tr, i } = state.tour, ms = stepTime(tr.steps[i]);
-  void bar.offsetWidth; // start the bar from empty
-  bar.style.transition = `width ${ms}ms linear`;
-  bar.style.width = "100%";
-  play.timer = setTimeout(() => {
-    if (!state.tour) return;
-    if (state.tour.i === tr.steps.length - 1) return setPlaying(false); // stays on the last step
-    startTour(tr.id, state.tour.i + 1);
-  }, ms);
+  if (!play.on) return stopNarration();
+  const { tr, i } = state.tour;
+  (clip || narrate(tr, i)).then((clipMs) => {
+    if (tok !== play.tok) return;
+    const ms = clipMs ? clipMs + 1200 : stepTime(tr.steps[i]);
+    void bar.offsetWidth; // start the bar from empty
+    bar.style.transition = `width ${ms}ms linear`;
+    bar.style.width = "100%";
+    play.timer = setTimeout(() => {
+      if (!state.tour) return;
+      if (state.tour.i === tr.steps.length - 1) return setPlaying(false); // stays on the last step
+      startTour(tr.id, state.tour.i + 1);
+    }, ms);
+  });
 }
 // The step's verses glow in turn, as if read aloud.
 function lightVerses() {
@@ -1910,6 +1927,129 @@ function lightVerses() {
   const vs = [...document.querySelectorAll(".v.sel, .v.rng")];
   void document.body.offsetWidth;
   vs.forEach((v, i) => { v.style.animationDelay = `${Math.min(i * 0.6, 6)}s`; v.classList.add("lit"); });
+}
+
+// --- Tour pictures, narration and music --------------------------------------------------------------------
+// Every step has an AI-painted picture, and with the sound on a narrator reads its note (Chinese or English, a male or
+// a female voice) over quiet music for its period. The files sit on the atlas's R2 under apps/bible/ and are listed
+// in atlas/media/*.json (made by tools/make_media.py); the atlas plays the same ones for this pack (manifest "media").
+// Narration is matched to the note it reads by a CRC, so a step whose note changed stays silent rather than reading old words.
+const MEDIA = "https://data.atlas.daiyip.com/apps/bible/", MUSIC_VOL = 0.25;
+const VOICES = ["Charon", "Kore", "off"];
+const media = { voice: VOICES.includes(store.get("bible-tour-voice")) ? store.get("bible-tour-voice") : "Charon",
+  el: null, music: null, musicKey: null, ctx: null, unlocked: false };
+const mediaIndex = (name) => loadJSON(`atlas/media/${name}.json`).catch(() => ({}));
+const crc32 = (str) => {
+  let c, crc = -1;
+  for (const b of new TextEncoder().encode(str)) { c = (crc ^ b) & 255; for (let k = 0; k < 8; k++) c = c & 1 ? (c >>> 1) ^ 0xedb88320 : c >>> 1; crc = (crc >>> 8) ^ c; }
+  return ((crc ^ -1) >>> 0).toString(16).padStart(8, "0");
+};
+const onStep = (tr, i) => state.tour?.tr === tr && state.tour.i === i;
+
+async function showTourPic(tr, i) {
+  const idx = await mediaIndex("pictures"), im = idx.images?.[idx.keys?.[`a:tour.${tr.id}.${i}`]];
+  if (!onStep(tr, i)) return;
+  const box = $("tour-pic"), img = box.querySelector("img");
+  if (!im) { box.hidden = true; img.removeAttribute("src"); return; }
+  img.onload = () => onStep(tr, i) && (box.hidden = false);
+  img.style.aspectRatio = `${im.w} / ${im.h}`;
+  img.src = MEDIA + "ai/" + im.f;
+}
+
+// Reads the step's note when the sound is on; resolves with the clip's length in ms, or 0 when nothing plays.
+async function narrate(tr, i) {
+  stopNarration();
+  if (media.voice === "off") return 0;
+  const s = tr.steps[i], lang = zh() && s.text_zh ? "zh" : "en";
+  const n = (await mediaIndex(lang === "zh" ? "narration" : "narration-en"))[`${tr.id}/${i}`];
+  const f = n && n.h === crc32(lang === "zh" ? s.text_zh : s.text) && n[media.voice];
+  if (!f || !onStep(tr, i)) return 0;
+  const el = media.el ||= new Audio();
+  el.src = MEDIA + "narration/" + f;
+  return new Promise((done) => {
+    el.onloadedmetadata = () => done(el.duration * 1000 || 0);
+    el.onerror = () => { done(0); duck(false); };
+    el.onended = () => duck(false);
+    duck(true);
+    el.play().catch(() => { done(0); duck(false); }); // not allowed before the first tap
+  });
+}
+function stopNarration() {
+  if (media.el && !media.el.paused) media.el.pause();
+  duck(false);
+}
+
+// One looping track for the period of the step on screen, crossfading when the period changes. Volume goes through Web
+// Audio, because iOS ignores an audio element's volume (R2 sends the CORS header this needs).
+async function syncMusic() {
+  const s = media.voice !== "off" && state.tour && state.tour.tr.steps[state.tour.i];
+  const era = s && (await loadJSON("atlas/eras.json").catch(() => ({ eras: [] }))).eras.find((e) => s.year >= e.start && s.year <= e.end);
+  const key = era ? "bible/" + era.id : null;
+  if (key === media.musicKey) return;
+  media.musicKey = key;
+  const f = key && (await mediaIndex("music"))[key]?.f;
+  if (media.musicKey !== key) return;
+  const old = media.music;
+  media.music = null;
+  if (old) { fade(old, 0, 1.5); setTimeout(() => old.el.pause(), 1600); }
+  if (!f) return;
+  const el = new Audio();
+  el.crossOrigin = "anonymous";
+  el.loop = true;
+  el.src = MEDIA + "music/" + f;
+  const tr = { el, gain: null };
+  try {
+    const ctx = media.ctx ||= new (window.AudioContext || window.webkitAudioContext)();
+    tr.gain = ctx.createGain();
+    tr.gain.gain.value = 0;
+    ctx.createMediaElementSource(el).connect(tr.gain).connect(ctx.destination);
+  } catch { el.volume = MUSIC_VOL; }
+  media.music = tr;
+  el.play().then(() => fade(tr, media.el && !media.el.paused ? MUSIC_VOL * 0.35 : MUSIC_VOL, 1.5))
+    .catch(() => { if (media.music === tr) media.musicKey = null; }); // tried again after the first tap
+}
+function fade(tr, to, secs) {
+  if (!tr.gain) return void (tr.el.volume = to);
+  const g = tr.gain.gain, now = media.ctx.currentTime;
+  g.cancelScheduledValues(now);
+  g.setValueAtTime(g.value, now);
+  g.linearRampToValueAtTime(to, now + secs);
+}
+// While a voice speaks, the music steps back.
+const duck = (on) => media.music && fade(media.music, on ? MUSIC_VOL * 0.35 : MUSIC_VOL, 0.6);
+
+// Browsers only let sound start from a tap, and a step's clip starts after its list has loaded, when the tap no longer
+// counts. So the first tap plays a silent sound on the narration element and wakes the audio context, which lets
+// both play later on their own.
+const SILENT = "data:audio/wav;base64,UklGRiYAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQIAAACAgA==";
+function unlockSound() {
+  if (media.unlocked || media.voice === "off") return;
+  media.unlocked = true;
+  const el = media.el ||= new Audio();
+  if (!el.src || el.paused) { el.src = SILENT; el.play().catch(() => (media.unlocked = false)); }
+  try { (media.ctx ||= new (window.AudioContext || window.webkitAudioContext)()).resume(); } catch {}
+  setTimeout(syncMusic);
+}
+for (const ev of ["pointerdown", "keydown"]) addEventListener(ev, unlockSound, { capture: true });
+
+function renderSound() {
+  const b = $("tour-sound"), v = media.voice;
+  b.setAttribute("aria-pressed", v !== "off");
+  b.title = b.ariaLabel = t("soundTitle");
+  b.querySelector("span").textContent = t("voice_" + v);
+  b.querySelector("svg").innerHTML = v === "off" ? ICON_MUTE : ICON_SOUND;
+}
+const ICON_SOUND = '<path d="M2.5 6h2.5l3.5-3v10L5 10H2.5Z" fill="currentColor"/><path d="M10.6 5.4a3.6 3.6 0 0 1 0 5.2M12.4 3.6a6.2 6.2 0 0 1 0 8.8" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>';
+const ICON_MUTE = '<path d="M2.5 6h2.5l3.5-3v10L5 10H2.5Z" fill="currentColor"/><path d="M10.5 6l4 4M14.5 6l-4 4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>';
+// Male voice, female voice, off.
+function cycleSound() {
+  media.voice = VOICES[(VOICES.indexOf(media.voice) + 1) % VOICES.length];
+  store.set("bible-tour-voice", media.voice);
+  renderSound();
+  syncMusic();
+  const { tr, i } = state.tour;
+  const clip = narrate(tr, i);
+  if (play.on) setPlaying(true, clip);
 }
 
 // --- Read aloud ---------------------------------------------------------------------------------------------
@@ -3971,6 +4111,9 @@ async function init() {
   $("tour-prev").onclick = () => startTour(state.tour.tr.id, state.tour.i - 1);
   $("tour-next").onclick = () => (state.tour.i === state.tour.tr.steps.length - 1 ? endTour() : startTour(state.tour.tr.id, state.tour.i + 1));
   $("tour-x").onclick = endTour;
+  $("tour-sound").onclick = cycleSound;
+  $("tour-pic").onclick = () => $("tour-pic").classList.toggle("big");
+  renderSound();
   $("tour-play").onclick = () => {
     if (!play.on && state.tour.i === state.tour.tr.steps.length - 1) { setPlaying(true); return startTour(state.tour.tr.id, 0); } // play again
     setPlaying(!play.on);

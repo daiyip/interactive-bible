@@ -115,6 +115,12 @@
   "tours": "tours.json",
   "gazetteer": "places.json"
  },
+ "media": {
+  "base": "https://data.atlas.daiyip.com/apps/bible/",
+  "pictures": "media/pictures.json",
+  "narration": "media/narration.json",
+  "music": "media/music.json"
+ },
  "plugins": [
   "plugins/journey.js",
   "plugins/bridge.js"
