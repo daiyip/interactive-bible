@@ -264,3 +264,13 @@ folder per translation (`data/text/<translation>/`), so adding one does not chan
 Years follow a traditional chronology, with the Exodus in 1490 BC; many scholars date the early periods later. The
 tours were drafted with AI from the biblical text, and the Chinese names of places and events (`tools/atlas_zh.json`,
 和合本 spellings) and of people (`tools/people_zh.json`) were drafted with AI from the 和合本 verses that name them.
+
+## Licence
+
+The reader is source-available under the [Business Source License 1.1](LICENSE). It is free for personal use, for
+churches, schools and other non-profits, on private networks, and for building content and plugins; running it as
+a competing public Bible site is not allowed. Each version becomes MIT three years after it is first published.
+
+The data and the atlas pack are CC BY-SA 4.0, with the public-domain and CC BY sources above keeping their own
+terms, and the pack's plugins are MIT. See [LICENSES.md](LICENSES.md) for every path, and
+[CONTRIBUTING.md](CONTRIBUTING.md) before sending a change.
