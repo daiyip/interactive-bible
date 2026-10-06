@@ -104,6 +104,36 @@ EVENTS = [
     (586, "Jerusalem falls to Babylon", "耶路撒冷被巴比伦攻陷", "2Kgs.25.9"),
 ]
 
+# Key events in each kingdom, marked on its column at their year: (kingdom, year BC, English, Chinese, verses, a word
+# the first verse must contain). Years follow the same chronology as the reigns; most are approximate.
+ACTS = [
+    ("I", 931, "Golden calves at Bethel and Dan", "在伯特利和但设立金牛犊", "1Kgs.12.28-1Kgs.12.30", "calves"),
+    ("J", 926, "Shishak plunders the temple", "示撒掠夺圣殿", "1Kgs.14.25-1Kgs.14.28", "Shishak"),
+    ("J", 912, "Abijah defeats Jeroboam", "亚比雅大败耶罗波安", "2Chr.13.13-2Chr.13.18", "Jeroboam"),
+    ("J", 896, "Asa renews the covenant", "亚撒带领百姓重新立约", "2Chr.15.8-2Chr.15.15", "Asa"),
+    ("I", 880, "Omri builds Samaria", "暗利建造撒玛利亚", "1Kgs.16.24-1Kgs.16.24", "Samaria"),
+    ("I", 860, "Elijah on Mount Carmel", "以利亚在迦密山", "1Kgs.18.20-1Kgs.18.40", "Carmel"),
+    ("I", 853, "Ahab dies at Ramoth-gilead", "亚哈死在基列拉末", "1Kgs.22.29-1Kgs.22.38", "Ramoth"),
+    ("J", 853, "Jehoshaphat's singers before the army", "约沙法派歌唱的人走在军前", "2Chr.20.20-2Chr.20.24", "Jehoshaphat"),
+    ("I", 841, "Jehu's revolt at Jezreel", "耶户在耶斯列起事", "2Kgs.9.24-2Kgs.9.33", "Jehu"),
+    ("J", 835, "Joash crowned, Athaliah killed", "约阿施登基，亚她利雅被杀", "2Kgs.11.12-2Kgs.11.16", "king"),
+    ("J", 812, "Joash repairs the temple", "约阿施修理圣殿", "2Kgs.12.9-2Kgs.12.14", "Jehoiada"),
+    ("I", 797, "Elisha dies", "以利沙去世", "2Kgs.13.20-2Kgs.13.21", "Elisha"),
+    ("J", 790, "Israel breaks Jerusalem's wall", "以色列拆毁耶路撒冷的城墙", "2Kgs.14.11-2Kgs.14.14", "Jehoash"),
+    ("I", 760, "Amos preaches at Bethel", "阿摩司在伯特利说预言", "Amos.7.10-Amos.7.17", "Bethel"),
+    ("J", 750, "Uzziah struck with leprosy", "乌西雅长了大麻风", "2Chr.26.19-2Chr.26.21", "Uzziah"),
+    ("J", 740, "Isaiah's vision in the temple", "以赛亚在殿中见异象", "Isa.6.1-Isa.6.8", "Uzziah"),
+    ("I", 733, "Assyria takes Galilee", "亚述夺取加利利", "2Kgs.15.29-2Kgs.15.29", "Tiglathpileser"),
+    ("J", 732, "Ahaz copies the Damascus altar", "亚哈斯仿造大马士革的坛", "2Kgs.16.10-2Kgs.16.16", "Damascus"),
+    ("J", 715, "Hezekiah cleanses the temple", "希西家洁净圣殿", "2Chr.29.3-2Chr.29.5", "doors"),
+    ("J", 701, "Sennacherib turned back from Jerusalem", "西拿基立在耶路撒冷城外败退", "2Kgs.19.32-2Kgs.19.36", "Assyria"),
+    ("J", 648, "Manasseh repents in Babylon", "玛拿西在巴比伦悔改", "2Chr.33.11-2Chr.33.13", "Manasseh"),
+    ("J", 622, "The book of the law found", "发现律法书", "2Kgs.22.8-2Kgs.23.3", "law"),
+    ("J", 609, "Josiah killed at Megiddo", "约西亚死在米吉多", "2Kgs.23.29-2Kgs.23.30", "Josiah"),
+    ("J", 605, "Daniel taken to Babylon", "但以理被掳到巴比伦", "Dan.1.1-Dan.1.6", "Nebuchadnezzar"),
+    ("J", 597, "Jehoiachin taken to Babylon", "约雅斤被掳到巴比伦", "2Kgs.24.12-2Kgs.24.16", "Jehoiachin"),
+]
+
 
 def norm(s):
     return s.lower().replace("-", "").replace("–", "")
@@ -142,10 +172,16 @@ for k, name, zh, spelt, a, z, ref in PROPHETS:
     prophets.append([k, name, zh, -a, -z, ref, person(spelt, ref)])
 for y, en, zh, ref in EVENTS:
     verse(ref)
+for k, y, en, zh, ref, word in ACTS:
+    a, z = ref.split("-")
+    verse(z)
+    if norm(word) not in norm(verse(a)):
+        bad.append(f"{en}: {word!r} not in {a}: {verse(a)[:100]}")
 if bad:
     raise SystemExit("\n".join(bad))
 
-out = {"kings": kings, "prophets": prophets, "events": [[-y, en, zh, ref] for y, en, zh, ref in EVENTS]}
+out = {"kings": kings, "prophets": prophets, "events": [[-y, en, zh, ref] for y, en, zh, ref in EVENTS],
+       "acts": [[k, -y, en, zh, ref] for k, y, en, zh, ref, word in ACTS]}
 (ROOT / "data/kings.json").write_text(json.dumps(out, ensure_ascii=False, separators=(",", ":")))
 for row in kings + prophets:
     print(row[0], row[1], row[3], row[4], row[-1], people[row[-1]][0] if row[-1] is not None else "-- no person")

@@ -119,8 +119,10 @@ goes back to the plain passage.
 **Kings of Israel and Judah** opens from the eras of the kings and from any king's or prophet's card: Saul to Zedekiah
 with the two kingdoms side by side and time running down, each reign as long as its years (Thiele's dates), coloured by
 the verdict the book of Kings gives, with the prophets of each kingdom beside it and the division, the fall of Samaria
-and the fall of Jerusalem across both. Tapping a king shows his years and verdict, links to his account in Kings and
-Chronicles, and his family tree. Opened while reading a king's account, it starts at him.
+and the fall of Jerusalem across both. Dots on each kingdom's column mark 25 key events (Jeroboam's calves, Elijah on
+Carmel, Jehu's revolt, Isaiah's vision, Sennacherib turned back, the book of the law found, ...), named beside the dot
+where there is room. Tapping a king shows his years and verdict, the key events of his reign, links to his account in
+Kings and Chronicles, and his family tree; tapping an event links to its verses and to its places on the map. Opened while reading a king's account, it starts at him.
 
 **My reading** (in the dock) holds these, all kept in the browser with nothing sent anywhere:
 
