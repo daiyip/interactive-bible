@@ -119,6 +119,10 @@ Chronicles, and his family tree. Opened while reading a king's account, it start
 - **Plan**: the Bible in a year, Genesis to Revelation in 365 days of whole chapters, each day about the same
   length. It shows today's chapters, how far along you are, and what to catch up on. A chapter counts as read once
   you reach its end, or tick it off by hand. Today's reading also sits in the empty context panel.
+  **How to read** picks the order, before or during the plan: **Start to finish** (Genesis to Revelation, chapter by
+  chapter) or **Old & New together** (each day some of both Testaments, each from its start). **Psalms and Proverbs
+  every day** takes those two books out of the order and reads a psalm and a chapter of Proverbs daily, round and
+  round, **In order** or **Random** (each round still reads every chapter once, shuffled; the same plan keeps its order). Changing these mid-plan re-spreads the days and keeps what you have read.
 - **Streak**: at the top of Plan, how many days in a row you have read, your best run, and a calendar of the last
   17 weeks, darker for days with more chapters. A day counts once you reach the end of a chapter that has been open
   for 20 seconds, or finish practising a memory passage; plan or no plan.
@@ -132,7 +136,7 @@ Chronicles, and his family tree. Opened while reading a king's account, it start
   three wrong, or **Hint**, gives it away. At the end, the score, then **Got it**, which moves the passage up a box and
   brings it back after 1, 2, 4, 8, 16, then every 32 days, or **Again**, which brings it round once more today.
   Passages due today are also offered in the empty context panel. Export and Import carry them too.
-- **Offline**: every chapter you open stays readable offline. **Save for offline** keeps the rest of the Bible in
+- **Offline** (its own tab): every chapter you open stays readable offline. **Save for offline** keeps the rest of the Bible in
   the current translation too (about 13 MB, or 17 MB for both). Add the site to the home screen to use it as an
   app. The atlas map needs a connection; offline, the small built-in map stands in.
 

@@ -381,7 +381,8 @@ body:not(.playing) .tour-bar { visibility: hidden; }
 .marks .xt { font-family: "Source Serif 4", Georgia, serif; font-size: 15px; line-height: 1.55; }
 .mark-note { margin: 6px 0 0; font-size: 14px; white-space: pre-wrap; border-left: 2px solid var(--accent); padding-left: 8px; }
 .mark-tools { display: flex; gap: 8px; }
-.offline { margin-top: 24px; padding-top: 4px; border-top: 1px solid var(--line); }
+.offline { margin-top: 4px; }
+.offline .pill { margin: 4px 6px 4px 0; }
 
 /* Phones: the context panel becomes a bottom sheet */
 @media (max-width: 800px) {
@@ -808,3 +809,28 @@ body:not(.playing) .tour-bar { visibility: hidden; }
 .streak-cal i.l3 { background: var(--accent); }
 .streak-cal i.later { background: transparent; }
 .streak-cal i.now { outline: 1.5px solid var(--ink); outline-offset: 0; }
+
+/* Plan options: reading order and daily Psalms/Proverbs */
+.plan-opts { border-top: 1px solid var(--line); margin: 14px 0; padding-top: 4px; }
+.plan-opts .seg { display: inline-grid; grid-template-columns: 1fr 1fr; max-width: 100%; margin: 2px 0 4px; }
+.plan-opts .seg button { white-space: nowrap; }
+.plan-opts .note { margin: 4px 0 10px; }
+.plan-daily { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; }
+.plan-daily input { margin-top: 3px; accent-color: var(--accent); }
+.plan-daily span { display: flex; flex-direction: column; }
+.plan-daily small { color: var(--muted); font-size: 12.5px; }
+.plan-sample { color: var(--muted); }
+.plan-opts .seg.plan-shuffle { margin: 8px 0 4px 26px; }
+.plan-opts .seg[hidden] { display: none; }
+/* Four tabs in My reading: tighter on phones, and scrollable on the narrowest. */
+@media (max-width: 440px) {
+  #mine .picker-head .seg { min-width: 0; overflow-x: auto; scrollbar-width: none; }
+  #mine .picker-head .seg button { padding: 5px 8px; font-size: 14px; white-space: nowrap; }
+}
+@media (max-width: 360px) {
+  #mine .picker-head { padding-left: 10px; padding-right: 6px; }
+  #mine .picker-head .seg button { padding: 4px 6px; font-size: 13px; }
+}
+@media (max-width: 340px) {
+  #mine .picker-head .seg button { padding: 4px 5px; font-size: 12px; }
+}
