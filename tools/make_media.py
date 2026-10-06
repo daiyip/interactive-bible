@@ -84,7 +84,7 @@ def gen_pictures():
     os.makedirs(out, exist_ok=True)
     def one(key):
         path = os.path.join(out, key + ".png")
-        if os.path.exists(path): return
+        if any(os.path.exists(os.path.join(WORK, "pictures", p, key + ".png")) for p in IMAGE_MODELS): return  # made by either
         try:
             if provider == "openai":
                 r = post("https://api.openai.com/v1/images/generations",
