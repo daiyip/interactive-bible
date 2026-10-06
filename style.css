@@ -835,13 +835,20 @@ body:not(.playing) .tour-bar { visibility: hidden; }
   #mine .picker-head .seg button { padding: 4px 5px; font-size: 12px; }
 }
 
-/* Phones: the context sheet floats like the dock, with the same see-through rim around it. */
+/* Phones: the context sheet floats like the dock, as frosted glass: a little see-through, with the page behind it
+   blurred, inside the dock's accent border and see-through rim. */
 @media (max-width: 800px) {
   .context {
+    --glass: color-mix(in srgb, var(--panel) 88%, transparent);
     left: 8px; right: 8px; bottom: calc(8px + env(safe-area-inset-bottom)); border-radius: 20px;
     border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--line));
+    background: var(--glass); -webkit-backdrop-filter: blur(20px) saturate(1.3); backdrop-filter: blur(20px) saturate(1.3);
     box-shadow: var(--shadow), 0 0 0 6px color-mix(in srgb, var(--bg) 60%, transparent);
     transform: translateY(calc(100% + 40px));
   }
   .context[data-size="full"] { height: calc(100vh - 68px); height: calc(100dvh - 68px - env(safe-area-inset-bottom)); }
+  /* What stays put while the sheet scrolls is glass too, so the text sliding under it blurs away. */
+  .context .sheet-handle, .context .tabs {
+    background: var(--glass); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px);
+  }
 }
