@@ -125,6 +125,7 @@ const L = {
     planOptions: "How to read", order_seq: "Start to finish", order_otnt: "Old & New together", day1: "Day 1",
     orderNote_seq: "Genesis to Revelation, chapter by chapter.", orderNote_otnt: "Each day some Old Testament and some New, both from the start.",
     dailyPsPr: "Psalms and Proverbs every day", dailyPsPrNote: "A psalm and a chapter of Proverbs each day, round and round; the rest as above.",
+    dailyInOrder: "In order", dailyRandom: "Random",
     planReset: "Stop this plan", planResetAsk: "Stop the plan and clear which chapters you have read?",
     noMarks: "No highlights or notes yet. Tap a verse, then pick a colour or add a note.",
     nMarks: (n) => `${n} ${n === 1 ? "verse" : "verses"} highlighted or noted, kept in this browser.`,
@@ -241,6 +242,7 @@ const L = {
     planOptions: "读法", order_seq: "从头到尾", order_otnt: "新旧约并读", day1: "第 1 天",
     orderNote_seq: "从创世记到启示录，一章接一章。", orderNote_otnt: "每天读一些旧约、一些新约，都从头开始。",
     dailyPsPr: "每天读诗篇和箴言", dailyPsPrNote: "每天一篇诗篇、一章箴言，循环往复；其余按上面的读法。",
+    dailyInOrder: "按顺序", dailyRandom: "随机",
     planReset: "停止这个计划", planResetAsk: "停止计划并清除已读记录吗？",
     noMarks: "还没有标记或笔记。点选一节经文，再选一种颜色或写笔记。",
     nMarks: (n) => `已标记 ${n} 节经文，保存在这个浏览器里。`,
@@ -2685,7 +2687,7 @@ const mine = {
   memory: store.get("bible-memory") || {},
   days: store.get("bible-days") || {},
   tab: "plan",
-  planDraft: { order: "seq", daily: false }, // the options picked before a plan starts
+  planDraft: { order: "seq", daily: false, shuffle: false }, // the options picked before a plan starts
 };
 const saveRead = () => store.set("bible-read", [...mine.read]);
 const saveMarks = () => store.set("bible-marks", mine.marks);
@@ -2698,7 +2700,10 @@ const saveDays = () => store.set("bible-days", mine.days);
 // chapter of Proverbs every day (150 and 31 days a round).
 const DAILY_BOOKS = ["Ps", "Prov"];
 let planDays = null, planKey = "";
-const planOpts = () => ({ order: mine.plan?.order || mine.planDraft.order, daily: mine.plan ? !!mine.plan.daily : mine.planDraft.daily });
+const planOpts = () => {
+  const o = mine.plan || mine.planDraft;
+  return { order: o.order || "seq", daily: !!o.daily, shuffle: !!o.shuffle, seed: mine.plan?.start || today() };
+};
 const isDaily = (ch) => planOpts().daily && DAILY_BOOKS.includes(ch.split(".")[0]);
 function spread(books) {
   const chapters = books.flatMap((b) => b.chapters.map((n, i) => [`${b.id}.${i + 1}`, n]));
@@ -2713,7 +2718,7 @@ function spread(books) {
   return days;
 }
 function readingPlan() {
-  const { order, daily } = planOpts(), key = `${order} ${daily}`;
+  const { order, daily, shuffle, seed } = planOpts(), key = `${order} ${daily} ${shuffle} ${seed}`;
   if (planDays && planKey === key) return planDays;
   const books = state.books.filter((b) => !daily || !DAILY_BOOKS.includes(b.id));
   const nt = state.books.findIndex((b) => b.id === "Matt");
@@ -2722,11 +2727,28 @@ function readingPlan() {
     planDays = ot.map((chs, i) => [...chs, ...ne[i]]);
   } else planDays = spread(books);
   if (daily) {
-    const [ps, pr] = DAILY_BOOKS.map((id) => state.byId[id].chapters.length);
-    planDays.forEach((chs, i) => chs.push(`Ps.${(i % ps) + 1}`, `Prov.${(i % pr) + 1}`));
+    // In order, or shuffled: each round still reads every chapter once, in an order fixed by the plan's start day.
+    const rounds = DAILY_BOOKS.map((id) => {
+      const n = state.byId[id].chapters.length, list = [];
+      for (let r = 0; list.length < PLAN_DAYS; r++) {
+        const round = Array.from({ length: n }, (_, i) => i + 1);
+        if (shuffle) shuffled(round, `${seed} ${id} ${r}`);
+        list.push(...round);
+      }
+      return list.map((c) => `${id}.${c}`);
+    });
+    planDays.forEach((chs, i) => chs.push(...rounds.map((r) => r[i])));
   }
   planKey = key;
   return planDays;
+}
+// Shuffles in place with a generator seeded from the text, so the same plan gets the same order on every load.
+function shuffled(a, text) {
+  let h = 2166136261;
+  for (const c of text) h = Math.imul(h ^ c.charCodeAt(0), 16777619);
+  const rand = () => { h = Math.imul(h ^ (h >>> 15), 2246822507) ^ Math.imul(h ^ (h >>> 13), 3266489909); return ((h ^= h >>> 16) >>> 0) / 4294967296; };
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rand() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
 }
 // A plan chapter read on day i. Psalms and Proverbs, when they come round daily, count for the day they were read for
 // (kept in "bible-read" as "12:Ps.13"), since the same psalm comes back later.
@@ -2997,8 +3019,16 @@ function renderPlanOptions(body) {
   const txt = el("span");
   txt.append(el("b", "", t("dailyPsPr")), el("small", "", t("dailyPsPrNote")));
   lab.append(box2, txt);
+  const seg2 = el("div", "seg plan-shuffle");
+  for (const shuffle of [false, true]) {
+    const b = el("button", "", t(shuffle ? "dailyRandom" : "dailyInOrder"));
+    b.setAttribute("aria-pressed", opts.shuffle === shuffle);
+    b.onclick = () => set({ shuffle });
+    seg2.append(b);
+  }
+  seg2.hidden = !opts.daily;
   const today0 = readingPlan()[mine.plan ? dayNumber() : 0];
-  box.append(el("h4", "", t("planOptions")), seg, el("p", "note small", t("orderNote_" + opts.order)), lab,
+  box.append(el("h4", "", t("planOptions")), seg, el("p", "note small", t("orderNote_" + opts.order)), lab, seg2,
     el("p", "note small plan-sample", `${t(mine.plan ? "today" : "day1")}${zh() ? "：" : ": "}${dayLabel(today0)}`));
   body.append(box);
 }

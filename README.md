@@ -122,7 +122,7 @@ Chronicles, and his family tree. Opened while reading a king's account, it start
   **How to read** picks the order, before or during the plan: **Start to finish** (Genesis to Revelation, chapter by
   chapter) or **Old & New together** (each day some of both Testaments, each from its start). **Psalms and Proverbs
   every day** takes those two books out of the order and reads a psalm and a chapter of Proverbs daily, round and
-  round. Changing these mid-plan re-spreads the days and keeps what you have read.
+  round, **In order** or **Random** (each round still reads every chapter once, shuffled; the same plan keeps its order). Changing these mid-plan re-spreads the days and keeps what you have read.
 - **Streak**: at the top of Plan, how many days in a row you have read, your best run, and a calendar of the last
   17 weeks, darker for days with more chapters. A day counts once you reach the end of a chapter that has been open
   for 20 seconds, or finish practising a memory passage; plan or no plan.
