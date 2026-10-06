@@ -808,3 +808,14 @@ body:not(.playing) .tour-bar { visibility: hidden; }
 .streak-cal i.l3 { background: var(--accent); }
 .streak-cal i.later { background: transparent; }
 .streak-cal i.now { outline: 1.5px solid var(--ink); outline-offset: 0; }
+
+/* Plan options: reading order and daily Psalms/Proverbs */
+.plan-opts { border-top: 1px solid var(--line); margin: 14px 0; padding-top: 4px; }
+.plan-opts .seg { display: inline-grid; grid-template-columns: 1fr 1fr; max-width: 100%; margin: 2px 0 4px; }
+.plan-opts .seg button { white-space: nowrap; }
+.plan-opts .note { margin: 4px 0 10px; }
+.plan-daily { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; }
+.plan-daily input { margin-top: 3px; accent-color: var(--accent); }
+.plan-daily span { display: flex; flex-direction: column; }
+.plan-daily small { color: var(--muted); font-size: 12.5px; }
+.plan-sample { color: var(--muted); }

@@ -115,13 +115,16 @@ const L = {
     again: "Again", gotIt: "Got it", memNext: (d) => d <= 1 ? "again tomorrow" : `again in ${d} days`,
     memDone: "All done for today.", memLeft: (n) => `${n} left`, memRemove: "Remove", memBox: (n) => `Box ${n} of 6`,
     memNew: "New", memToday: "Due today", memOn: (d) => `Due ${d}`, readingPlan: "Reading plan",
-    planStart: "Read the Bible in a year", planPitch: "A few chapters a day, Genesis to Revelation in 365 days. Your progress stays in this browser.",
+    planStart: "Read the Bible in a year", planPitch: "The whole Bible in 365 days, a few chapters a day. Your progress stays in this browser.",
     planStartToday: "Start today", today: "Today", dayOf: (d, n) => `Day ${d} of ${n}`,
     chaptersRead: (a, n) => `${a.toLocaleString("en")} of ${n.toLocaleString("en")} chapters read`,
     catchUp: (n) => `Catch up · ${n} ${n === 1 ? "day" : "days"} behind`, allDays: (n) => `All ${n} days`, markRead: "Read",
     streakDays: (n) => `${n === 1 ? "day" : "days"} in a row`, streakToday: "Read today ✓", streakKeep: "Read a chapter today to keep it going",
     streakStart: "Read a chapter to start a new streak", streakBest: (b, n) => `Best ${b} · ${n} ${n === 1 ? "day" : "days"} read`,
     nChapters: (n) => (n ? `${n} ${n === 1 ? "chapter" : "chapters"}` : "no reading"),
+    planOptions: "How to read", order_seq: "Start to finish", order_otnt: "Old & New together", day1: "Day 1",
+    orderNote_seq: "Genesis to Revelation, chapter by chapter.", orderNote_otnt: "Each day some Old Testament and some New, both from the start.",
+    dailyPsPr: "Psalms and Proverbs every day", dailyPsPrNote: "A psalm and a chapter of Proverbs each day, round and round; the rest as above.",
     planReset: "Stop this plan", planResetAsk: "Stop the plan and clear which chapters you have read?",
     noMarks: "No highlights or notes yet. Tap a verse, then pick a colour or add a note.",
     nMarks: (n) => `${n} ${n === 1 ? "verse" : "verses"} highlighted or noted, kept in this browser.`,
@@ -228,13 +231,16 @@ const L = {
     again: "再来", gotIt: "背出了", memNext: (d) => d <= 1 ? "明天再复习" : `${d} 天后再复习`,
     memDone: "今天都完成了。", memLeft: (n) => `还有 ${n} 段`, memRemove: "移除", memBox: (n) => `第 ${n} 级，共 6 级`,
     memNew: "新加", memToday: "今天复习", memOn: (d) => `${d} 复习`, readingPlan: "读经计划",
-    planStart: "一年读完圣经", planPitch: "每天几章，365 天从创世记读到启示录。进度保存在这个浏览器里。",
+    planStart: "一年读完圣经", planPitch: "每天几章，365 天读完整本圣经。进度保存在这个浏览器里。",
     planStartToday: "今天开始", today: "今天", dayOf: (d, n) => `第 ${d} 天，共 ${n} 天`,
     chaptersRead: (a, n) => `已读 ${a} / ${n} 章`,
     catchUp: (n) => `补读 · 落后 ${n} 天`, allDays: (n) => `全部 ${n} 天`, markRead: "已读",
     streakDays: () => "天连续阅读", streakToday: "今天已读 ✓", streakKeep: "今天读一章，保持连续",
     streakStart: "读一章，重新开始连续记录", streakBest: (b, n) => `最长 ${b} 天 · 共读 ${n} 天`,
     nChapters: (n) => (n ? `${n} 章` : "未阅读"),
+    planOptions: "读法", order_seq: "从头到尾", order_otnt: "新旧约并读", day1: "第 1 天",
+    orderNote_seq: "从创世记到启示录，一章接一章。", orderNote_otnt: "每天读一些旧约、一些新约，都从头开始。",
+    dailyPsPr: "每天读诗篇和箴言", dailyPsPrNote: "每天一篇诗篇、一章箴言，循环往复；其余按上面的读法。",
     planReset: "停止这个计划", planResetAsk: "停止计划并清除已读记录吗？",
     noMarks: "还没有标记或笔记。点选一节经文，再选一种颜色或写笔记。",
     nMarks: (n) => `已标记 ${n} 节经文，保存在这个浏览器里。`,
@@ -2679,26 +2685,86 @@ const mine = {
   memory: store.get("bible-memory") || {},
   days: store.get("bible-days") || {},
   tab: "plan",
+  planDraft: { order: "seq", daily: false }, // the options picked before a plan starts
 };
 const saveRead = () => store.set("bible-read", [...mine.read]);
 const saveMarks = () => store.set("bible-marks", mine.marks);
 const saveMemory = () => store.set("bible-memory", mine.memory);
 const saveDays = () => store.set("bible-days", mine.days);
 
-// The whole Bible in 365 days of whole chapters, each day about the same number of verses.
-let planDays = null;
-function readingPlan() {
-  if (planDays) return planDays;
-  const chapters = state.books.flatMap((b) => b.chapters.map((n, i) => [`${b.id}.${i + 1}`, n]));
+// The whole Bible in 365 days of whole chapters, each day about the same number of verses. The plan's options:
+// order "seq" reads Genesis to Revelation; "otnt" reads the Old and New Testaments side by side, each from its start,
+// every day some of both. With daily on, Psalms and Proverbs leave that order and come round instead: a psalm and a
+// chapter of Proverbs every day (150 and 31 days a round).
+const DAILY_BOOKS = ["Ps", "Prov"];
+let planDays = null, planKey = "";
+const planOpts = () => ({ order: mine.plan?.order || mine.planDraft.order, daily: mine.plan ? !!mine.plan.daily : mine.planDraft.daily });
+const isDaily = (ch) => planOpts().daily && DAILY_BOOKS.includes(ch.split(".")[0]);
+function spread(books) {
+  const chapters = books.flatMap((b) => b.chapters.map((n, i) => [`${b.id}.${i + 1}`, n]));
   const total = chapters.reduce((s, [, n]) => s + n, 0);
-  planDays = Array.from({ length: PLAN_DAYS }, () => []);
+  const days = Array.from({ length: PLAN_DAYS }, () => []);
   let sum = 0;
   for (const [ch, n] of chapters) {
     // A chapter goes to the day its middle verse falls in.
-    planDays[Math.min(PLAN_DAYS - 1, Math.floor(((sum + n / 2) / total) * PLAN_DAYS))].push(ch);
+    days[Math.min(PLAN_DAYS - 1, Math.floor(((sum + n / 2) / total) * PLAN_DAYS))].push(ch);
     sum += n;
   }
+  return days;
+}
+function readingPlan() {
+  const { order, daily } = planOpts(), key = `${order} ${daily}`;
+  if (planDays && planKey === key) return planDays;
+  const books = state.books.filter((b) => !daily || !DAILY_BOOKS.includes(b.id));
+  const nt = state.books.findIndex((b) => b.id === "Matt");
+  if (order === "otnt") {
+    const [ot, ne] = [spread(books.filter((b) => state.books.indexOf(b) < nt)), spread(books.filter((b) => state.books.indexOf(b) >= nt))];
+    planDays = ot.map((chs, i) => [...chs, ...ne[i]]);
+  } else planDays = spread(books);
+  if (daily) {
+    const [ps, pr] = DAILY_BOOKS.map((id) => state.byId[id].chapters.length);
+    planDays.forEach((chs, i) => chs.push(`Ps.${(i % ps) + 1}`, `Prov.${(i % pr) + 1}`));
+  }
+  planKey = key;
   return planDays;
+}
+// A plan chapter read on day i. Psalms and Proverbs, when they come round daily, count for the day they were read for
+// (kept in "bible-read" as "12:Ps.13"), since the same psalm comes back later.
+const itemDone = (ch, i) => (isDaily(ch) ? mine.read.has(`${i}:${ch}`) : mine.read.has(ch));
+function markPlanRead(ch, on = true, day) {
+  if (!on) { isDaily(ch) && day != null ? mine.read.delete(`${day}:${ch}`) : mine.read.delete(ch); return; }
+  mine.read.add(ch);
+  if (!isDaily(ch)) return;
+  if (day != null) { mine.read.add(`${day}:${ch}`); return; }
+  // Read in the reader: every day up to today that has this chapter and is still waiting for it.
+  const days = readingPlan();
+  for (let i = 0; i <= dayNumber(); i++) if (days[i].includes(ch)) mine.read.add(`${i}:${ch}`);
+}
+const planWants = (ch) => {
+  if (!isDaily(ch)) return !mine.read.has(ch);
+  const days = readingPlan();
+  for (let i = 0; i <= dayNumber(); i++) if (days[i].includes(ch) && !mine.read.has(`${i}:${ch}`)) return true;
+  return false;
+};
+// Chapters read in the whole Bible, each once.
+const chaptersDone = () => [...mine.read].filter((c) => !c.includes(":")).length;
+const chaptersAll = () => state.books.reduce((s, b) => s + b.chapters.length, 0);
+
+// A day's chapters in runs: ["Gen.1", "Gen.2", "Matt.1", "Ps.1"] → "Genesis 1–2 · Matthew 1 · Psalm 1".
+function dayLabel(chs) {
+  const runs = [];
+  for (const ch of chs) {
+    const last = runs[runs.length - 1]?.at(-1);
+    if (last && nextChapter(last) === ch) runs[runs.length - 1].push(ch);
+    else runs.push([ch]);
+  }
+  return runs.map(chaptersLabel).join(" · ");
+}
+function nextChapter(ch) {
+  const [b, c] = ch.split("."), book = state.byId[b];
+  if (+c < book.chapters.length) return `${b}.${+c + 1}`;
+  const nb = state.books[state.books.indexOf(book) + 1];
+  return nb ? `${nb.id}.1` : null;
 }
 // ["Gen.1", "Gen.2", "Gen.3"] → "Genesis 1–3"; across books, "Genesis 50 – Exodus 2".
 function chaptersLabel(chs) {
@@ -2713,7 +2779,7 @@ const dayNumber = () => {
   const days = Math.round((new Date(today()) - new Date(mine.plan.start)) / 864e5);
   return Math.max(0, Math.min(PLAN_DAYS - 1, days));
 };
-const dayDone = (d) => readingPlan()[d].every((c) => mine.read.has(c));
+const dayDone = (d) => readingPlan()[d].every((c) => itemDone(c, d));
 
 // A chapter counts as read once its end (the footer under it) has been on screen: for the plan at once, and for the
 // reading streak once the chapter has also been open for a while, so opening the app on a short psalm is not a day read.
@@ -2728,11 +2794,11 @@ function chapterShown() {
 function checkChapterEnd() {
   if (!rendered) return;
   const ch = `${state.book}.${state.chapter}`, day = `${today()} ${ch}`;
-  const forPlan = mine.plan && !mine.read.has(ch), forStreak = !daysCounted.has(day) && Date.now() - chapterOpened >= READ_SECONDS * 1000;
+  const forPlan = mine.plan && planWants(ch), forStreak = !daysCounted.has(day) && Date.now() - chapterOpened >= READ_SECONDS * 1000;
   if (!forPlan && !forStreak) return;
   const foot = document.querySelector(".chapter-foot").getBoundingClientRect(), box = $("reader").getBoundingClientRect();
   if (!(foot.top < box.bottom && foot.bottom > box.top)) return;
-  if (forPlan) { mine.read.add(ch); saveRead(); }
+  if (forPlan) { markPlanRead(ch); saveRead(); }
   if (forStreak) { daysCounted.add(day); readToday(); }
   renderTodayHint();
 }
@@ -2770,10 +2836,10 @@ function renderTodayHint() {
   } else {
     const d = dayNumber(), chs = readingPlan()[d];
     btn.innerHTML = "<b></b><span></span>";
-    btn.children[0].textContent = chaptersLabel(chs);
+    btn.children[0].textContent = dayLabel(chs);
     const st = streaks().now;
     btn.children[1].textContent = `${t("today")} · ${t("dayOf", d + 1, PLAN_DAYS)}${dayDone(d) ? " · ✓" : ""}${st > 1 ? ` · 🔥 ${st}` : ""}`;
-    const next = chs.find((c) => !mine.read.has(c)) || chs[0];
+    const next = chs.find((c) => !itemDone(c, d)) || chs[0];
     btn.onclick = () => go(...next.split("."));
   }
   box.append(btn);
@@ -2807,12 +2873,12 @@ function chapterLink(ch) {
   a.onclick = () => $("mine").close();
   return a;
 }
-function check(ch) {
+function check(ch, day) {
   const box = el("input");
   box.type = "checkbox";
-  box.checked = mine.read.has(ch);
+  box.checked = itemDone(ch, day);
   box.ariaLabel = t("markRead");
-  box.onchange = () => { box.checked ? mine.read.add(ch) : mine.read.delete(ch); saveRead(); renderMine(); renderTodayHint(); };
+  box.onchange = () => { markPlanRead(ch, box.checked, day); saveRead(); renderMine(); renderTodayHint(); };
   return box;
 }
 
@@ -2858,17 +2924,19 @@ function renderPlan(body) {
   renderStreak(body);
   if (!mine.plan) {
     const start = el("button", "pill primary", t("planStartToday"));
-    start.onclick = () => { mine.plan = { start: today() }; store.set("bible-plan", mine.plan); renderMine(); renderTodayHint(); };
-    body.append(el("p", "plan-day", t("planStart")), el("p", "", t("planPitch")), start);
+    start.onclick = () => { mine.plan = { start: today(), ...mine.planDraft }; store.set("bible-plan", mine.plan); renderMine(); renderTodayHint(); };
+    body.append(el("p", "plan-day", t("planStart")), el("p", "", t("planPitch")));
+    renderPlanOptions(body);
+    body.append(start);
     return;
   }
   const days = readingPlan(), d = dayNumber();
-  const all = days.flat(), done = all.filter((c) => mine.read.has(c)).length;
+  const all = chaptersAll(), done = chaptersDone();
   const bar = el("div", "progress");
   bar.append(el("i"));
-  bar.firstChild.style.width = `${(100 * done) / all.length}%`;
+  bar.firstChild.style.width = `${(100 * done) / all}%`;
   body.append(el("p", "plan-day", t("dayOf", d + 1, PLAN_DAYS)), bar,
-    el("p", "note small", t("chaptersRead", done, all.length)));
+    el("p", "note small", t("chaptersRead", done, all)));
   // Today, and the earliest day not finished if that is earlier.
   const behind = days.findIndex((_, i) => !dayDone(i));
   for (const [label, i] of [[t("today"), d], ...(behind >= 0 && behind < d ? [[t("catchUp", d - behind), behind]] : [])]) {
@@ -2877,7 +2945,7 @@ function renderPlan(body) {
     for (const ch of days[i]) {
       const li = el("li");
       const lab = el("label");
-      lab.append(check(ch));
+      lab.append(check(ch, i));
       li.append(lab, chapterLink(ch));
       ul.append(li);
     }
@@ -2889,13 +2957,14 @@ function renderPlan(body) {
   const ol = el("ol", "plan-days");
   days.forEach((chs, i) => {
     const li = el("li", (i === d ? "on " : "") + (dayDone(i) ? "done" : ""));
-    const a = el("a", "", chaptersLabel(chs));
+    const a = el("a", "", dayLabel(chs));
     a.href = hashFor(...chs[0].split("."));
     a.onclick = () => $("mine").close();
     li.append(el("span", "n", String(i + 1)), a, el("span", "tick", dayDone(i) ? "✓" : ""));
     ol.append(li);
   });
   det.append(ol);
+  renderPlanOptions(body);
   const stop = el("button", "pill", t("planReset"));
   stop.onclick = () => {
     if (!confirm(t("planResetAsk"))) return;
@@ -2903,6 +2972,35 @@ function renderPlan(body) {
     store.set("bible-plan", null); saveRead(); renderMine(); renderTodayHint();
   };
   body.append(det, stop);
+}
+
+// How the plan reads: in order or both Testaments at once, and Psalms and Proverbs every day. Before the plan starts
+// these are a draft; during it, a change re-spreads the days ahead and keeps every chapter already read.
+function renderPlanOptions(body) {
+  const box = el("div", "plan-opts"), opts = planOpts();
+  const set = (o) => {
+    if (mine.plan) { Object.assign(mine.plan, o); store.set("bible-plan", mine.plan); renderTodayHint(); }
+    else Object.assign(mine.planDraft, o);
+    renderMine();
+  };
+  const seg = el("div", "seg");
+  for (const order of ["seq", "otnt"]) {
+    const b = el("button", "", t("order_" + order));
+    b.setAttribute("aria-pressed", opts.order === order);
+    b.onclick = () => set({ order });
+    seg.append(b);
+  }
+  const lab = el("label", "plan-daily"), box2 = el("input");
+  box2.type = "checkbox";
+  box2.checked = opts.daily;
+  box2.onchange = () => set({ daily: box2.checked });
+  const txt = el("span");
+  txt.append(el("b", "", t("dailyPsPr")), el("small", "", t("dailyPsPrNote")));
+  lab.append(box2, txt);
+  const today0 = readingPlan()[mine.plan ? dayNumber() : 0];
+  box.append(el("h4", "", t("planOptions")), seg, el("p", "note small", t("orderNote_" + opts.order)), lab,
+    el("p", "note small plan-sample", `${t(mine.plan ? "today" : "day1")}${zh() ? "：" : ": "}${dayLabel(today0)}`));
+  body.append(box);
 }
 
 // Highlights and notes, in Bible order.
