@@ -131,7 +131,7 @@ const L = {
     nMarks: (n) => `${n} ${n === 1 ? "verse" : "verses"} highlighted or noted, kept in this browser.`,
     export: "Export", import: "Import", importFailed: "Could not import that file.",
     hl: { y: "Yellow", g: "Green", b: "Blue", p: "Pink" }, addNote: "+ Note", editNote: "Note", notePh: "Your note, kept in this browser",
-    offline: "Offline", offlineNote: "Chapters you open stay available offline. Save the rest of the Bible to read anywhere, and add this site to your home screen to use it like an app.",
+    offline: "Offline", noOffline: "This browser can't keep the Bible for reading offline.", offlineNote: "Chapters you open stay available offline. Save the rest of the Bible to read anywhere, and add this site to your home screen to use it like an app.",
     saveOffline: (v, mb) => `Save ${v} for offline (about ${mb} MB)`, saving: (p) => `Saving… ${p}%`,
     saved: (v) => `${v} saved for offline ✓`, savedSome: (n) => `${n} files did not save. Try again.`,
     credit: `King James Version and 和合本 (Chinese Union Version), public domain. Cross-references from
@@ -248,7 +248,7 @@ const L = {
     nMarks: (n) => `已标记 ${n} 节经文，保存在这个浏览器里。`,
     export: "导出", import: "导入", importFailed: "无法导入这个文件。",
     hl: { y: "黄色", g: "绿色", b: "蓝色", p: "粉色" }, addNote: "+ 笔记", editNote: "笔记", notePh: "你的笔记，保存在这个浏览器里",
-    offline: "离线阅读", offlineNote: "打开过的章节离线也能读。保存整本圣经即可随处阅读；把本站添加到主屏幕，就能像应用一样使用。",
+    offline: "离线", noOffline: "这个浏览器无法保存圣经供离线阅读。", offlineNote: "打开过的章节离线也能读。保存整本圣经即可随处阅读；把本站添加到主屏幕，就能像应用一样使用。",
     saveOffline: (v, mb) => `保存${v}供离线阅读（约 ${mb} MB）`, saving: (p) => `正在保存… ${p}%`,
     saved: (v) => `${v}已可离线阅读 ✓`, savedSome: (n) => `有 ${n} 个文件没有保存，请重试。`,
     credit: `和合本与英王钦定本（KJV）均为公有领域。串珠来自
@@ -2885,8 +2885,7 @@ function renderMine() {
   const body = $("mine-body");
   body.replaceChildren();
   if (mine.tab === "memory" && memo.queue) { renderPractice(body); return; }
-  ({ plan: renderPlan, marks: renderMarks, memory: renderMemory })[mine.tab](body);
-  renderOffline(body);
+  ({ plan: renderPlan, marks: renderMarks, memory: renderMemory, offline: renderOffline })[mine.tab](body);
 }
 const el = (tag, cls, text) => Object.assign(document.createElement(tag), cls ? { className: cls } : {}, text != null ? { textContent: text } : {});
 function chapterLink(ch) {
@@ -3380,9 +3379,9 @@ async function renderPractice(body) {
 
 const OFFLINE_CACHE = "bible-data"; // shared with sw.js
 function renderOffline(body) {
-  if (!("serviceWorker" in navigator) || !window.caches) return;
+  if (!("serviceWorker" in navigator) || !window.caches) { body.append(el("p", "note", t("noOffline"))); return; }
   const vs = versions(), names = vs.map((v) => VERSIONS[v].short).join(" + ");
-  const box = el("div", "offline"), note = el("p", "note small", t("offlineNote"));
+  const box = el("div", "offline"), note = el("p", "", t("offlineNote"));
   const btn = el("button", "pill", t("saveOffline", names, Math.round(3.8 * vs.length + 14)));
   if ((store.get("bible-offline") || []).includes(state.version)) { btn.textContent = t("saved", names); btn.disabled = true; }
   btn.onclick = async () => {
@@ -3407,7 +3406,7 @@ function renderOffline(body) {
     btn.textContent = t("saved", names);
     store.set("bible-offline", [...new Set([...(store.get("bible-offline") || []), state.version])]);
   };
-  box.append(el("h4", "", t("offline")), note, btn);
+  box.append(note, btn);
   // On an iPhone or iPad in the browser, the install guide again (even after "Don't show it again").
   if (canInstall()) {
     const inst = el("button", "pill", t("installBtn", installDevice()));
