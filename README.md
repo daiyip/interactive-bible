@@ -93,8 +93,8 @@ and words in the text.
 **Translations**: the translation button in the top bar opens a menu of ten public-domain translations, each with
 its full name and year. English: King James Version (1769), World English Bible, Berean Standard Bible, American
 Standard Version (1901), Young's Literal Translation, Darby (1889) and the Bible in Basic English. 中文: 和合本 in
-simplified or traditional characters, and the classical 文理和合本. **Side by side with** adds a second translation
-under each verse. With a Chinese translation first, the whole app is in Chinese: book names, people, places, events,
+simplified or traditional characters, and the classical 文理和合本. **Side by side with** adds a second translation:
+in two columns, verse beside verse, where the text is wide enough, and under each verse on a phone. With a Chinese translation first, the whole app is in Chinese: book names, people, places, events,
 tours and the atlas map. The Hebrew and Greek words follow the KJV's wording, whatever you read.
 
 **Timeline** (in the dock): a card above the dock that runs through the eras of the Bible, from the beginnings in Genesis to the

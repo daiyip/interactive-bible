@@ -128,6 +128,18 @@ a { color: var(--accent); }
 .v2 { display: block; color: var(--muted); font-size: .9em; line-height: 1.65; margin-top: 2px; }
 .chapter.both .v2:lang(zh), .ctx-head .v2:lang(zh) { font-size: .95em; }
 .ctx-head .v2 { margin-top: 8px; }
+/* With room for it, the two translations sit in columns, verse beside verse, both at full size. */
+.cols-head { display: none; }
+@container (min-width: 720px) {
+  .chapter.both { max-width: 1040px; }
+  .chapter.both .cols-head {
+    display: grid; grid-template-columns: 1fr 1fr; column-gap: 36px; margin: -.4em 0 .8em; padding-bottom: 6px;
+    border-bottom: 1px solid var(--line); font: 600 12px "IBM Plex Sans", sans-serif; letter-spacing: .06em; color: var(--muted);
+  }
+  .chapter.both .v { display: grid; grid-template-columns: 1fr 1fr; column-gap: 36px; padding: 6px 10px; margin: 0 -10px 4px; }
+  .chapter.both .v2 { margin-top: 0; color: var(--ink); font-size: 1em; line-height: inherit; }
+  .chapter.both .v2:lang(zh) { font-size: .97em; }
+}
 .v sup { font: 600 .55em "IBM Plex Sans", sans-serif; color: var(--accent); margin: 0 .25em 0 .1em; vertical-align: .55em; }
 .chapter-foot { max-width: 680px; margin: 40px auto 0; display: flex; justify-content: space-between; gap: 8px; }
 .pill { border: 1px solid var(--line); background: var(--panel); border-radius: 999px; padding: 6px 14px; color: var(--muted); }

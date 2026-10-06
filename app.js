@@ -402,10 +402,22 @@ async function renderChapter() {
       s.dataset.v = i + 1;
       s.innerHTML = `<sup>${i + 1}</sup>`;
       s.append(verse + (isZh(vs[0]) ? "" : " "));
-      if (vs[1]) s.append(secondLine(texts[1][state.chapter - 1][i], vs[1]));
+      if (vs[1]) {
+        // Two translations: the first in its own span, so wide screens can set them in columns (see .chapter.both).
+        const one = el("span", "v1");
+        one.append(...s.childNodes);
+        s.append(one, secondLine(texts[1][state.chapter - 1][i], vs[1]));
+      }
       p.append(s);
     });
-    art.append(h, p);
+    art.append(h);
+    // Over the columns, which translation is which (shown only when they sit side by side).
+    if (vs[1]) {
+      const head = el("div", "cols-head");
+      for (const v of vs) { const c = el("div", "", VERSIONS[v].short); c.lang = langOf(v); c.title = VERSIONS[v].name; head.append(c); }
+      art.append(head);
+    }
+    art.append(p);
     rendered = key;
     for (const [id, dir] of [["prev2", -1], ["next2", 1]]) {
       const n = neighbour(dir);
