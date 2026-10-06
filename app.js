@@ -1863,6 +1863,24 @@ const svgIcon = (paths) => {
   span.innerHTML = `<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">${paths}</svg>`;
   return span;
 };
+// Line icons for the book groups in the picker, drawn on a 16-unit grid.
+const GROUP_ICONS = {
+  law: '<path d="M2.5 13.5V5a2.5 2.5 0 0 1 5 0v8.5ZM8.5 13.5V5a2.5 2.5 0 0 1 5 0v8.5ZM4 7h2M4 9h2M4 11h2M10 7h2M10 9h2M10 11h2"/>',
+  history: '<path d="M2.5 12.5 1.8 5l3.4 2.6L8 3l2.8 4.6L14.2 5l-.7 7.5ZM3 14h10"/>',
+  poetry: '<path d="M4 14C2.5 10 2 6 4 2c3 1 7 3 9 7l-2 5ZM6 4.5v9M8.5 6v7.5M11 8.5v5"/>',
+  major: '<path d="M4 2.5h7.5a1.5 1.5 0 0 1 0 3H11v8H4.5a1.5 1.5 0 0 1 0-3H5ZM4 2.5a1.5 1.5 0 0 0 0 3h1M7 7.5h2M7 9.5h2"/>',
+  minor: '<path d="M2 11c3-.5 6-3 8-7l1.5 1c-1 4-3.5 8-9 8ZM10 4c.5-1 1.5-1.8 3-2"/>',
+  gospels: '<path d="M8 1.5v13M4 5h8"/>',
+  acts: '<path d="M8 14.5c-3 0-4.5-2-4.5-4.5C3.5 7 6 6 6 2.5c2 1 3 3 3 4.5 1-.5 1.5-1.5 1.5-2.5 1.5 1.5 2 3.5 2 5.5 0 2.5-1.5 4.5-4.5 4.5Z"/>',
+  paul: '<path d="M1.5 4h13v8.5h-13ZM1.5 4 8 9l6.5-5"/>',
+  general: '<path d="M11.5 1.5 14.5 4.5 6 13H3v-3ZM9.5 3.5l3 3M2 14.5h12"/>',
+  apocalypse: '<path d="M8 1.5v2.5M8 12v2.5M1.5 8H4M12 8h2.5M3.4 3.4l1.8 1.8M10.8 10.8l1.8 1.8M3.4 12.6l1.8-1.8M10.8 5.2l1.8-1.8"/><circle cx="8" cy="8" r="2.3"/>',
+};
+const groupIcon = (g) => {
+  const span = svgIcon(GROUP_ICONS[g]);
+  span.querySelector("svg").setAttribute("class", "line");
+  return span;
+};
 const RATES = [0.8, 1, 1.25, 1.5];
 const listen = { on: false, paused: false, v: 1, at: null, next: false, utter: null };
 const speechLang = () => (isZh(versions()[0]) ? "zh" : "en");
@@ -2052,7 +2070,9 @@ function showBooks() {
       const i = state.books.indexOf(state.byId[a]), j = state.books.indexOf(state.byId[z]);
       if (i < from || i >= to) continue;
       const grp = el("div", `book-group g-${g}`);
-      grp.append(el("div", "group-name", t("grp_" + g)));
+      const gn = el("div", "group-name");
+      gn.append(groupIcon(g), t("grp_" + g));
+      grp.append(gn);
       const grid = el("div", "grid books");
       for (const b of state.books.slice(i, j + 1)) {
         const btn = el("button");

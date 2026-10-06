@@ -90,7 +90,7 @@ open them too.
 **Search** (the magnifier, or `/`) finds references ("John 3:16", "约翰福音 3"), books, people, places, events, tours
 and words in the text.
 
-**Books** (the book name in the top bar) lists the books by section, each coloured: Law, History, Poetry & Wisdom,
+**Books** (the book name in the top bar) lists the books by section, each with its own colour and icon: Law, History, Poetry & Wisdom,
 Major and Minor Prophets, Gospels, Acts, Paul's letters, General letters and Revelation. Type in the box at the top to
 narrow the list by English or Chinese name; "John 3" or "约翰福音 3" and Enter opens that chapter. Under the box are the
 last chapters read in other books, and a book's chapters tick off the ones already read.

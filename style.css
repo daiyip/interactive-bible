@@ -875,6 +875,9 @@ body:not(.playing) .tour-bar { visibility: hidden; }
 .testament-sec .testament { margin-top: 14px; }
 .book-group { --g: var(--accent); display: grid; grid-template-columns: 7.5em 1fr; gap: 0 10px; align-items: start; padding: 6px 0; border-top: 1px solid var(--line); }
 .book-group .group-name { font-size: 12px; font-weight: 600; color: var(--g); padding-top: 9px; }
+.book-group .group-name { display: flex; align-items: flex-start; gap: 5px; }
+.group-name .ico { flex: none; display: inline-flex; margin-top: -1px; }
+.group-name svg.line { fill: none; stroke: currentColor; stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
 .grid.books { grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); margin: 0; gap: 5px; }
 .grid.books button { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; padding: 7px 9px; border-left: 3px solid color-mix(in srgb, var(--g) 70%, transparent); }
 .grid.books button small { font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
