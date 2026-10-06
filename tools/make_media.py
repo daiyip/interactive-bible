@@ -84,6 +84,7 @@ def google(model, body):
     if ADC:
         loc = os.environ.get("GOOGLE_CLOUD_LOCATION", "global")
         host = "aiplatform.googleapis.com" if loc == "global" else f"{loc}-aiplatform.googleapis.com"
+        body = {**body, "contents": [{"role": "user", **c} for c in body["contents"]]}  # Vertex requires a role
         return post(f"https://{host}/v1/projects/{VERTEX_PROJECT}/locations/{loc}/publishers/google/models/"
                     f"{VERTEX_MODELS.get(model, model)}:generateContent", body, adc_headers())
     return post(f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent", body,
