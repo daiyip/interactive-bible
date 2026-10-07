@@ -1868,8 +1868,9 @@ function drawMap(pts, base, o = {}) {
 const PACK = "https://bible.daiyip.com/atlas/manifest.json";
 const loadTours = () => loadJSON("atlas/tours.json");
 
-// Tours come grouped by period (each tour's "group"), in the order of atlas/tours.json.
-async function fillTourList(list) {
+// Tours come grouped by period (each tour's "group"), in the order of atlas/tours.json. In the Tours window (tabbed)
+// each group is a tab, remembered, starting on the group of the tour last taken.
+async function fillTourList(list, tabbed) {
   const tours = await loadTours(), groups = new Map();
   for (const tr of tours) {
     const g = tr.group || "";
@@ -1877,6 +1878,29 @@ async function fillTourList(list) {
     groups.get(g).push(tr);
   }
   const pics = await mediaIndex("pictures");
+  if (tabbed && groups.size > 1) {
+    const last = state.tour?.tr.group || tours.find((tr) => tr.id === store.get("bible-tour")?.[0])?.group;
+    let at = [store.get("bible-tour-group"), last].find((g) => groups.has(g)) || [...groups.keys()][0];
+    const bar = el("nav", "tour-tabs"), body = el("div", "tour-tabbed");
+    bar.setAttribute("role", "tablist");
+    const show = () => {
+      bar.querySelectorAll("button").forEach((b) => b.setAttribute("aria-selected", b.dataset.g === at));
+      const sec = el("section", "tour-group");
+      sec.append(...groups.get(at).map((tr) => tourItem(tr, pics)));
+      body.replaceChildren(sec);
+    };
+    for (const [g, trs] of groups) {
+      const b = el("button");
+      b.dataset.g = g;
+      b.setAttribute("role", "tab");
+      b.append(...(TOUR_ICONS[g] ? [groupIcon(g, TOUR_ICONS)] : []), el("span", "", g ? t("tg_" + g) : t("tours")), el("span", "count", trs.length));
+      b.onclick = () => { at = g; store.set("bible-tour-group", g); show(); b.scrollIntoView({ block: "nearest", inline: "nearest" }); };
+      bar.append(b);
+    }
+    list.replaceChildren(bar, body);
+    show();
+    return;
+  }
   list.replaceChildren(...[...groups].map(([g, trs]) => {
     const sec = el("section", "tour-group");
     if (g) {
@@ -1916,7 +1940,7 @@ function showTours() {
   const list = document.createElement("div");
   list.className = "tour-list";
   $("picker-body").replaceChildren(list);
-  fillTourList(list).catch(showError);
+  fillTourList(list, true).catch(showError);
 }
 function toursUsed() {
   store.set("bible-tours-used", true);
