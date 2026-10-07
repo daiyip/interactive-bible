@@ -1013,13 +1013,15 @@ body:not(.playing) .tour-bar { visibility: hidden; }
   .tour-ctl .pill { white-space: nowrap; padding-inline: 9px; font-size: 13px; }
   .tour-ctl { gap: 5px; }
   /* Narrow phones: Back and Play keep only their arrow and symbol (the words stay for screen readers). */
-  #tour-prev, #tour-play { font-size: 0; min-width: 36px; }
+  #tour-prev, #tour-play { font-size: 0; }
   #tour-prev::before, #tour-play::before { font-size: 14px; }
+  /* Every button but Next is an icon in a true circle. */
+  .tour-ctl .pill:not(#tour-next) { width: 36px; height: 36px; padding: 0; flex: none; display: inline-flex; align-items: center; justify-content: center; }
   #tour-prev::before { content: "‹"; font-size: 18px; }
   #tour-play::before { content: "▶"; }
   #tour-play[aria-pressed="true"]::before { content: "❚❚"; }
 }
-@media (max-width: 340px) { .tour-ctl { gap: 4px; } .tour-ctl .pill { padding-inline: 7px; } }
+@media (max-width: 340px) { .tour-ctl { gap: 4px; } .tour-ctl .pill { padding-inline: 7px; } .tour-ctl .pill:not(#tour-next) { width: 34px; height: 34px; } }
 
 
 /* On a phone the settings span the screen under the bar */
