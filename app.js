@@ -106,7 +106,7 @@ const L = {
     voiceMore: "More voices can be added in your device's settings (Accessibility › Spoken Content on iPhone and Mac).",
     picTitle: "AI-generated picture · tap to see it whole", soundTitle: "Narration and music: male voice, female voice or off",
     voice_Charon: "Male", voice_Kore: "Female", voice_off: "Off",
-    settings: "Settings", setContext: "Context panel", setTours: "Tours", setMusic: "Background music", setVoice: "Narration",
+    settings: "Settings", setContext: "Context panel", setTours: "Tours", setMusic: "Background music", setAutoplay: "Auto play", setVoice: "Narration",
     part_orig: "Hebrew & Greek", part_harmony: "Parallel accounts", part_topics: "Topics", part_comm: "Commentary",
     part_intro: "About the book", part_mark: "Highlights & notes",
     play: "▶ Play", pause: "❚❚ Pause", playTitle: "Play the tour: steps move on by themselves and the map traces the route",
@@ -233,7 +233,7 @@ const L = {
     voiceMore: "可在设备设置中添加更多声音（iPhone 与 Mac：辅助功能 › 朗读内容）。",
     picTitle: "AI 生成的插图 · 轻点查看全图", soundTitle: "旁白与音乐：男声、女声或关闭",
     voice_Charon: "男声", voice_Kore: "女声", voice_off: "静音",
-    settings: "设置", setContext: "上下文面板", setTours: "导览", setMusic: "背景音乐", setVoice: "旁白",
+    settings: "设置", setContext: "上下文面板", setTours: "导览", setMusic: "背景音乐", setAutoplay: "自动播放", setVoice: "旁白",
     part_orig: "希伯来文与希腊文", part_harmony: "平行记载", part_topics: "主题", part_comm: "注释",
     part_intro: "书卷简介", part_mark: "标记与笔记",
     play: "▶ 播放", pause: "❚❚ 暂停", playTitle: "自动播放导览：逐站前进，地图描绘路线",
@@ -1855,12 +1855,12 @@ function tourItem(tr, pics) {
   if (im) {
     const img = el("img", "tour-thumb");
     Object.assign(img, { src: MEDIA + "ai/" + im.f, alt: "", loading: "lazy", decoding: "async" });
-    img.onerror = () => img.remove();
+    img.onerror = () => { img.remove(); btn.classList.remove("has-thumb"); };
     btn.classList.add("has-thumb");
     btn.append(img);
   }
   btn.append(text);
-  btn.onclick = () => startTour(tr.id, 0);
+  btn.onclick = () => startTour(tr.id, 0, true);
   return btn;
 }
 function showTours() {
@@ -1876,13 +1876,15 @@ function toursUsed() {
   store.set("bible-tours-used", true);
   $("tours-btn").classList.remove("new");
 }
-async function startTour(id, i) {
+// auto: started from a list of tours, so it plays at once when the reader turned on auto play.
+async function startTour(id, i, auto) {
   toursUsed();
   const tr = (await loadTours()).find((t) => t.id === id);
   if (!tr) return endTour();
   i = Math.max(0, Math.min(tr.steps.length - 1, i));
   if (!state.tour) state.tab = "places"; // a tour starts on the map
   state.tour = { tr, i };
+  if (auto && media.autoplay) play.on = true; // renderTour starts it
   store.set("bible-tour", [id, i]);
   if ($("picker").open) $("picker").close();
   if ($("mine").open) $("mine").close();
@@ -1914,8 +1916,9 @@ function renderTour() {
   if (play.step !== `${tr.id}.${i}`) {
     showTourPic(tr, i);
     syncMusic();
-    const clip = narrate(tr, i);
-    if (play.on) setPlaying(true, clip);
+    // Sound only once Play is pressed.
+    if (play.on) setPlaying(true, narrate(tr, i));
+    else stopNarration();
   }
   play.step = `${tr.id}.${i}`;
 }
@@ -1968,7 +1971,7 @@ function lightVerses() {
 const MEDIA = "https://data.atlas.daiyip.com/apps/bible/", MUSIC_VOL = 0.25;
 const VOICES = ["Charon", "Kore", "off"];
 const media = { voice: VOICES.includes(store.get("bible-tour-voice")) ? store.get("bible-tour-voice") : "Charon",
-  musicOn: store.get("bible-tour-music") !== false, el: null, music: null, musicKey: null, ctx: null, unlocked: false };
+  musicOn: store.get("bible-tour-music") === true, autoplay: store.get("bible-tour-autoplay") === true, el: null, music: null, musicKey: null, ctx: null, unlocked: false };
 const mediaIndex = (name) => loadJSON(`atlas/media/${name}.json`).catch(() => ({}));
 const crc32 = (str) => {
   let c, crc = -1;
@@ -2080,8 +2083,7 @@ function setVoice(v) {
   if (!state.tour) return;
   renderSound();
   const { tr, i } = state.tour;
-  const clip = narrate(tr, i);
-  if (play.on) setPlaying(true, clip);
+  if (play.on) setPlaying(true, narrate(tr, i));
 }
 
 // --- Read aloud ---------------------------------------------------------------------------------------------
@@ -2474,7 +2476,7 @@ async function runSearch() {
     .sort(([a], [z]) => (norm(topicName(z)).startsWith(nq) - norm(topicName(a)).startsWith(nq)) || z[2] - a[2]).slice(0, 20)
     .map(([x, i]) => item(topicName(x), t("topicRefs", x[2]), () => openTopic(i))));
   add(t("tours"), tours.filter((tr) => has(tr.title, tr.title_zh, tx(tr, "summary")))
-    .map((tr) => item(tx(tr, "title"), tx(tr, "summary"), () => { $("search").close(); startTour(tr.id, 0); })));
+    .map((tr) => item(tx(tr, "title"), tx(tr, "summary"), () => { $("search").close(); startTour(tr.id, 0, true); })));
   draw(out, groups, t("searching"));
 
   // Words in the text: needs at least two letters (or one Chinese character).
@@ -4008,7 +4010,13 @@ function renderSettings() {
     store.set("bible-tour-music", on);
     syncMusic();
   });
-  box.replaceChildren(head, section(t("textSize"), sizes), section(t("setContext"), parts), section(t("setTours"), music, voiceRow));
+  const autoplay = check(t("setAutoplay"), media.autoplay, (on) => {
+    media.autoplay = on;
+    store.set("bible-tour-autoplay", on);
+  });
+  const tourChips = make("div", "settings-parts");
+  tourChips.append(autoplay, music);
+  box.replaceChildren(head, section(t("textSize"), sizes), section(t("setContext"), parts), section(t("setTours"), tourChips, voiceRow));
 }
 function showSettings(on) {
   $("settings").hidden = !on;
