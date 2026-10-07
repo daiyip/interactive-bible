@@ -228,6 +228,9 @@ html.hide-intro #ctx-text > .intro, html.hide-mark #ctx-mark { display: none !im
 .tour-route { position: relative; flex: 0 0 auto; height: var(--rh); aspect-ratio: 4 / 3; border-radius: 8px; overflow: hidden; background: var(--sea); }
 .tour-media:not(:has(.tour-pic:not([hidden]))) .tour-route { flex: 1 1 auto; height: auto; aspect-ratio: 21 / 9; max-height: 30vh; }
 .tour-media:has(.tour-pic.big) .tour-route { display: none; }
+.tour-route iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; opacity: 0; pointer-events: none; transition: opacity .3s; background: var(--sea); }
+.tour-route.live iframe { opacity: 1; pointer-events: auto; }
+.tour-route.live > svg.map { visibility: hidden; }
 .tour-route .map { width: 100%; height: 100%; aspect-ratio: auto; border: 0; border-radius: 0; }
 .map .trail { fill: none; stroke: var(--accent); stroke-width: 2; stroke-dasharray: 0 5; stroke-linecap: round; opacity: .6; }
 .map .leg { fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; }

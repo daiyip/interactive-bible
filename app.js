@@ -510,8 +510,9 @@ function wjText(text, marks) {
 // --- Context panel ----------------------------------------------------------
 
 const TABS = ["xref", "people", "places", "links"];
-// The tabs the reader kept in the settings; a tour always has its map.
-const shownTabs = () => TABS.filter((t) => !settings.hide.has(t) || (t === "places" && state.tour));
+// The tabs the reader kept in the settings. During a tour the map is in the tour card, so Places steps aside (unless the
+// card's map is off, when Places keeps the map for the tour).
+const shownTabs = () => TABS.filter((t) => t === "places" ? (state.tour ? !atlasInCard() : !settings.hide.has(t)) : !settings.hide.has(t));
 
 // On a phone the panel is a sheet over the bottom of the text, in three sizes: "peek" (a strip with the reference,
 // leaving the text above it free to tap), "half" and "full". Its handle drags or taps between them; scrolling the
@@ -1746,21 +1747,28 @@ const ATLAS = new URLSearchParams(location.search).get("atlas") || "https://atla
 const ATLAS_STYLE = "night";
 const atlas = { frame: null, ready: false, want: null, last: null };
 
-// Show the open tour step if the reader is on it, else this verse's places.
+// One atlas at a time: in the tour card while a tour shows its map there, else in the Places tab.
+const atlasInCard = () => !!state.tour && tmap.mode !== "off";
+const atlasHost = () => $(atlasInCard() ? "tour-route" : "map-box");
+function dropAtlas() {
+  atlas.frame?.remove();
+  Object.assign(atlas, { frame: null, ready: false, last: null });
+  $("map-box").classList.remove("live");
+  $("tour-route").classList.remove("live");
+}
+// Show the open tour step if the reader is on it (or the map is in the tour card), else this verse's places.
 function syncAtlas(pts, year) {
   const t = state.tour, step = t && parseRef(t.tr.steps[t.i].ref);
-  const onStep = step && step.book === state.book && step.chapter === state.chapter && step.verse === state.verse;
+  const onStep = step && (atlasInCard() || (step.book === state.book && step.chapter === state.chapter && step.verse === state.verse));
   atlasSend(onStep ? { type: "tour", id: t.tr.id, step: t.i }
     : { type: "places", places: pts.map(([, name, lon, lat]) => [name, lon, lat]), year });
 }
 function atlasSend(msg) {
   atlas.want = msg;
-  if (atlas.frame && atlas.lang !== state.lang) { // the atlas takes its language at load: start it again
-    atlas.frame.remove();
-    Object.assign(atlas, { frame: null, ready: false, last: null });
-    $("map-box").classList.remove("live");
-  }
-  if (!atlas.frame && (state.tab === "places" || state.tour)) openAtlas();
+  // The atlas takes its language and size at load: moved or in another language, it starts again.
+  if (atlas.frame && (atlas.lang !== state.lang || atlas.frame.parentNode !== atlasHost())) dropAtlas();
+  if (!atlas.frame && (atlasInCard() ? !$("tour-route").hidden : state.tab === "places" || state.tour)) openAtlas();
+  if (!atlas.frame) return;
   const key = JSON.stringify(msg);
   if (!atlas.ready || key === atlas.last) return;
   atlas.last = key;
@@ -1770,11 +1778,12 @@ function openAtlas() {
   const pack = new URL("atlas/manifest.json", location.href).href;
   const f = document.createElement("iframe");
   f.title = t("atlas");
-  f.src = `${ATLAS}?pack=${encodeURIComponent(pack)}&packonly=1&embed=1&style=${ATLAS_STYLE}&lang=${state.lang}`;
+  const host = atlasHost();
+  f.src = `${ATLAS}?pack=${encodeURIComponent(pack)}&packonly=1&embed=1${host.id === "tour-route" ? "&mini=1" : ""}&style=${ATLAS_STYLE}&lang=${state.lang}`;
   atlas.lang = state.lang;
   f.allow = "fullscreen";
   atlas.frame = f;
-  $("map-box").append(f);
+  host.prepend(f);
 }
 addEventListener("message", (e) => {
   const m = e.data;
@@ -1782,8 +1791,8 @@ addEventListener("message", (e) => {
   if (m.type === "ready") {
     atlas.ready = true;
     atlas.last = null;
-    $("map-box").classList.add("live");
-    $("map-box").hidden = false;
+    atlas.frame.parentNode.classList.add("live");
+    if (atlas.frame.parentNode.id === "map-box") $("map-box").hidden = false;
     if (atlas.want) atlasSend(atlas.want);
   } else if (m.type === "tour-step") {
     // A step taken on the map: follow it, without sending it back.
@@ -1961,7 +1970,6 @@ async function startTour(id, i, auto) {
   const tr = (await loadTours()).find((t) => t.id === id);
   if (!tr) return endTour();
   i = Math.max(0, Math.min(tr.steps.length - 1, i));
-  if (!state.tour) state.tab = "places"; // a tour starts on the map
   state.tour = { tr, i };
   if (auto && media.autoplay) play.on = true; // renderTour starts it
   store.set("bible-tour", [id, i]);
@@ -1978,6 +1986,8 @@ function endTour() {
   syncMusic();
   store.set("bible-tour", null);
   renderTour();
+  if (atlas.frame?.parentNode.id === "tour-route") dropAtlas();
+  if (ctxScope()) renderContext(); // Places comes back
 }
 function renderTour() {
   const tour = state.tour;
@@ -2004,8 +2014,7 @@ function renderTour() {
 }
 
 // Playback: the tour moves on by itself, each step staying long enough to read its note (or, with the sound on, until
-// its narration ends), while its verses light up one after another and the map traces the leg from the last stop (the
-// pack's journey plugin, atlas/plugins/journey.js). clip: the step's narration already started (narrate()).
+// its narration ends), while its verses light up one after another and the map traces the leg from the last stop. clip: the step's narration already started (narrate()).
 const play = { on: false, timer: 0, tok: 0 };
 const stepTime = (s) => Math.min(15000, Math.max(7000, 3500 + 45 * tx(s, "text").length));
 function setPlaying(on, clip) {
@@ -2071,9 +2080,10 @@ async function showTourPic(tr, i) {
 }
 
 // --- The tour card's map -------------------------------------------------------------------------------------
-// Beside the picture, a small map (the app's own SVG map, not the atlas) follows the story: the leg from the last stop
-// draws itself with an arrowhead, over the road so far. Auto shows it only when the story moves to a new place (over 20 km from the last stop); the card's map
-// button cycles Auto, On and Off (bible-tour-map).
+// Beside the picture, a small map follows the story: the atlas (&mini=1), which frames the leg from the last stop and
+// draws it with an arrowhead, while the Places tab steps aside. Until the atlas is up (or when it can't load), an SVG map
+// stands in, drawing the leg the same way over the road so far. Auto shows it only when the story moves to a new place
+// (over 20 km from the last stop); the card's map button cycles Auto, On and Off (bible-tour-map).
 const MAP_MODES = ["auto", "on", "off"];
 const tmap = { mode: MAP_MODES.includes(store.get("bible-tour-map")) ? store.get("bible-tour-map") : "auto", key: null, anim: 0, size: null };
 const km = ([a, b], [c, d]) => {
@@ -2112,7 +2122,9 @@ function setMapMode(m) {
   tmap.mode = m;
   store.set("bible-tour-map", m);
   renderMapBtn();
-  if (state.tour) showRoute(state.tour.tr, state.tour.i);
+  if (!state.tour) return;
+  showRoute(state.tour.tr, state.tour.i);
+  if (ctxScope()) renderContext(); // Places steps aside for the card's map, or comes back
 }
 async function showRoute(tr, i, still) {
   const box = $("tour-route"), on = routeOn(tr, i);
@@ -2120,6 +2132,7 @@ async function showRoute(tr, i, still) {
   box.hidden = !on;
   const key = `${tr.id}.${i}.${state.lang}`;
   if (!on) { tmap.key = null; return; }
+  atlasSend({ type: "tour", id: tr.id, step: i }); // the atlas, once loaded, covers the SVG map below
   const [base, places] = await Promise.all([loadJSON("data/basemap.json"), loadJSON("data/places.json")]);
   if (!onStep(tr, i) || box.hidden) return;
   const again = tmap.key === key;
