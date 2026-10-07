@@ -1753,8 +1753,8 @@ const atlasHost = () => $(atlasInCard() ? "tour-route" : "map-box");
 function dropAtlas() {
   atlas.frame?.remove();
   Object.assign(atlas, { frame: null, ready: false, last: null });
-  $("map-box").classList.remove("live");
-  $("tour-route").classList.remove("live");
+  clearTimeout(atlas.wait);
+  for (const id of ["map-box", "tour-route"]) $(id).classList.remove("live", "waiting");
 }
 // Show the open tour step if the reader is on it (or the map is in the tour card), else this verse's places.
 function syncAtlas(pts, year) {
@@ -1784,6 +1784,12 @@ function openAtlas() {
   f.allow = "fullscreen";
   atlas.frame = f;
   host.prepend(f);
+  // While the atlas loads the box stays plain; the SVG map shows only if it is slow (or the device is offline).
+  clearTimeout(atlas.wait);
+  if (navigator.onLine !== false) {
+    host.classList.add("waiting");
+    atlas.wait = setTimeout(() => host.classList.remove("waiting"), 4000);
+  }
 }
 addEventListener("message", (e) => {
   const m = e.data;
@@ -1791,6 +1797,8 @@ addEventListener("message", (e) => {
   if (m.type === "ready") {
     atlas.ready = true;
     atlas.last = null;
+    clearTimeout(atlas.wait);
+    atlas.frame.parentNode.classList.remove("waiting");
     atlas.frame.parentNode.classList.add("live");
     if (atlas.frame.parentNode.id === "map-box") $("map-box").hidden = false;
     if (atlas.want) atlasSend(atlas.want);
