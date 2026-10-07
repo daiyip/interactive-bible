@@ -441,6 +441,7 @@ async function renderChapter() {
       const s = document.createElement("span");
       s.className = "v";
       s.dataset.v = i + 1;
+      s.dataset.ctxAnchor = `${b.id}.${state.chapter}.${i + 1}`; // keeps notes (notes.js) with their verse in any translation
       s.innerHTML = `<sup>${i + 1}</sup>`;
       s.append(wjText(verse, wj(0, i)), isZh(vs[0]) ? "" : " ");
       if (vs[1]) {
@@ -460,6 +461,7 @@ async function renderChapter() {
     }
     art.append(p);
     rendered = key;
+    document.dispatchEvent(new Event("chapterrendered")); // for notes.js
     noteRecent(b.id, state.chapter);
     for (const [id, dir] of [["prev2", -1], ["next2", 1]]) {
       const n = neighbour(dir);

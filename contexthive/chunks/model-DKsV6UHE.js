@@ -1,0 +1,1 @@
+const e=`http://www.w3.org/ns/anno.jsonld`,t=[`TextQuoteSelector`,`TextPositionSelector`,`CssSelector`,`FragmentSelector`,`ElementFingerprintSelector`,`MediaSourceSelector`];function n(e){if(!t.includes(e.type))return!1;let r=e.refinedBy;return r==null||e.type===`CssSelector`&&n(r)}export{n,e as t};
