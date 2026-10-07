@@ -33,7 +33,7 @@ const L = {
     tapVerse: "Tap a verse", tapHint: "Its cross-references, people, places and links show up here.", orTour: "Or take a tour",
     prevCh: "Previous chapter (←)", nextCh: "Next chapter (→)", histBack: "Back", histFwd: "Forward", textSize: "Text size", sizes: ["Smallest", "Small", "Normal", "Large", "Larger", "Largest"],
     close: "Close", clearSel: "Clear selection (Esc)", sheetHandle: "Drag or tap to resize", backBooks: "Back to books", endTour: "End tour",
-    back: "‹ Back", next: "Next ›", finish: "Finish", map: "Map ↗", mapTitle: "Follow this step on the atlas map",
+    back: "‹ Back", next: "Next ›", finish: "Finish", tourRead: "Open chapter ›", map: "Map ↗", mapTitle: "Follow this step on the atlas map",
     stepOf: (i, n) => `${i} of ${n}`, steps: (n) => `${n} steps`,
     noXref: "No cross-references for this verse.", votes: "Votes on OpenBible.info: how many readers found this link helpful",
     showAll: (n) => `Show all ${n}`,
@@ -169,7 +169,7 @@ const L = {
     tapVerse: "点选一节经文", tapHint: "它的串珠、人物、地点和链接会显示在这里。", orTour: "或者跟随导览",
     prevCh: "上一章 (←)", nextCh: "下一章 (→)", histBack: "后退", histFwd: "前进", textSize: "字体大小", sizes: ["最小", "小", "标准", "大", "较大", "最大"],
     close: "关闭", clearSel: "取消选择（Esc）", sheetHandle: "拖动或轻点以调整大小", backBooks: "返回书卷", endTour: "结束导览",
-    back: "‹ 上一步", next: "下一步 ›", finish: "完成", map: "地图 ↗", mapTitle: "在历代地图上查看这一步",
+    back: "‹ 上一步", next: "下一步 ›", finish: "完成", tourRead: "打开整章 ›", map: "地图 ↗", mapTitle: "在历代地图上查看这一步",
     stepOf: (i, n) => `${i} / ${n}`, steps: (n) => `${n} 站`,
     noXref: "这节经文没有串珠。", votes: "OpenBible.info 上认为这条串珠有帮助的读者人数",
     showAll: (n) => `显示全部 ${n} 条`,
@@ -1986,14 +1986,15 @@ async function startTour(id, i, auto) {
   const tr = (await loadTours()).find((t) => t.id === id);
   if (!tr) return endTour();
   i = Math.max(0, Math.min(tr.steps.length - 1, i));
+  const was = !!state.tour;
   state.tour = { tr, i };
   if (auto && media.autoplay) play.on = true; // renderTour starts it
   store.set("bible-tour", [id, i]);
   if ($("picker").open) $("picker").close();
   if ($("mine").open) $("mine").close();
-  const ref = tr.steps[i].ref;
-  if (decodeURIComponent(location.hash.slice(1)) === ref) { renderTour(); renderContext(); }
-  else location.hash = ref;
+  // The step's verses are set in the card itself, so the chapter behind it stays where the reader left it.
+  renderTour();
+  if (!was) renderContext(); // Places steps aside for the card's map
 }
 function endTour() {
   setPlaying(false);
@@ -2015,6 +2016,7 @@ function renderTour() {
   $("tour-count").textContent = t("stepOf", i + 1, tr.steps.length);
   $("tour-year").textContent = fmtYear(s.year);
   $("tour-text").textContent = tx(s, "text");
+  renderTourVerses(tr, i).catch((e) => console.error(e));
   $("tour-prev").disabled = i === 0;
   renderMusicBtn();
   $("tour-next").textContent = t(last ? "finish" : "next");
@@ -2028,6 +2030,43 @@ function renderTour() {
     else stopNarration();
   }
   play.step = `${tr.id}.${i}`;
+}
+
+// A step's passage: a chapter ("Ps.23"), a verse, or a range, which can run into the next chapter ("Gen.27.41-28.5").
+function stepSpan(ref) {
+  const m = /^([1-3]?[A-Za-z]+)\.(\d+)(?:\.(\d+)(?:-(?:(\d+)\.)?(\d+))?)?$/.exec(ref || "");
+  const b = m && state.byId[m[1]];
+  if (!b) return null;
+  const c = +m[2], v = m[3] ? +m[3] : 1;
+  return { b, from: [c, v], to: [m[4] ? +m[4] : c, m[5] ? +m[5] : m[3] ? v : Infinity] };
+}
+function spanLabel({ b, from: [c, v], to: [c2, v2] }) {
+  if (v2 === Infinity) return `${bname(b)} ${c}`;
+  return `${bname(b)} ${c}:${v}${c2 !== c ? `–${c2}:${v2}` : v2 !== v ? `–${v2}` : ""}`;
+}
+// The step's verses under its note, in the first translation shown, scrolling inside the card.
+async function renderTourVerses(tr, i) {
+  const sp = stepSpan(tr.steps[i].ref), box = $("tour-verses"), key = `${tr.id}.${i}.${state.version}.${state.lang}`;
+  box.hidden = !sp;
+  if (!sp || box.dataset.key === key) return;
+  box.dataset.key = key;
+  const tv = versions()[0], [text, wj] = await Promise.all([bookText(sp.b.id, tv), wjMarks(tv)]);
+  if (!onStep(tr, i) || box.dataset.key !== key) return;
+  $("tour-ref").textContent = spanLabel(sp);
+  const out = $("tour-vtext"), multi = sp.to[0] !== sp.from[0];
+  out.lang = langOf(tv);
+  out.replaceChildren();
+  for (let c = sp.from[0]; c <= sp.to[0]; c++) {
+    const vs = text[c - 1] || [], a = c === sp.from[0] ? sp.from[1] : 1, z = Math.min(vs.length, c === sp.to[0] ? sp.to[1] : vs.length);
+    for (let v = a; v <= z; v++) {
+      const s = el("span", "v");
+      s.innerHTML = `<sup>${multi && v === a ? `${c}:${v}` : v}</sup>`;
+      s.append(wjText(vs[v - 1], wj[sp.b.id]?.[`${c}.${v}`]), isZh(tv) ? "" : " ");
+      out.append(s);
+    }
+  }
+  out.scrollTop = 0;
+  lightVerses();
 }
 
 // Playback: the tour moves on by itself, each step staying long enough to read its note (or, with the sound on, until
@@ -2065,7 +2104,7 @@ function setPlaying(on, clip) {
 function lightVerses() {
   if (!play.on) return;
   document.querySelectorAll(".v.lit").forEach((v) => v.classList.remove("lit"));
-  const vs = [...document.querySelectorAll(".v.sel, .v.rng")];
+  const vs = [...document.querySelectorAll(state.tour ? "#tour-vtext .v" : ".v.sel, .v.rng")];
   void document.body.offsetWidth;
   vs.forEach((v, i) => { v.style.animationDelay = `${Math.min(i * 0.6, 6)}s`; v.classList.add("lit"); });
 }
@@ -4114,7 +4153,9 @@ function showInstall() {
 
 // --- Routing and setup ---------------------------------------------------------
 
-function route() {
+// Moving the reader somewhere else (a link, search, the chapter buttons) ends a tour, so the chapter it went to shows.
+function route(e) {
+  if (e?.type === "hashchange" && state.tour) endTour();
   const r = parseRef(decodeURIComponent(location.hash.slice(1))) || parseRef(store.get("bible-pos")) || { book: "Gen", chapter: 1, verse: null, to: null };
   Object.assign(state, r);
   store.set("bible-pos", [r.book, r.chapter, r.verse].filter((x) => x != null).join("."));
@@ -4508,6 +4549,7 @@ async function init() {
   renderMapBtn();
   watchRoute();
   $("tour-pic").onclick = () => $("tour-pic").classList.toggle("big");
+  $("tour-read").onclick = () => { const ref = state.tour.tr.steps[state.tour.i].ref; endTour(); location.hash = ref; };
   renderSound();
   $("tour-play").onclick = () => {
     if (!play.on && state.tour.i === state.tour.tr.steps.length - 1) { setPlaying(true); return startTour(state.tour.tr.id, 0); } // play again
