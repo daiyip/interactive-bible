@@ -107,7 +107,7 @@ const L = {
     picTitle: "AI-generated picture · tap to see it whole", soundTitle: "Narration and music: male voice, female voice or off",
     voice_Charon: "Male", voice_Kore: "Female", voice_off: "Off",
     settings: "Settings", setContext: "Context panel", setTours: "Tours", setMusic: "Background music", setVoice: "Narration",
-    part_orig: "Hebrew & Greek words", part_harmony: "Parallel accounts", part_topics: "Topics", part_comm: "Commentary",
+    part_orig: "Hebrew & Greek", part_harmony: "Parallel accounts", part_topics: "Topics", part_comm: "Commentary",
     part_intro: "About the book", part_mark: "Highlights & notes",
     play: "▶ Play", pause: "❚❚ Pause", playTitle: "Play the tour: steps move on by themselves and the map traces the route",
     card: "Card", cardTip: "A picture of this verse over a map of its places, to share", cardTitle: "Verse card",
@@ -3959,9 +3959,10 @@ function renderSettings() {
   const check = (label, on, set) => {
     const lab = make("label", "settings-check"), box = make("input");
     box.type = "checkbox";
+    box.setAttribute("role", "switch");
     box.checked = on;
     box.onchange = () => set(box.checked);
-    lab.append(box, make("span", "", label));
+    lab.append(make("span", "", label), box);
     return lab;
   };
   // Text size: each size shown at its own size.

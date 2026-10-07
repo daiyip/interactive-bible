@@ -84,7 +84,7 @@ a { color: var(--accent); }
 .menu-group { padding: 4px 10px 2px; font-size: 11px; color: var(--muted); letter-spacing: .04em; text-transform: uppercase; }
 .settings-wrap { position: relative; }
 .settings {
-  position: absolute; right: 0; top: calc(100% + 6px); z-index: 30; width: 340px; max-height: calc(100dvh - 80px); overflow-y: auto;
+  position: absolute; right: 0; top: calc(100% + 6px); z-index: 30; width: 400px; max-height: calc(100dvh - 80px); overflow-y: auto;
   padding: 6px 16px 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,.16);
   font-size: 14px; text-align: left;
 }
@@ -93,9 +93,20 @@ a { color: var(--accent); }
 .settings h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin: 12px 0 6px; }
 .settings .seg { width: max-content; }
 .settings-sizes button { padding: 2px 9px; font-family: "Source Serif 4", "Noto Serif SC", serif; line-height: 1.3; min-height: 34px; }
-.settings-parts { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 12px; }
-.settings-check { display: flex; align-items: center; gap: 8px; padding: 4px 0; cursor: pointer; }
-.settings-check input { width: 16px; height: 16px; margin: 0; accent-color: var(--accent); }
+.settings-parts { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 18px; }
+.settings-check { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 5px 0; cursor: pointer; }
+/* A switch: a pill track whose knob slides right, in the accent colour, when on */
+.settings-check input {
+  appearance: none; flex: none; position: relative; width: 34px; height: 20px; margin: 0; border-radius: 999px; cursor: pointer;
+  background: color-mix(in srgb, var(--muted) 35%, var(--bg)); transition: background .2s;
+}
+.settings-check input::after {
+  content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%;
+  background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.3); transition: transform .2s;
+}
+.settings-check input:checked { background: var(--accent); }
+.settings-check input:checked::after { transform: translateX(14px); }
+.settings-check input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .settings-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 6px; }
 .settings-row .seg button { padding: 4px 11px; }
 
@@ -104,13 +115,13 @@ html.hide-orig #ctx-orig, html.hide-harmony #ctx-harmony, html.hide-topics #ctx-
 html.hide-intro #ctx-text > .intro, html.hide-mark #ctx-mark { display: none !important; }
 .tabs[hidden], .tabs button[hidden] { display: none; }
 
-/* The Tours button glows until it is first used */
-.dock #tours-btn.new { position: relative; color: var(--accent); box-shadow: 0 0 0 2px var(--accent); animation: tours-glow 1.8s ease-in-out infinite; }
-.dock #tours-btn.new::after {
-  content: ""; position: absolute; top: 3px; right: 3px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
+/* The Tours button glows softly until it is first used */
+.dock #tours-btn.new { color: var(--accent); animation: tours-glow 2.2s ease-in-out infinite; }
+@keyframes tours-glow {
+  0%, 100% { background: color-mix(in srgb, var(--accent) 10%, transparent); box-shadow: 0 0 8px 1px color-mix(in srgb, var(--accent) 30%, transparent); }
+  50% { background: color-mix(in srgb, var(--accent) 30%, transparent); box-shadow: 0 0 22px 7px color-mix(in srgb, var(--accent) 65%, transparent); }
 }
-@keyframes tours-glow { 50% { box-shadow: 0 0 0 2px var(--accent), 0 0 0 7px var(--accent-soft); } }
-@media (prefers-reduced-motion: reduce) { .dock #tours-btn.new { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .dock #tours-btn.new { animation: none; background: color-mix(in srgb, var(--accent) 18%, transparent); box-shadow: 0 0 14px 2px color-mix(in srgb, var(--accent) 40%, transparent); } }
 
 /* Panels */
 .panels { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, 420px); min-height: 0; }
