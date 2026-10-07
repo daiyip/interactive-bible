@@ -122,7 +122,6 @@
   "music": "media/music.json"
  },
  "plugins": [
-  "plugins/journey.js",
   "plugins/bridge.js"
  ],
  "refs": {
