@@ -3956,14 +3956,12 @@ function renderSettings() {
     sec.append(make("h3", "", label), ...kids);
     return sec;
   };
+  // A chip whose text is the switch: lit when on.
   const check = (label, on, set) => {
-    const lab = make("label", "settings-check"), box = make("input");
-    box.type = "checkbox";
-    box.setAttribute("role", "switch");
-    box.checked = on;
-    box.onchange = () => set(box.checked);
-    lab.append(make("span", "", label), box);
-    return lab;
+    const b = make("button", "settings-chip", label);
+    b.setAttribute("aria-pressed", on);
+    b.onclick = () => { on = !on; b.setAttribute("aria-pressed", on); set(on); };
+    return b;
   };
   // Text size: each size shown at its own size.
   const sizes = make("div", "seg settings-sizes"), now = nearestSize(state.size);
