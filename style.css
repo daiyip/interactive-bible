@@ -168,14 +168,13 @@ a { color: var(--accent); }
 .tour-head b { flex: 1; min-width: 0; }
 .tour-head .icon { min-width: 28px; height: 28px; margin: -4px -6px -4px 0; font-size: 18px; }
 .tour p { margin: 6px 0 10px; font-size: 14px; }
-/* The step's AI picture sits beside its note; tapped, it spans the card. */
-.tour-body { display: flex; align-items: flex-start; gap: 12px; }
-.tour-body p { flex: 1; min-width: 0; }
-.tour-pic { position: relative; flex: none; width: 132px; margin: 8px 0 10px; padding: 0; border: 0; border-radius: 8px; overflow: hidden; background: var(--line); cursor: zoom-in; }
+/* The step's AI picture runs across the card above its note, cropped to a wide strip; tapped, it shows whole. */
+.tour-body { display: flex; flex-direction: column; }
+.tour-pic { position: relative; width: 100%; margin: 8px 0 2px; padding: 0; border: 0; border-radius: 8px; overflow: hidden; background: var(--line); cursor: zoom-in; }
 .tour-pic img { display: block; width: 100%; height: auto; }
-.tour-pic i { position: absolute; right: 4px; bottom: 4px; padding: 0 4px; border-radius: 4px; font: 600 9px/14px system-ui, sans-serif; font-style: normal; color: #fff; background: rgb(0 0 0 / .45); }
-.tour-pic.big { width: 100%; cursor: zoom-out; }
-.tour-body:has(.tour-pic.big) { flex-direction: column; gap: 0; }
+.tour-pic:not(.big) img { aspect-ratio: 21 / 9 !important; object-fit: cover; max-height: 30vh; }
+.tour-pic i { position: absolute; right: 6px; bottom: 6px; padding: 0 4px; border-radius: 4px; font: 600 10px/14px system-ui, sans-serif; font-style: normal; color: #fff; background: rgb(0 0 0 / .45); }
+.tour-pic.big { cursor: zoom-out; }
 .tour-pic.big img { max-height: 45vh; object-fit: contain; background: #000; }
 .tour-sound { display: inline-flex; align-items: center; gap: 4px; }
 .tour-sound[aria-pressed="false"] { color: var(--muted); }
@@ -934,8 +933,8 @@ body:not(.playing) .tour-bar { visibility: hidden; }
   .grid.books button .bn { white-space: normal; overflow: visible; }
 }
 @media (max-width: 480px) {
-  .tour-pic:not(.big) { width: 92px; }
   .tour-sound span { display: none; }
   .tour-ctl .pill { white-space: nowrap; padding-inline: 9px; font-size: 13px; }
   .tour-ctl { gap: 5px; }
 }
+
