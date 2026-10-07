@@ -114,7 +114,7 @@ const L = {
     page_auto: "Auto", page_paper: "Paper", page_sepia: "Sepia", page_night: "Night",
     font_serif: "Serif", font_sans: "Sans", font_kai: "Kai 楷",
     spacing_compact: "Compact", spacing_normal: "Normal", spacing_relaxed: "Relaxed",
-    flag_vnum: "Verse numbers", flag_lines: "One verse per line", flag_red: "Words of Jesus in red", setVoice: "Narration",
+    flag_vnum: "Verse numbers", flag_lines: "One verse per line", flag_red: "Words of Jesus in red", flag_emblem: "Book emblem", setVoice: "Narration",
     part_orig: "Hebrew & Greek", part_harmony: "Parallel accounts", part_topics: "Topics", part_comm: "Commentary",
     part_intro: "About the book", part_mark: "Highlights & notes",
     play: "▶ Play", pause: "❚❚ Pause", playTitle: "Play the tour: steps move on by themselves and the map traces the route",
@@ -249,7 +249,7 @@ const L = {
     page_auto: "自动", page_paper: "白纸", page_sepia: "米黄", page_night: "夜间",
     font_serif: "宋体", font_sans: "黑体", font_kai: "楷体",
     spacing_compact: "紧凑", spacing_normal: "标准", spacing_relaxed: "宽松",
-    flag_vnum: "节号", flag_lines: "每节一行", flag_red: "耶稣的话用红字", setVoice: "旁白",
+    flag_vnum: "节号", flag_lines: "每节一行", flag_red: "耶稣的话用红字", flag_emblem: "书卷图饰", setVoice: "旁白",
     part_orig: "希伯来文与希腊文", part_harmony: "平行记载", part_topics: "主题", part_comm: "注释",
     part_intro: "书卷简介", part_mark: "标记与笔记",
     play: "▶ 播放", pause: "❚❚ 暂停", playTitle: "自动播放导览：逐站前进，地图描绘路线",
@@ -432,6 +432,10 @@ async function renderChapter() {
     const h = document.createElement("h1");
     h.innerHTML = `<small>${t(state.books.indexOf(b) >= NT_START ? "nt" : "ot")}</small>`;
     h.append(`${bname(b)} ${state.chapter}`);
+    // By the title, a line drawing for the book's group (Sinai for the Law, a lyre for the Psalms …), tinted from the page.
+    const emb = el("i", "emblem");
+    emb.dataset.g = bookGroup(b.id);
+    art.append(emb);
     const p = document.createElement("p");
     texts[0][state.chapter - 1].forEach((verse, i) => {
       const s = document.createElement("span");
@@ -2513,6 +2517,10 @@ const BOOK_GROUPS = [
   ["law", "Gen", "Deut"], ["history", "Josh", "Esth"], ["poetry", "Job", "Song"], ["major", "Isa", "Dan"], ["minor", "Hos", "Mal"],
   ["gospels", "Matt", "John"], ["acts", "Acts", "Acts"], ["paul", "Rom", "Phlm"], ["general", "Heb", "Jude"], ["apocalypse", "Rev", "Rev"],
 ];
+const bookGroup = (id) => {
+  const at = (x) => state.books.findIndex((b) => b.id === x), i = at(id);
+  return BOOK_GROUPS.find(([, a, z]) => i >= at(a) && i <= at(z))?.[0] || "";
+};
 const RECENT_MAX = 6;
 // "bible-recent": the chapters opened lately, newest first (["John.3", "Gen.1"]).
 function noteRecent(b, c) {
@@ -4203,7 +4211,7 @@ const LOOKS = {
   font: { keys: ["serif", "sans", "kai"], def: "serif" },
   spacing: { keys: ["compact", "normal", "relaxed"], def: "normal" },
 };
-const FLAGS = { vnum: true, lines: false, red: false }; // verse numbers, one verse per line, red letters: defaults
+const FLAGS = { vnum: true, lines: false, red: false, emblem: true }; // verse numbers, one verse per line, red letters, book emblem: defaults
 const look = (k) => (LOOKS[k].keys.includes(store.get("bible-" + k)) ? store.get("bible-" + k) : LOOKS[k].def);
 const flag = (k) => (typeof store.get("bible-" + k) === "boolean" ? store.get("bible-" + k) : FLAGS[k]);
 function applyLook() {
@@ -4216,6 +4224,7 @@ function applyLook() {
   root.classList.toggle("no-vnum", !flag("vnum"));
   root.classList.toggle("verse-lines", flag("lines"));
   root.classList.toggle("red-letters", flag("red"));
+  root.classList.toggle("no-emblem", !flag("emblem"));
 }
 function renderSettings() {
   const box = $("settings"), head = make("div", "settings-head"), x = make("button", "icon", "×");

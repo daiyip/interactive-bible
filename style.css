@@ -138,6 +138,22 @@ html.hide-intro #ctx-text > .intro, html.hide-mark #ctx-mark { display: none !im
   max-width: 680px; margin: 0 auto;
   font-family: "Source Serif 4", Georgia, serif; font-size: var(--read-size); line-height: 1.75;
 }
+/* The book group's emblem by the chapter title (img/emblems/*.svg, drawn in black and used as a mask, so any page colour can tint it) */
+.chapter { position: relative; isolation: isolate; }
+.chapter .emblem { position: absolute; z-index: -1; right: -6px; top: -26px; width: 132px; height: 132px; pointer-events: none;
+  background: color-mix(in srgb, var(--accent) 26%, transparent); -webkit-mask: var(--em) center / contain no-repeat; mask: var(--em) center / contain no-repeat; }
+:root.no-emblem .chapter .emblem, .chapter .emblem:not([data-g]), .chapter .emblem[data-g=""] { display: none; }
+.emblem[data-g="law"] { --em: url(img/emblems/law.svg); }
+.emblem[data-g="history"] { --em: url(img/emblems/history.svg); }
+.emblem[data-g="poetry"] { --em: url(img/emblems/poetry.svg); }
+.emblem[data-g="major"] { --em: url(img/emblems/major.svg); }
+.emblem[data-g="minor"] { --em: url(img/emblems/minor.svg); }
+.emblem[data-g="gospels"] { --em: url(img/emblems/gospels.svg); }
+.emblem[data-g="acts"] { --em: url(img/emblems/acts.svg); }
+.emblem[data-g="paul"] { --em: url(img/emblems/paul.svg); }
+.emblem[data-g="general"] { --em: url(img/emblems/general.svg); }
+.emblem[data-g="apocalypse"] { --em: url(img/emblems/apocalypse.svg); }
+@media (max-width: 520px) { .chapter .emblem { width: 104px; height: 104px; top: -18px; right: -4px; } }
 .chapter h1 { font-size: 1.6em; font-weight: 600; margin: 0 0 .8em; line-height: 1.2; }
 .chapter h1 small { display: block; font: 500 13px "IBM Plex Sans", sans-serif; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 4px; }
 .chapter p { margin: 0; }
