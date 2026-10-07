@@ -104,7 +104,7 @@ const L = {
     listen: "Listen", listenTitle: "Read this chapter aloud", listenPause: "Pause", listenGo: "Play", listenStop: "Stop reading",
     listenPrev: "Previous verse", listenNext: "Next verse", listenRate: "Reading speed", listenVoice: "Voice",
     voiceMore: "More voices can be added in your device's settings (Accessibility › Spoken Content on iPhone and Mac).",
-    picTitle: "AI-generated picture · tap to enlarge", soundTitle: "Narration and music: male voice, female voice or off",
+    picTitle: "AI-generated picture · tap to see it whole", soundTitle: "Narration and music: male voice, female voice or off",
     voice_Charon: "Male", voice_Kore: "Female", voice_off: "Off",
     play: "▶ Play", pause: "❚❚ Pause", playTitle: "Play the tour: steps move on by themselves and the map traces the route",
     card: "Card", cardTip: "A picture of this verse over a map of its places, to share", cardTitle: "Verse card",
@@ -228,7 +228,7 @@ const L = {
     listen: "朗读", listenTitle: "朗读本章", listenPause: "暂停", listenGo: "播放", listenStop: "停止朗读",
     listenPrev: "上一节", listenNext: "下一节", listenRate: "语速", listenVoice: "声音",
     voiceMore: "可在设备设置中添加更多声音（iPhone 与 Mac：辅助功能 › 朗读内容）。",
-    picTitle: "AI 生成的插图 · 轻点放大", soundTitle: "旁白与音乐：男声、女声或关闭",
+    picTitle: "AI 生成的插图 · 轻点查看全图", soundTitle: "旁白与音乐：男声、女声或关闭",
     voice_Charon: "男声", voice_Kore: "女声", voice_off: "静音",
     play: "▶ 播放", pause: "❚❚ 暂停", playTitle: "自动播放导览：逐站前进，地图描绘路线",
     card: "卡片", cardTip: "把这节经文配上地图做成图片分享", cardTitle: "经文卡片",
@@ -4113,9 +4113,6 @@ async function init() {
   $("tour-x").onclick = endTour;
   $("tour-sound").onclick = cycleSound;
   $("tour-pic").onclick = () => $("tour-pic").classList.toggle("big");
-  // Picture layout trial: ?tourpic=banner|side|cover (the current small one when absent).
-  const tp = new URLSearchParams(location.search).get("tourpic");
-  if (["banner", "side", "cover"].includes(tp)) document.documentElement.dataset.tourpic = tp;
   renderSound();
   $("tour-play").onclick = () => {
     if (!play.on && state.tour.i === state.tour.tr.steps.length - 1) { setPlaying(true); return startTour(state.tour.tr.id, 0); } // play again
