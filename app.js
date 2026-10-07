@@ -106,7 +106,12 @@ const L = {
     voiceMore: "More voices can be added in your device's settings (Accessibility › Spoken Content on iPhone and Mac).",
     picTitle: "AI-generated picture · tap to see it whole", soundTitle: "Narration and music: male voice, female voice or off",
     voice_Charon: "Male", voice_Kore: "Female", voice_off: "Off",
-    settings: "Settings", setContext: "Context panel", setTours: "Tours", setMusic: "Background music", setAutoplay: "Auto play", setVoice: "Narration",
+    settings: "Settings", setContext: "Context panel", setTours: "Tours", setMusic: "Background music", setAutoplay: "Auto play",
+    setReading: "Reading", setPage: "Page", setFont: "Font", setSpacing: "Line spacing",
+    page_auto: "Auto", page_paper: "Paper", page_sepia: "Sepia", page_night: "Night",
+    font_serif: "Serif", font_sans: "Sans", font_kai: "Kai 楷",
+    spacing_compact: "Compact", spacing_normal: "Normal", spacing_relaxed: "Relaxed",
+    flag_vnum: "Verse numbers", flag_lines: "One verse per line", flag_red: "Words of Jesus in red", setVoice: "Narration",
     part_orig: "Hebrew & Greek", part_harmony: "Parallel accounts", part_topics: "Topics", part_comm: "Commentary",
     part_intro: "About the book", part_mark: "Highlights & notes",
     play: "▶ Play", pause: "❚❚ Pause", playTitle: "Play the tour: steps move on by themselves and the map traces the route",
@@ -233,7 +238,12 @@ const L = {
     voiceMore: "可在设备设置中添加更多声音（iPhone 与 Mac：辅助功能 › 朗读内容）。",
     picTitle: "AI 生成的插图 · 轻点查看全图", soundTitle: "旁白与音乐：男声、女声或关闭",
     voice_Charon: "男声", voice_Kore: "女声", voice_off: "静音",
-    settings: "设置", setContext: "上下文面板", setTours: "导览", setMusic: "背景音乐", setAutoplay: "自动播放", setVoice: "旁白",
+    settings: "设置", setContext: "上下文面板", setTours: "导览", setMusic: "背景音乐", setAutoplay: "自动播放",
+    setReading: "阅读", setPage: "页面", setFont: "字体", setSpacing: "行距",
+    page_auto: "自动", page_paper: "白纸", page_sepia: "米黄", page_night: "夜间",
+    font_serif: "宋体", font_sans: "黑体", font_kai: "楷体",
+    spacing_compact: "紧凑", spacing_normal: "标准", spacing_relaxed: "宽松",
+    flag_vnum: "节号", flag_lines: "每节一行", flag_red: "耶稣的话用红字", setVoice: "旁白",
     part_orig: "希伯来文与希腊文", part_harmony: "平行记载", part_topics: "主题", part_comm: "注释",
     part_intro: "书卷简介", part_mark: "标记与笔记",
     play: "▶ 播放", pause: "❚❚ 暂停", playTitle: "自动播放导览：逐站前进，地图描绘路线",
@@ -406,8 +416,9 @@ async function renderChapter() {
   document.title = `${bname(b)} ${state.chapter} · ${t("site")}`;
   if (rendered !== key) {
     const vs = versions();
-    const texts = await Promise.all(vs.map((tr) => bookText(b.id, tr)));
+    const [texts, wjs] = await Promise.all([Promise.all(vs.map((tr) => bookText(b.id, tr))), Promise.all(vs.map(wjMarks))]);
     if (`${state.book}.${state.chapter}.${state.version}` !== key) return; // navigated away meanwhile
+    const wj = (k, i) => wjs[k][b.id]?.[`${state.chapter}.${i + 1}`];
     const art = $("chapter");
     art.innerHTML = "";
     art.classList.toggle("both", vs.length > 1);
@@ -421,12 +432,12 @@ async function renderChapter() {
       s.className = "v";
       s.dataset.v = i + 1;
       s.innerHTML = `<sup>${i + 1}</sup>`;
-      s.append(verse + (isZh(vs[0]) ? "" : " "));
+      s.append(wjText(verse, wj(0, i)), isZh(vs[0]) ? "" : " ");
       if (vs[1]) {
         // Two translations: the first in its own span, so wide screens can set them in columns (see .chapter.both).
         const one = el("span", "v1");
         one.append(...s.childNodes);
-        s.append(one, secondLine(texts[1][state.chapter - 1][i], vs[1]));
+        s.append(one, secondLine(texts[1][state.chapter - 1][i], vs[1], wj(1, i)));
       }
       p.append(s);
     });
@@ -469,12 +480,27 @@ async function renderChapter() {
 }
 
 // The second translation of a verse, side by side.
-function secondLine(text, tr) {
+function secondLine(text, tr, marks) {
   const el = document.createElement("span");
   el.className = "v2";
   el.lang = langOf(tr);
-  el.textContent = text || "";
+  el.append(wjText(text || "", marks));
   return el;
+}
+// Red letters: where the words of Jesus are in each verse, for the translations whose sources mark them (see
+// tools/build_wj.py). The words are always wrapped; the setting only colours them.
+const WJ = ["kjv", "web"];
+const wjMarks = (tr) => (WJ.includes(tr) ? loadJSON(`data/wj/${tr}.json`).catch(() => ({})) : Promise.resolve({}));
+function wjText(text, marks) {
+  if (!marks) return text;
+  const frag = document.createDocumentFragment();
+  let at = 0;
+  for (const [a, z] of marks) {
+    frag.append(text.slice(at, a), el("span", "wj", text.slice(a, z)));
+    at = z;
+  }
+  frag.append(text.slice(at));
+  return frag;
 }
 
 // --- Context panel ----------------------------------------------------------
@@ -3957,6 +3983,27 @@ const settings = { hide: new Set((store.get("bible-hide") || []).filter((p) => P
 function applyHidden() {
   for (const p of PARTS) document.documentElement.classList.toggle("hide-" + p, settings.hide.has(p));
 }
+// How the reading panel looks: each a choice of a few, kept per reader and set on <html> for the styles to follow.
+// Page "auto" follows the device; Paper and Night pin light or dark for the whole app, and Sepia is a warm light page.
+const LOOKS = {
+  page: { keys: ["auto", "paper", "sepia", "night"], def: "auto" },
+  font: { keys: ["serif", "sans", "kai"], def: "serif" },
+  spacing: { keys: ["compact", "normal", "relaxed"], def: "normal" },
+};
+const FLAGS = { vnum: true, lines: false, red: false }; // verse numbers, one verse per line, red letters: defaults
+const look = (k) => (LOOKS[k].keys.includes(store.get("bible-" + k)) ? store.get("bible-" + k) : LOOKS[k].def);
+const flag = (k) => (typeof store.get("bible-" + k) === "boolean" ? store.get("bible-" + k) : FLAGS[k]);
+function applyLook() {
+  const root = document.documentElement, page = look("page");
+  if (page === "auto") delete root.dataset.theme;
+  else root.dataset.theme = page === "night" ? "dark" : "light";
+  root.dataset.page = page;
+  root.dataset.font = look("font");
+  root.dataset.spacing = look("spacing");
+  root.classList.toggle("no-vnum", !flag("vnum"));
+  root.classList.toggle("verse-lines", flag("lines"));
+  root.classList.toggle("red-letters", flag("red"));
+}
 function renderSettings() {
   const box = $("settings"), head = make("div", "settings-head"), x = make("button", "icon", "×");
   x.title = x.ariaLabel = t("close");
@@ -3986,6 +4033,25 @@ function renderSettings() {
     b.onclick = () => { setSize(px); sizes.querySelectorAll("button").forEach((o) => o.setAttribute("aria-pressed", o === b)); };
     sizes.append(b);
   });
+  // A row of choices, one of them pressed.
+  const choice = (k, label) => {
+    const seg = make("div", "seg");
+    for (const v of LOOKS[k].keys) {
+      const b = make("button", "", t(`${k}_${v}`));
+      b.setAttribute("aria-pressed", v === look(k));
+      b.onclick = () => {
+        store.set("bible-" + k, v);
+        applyLook();
+        seg.querySelectorAll("button").forEach((o) => o.setAttribute("aria-pressed", o === b));
+      };
+      seg.append(b);
+    }
+    const row = make("div", "settings-row");
+    row.append(make("span", "", label), seg);
+    return row;
+  };
+  const flags = make("div", "settings-parts");
+  for (const k of Object.keys(FLAGS)) flags.append(check(t("flag_" + k), flag(k), (on) => { store.set("bible-" + k, on); applyLook(); }));
   const parts = make("div", "settings-parts");
   for (const p of PARTS) {
     const label = TABS.includes(p) ? t(p) : t("part_" + p);
@@ -4016,7 +4082,9 @@ function renderSettings() {
   });
   const tourChips = make("div", "settings-parts");
   tourChips.append(autoplay, music);
-  box.replaceChildren(head, section(t("textSize"), sizes), section(t("setContext"), parts), section(t("setTours"), tourChips, voiceRow));
+  box.replaceChildren(head, section(t("textSize"), sizes),
+    section(t("setReading"), choice("page", t("setPage")), choice("font", t("setFont")), choice("spacing", t("setSpacing")), flags),
+    section(t("setContext"), parts), section(t("setTours"), tourChips, voiceRow));
 }
 function showSettings(on) {
   $("settings").hidden = !on;
@@ -4091,6 +4159,7 @@ async function init() {
   for (const b of state.books) state.byId[b.id] = b;
   setSize(store.get("bible-size") || 19);
   applyHidden();
+  applyLook();
   // The translation: remembered, or 和合本 for a browser set to Chinese.
   const v = store.get("bible-version");
   state.version = validVersion(v) ? v : /^zh\b/i.test(navigator.language) ? "cuv" : "kjv";

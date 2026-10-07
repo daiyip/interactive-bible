@@ -27,3 +27,6 @@ for f in BSB ASV YLT Darby BBE ChiUnL; do curl -sSfo src/versions/$f.json $B/for
 W=https://raw.githubusercontent.com/TehShrike/world-english-bible/master/json
 python3 -c "import json; [print(b['id'], b['name'].lower().replace(' ', '')) for b in json.load(open('../data/books.json'))]" |
   while read id name; do curl -sSfo src/web/$id.json $W/$name.json; done
+# Words of Jesus (red letters): the KJV in OSIS and the WEB in USFX, both public domain, from seven1m/open-bibles.
+O=https://raw.githubusercontent.com/seven1m/open-bibles/master
+for f in eng-kjv.osis.xml eng-web.usfx.xml; do curl -sSfo src/$f $O/$f; done
