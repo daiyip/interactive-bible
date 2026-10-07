@@ -240,10 +240,13 @@ html.hide-intro #ctx-text > .intro, html.hide-mark #ctx-mark { display: none !im
 @media (max-width: 520px) { .tour-media { --rh: 104px; } .route-atlas { right: 4px; top: 4px; padding: 0 4px; font-size: 10px; line-height: 16px; } }
 .tour-sound { display: inline-flex; align-items: center; gap: 4px; }
 .tour-sound[aria-pressed="false"] { color: var(--muted); }
-/* On: a coloured ring and tint, blue for the male voice, red for the female voice, green for music */
-#tour-sound[aria-pressed="true"], #tour-music[aria-pressed="true"] { --on: #3d7be0; color: var(--on); border-color: var(--on); box-shadow: inset 0 0 0 1px var(--on); background: color-mix(in srgb, var(--on) 12%, transparent); }
+/* On: a coloured ring and tint, blue for the male voice, red for the female voice, green for music, amber for the map
+   (dashed while Auto) */
+#tour-sound[aria-pressed="true"], #tour-music[aria-pressed="true"], #tour-maptg[aria-pressed="true"] { --on: #3d7be0; color: var(--on); border-color: var(--on); box-shadow: inset 0 0 0 1px var(--on); background: color-mix(in srgb, var(--on) 12%, transparent); }
 #tour-sound[data-voice="Kore"] { --on: #d9534a; }
 #tour-music[aria-pressed="true"] { --on: #2f9e6a; }
+#tour-maptg[aria-pressed="true"] { --on: #c9860f; }
+#tour-maptg[data-mode="auto"] { border-style: dashed; box-shadow: none; }
 .tour-year { font-weight: 600; color: var(--accent); }
 .tour-ctl { display: flex; gap: 8px; }
 .tour-bar { height: 2px; margin: -4px 0 10px; background: var(--line); border-radius: 1px; overflow: hidden; }
