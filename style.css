@@ -221,6 +221,20 @@ html.hide-intro #ctx-text > .intro, html.hide-mark #ctx-mark { display: none !im
 .tour-pic i { position: absolute; right: 6px; bottom: 6px; padding: 0 4px; border-radius: 4px; font: 600 10px/14px system-ui, sans-serif; font-style: normal; color: #fff; background: rgb(0 0 0 / .45); }
 .tour-pic.big { cursor: zoom-out; }
 .tour-pic.big img { max-height: 45vh; object-fit: contain; background: #000; }
+/* With the map on, the picture and the map share the strip at one height (the map alone takes it all). */
+.tour-media { display: flex; gap: 8px; margin: 8px 0 2px; --rh: clamp(110px, 24vh, 190px); }
+.tour-media .tour-pic { margin: 0; flex: 1 1 0; min-width: 0; }
+.tour-media.with-route .tour-pic:not(.big) img { aspect-ratio: auto !important; height: var(--rh); max-height: none; }
+.tour-route { position: relative; flex: 0 0 auto; height: var(--rh); aspect-ratio: 4 / 3; border-radius: 8px; overflow: hidden; background: var(--sea); }
+.tour-media:not(:has(.tour-pic:not([hidden]))) .tour-route { flex: 1 1 auto; height: auto; aspect-ratio: 21 / 9; max-height: 30vh; }
+.tour-media:has(.tour-pic.big) .tour-route { display: none; }
+.tour-route .map { width: 100%; height: 100%; aspect-ratio: auto; border: 0; border-radius: 0; }
+.map .trail { fill: none; stroke: var(--accent); stroke-width: 1.5; opacity: .45; }
+.map .leg { fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; }
+.map .mover { fill: var(--accent); stroke: var(--panel); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.route-atlas { position: absolute; right: 6px; top: 6px; padding: 0 6px; border-radius: 4px; font: 600 11px/18px system-ui, sans-serif; color: #fff; background: rgb(0 0 0 / .45); text-decoration: none; }
+.route-atlas:hover { background: rgb(0 0 0 / .65); }
+@media (max-width: 520px) { .tour-media { --rh: 104px; } .route-atlas { right: 4px; top: 4px; padding: 0 4px; font-size: 10px; line-height: 16px; } }
 .tour-sound { display: inline-flex; align-items: center; gap: 4px; }
 .tour-sound[aria-pressed="false"] { color: var(--muted); }
 .tour-year { font-weight: 600; color: var(--accent); }

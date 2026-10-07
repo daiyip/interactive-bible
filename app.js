@@ -106,6 +106,8 @@ const L = {
     voiceMore: "More voices can be added in your device's settings (Accessibility › Spoken Content on iPhone and Mac).",
     picTitle: "AI-generated picture · tap to see it whole", soundTitle: "Narration and music: male voice, female voice or off",
     voice_Charon: "Male", voice_Kore: "Female", voice_off: "Off",
+    map_auto: "Auto", map_on: "Map", map_off: "Off", mapOn: "On", setMap: "Map", atlasOpen: "Atlas ↗",
+    mapModeTitle: "Map in the tour card: Auto (when the story moves to a new place), on or off",
     settings: "Settings", setContext: "Context panel", setTours: "Tours", setMusic: "Background music", setAutoplay: "Auto play", ctxBack: "Show the verse", ctxBig: "Open large", ctxSmall: "Back to the panel",
     setReading: "Reading", setPage: "Page", setFont: "Font", setSpacing: "Line spacing",
     page_auto: "Auto", page_paper: "Paper", page_sepia: "Sepia", page_night: "Night",
@@ -238,6 +240,8 @@ const L = {
     voiceMore: "可在设备设置中添加更多声音（iPhone 与 Mac：辅助功能 › 朗读内容）。",
     picTitle: "AI 生成的插图 · 轻点查看全图", soundTitle: "旁白与音乐：男声、女声或关闭",
     voice_Charon: "男声", voice_Kore: "女声", voice_off: "静音",
+    map_auto: "自动", map_on: "地图", map_off: "关", mapOn: "显示", setMap: "地图", atlasOpen: "历代地图 ↗",
+    mapModeTitle: "导览卡片里的地图：自动（故事换地方时显示）、显示或关闭",
     settings: "设置", setContext: "上下文面板", setTours: "导览", setMusic: "背景音乐", setAutoplay: "自动播放", ctxBack: "显示经文", ctxBig: "放大查看", ctxSmall: "还原",
     setReading: "阅读", setPage: "页面", setFont: "字体", setSpacing: "行距",
     page_auto: "自动", page_paper: "白纸", page_sepia: "米黄", page_night: "夜间",
@@ -1798,21 +1802,26 @@ const LANDMARKS = [["Jerusalem", 35.234, 31.777], ["Damascus", 36.309, 33.512], 
 
 // An SVG map of the Bible lands framed on the given places: [[id, name, lon, lat, kind], ...]
 // Options: frame (points to fit instead of pts), faint (points drawn small and grey), labels: false (pins only),
-// picked (one point drawn larger, with its label).
+// picked (one point drawn larger, with its label), aspect (width / height, 4:3 by default), minH (the least height
+// framed, 3° by default), px (the map's height on screen, to draw pins and labels at a set size rather than to scale).
+// The SVG carries its projection as .X and .Y, for drawing more on it.
 function drawMap(pts, base, o = {}) {
   const NS = "http://www.w3.org/2000/svg";
   const fit = o.frame || pts, lons = fit.map((p) => p[2]), lats = fit.map((p) => p[3]);
   const midLat = (Math.min(...lats) + Math.max(...lats)) / 2;
   const k = Math.cos((midLat * Math.PI) / 180);
   const X = (lon) => lon * k, Y = (lat) => -lat;
-  // Frame: the places plus a margin, at least 3° tall, in a 4:3 box.
+  // Frame: the places plus a margin, at least 3° tall, in a 4:3 box (or the aspect asked for).
+  const ar = o.aspect || 4 / 3;
   let x0 = X(Math.min(...lons)), x1 = X(Math.max(...lons)), y0 = Y(Math.max(...lats)), y1 = Y(Math.min(...lats));
-  let w = Math.max((x1 - x0) * 1.5, 4), h = Math.max((y1 - y0) * 1.5, 3);
-  if (w / h > 4 / 3) h = (w * 3) / 4; else w = (h * 4) / 3;
+  const minH = o.minH || 3;
+  let w = Math.max((x1 - x0) * 1.5, minH * ar), h = Math.max((y1 - y0) * 1.5, minH);
+  if (w / h > ar) h = w / ar; else w = h * ar;
   const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
   const svg = document.createElementNS(NS, "svg");
   svg.setAttribute("viewBox", `${cx - w / 2} ${cy - h / 2} ${w} ${h}`);
   svg.setAttribute("class", "map");
+  Object.assign(svg, { X, Y });
   svg.setAttribute("role", "img");
   svg.setAttribute("aria-label", "Map: " + pts.map((p) => p[1]).join(", "));
   const el = (tag, attrs, text) => {
@@ -1829,7 +1838,7 @@ function drawMap(pts, base, o = {}) {
   path(base.land, "land", true);
   path(base.lakes, "lake", true);
   path(base.rivers, "river", false);
-  const r = h * 0.014, fs = h * 0.045;
+  const r = o.px ? (h * 3) / o.px : h * 0.014, fs = o.px ? (h * 10.5) / o.px : h * 0.045;
   // A label beside a point, flipped to the left near the right edge.
   const label = (x, y, text, cls) => {
     const left = x > cx + w * 0.2;
@@ -1983,6 +1992,7 @@ function renderTour() {
   $("tour-prev").disabled = i === 0;
   $("tour-next").textContent = t(last ? "finish" : "next");
   $("tour-map").href = `${ATLAS}?pack=${encodeURIComponent(PACK)}&style=${ATLAS_STYLE}&lang=${state.lang}#tour=${tr.id}&s=${i + 1}`;
+  showRoute(tr, i);
   if (play.step !== `${tr.id}.${i}`) {
     showTourPic(tr, i);
     syncMusic();
@@ -2059,6 +2069,113 @@ async function showTourPic(tr, i) {
   img.style.aspectRatio = `${im.w} / ${im.h}`;
   img.src = MEDIA + "ai/" + im.f;
 }
+
+// --- The tour card's map -------------------------------------------------------------------------------------
+// Beside the picture, a small map follows the story: a dot travels from the last stop to this one, over the route so
+// far. Auto shows it only when the story moves to a new place (over 20 km from the last stop); the card's map
+// button cycles Auto, On and Off (bible-tour-map).
+const MAP_MODES = ["auto", "on", "off"];
+const tmap = { mode: MAP_MODES.includes(store.get("bible-tour-map")) ? store.get("bible-tour-map") : "auto", key: null, anim: 0, size: null };
+const km = ([a, b], [c, d]) => {
+  const r = Math.PI / 180, h = Math.sin(((d - b) * r) / 2) ** 2 + Math.cos(b * r) * Math.cos(d * r) * Math.sin(((c - a) * r) / 2) ** 2;
+  return 12742 * Math.asin(Math.sqrt(h));
+};
+const moved = (tr, i) => i > 0 && km(tr.steps[i - 1].at, tr.steps[i].at) > 20;
+const routeOn = (tr, i) => tmap.mode === "on" || (tmap.mode === "auto" && moved(tr, i));
+// A stop's name: the nearest place its verses name (within about 30 km), else any place within about 6 km.
+async function stopName(places, s) {
+  const [lon, lat] = s.at, ref = parseRef(s.ref);
+  const near = (list, d) => {
+    let best = null;
+    for (const p of list) {
+      const e = Math.hypot((p[2] - lon) * Math.cos((lat * Math.PI) / 180), p[3] - lat);
+      if (e < d) [best, d] = [p, e];
+    }
+    return best;
+  };
+  let named = [];
+  if (ref?.verse) {
+    const vp = (await bookContext(ref.book)).places;
+    for (let v = ref.verse; v <= (ref.to || ref.verse); v++) named.push(...(vp[`${ref.chapter}.${v}`] || []));
+    named = named.map((i) => places[i]);
+  }
+  const p = near(named, 0.3) || near(places, 0.06);
+  return p ? ((zh() && p[5]) || p[1]).replace(/\s*[（(].*[)）]$/, "") : ""; // "Bethel (of Palestine)" → "Bethel"
+}
+function renderMapBtn() {
+  const b = $("tour-maptg");
+  b.setAttribute("aria-pressed", tmap.mode !== "off");
+  b.title = b.ariaLabel = t("mapModeTitle");
+  b.querySelector("span").textContent = t("map_" + tmap.mode);
+}
+function setMapMode(m) {
+  tmap.mode = m;
+  store.set("bible-tour-map", m);
+  renderMapBtn();
+  if (state.tour) showRoute(state.tour.tr, state.tour.i);
+}
+async function showRoute(tr, i, still) {
+  const box = $("tour-route"), on = routeOn(tr, i);
+  box.closest(".tour-media").classList.toggle("with-route", on);
+  box.hidden = !on;
+  const key = `${tr.id}.${i}.${state.lang}`;
+  if (!on) { tmap.key = null; return; }
+  const [base, places] = await Promise.all([loadJSON("data/basemap.json"), loadJSON("data/places.json")]);
+  if (!onStep(tr, i) || box.hidden) return;
+  const again = tmap.key === key;
+  tmap.key = key;
+  const { width: bw, height: bh } = box.getBoundingClientRect();
+  tmap.size = `${Math.round(bw)}x${Math.round(bh)}`;
+  const at = tr.steps[i].at, from = i > 0 ? tr.steps[i - 1].at : null;
+  const [here, there] = await Promise.all([stopName(places, tr.steps[i]), from && stopName(places, tr.steps[i - 1])]);
+  if (!onStep(tr, i) || box.hidden) return;
+  const pt = (a, name) => ["", name, a[0], a[1]];
+  const svg = drawMap(from ? [pt(from, there)] : [], base, {
+    frame: [pt(at), ...(from ? [pt(from)] : [])], aspect: bw && bh ? bw / bh : 4 / 3, picked: pt(at, here), px: bh, minH: 1.2,
+    faint: tr.steps.filter((_, k) => k !== i && k !== i - 1).map((s) => pt(s.at, ""))
+  });
+  svg.setAttribute("preserveAspectRatio", "xMidYMid slice");
+  const NS = svg.namespaceURI, pin = svg.querySelector(".pin");
+  const line = (cls, pts) => {
+    const e = document.createElementNS(NS, "polyline");
+    e.setAttribute("class", cls);
+    e.setAttribute("vector-effect", "non-scaling-stroke");
+    e.setAttribute("points", pts.map(([lon, lat]) => `${svg.X(lon)},${svg.Y(lat)}`).join(" "));
+    svg.insertBefore(e, pin);
+    return e;
+  };
+  if (i > 1) line("trail", tr.steps.slice(0, i).map((s) => s.at));
+  box.querySelector("svg")?.remove();
+  box.prepend(svg);
+  cancelAnimationFrame(tmap.anim);
+  if (!from) return;
+  // The leg grows from the last stop as the dot travels it.
+  const leg = line("leg", [from, from]), dot = document.createElementNS(NS, "circle");
+  const r = (svg.viewBox.baseVal.height * 4.5) / (bh || 150);
+  dot.setAttribute("class", "mover");
+  dot.setAttribute("r", r);
+  svg.append(dot);
+  const go = (f) => {
+    const x = svg.X(from[0] + (at[0] - from[0]) * f), y = svg.Y(from[1] + (at[1] - from[1]) * f);
+    leg.setAttribute("points", `${svg.X(from[0])},${svg.Y(from[1])} ${x},${y}`);
+    dot.setAttribute("cx", x);
+    dot.setAttribute("cy", y);
+  };
+  if (still || again || matchMedia("(prefers-reduced-motion: reduce)").matches) return go(1);
+  const t0 = performance.now(), ms = 1800;
+  const tick = (now) => {
+    const f = Math.min(1, (now - t0) / ms);
+    go(f < 0.5 ? 2 * f * f : 1 - (-2 * f + 2) ** 2 / 2);
+    if (f < 1) tmap.anim = requestAnimationFrame(tick);
+  };
+  go(0);
+  tmap.anim = requestAnimationFrame(tick);
+}
+// Redrawn to fit when the card changes size (the picture arriving, a rotated phone).
+const watchRoute = () => window.ResizeObserver && new ResizeObserver(() => {
+  const { width, height } = $("tour-route").getBoundingClientRect(), size = `${Math.round(width)}x${Math.round(height)}`;
+  if (state.tour && !$("tour-route").hidden && tmap.size && size !== tmap.size) showRoute(state.tour.tr, state.tour.i, true);
+}).observe($("tour-route"));
 
 // Reads the step's note when the sound is on; resolves with the clip's length in ms, or 0 when nothing plays.
 async function narrate(tr, i) {
@@ -4115,6 +4232,15 @@ function renderSettings() {
   }
   const voiceRow = make("div", "settings-row");
   voiceRow.append(make("span", "", t("setVoice")), voices);
+  const maps = make("div", "seg");
+  for (const m of MAP_MODES) {
+    const b = make("button", "", t(m === "on" ? "mapOn" : "map_" + m));
+    b.setAttribute("aria-pressed", m === tmap.mode);
+    b.onclick = () => { setMapMode(m); maps.querySelectorAll("button").forEach((o) => o.setAttribute("aria-pressed", o === b)); };
+    maps.append(b);
+  }
+  const mapRow = make("div", "settings-row");
+  mapRow.append(make("span", "", t("setMap")), maps);
   const music = check(t("setMusic"), media.musicOn, (on) => {
     media.musicOn = on;
     store.set("bible-tour-music", on);
@@ -4128,7 +4254,7 @@ function renderSettings() {
   tourChips.append(autoplay, music);
   box.replaceChildren(head, section(t("textSize"), sizes),
     section(t("setReading"), choice("page", t("setPage")), choice("font", t("setFont")), choice("spacing", t("setSpacing")), flags),
-    section(t("setContext"), parts), section(t("setTours"), tourChips, voiceRow));
+    section(t("setContext"), parts), section(t("setTours"), tourChips, voiceRow, mapRow));
 }
 function showSettings(on) {
   $("settings").hidden = !on;
@@ -4316,6 +4442,9 @@ async function init() {
   $("tour-next").onclick = () => (state.tour.i === state.tour.tr.steps.length - 1 ? endTour() : startTour(state.tour.tr.id, state.tour.i + 1));
   $("tour-x").onclick = endTour;
   $("tour-sound").onclick = cycleSound;
+  $("tour-maptg").onclick = () => setMapMode(MAP_MODES[(MAP_MODES.indexOf(tmap.mode) + 1) % MAP_MODES.length]);
+  renderMapBtn();
+  watchRoute();
   $("tour-pic").onclick = () => $("tour-pic").classList.toggle("big");
   renderSound();
   $("tour-play").onclick = () => {
