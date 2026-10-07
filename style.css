@@ -82,20 +82,35 @@ a { color: var(--accent); }
 .menu-head { padding: 8px 10px 2px; font-size: 12px; font-weight: 600; color: var(--ink); }
 .menu-head:not(:first-child) { margin-top: 6px; border-top: 1px solid var(--line); padding-top: 10px; }
 .menu-group { padding: 4px 10px 2px; font-size: 11px; color: var(--muted); letter-spacing: .04em; text-transform: uppercase; }
-.size-wrap { position: relative; }
-#size-btn { display: flex; align-items: center; gap: 3px; font-family: "Source Serif 4", Georgia, serif; font-size: 16px; }
-#size-btn .caret { font-family: "IBM Plex Sans", system-ui, sans-serif; }
-.size-menu {
-  position: absolute; right: 0; top: calc(100% + 6px); z-index: 30; min-width: 150px; padding: 4px;
-  background: var(--panel); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,.16);
+.settings-wrap { position: relative; }
+.settings {
+  position: absolute; right: 0; top: calc(100% + 6px); z-index: 30; width: 340px; max-height: calc(100dvh - 80px); overflow-y: auto;
+  padding: 6px 16px 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,.16);
+  font-size: 14px; text-align: left;
 }
-.size-menu button {
-  display: flex; align-items: center; gap: 10px; width: 100%; border: 0; background: none;
-  padding: 5px 10px; border-radius: 7px; text-align: left; font-size: 14px;
+.settings-head { display: flex; align-items: center; justify-content: space-between; }
+.settings h2 { font-size: 16px; margin: 6px 0; }
+.settings h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin: 12px 0 6px; }
+.settings .seg { width: max-content; }
+.settings-sizes button { padding: 2px 9px; font-family: "Source Serif 4", "Noto Serif SC", serif; line-height: 1.3; min-height: 34px; }
+.settings-parts { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 12px; }
+.settings-check { display: flex; align-items: center; gap: 8px; padding: 4px 0; cursor: pointer; }
+.settings-check input { width: 16px; height: 16px; margin: 0; accent-color: var(--accent); }
+.settings-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 6px; }
+.settings-row .seg button { padding: 4px 11px; }
+
+/* Context parts the reader turned off in the settings */
+html.hide-orig #ctx-orig, html.hide-harmony #ctx-harmony, html.hide-topics #ctx-topics, html.hide-comm #ctx-comm,
+html.hide-intro #ctx-text > .intro, html.hide-mark #ctx-mark { display: none !important; }
+.tabs[hidden], .tabs button[hidden] { display: none; }
+
+/* The Tours button glows until it is first used */
+.dock #tours-btn.new { position: relative; color: var(--accent); box-shadow: 0 0 0 2px var(--accent); animation: tours-glow 1.8s ease-in-out infinite; }
+.dock #tours-btn.new::after {
+  content: ""; position: absolute; top: 3px; right: 3px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
 }
-.size-menu button:hover, .size-menu button:focus-visible { background: var(--accent-soft); outline: none; }
-.size-menu button[aria-checked=true] { color: var(--accent); font-weight: 600; }
-.size-menu .aa { width: 34px; font-family: "Source Serif 4", "Noto Serif SC", serif; line-height: 1.2; }
+@keyframes tours-glow { 50% { box-shadow: 0 0 0 2px var(--accent), 0 0 0 7px var(--accent-soft); } }
+@media (prefers-reduced-motion: reduce) { .dock #tours-btn.new { animation: none; } }
 
 /* Panels */
 .panels { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, 420px); min-height: 0; }
@@ -472,8 +487,6 @@ body:not(.playing) .tour-bar { visibility: hidden; }
 .results mark { background: var(--sel); color: inherit; border-radius: 2px; }
 /* Narrow phones: the title keeps its room, so the bar tightens up */
 @media (max-width: 400px) {
-  #size-btn { min-width: 0; padding: 0 4px; font-size: 14px; gap: 1px; }
-  #size-btn .caret { display: none; }
   .era { font-size: 10px; text-overflow: clip; letter-spacing: -.02em; }
   .timeline-card { padding: 8px 6px 6px; }
   .dock button { padding: 7px 11px; font-size: 13px; gap: 5px; }
@@ -938,3 +951,8 @@ body:not(.playing) .tour-bar { visibility: hidden; }
   .tour-ctl { gap: 5px; }
 }
 
+
+/* On a phone the settings span the screen under the bar */
+@media (max-width: 480px) {
+  .settings { position: fixed; left: 10px; right: 10px; top: 56px; width: auto; }
+}
