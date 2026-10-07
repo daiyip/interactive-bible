@@ -257,7 +257,8 @@ body:not(.playing) .tour-bar { visibility: hidden; }
 @keyframes lit { 0% { background: var(--sel); box-shadow: 0 0 0 3px var(--sel); } 100% { background: var(--accent-soft); box-shadow: 0 0 0 0 transparent; } }
 .v.lit { animation: lit 2.2s ease-out both; }
 .tour-ctl .pill { text-decoration: none; font-size: 14px; }
-.tour-ctl #tour-next { margin-left: auto; color: var(--accent); border-color: var(--accent); }
+.tour-ctl #tour-play { margin-left: auto; } /* Play sits by Next, at the right */
+.tour-ctl #tour-next { color: var(--accent); border-color: var(--accent); }
 .pill:disabled { opacity: .45; cursor: default; border-color: var(--line); color: var(--muted); }
 .tour-list { display: grid; gap: 8px; text-align: left; margin-top: 10px; }
 .tour-group { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
