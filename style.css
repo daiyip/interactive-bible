@@ -989,3 +989,34 @@ body:not(.playing) .tour-bar { visibility: hidden; }
 @media (max-width: 480px) {
   .settings { position: fixed; left: 10px; right: 10px; top: 56px; width: auto; }
 }
+
+/* More room for the tabs. Focus: an opened tab folds away the verse, topics and commentary above it, with a back arrow
+   to bring them back. Big: the panel as a large window over the page (the whole screen on a phone), the map beside the list. */
+#ctx-back { font-size: 24px; margin: -6px 0 -6px -8px; color: var(--accent); }
+#ctx-big { color: var(--muted); margin: -6px 0; }
+#ctx-big:hover { color: var(--accent); }
+.context.focus #ctx-scope, .context.focus #ctx-text, .context.focus .ctx-orig, .context.focus #ctx-mark,
+.context.big #ctx-scope, .context.big #ctx-text, .context.big .ctx-orig, .context.big #ctx-mark { display: none !important; }
+.context.big #ctx-back { display: none; }
+.ctx-veil { position: fixed; inset: 0; z-index: 59; background: rgba(20, 25, 40, .35); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+.ctx-veil[hidden] { display: none; }
+.context.big {
+  position: fixed !important; inset: 40px max(24px, 5vw) !important; height: auto !important; transform: none !important;
+  z-index: 60; border: 1px solid var(--line) !important; border-radius: 14px !important; padding: 16px 24px 24px !important;
+  background: var(--panel) !important; box-shadow: 0 20px 60px rgba(0, 0, 0, .3) !important;
+}
+.context.big .sheet-handle { display: none; }
+.context.big .ctx-head h2 { font-size: 20px; }
+.context.big #tab-places:not([hidden]) {
+  display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(260px, 1fr); grid-template-rows: auto 1fr; gap: 0 24px; align-items: start;
+}
+.context.big #places-note { grid-column: 1 / -1; }
+.context.big .map-box { grid-row: 2; aspect-ratio: auto; height: calc(100vh - 220px); height: calc(100dvh - 220px); position: sticky; top: 56px; }
+.context.big #places-body { grid-row: 2; grid-column: 2; }
+.context.big ul.xref { columns: 2 340px; column-gap: 32px; }
+.context.big ul.xref > li { break-inside: avoid; }
+@media (max-width: 800px) {
+  .context.big { inset: 0 !important; border-radius: 0 !important; border: 0 !important; padding: 12px 16px calc(16px + env(safe-area-inset-bottom)) !important; }
+  .context.big #tab-places:not([hidden]) { display: block; }
+  .context.big .map-box { height: auto; aspect-ratio: 1; position: relative; top: 0; }
+}

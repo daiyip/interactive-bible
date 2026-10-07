@@ -90,6 +90,7 @@
     </div>
   </section>
 
+  <div id="ctx-veil" class="ctx-veil" hidden></div>
   <aside id="context" class="context" aria-label="Context panel">
     <div class="sheet-handle" id="sheet-handle" data-i18n-title="sheetHandle" title="Drag or tap to resize"><span></span></div>
     <div id="ctx-empty" class="ctx-empty">
@@ -107,7 +108,7 @@
     </div>
     <div id="ctx-body" hidden>
       <div class="ctx-head">
-        <div class="ctx-title"><h2 id="ctx-ref"></h2><button id="sheet-x" class="icon" data-i18n-title="close" title="Close" aria-label="Close">×</button></div>
+        <div class="ctx-title"><button id="ctx-back" class="icon" data-i18n-title="ctxBack" title="Show the verse" aria-label="Show the verse" hidden>‹</button><h2 id="ctx-ref"></h2><button id="ctx-big" class="icon" data-i18n-title="ctxBig" title="Open large" aria-label="Open large"><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M9.5 2.5h4v4M6.5 13.5h-4v-4M13.5 2.5 9 7M2.5 13.5 7 9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button id="sheet-x" class="icon" data-i18n-title="close" title="Close" aria-label="Close">×</button></div>
         <div id="ctx-scope" class="seg ctx-scope" hidden></div>
         <blockquote id="ctx-text"></blockquote>
         <details id="ctx-orig" class="ctx-orig" hidden></details>
