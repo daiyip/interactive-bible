@@ -240,21 +240,28 @@ html.hide-intro #ctx-text > .intro, html.hide-mark #ctx-mark { display: none !im
 @media (max-width: 520px) { .tour-media { --rh: 104px; } .route-atlas { right: 4px; top: 4px; padding: 0 4px; font-size: 10px; line-height: 16px; } }
 .tour-sound { display: inline-flex; align-items: center; gap: 4px; }
 .tour-sound[aria-pressed="false"] { color: var(--muted); }
-/* On: a coloured ring and tint, blue for the male voice, red for the female voice, green for music */
-#tour-sound[aria-pressed="true"], #tour-music[aria-pressed="true"] { --on: #3d7be0; color: var(--on); border-color: var(--on); box-shadow: inset 0 0 0 1px var(--on); background: color-mix(in srgb, var(--on) 12%, transparent); }
+/* On: a coloured ring and tint, blue for the male voice, red for the female voice, green for music, amber for the map
+   (dashed while Auto) */
+#tour-sound[aria-pressed="true"], #tour-music[aria-pressed="true"], #tour-maptg[aria-pressed="true"] { --on: #3d7be0; color: var(--on); border-color: var(--on); box-shadow: inset 0 0 0 1px var(--on); background: color-mix(in srgb, var(--on) 12%, transparent); }
 #tour-sound[data-voice="Kore"] { --on: #d9534a; }
 #tour-music[aria-pressed="true"] { --on: #2f9e6a; }
+#tour-maptg[aria-pressed="true"] { --on: #c9860f; }
+#tour-maptg[data-mode="auto"] { border-style: dashed; box-shadow: none; }
 .tour-year { font-weight: 600; color: var(--accent); }
 .tour-ctl { display: flex; gap: 8px; }
 .tour-bar { height: 2px; margin: -4px 0 10px; background: var(--line); border-radius: 1px; overflow: hidden; }
 body:not(.playing) .tour-bar { visibility: hidden; }
 .tour-bar i { display: block; height: 100%; width: 0; background: var(--accent); }
-#tour-play[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); }
+/* Play glows (the Tours button's periwinkle) to invite a tap; while playing, Pause gets a ring and only a faint glow. */
+#tour-play { --glow: #9fa8ff; border-color: color-mix(in srgb, var(--glow) 80%, var(--line)); box-shadow: 0 0 14px 3px color-mix(in srgb, var(--glow) 65%, transparent); }
+#tour-play[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); background: color-mix(in srgb, var(--glow) 18%, transparent);
+  box-shadow: inset 0 0 0 1px var(--accent), 0 0 6px 1px color-mix(in srgb, var(--glow) 35%, transparent); }
 /* Playback: the step's verses glow in turn */
 @keyframes lit { 0% { background: var(--sel); box-shadow: 0 0 0 3px var(--sel); } 100% { background: var(--accent-soft); box-shadow: 0 0 0 0 transparent; } }
 .v.lit { animation: lit 2.2s ease-out both; }
 .tour-ctl .pill { text-decoration: none; font-size: 14px; }
-.tour-ctl #tour-next { margin-left: auto; color: var(--accent); border-color: var(--accent); }
+.tour-ctl #tour-play { margin-left: auto; } /* Play sits by Next, at the right */
+.tour-ctl #tour-next { color: var(--accent); border-color: var(--accent); }
 .pill:disabled { opacity: .45; cursor: default; border-color: var(--line); color: var(--muted); }
 .tour-list { display: grid; gap: 8px; text-align: left; margin-top: 10px; }
 .tour-group { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
@@ -1006,13 +1013,15 @@ body:not(.playing) .tour-bar { visibility: hidden; }
   .tour-ctl .pill { white-space: nowrap; padding-inline: 9px; font-size: 13px; }
   .tour-ctl { gap: 5px; }
   /* Narrow phones: Back and Play keep only their arrow and symbol (the words stay for screen readers). */
-  #tour-prev, #tour-play { font-size: 0; min-width: 36px; }
+  #tour-prev, #tour-play { font-size: 0; }
   #tour-prev::before, #tour-play::before { font-size: 14px; }
+  /* Every button but Next is an icon in a true circle. */
+  .tour-ctl .pill:not(#tour-next) { width: 36px; height: 36px; padding: 0; flex: none; display: inline-flex; align-items: center; justify-content: center; }
   #tour-prev::before { content: "‹"; font-size: 18px; }
   #tour-play::before { content: "▶"; }
   #tour-play[aria-pressed="true"]::before { content: "❚❚"; }
 }
-@media (max-width: 340px) { .tour-ctl { gap: 4px; } .tour-ctl .pill { padding-inline: 7px; } }
+@media (max-width: 340px) { .tour-ctl { gap: 4px; } .tour-ctl .pill { padding-inline: 7px; } .tour-ctl .pill:not(#tour-next) { width: 34px; height: 34px; } }
 
 
 /* On a phone the settings span the screen under the bar */

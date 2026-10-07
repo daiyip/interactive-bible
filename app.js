@@ -2127,6 +2127,7 @@ async function stopName(places, s) {
 function renderMapBtn() {
   const b = $("tour-maptg");
   b.setAttribute("aria-pressed", tmap.mode !== "off");
+  b.dataset.mode = tmap.mode;
   b.title = b.ariaLabel = t("mapModeTitle");
   b.querySelector("span").textContent = t("map_" + tmap.mode);
 }
