@@ -237,6 +237,8 @@ html.hide-intro #ctx-text > .intro, html.hide-mark #ctx-mark { display: none !im
 .map .leg-arrow { fill: var(--accent); stroke: var(--panel); stroke-width: 1.5; }
 .route-atlas { position: absolute; right: 6px; top: 6px; padding: 0 6px; border-radius: 4px; font: 600 11px/18px system-ui, sans-serif; color: #fff; background: rgb(0 0 0 / .45); text-decoration: none; }
 .route-atlas:hover { background: rgb(0 0 0 / .65); }
+/* A wide reader (a laptop or desktop) gives the card more room, so the picture and the map grow with it. */
+@container (min-width: 820px) { .tour { max-width: min(960px, 100%); } .tour-media { --rh: clamp(150px, 31vh, 300px); } .tour-pic:not(.big) img { max-height: 40vh; } }
 @media (max-width: 520px) { .tour-media { --rh: 104px; } .route-atlas { right: 4px; top: 4px; padding: 0 4px; font-size: 10px; line-height: 16px; } }
 .tour-sound { display: inline-flex; align-items: center; gap: 4px; }
 .tour-sound[aria-pressed="false"] { color: var(--muted); }
