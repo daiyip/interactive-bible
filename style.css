@@ -274,6 +274,25 @@ html.hide-intro #ctx-text > .intro, html.hide-mark #ctx-mark { display: none !im
 /* A wide reader (a laptop or desktop) gives the card more room, so the picture and the map grow with it. */
 @container (min-width: 820px) { .tour { max-width: min(960px, 100%); } .tour-media { --rh: clamp(150px, 31vh, 300px); } .tour-pic:not(.big) img { max-height: 40vh; } }
 @media (max-width: 520px) { .tour-media { --rh: 104px; } .route-atlas { right: 4px; top: 4px; padding: 0 4px; font-size: 10px; line-height: 16px; } }
+/* While touring, the card is the whole reading panel: the step's verses sit in it under the note and scroll inside it,
+   and the chapter behind is put away until the tour ends. */
+body.touring .reader { display: flex; flex-direction: column; overflow: hidden; padding-bottom: 16px; }
+body.touring .chapter, body.touring .chapter-foot, body.touring .credit { display: none; }
+body.touring .dock-wrap { flex: none; margin-top: 14px; }
+body.touring .dock-wrap::before { display: none; }
+body.touring .tour { position: relative; top: 0; flex: 1 1 auto; min-height: 0; width: 100%; margin: 0 auto; display: flex; flex-direction: column; }
+body.touring .tour::before { display: none; }
+body.touring .tour-body { flex: 1 1 auto; min-height: 0; }
+.tour-verses { flex: 1 1 auto; min-height: 96px; display: flex; flex-direction: column; margin: 0 0 10px; border-top: 1px solid var(--line); }
+.tv-head { display: flex; align-items: baseline; gap: 8px; padding: 8px 0 2px; }
+.tv-head b { flex: 1; min-width: 0; font-size: 13px; letter-spacing: .02em; color: var(--muted); }
+.tv-head .text-btn { margin: -6px -10px -6px 0; font-size: 13px; }
+.tv-text { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 2px 2px 8px;
+  font-family: "Source Serif 4", Georgia, serif; font-size: var(--read-size); line-height: var(--read-lh); }
+:root[data-font="sans"] .tv-text { font-family: "IBM Plex Sans", "Noto Sans SC", "PingFang SC", system-ui, sans-serif; }
+:root[data-font="kai"] .tv-text:lang(zh) { font-family: "Kaiti SC", "STKaiti", "KaiTi", "BiauKai", "Noto Serif SC", serif; }
+:root.no-vnum .tv-text .v > sup { font-size: 0; margin: 0; }
+:root.verse-lines .tv-text .v { display: block; margin-bottom: .35em; }
 .tour-sound { display: inline-flex; align-items: center; gap: 4px; }
 .tour-sound[aria-pressed="false"] { color: var(--muted); }
 /* On: a coloured ring and tint, blue for the male voice, red for the female voice, green for music, amber for the map
@@ -295,6 +314,9 @@ body:not(.playing) .tour-bar { visibility: hidden; }
 /* Playback: the step's verses glow in turn */
 @keyframes lit { 0% { background: var(--sel); box-shadow: 0 0 0 3px var(--sel); } 100% { background: var(--accent-soft); box-shadow: 0 0 0 0 transparent; } }
 .v.lit { animation: lit 2.2s ease-out both; }
+/* In the tour card every verse lights in turn, so each fades back to the page rather than staying marked. */
+@keyframes lit-fade { 0% { background: transparent; } 20% { background: var(--sel); box-shadow: 0 0 0 3px var(--sel); } 100% { background: transparent; box-shadow: 0 0 0 0 transparent; } }
+.tv-text .v.lit { animation: lit-fade 2.4s ease-out both; }
 .tour-ctl .pill { text-decoration: none; font-size: 14px; }
 .tour-ctl #tour-play { margin-left: auto; } /* Play sits by Next, at the right */
 .tour-ctl #tour-next { color: var(--accent); border-color: var(--accent); }
@@ -569,6 +591,8 @@ body:not(.playing) .tour-bar { visibility: hidden; }
   body.sheet-open .reader { padding-bottom: 64vh; }
   /* The dock would float over the verse the sheet is about, or over the tour card's buttons */
   body.sheet-open .dock-wrap, body.touring .dock-wrap { display: none; }
+  body.touring .context { display: none; }
+  body.touring .reader { padding: 10px 10px 12px; }
 }
 
 /* Search */
