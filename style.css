@@ -86,6 +86,16 @@ a { color: var(--accent); }
 .ver-btn { display: flex; align-items: center; gap: 3px; font-family: inherit; background: var(--panel); cursor: pointer; padding: 3px 6px; margin: 0; max-width: 168px; white-space: nowrap; }
 .ver-btn #version-name { overflow: hidden; text-overflow: ellipsis; }
 .ver-btn .caret { font-weight: 400; }
+.size-menu {
+  position: absolute; right: 0; top: calc(100% + 6px); z-index: 30; min-width: 150px; padding: 4px;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,.16);
+}
+.size-menu button {
+  display: flex; align-items: center; gap: 10px; width: 100%; border: 0; background: none;
+  padding: 5px 10px; border-radius: 7px; text-align: left; font-size: 14px;
+}
+.size-menu button:hover, .size-menu button:focus-visible { background: var(--accent-soft); outline: none; }
+.size-menu button[aria-checked=true] { color: var(--accent); font-weight: 600; }
 .ver-menu { left: 0; right: auto; width: 270px; max-height: min(70vh, 560px); overflow-y: auto; }
 .ver-menu button { flex-direction: column; align-items: flex-start; gap: 0; padding: 5px 10px; }
 .ver-menu button b { font-weight: 600; font-size: 14px; }
