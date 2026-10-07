@@ -113,7 +113,7 @@ html.hide-intro #ctx-text > .intro, html.hide-mark #ctx-mark { display: none !im
 .tabs[hidden], .tabs button[hidden] { display: none; }
 
 /* The Tours button glows softly and brightly until it is first used */
-.dock #tours-btn.new { --glow: #7cc8ff; color: var(--glow-ink, inherit); animation: tours-glow 2.2s ease-in-out infinite; }
+.dock #tours-btn.new { --glow: #9fa8ff; color: var(--glow-ink, inherit); animation: tours-glow 2.2s ease-in-out infinite; }
 .dock #tours-btn.new svg { color: var(--glow-ink, var(--accent)); }
 @keyframes tours-glow {
   0%, 100% { background: color-mix(in srgb, var(--glow) 18%, var(--glow-mix, transparent)); box-shadow: 0 0 8px 1px color-mix(in srgb, var(--glow) 40%, transparent); }
