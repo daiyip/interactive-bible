@@ -160,7 +160,7 @@ the install icon in the address bar and adds a one-click **Install** button when
 older Safari can't install web apps, so nothing shows there.
 
 **Notes on the text** (the person in the top bar) are kept on [ContextHive](https://contexthive.dev), the one
-part of the site with a backend. Signed out, it only looks up the chapter's public notes (there are none yet).
+part of the site with a backend. Signed out, nothing of it loads and nothing is sent.
 **Sign in** opens ContextHive's
 sign-in in a popup; then select words in a chapter for **Comment** or **Highlight**, and the notes button at the
 bottom right lists the chapter's notes. Notes belong to a chapter whatever the translation: a note on a verse stays

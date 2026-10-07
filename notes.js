@@ -1,6 +1,6 @@
 // Notes on the text, kept on ContextHive Cloud (https://contexthive.dev): select words in a chapter to
 // comment on them or highlight them, and open the notes button for the chapter's notes. Signing in
-// goes through the ContextHive hub in a popup; signed out, only the chapter's public notes are read.
+// goes through the ContextHive hub in a popup. Signed out, nothing loads and nothing is sent.
 //
 // Notes belong to a chapter, whatever the translation: each is kept under the chapter's reference
 // ("Gen.1"), and each verse carries its reference as `data-ctx-anchor` (app.js), so a note on a
@@ -23,8 +23,16 @@ const adapter = new CloudAdapter({ ...CLOUD, getToken: auth.getToken });
 const chapterId = () => `${state.book}.${state.chapter}`;
 
 const strings = {
-  en: { signIn: "Sign in to write notes (ContextHive)", signOut: "Notes: signed in with ContextHive. Sign out" },
-  zh: { signIn: "登录以写笔记（ContextHive）", signOut: "笔记：已用 ContextHive 登录。退出登录" },
+  en: {
+    signIn: "Sign in to write notes (ContextHive)",
+    signOut: "Notes: signed in with ContextHive. Sign out",
+    blocked: "Allow popups for this site to sign in.",
+  },
+  zh: {
+    signIn: "登录以写笔记（ContextHive）",
+    signOut: "笔记：已用 ContextHive 登录。退出登录",
+    blocked: "请允许本站弹出窗口以登录。",
+  },
 };
 const say = () => strings[state.lang === "zh" ? "zh" : "en"];
 
@@ -41,45 +49,64 @@ function mountAccount() {
     btn.title = btn.ariaLabel = user ? say().signOut : say().signIn;
   };
   btn.onclick = () => {
+    if (auth.user()) return auth.signOut();
     // From the click itself, or the browser blocks the popup.
-    if (auth.user()) auth.signOut().catch((e) => console.error(e));
-    else auth.signIn().catch((e) => e?.code === "closed" || e?.code === "cancelled" || console.error(e));
+    auth.signIn().catch((e) => {
+      if (e?.code === "popup_blocked") alert(say().blocked);
+      else if (e?.code !== "closed" && e?.code !== "cancelled") console.error(e);
+    });
   };
   auth.onChange(render);
+  document.addEventListener("chapterrendered", render); // the language follows the translation
   document.getElementById("share-btn").before(btn);
   render();
-  return render;
 }
 
+// The SDK runs only while someone is signed in, so a reader who never signs in sends nothing.
+let ctx = null;
+let starting = null;
 async function start() {
-  const render = mountAccount();
-  let documentId = chapterId();
-  const ctx = await ContextHive.init(
+  const started = await ContextHive.init(
     {
       adapter,
       scope: `app:${APP_ID}`,
       user: () => auth.user(),
       root: document.getElementById("chapter"),
-      documentId: () => documentId,
+      // Read live: a hash change is not a navigation to the SDK, so chapterrendered switches.
+      documentId: chapterId,
     },
     { ui: builtInUi },
   );
-  // A sign-in or sign-out changes whose notes show: load the chapter again with the new token.
-  auth.onChange(() => {
-    adapter.resetToken();
-    ctx.setDocument(documentId).catch((e) => console.error(e));
-  });
-  // app.js renders a chapter, then says so; the hash also changes for a verse picked in the chapter.
-  document.addEventListener("chapterrendered", () => {
-    render();
-    if (chapterId() === documentId) return;
-    documentId = chapterId();
-    ctx.setDocument(documentId).catch((e) => console.error(e));
-  });
-  window.contexthive = ctx;
+  // Signed out, or on another chapter, while it started.
+  if (!auth.user()) started.destroy();
+  else {
+    ctx = started;
+    if (ctx.documentId !== chapterId()) await ctx.setDocument(chapterId());
+  }
 }
+function follow() {
+  if (auth.user() && !ctx && !starting) {
+    starting = start()
+      .catch((e) => console.error("ContextHive did not start", e))
+      .finally(() => (starting = null));
+  } else if (!auth.user() && ctx) {
+    ctx.destroy();
+    ctx = null;
+  }
+}
+auth.onChange(() => {
+  adapter.resetToken();
+  follow();
+});
+// app.js renders a chapter, then says so; the hash also changes for a verse picked in the chapter.
+document.addEventListener("chapterrendered", () => {
+  if (ctx && ctx.documentId !== chapterId()) ctx.setDocument(chapterId()).catch((e) => console.error(e));
+});
 
 // After app.js has shown the first chapter (`rendered` is app.js's key of the chapter on screen).
-const go = () => start().catch((e) => console.error("ContextHive did not start", e));
+const go = () => {
+  mountAccount();
+  follow();
+};
 if (typeof rendered === "string" && rendered) go();
 else document.addEventListener("chapterrendered", go, { once: true });
