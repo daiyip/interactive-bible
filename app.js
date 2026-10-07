@@ -104,7 +104,8 @@ const L = {
     listen: "Listen", listenTitle: "Read this chapter aloud", listenPause: "Pause", listenGo: "Play", listenStop: "Stop reading",
     listenPrev: "Previous verse", listenNext: "Next verse", listenRate: "Reading speed", listenVoice: "Voice",
     voiceMore: "More voices can be added in your device's settings (Accessibility › Spoken Content on iPhone and Mac).",
-    picTitle: "AI-generated picture · tap to see it whole", soundTitle: "Narration and music: male voice, female voice or off",
+    picTitle: "AI-generated picture · tap to see it whole", soundTitle: "Narration: male voice, female voice or off",
+    musicBtn: "Music", musicTitle: "Background music while the tour plays: on or off",
     voice_Charon: "Male", voice_Kore: "Female", voice_off: "Off",
     map_auto: "Auto", map_on: "Map", map_off: "Off", mapOn: "On", setMap: "Map", atlasOpen: "Atlas ↗",
     mapModeTitle: "Map in the tour card: Auto (when the story moves to a new place), on or off",
@@ -238,7 +239,8 @@ const L = {
     listen: "朗读", listenTitle: "朗读本章", listenPause: "暂停", listenGo: "播放", listenStop: "停止朗读",
     listenPrev: "上一节", listenNext: "下一节", listenRate: "语速", listenVoice: "声音",
     voiceMore: "可在设备设置中添加更多声音（iPhone 与 Mac：辅助功能 › 朗读内容）。",
-    picTitle: "AI 生成的插图 · 轻点查看全图", soundTitle: "旁白与音乐：男声、女声或关闭",
+    picTitle: "AI 生成的插图 · 轻点查看全图", soundTitle: "旁白：男声、女声或关闭",
+    musicBtn: "音乐", musicTitle: "导览播放时的背景音乐：开或关",
     voice_Charon: "男声", voice_Kore: "女声", voice_off: "静音",
     map_auto: "自动", map_on: "地图", map_off: "关", mapOn: "显示", setMap: "地图", atlasOpen: "历代地图 ↗",
     mapModeTitle: "导览卡片里的地图：自动（故事换地方时显示）、显示或关闭",
@@ -2008,6 +2010,7 @@ function renderTour() {
   $("tour-year").textContent = fmtYear(s.year);
   $("tour-text").textContent = tx(s, "text");
   $("tour-prev").disabled = i === 0;
+  renderMusicBtn();
   $("tour-next").textContent = t(last ? "finish" : "next");
   $("tour-map").href = `${ATLAS}?pack=${encodeURIComponent(PACK)}&style=${ATLAS_STYLE}&lang=${state.lang}#tour=${tr.id}&s=${i + 1}`;
   showRoute(tr, i);
@@ -2304,6 +2307,19 @@ function setVoice(v) {
   renderSound();
   const { tr, i } = state.tour;
   if (play.on) setPlaying(true, narrate(tr, i));
+}
+// Background music on or off: the tour card's music button, or the switch in the settings.
+function setMusic(on) {
+  media.musicOn = on;
+  store.set("bible-tour-music", on);
+  renderMusicBtn();
+  syncMusic();
+}
+function renderMusicBtn() {
+  const b = $("tour-music");
+  b.setAttribute("aria-pressed", media.musicOn);
+  b.title = b.ariaLabel = t("musicTitle");
+  b.querySelector("span").textContent = t("musicBtn");
 }
 
 // --- Read aloud ---------------------------------------------------------------------------------------------
@@ -4274,11 +4290,7 @@ function renderSettings() {
   }
   const mapRow = make("div", "settings-row");
   mapRow.append(make("span", "", t("setMap")), maps);
-  const music = check(t("setMusic"), media.musicOn, (on) => {
-    media.musicOn = on;
-    store.set("bible-tour-music", on);
-    syncMusic();
-  });
+  const music = check(t("setMusic"), media.musicOn, setMusic);
   const autoplay = check(t("setAutoplay"), media.autoplay, (on) => {
     media.autoplay = on;
     store.set("bible-tour-autoplay", on);
@@ -4475,6 +4487,8 @@ async function init() {
   $("tour-next").onclick = () => (state.tour.i === state.tour.tr.steps.length - 1 ? endTour() : startTour(state.tour.tr.id, state.tour.i + 1));
   $("tour-x").onclick = endTour;
   $("tour-sound").onclick = cycleSound;
+  $("tour-music").onclick = () => setMusic(!media.musicOn);
+  renderMusicBtn();
   $("tour-maptg").onclick = () => setMapMode(MAP_MODES[(MAP_MODES.indexOf(tmap.mode) + 1) % MAP_MODES.length]);
   renderMapBtn();
   watchRoute();
