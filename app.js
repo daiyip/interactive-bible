@@ -1830,6 +1830,7 @@ async function fillTourList(list) {
     if (!groups.has(g)) groups.set(g, []);
     groups.get(g).push(tr);
   }
+  const pics = await mediaIndex("pictures");
   list.replaceChildren(...[...groups].map(([g, trs]) => {
     const sec = el("section", "tour-group");
     if (g) {
@@ -1837,18 +1838,28 @@ async function fillTourList(list) {
       h.append(...(TOUR_ICONS[g] ? [groupIcon(g, TOUR_ICONS)] : []), t("tg_" + g));
       sec.append(h);
     }
-    sec.append(...trs.map(tourItem));
+    sec.append(...trs.map((tr) => tourItem(tr, pics)));
     return sec;
   }));
 }
-function tourItem(tr) {
+// Each tour shows its first step's picture as a thumbnail, when it has one.
+function tourItem(tr, pics) {
   const btn = document.createElement("button");
   btn.className = "tour-item";
   const [b, span, small] = ["b", "span", "small"].map((t) => document.createElement(t));
   b.textContent = tx(tr, "title");
   span.textContent = `${fmtYear(tr.start)}${tr.end !== tr.start ? "–" + fmtYear(tr.end) : ""} · ${t("steps", tr.steps.length)}`;
   small.textContent = tx(tr, "summary");
-  btn.append(b, span, small);
+  const im = pics?.images?.[pics.keys?.[`a:tour.${tr.id}.0`]], text = el("div", "tour-text");
+  text.append(b, span, small);
+  if (im) {
+    const img = el("img", "tour-thumb");
+    Object.assign(img, { src: MEDIA + "ai/" + im.f, alt: "", loading: "lazy", decoding: "async" });
+    img.onerror = () => img.remove();
+    btn.classList.add("has-thumb");
+    btn.append(img);
+  }
+  btn.append(text);
   btn.onclick = () => startTour(tr.id, 0);
   return btn;
 }
