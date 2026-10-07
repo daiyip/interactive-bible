@@ -2071,8 +2071,8 @@ async function showTourPic(tr, i) {
 }
 
 // --- The tour card's map -------------------------------------------------------------------------------------
-// Beside the picture, a small map follows the story: a dot travels from the last stop to this one, over the route so
-// far. Auto shows it only when the story moves to a new place (over 20 km from the last stop); the card's map
+// Beside the picture, a small map (the app's own SVG map, not the atlas) follows the story: the leg from the last stop
+// draws itself with an arrowhead, over the road so far. Auto shows it only when the story moves to a new place (over 20 km from the last stop); the card's map
 // button cycles Auto, On and Off (bible-tour-map).
 const MAP_MODES = ["auto", "on", "off"];
 const tmap = { mode: MAP_MODES.includes(store.get("bible-tour-map")) ? store.get("bible-tour-map") : "auto", key: null, anim: 0, size: null };
@@ -2135,31 +2135,34 @@ async function showRoute(tr, i, still) {
     faint: tr.steps.filter((_, k) => k !== i && k !== i - 1).map((s) => pt(s.at, ""))
   });
   svg.setAttribute("preserveAspectRatio", "xMidYMid slice");
-  const NS = svg.namespaceURI, pin = svg.querySelector(".pin");
-  const line = (cls, pts) => {
-    const e = document.createElementNS(NS, "polyline");
+  const NS = svg.namespaceURI, pin = svg.querySelector(".pin"), u = svg.viewBox.baseVal.height / (bh || 150);
+  const add = (tag, cls, before) => {
+    const e = document.createElementNS(NS, tag);
     e.setAttribute("class", cls);
     e.setAttribute("vector-effect", "non-scaling-stroke");
-    e.setAttribute("points", pts.map(([lon, lat]) => `${svg.X(lon)},${svg.Y(lat)}`).join(" "));
-    svg.insertBefore(e, pin);
+    if (before) svg.insertBefore(e, pin); else svg.append(e);
     return e;
   };
-  if (i > 1) line("trail", tr.steps.slice(0, i).map((s) => s.at));
+  // The part of a leg from its start to f (0–1), as a path: on the map the legs bow like the atlas's.
+  const part = (a, b, f) => {
+    const p = arcAt(a, b), n = Math.max(2, Math.ceil(24 * f));
+    return "M" + Array.from({ length: n + 1 }, (_, j) => p((f * j) / n)).map(([lon, lat]) => `${svg.X(lon)} ${svg.Y(lat)}`).join("L");
+  };
+  // The road so far, dotted.
+  if (i > 1) add("path", "trail", true).setAttribute("d", tr.steps.slice(1, i).map((s, k) => part(tr.steps[k].at, s.at, 1)).join(""));
   box.querySelector("svg")?.remove();
   box.prepend(svg);
   cancelAnimationFrame(tmap.anim);
   if (!from) return;
-  // The leg grows from the last stop as the dot travels it.
-  const leg = line("leg", [from, from]), dot = document.createElementNS(NS, "circle");
-  const r = (svg.viewBox.baseVal.height * 4.5) / (bh || 150);
-  dot.setAttribute("class", "mover");
-  dot.setAttribute("r", r);
-  svg.append(dot);
+  // The leg into this stop draws itself with an arrowhead leading it; once there, the arrow rests halfway along.
+  const leg = add("path", "leg", true), arrow = add("path", "leg-arrow");
+  arrow.setAttribute("d", "M0 -10 8 7 0 3 -8 7Z");
+  const pos = arcAt(from, at), XY = (f) => { const [lon, lat] = pos(f); return [svg.X(lon), svg.Y(lat)]; };
   const go = (f) => {
-    const x = svg.X(from[0] + (at[0] - from[0]) * f), y = svg.Y(from[1] + (at[1] - from[1]) * f);
-    leg.setAttribute("points", `${svg.X(from[0])},${svg.Y(from[1])} ${x},${y}`);
-    dot.setAttribute("cx", x);
-    dot.setAttribute("cy", y);
+    leg.setAttribute("d", part(from, at, Math.max(f, 0.001)));
+    const g = f >= 1 ? 0.55 : f, [ax, ay] = XY(Math.max(0, g - 0.02)), [bx, by] = XY(g);
+    arrow.style.display = g > 0.01 ? "" : "none";
+    arrow.setAttribute("transform", `translate(${bx} ${by}) rotate(${(Math.atan2(bx - ax, ay - by) * 180) / Math.PI}) scale(${u * 0.75})`);
   };
   if (still || again || matchMedia("(prefers-reduced-motion: reduce)").matches) return go(1);
   const t0 = performance.now(), ms = 1800;
@@ -2170,6 +2173,15 @@ async function showRoute(tr, i, still) {
   };
   go(0);
   tmap.anim = requestAnimationFrame(tick);
+}
+// A leg as a gentle bow, the atlas's way (its arcLeg): a quadratic curve bent to the left of travel by about a seventh
+// of its length (at most 6°). Returns the point at t (0–1).
+function arcAt(a, b) {
+  const k = Math.max(0.2, Math.cos(((a[1] + b[1]) / 2) * Math.PI / 180));
+  const dx = (b[0] - a[0]) * k, dy = b[1] - a[1], len = Math.hypot(dx, dy);
+  const bend = len < 0.02 ? 0 : Math.min(len / 7, 6);
+  const cx = (a[0] + b[0]) / 2 - (len ? (dy / len) * bend / k : 0), cy = (a[1] + b[1]) / 2 + (len ? (dx / len) * bend : 0);
+  return (t) => { const v = 1 - t; return [v * v * a[0] + 2 * v * t * cx + t * t * b[0], v * v * a[1] + 2 * v * t * cy + t * t * b[1]]; };
 }
 // Redrawn to fit when the card changes size (the picture arriving, a rotated phone).
 const watchRoute = () => window.ResizeObserver && new ResizeObserver(() => {
