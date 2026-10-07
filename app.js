@@ -1905,6 +1905,7 @@ function setPlaying(on, clip) {
   const bar = $("tour-progress");
   bar.style.transition = "none";
   bar.style.width = "0";
+  syncMusic();
   if (!play.on) return stopNarration();
   const { tr, i } = state.tour;
   (clip || narrate(tr, i)).then((clipMs) => {
@@ -1979,10 +1980,10 @@ function stopNarration() {
   duck(false);
 }
 
-// One looping track for the period of the step on screen, crossfading when the period changes. Volume goes through Web
+// While the tour plays, one looping track for the period of the step on screen, crossfading when the period changes. Volume goes through Web
 // Audio, because iOS ignores an audio element's volume (R2 sends the CORS header this needs).
 async function syncMusic() {
-  const s = media.voice !== "off" && state.tour && state.tour.tr.steps[state.tour.i];
+  const s = media.voice !== "off" && play.on && state.tour && state.tour.tr.steps[state.tour.i];
   const era = s && (await loadJSON("atlas/eras.json").catch(() => ({ eras: [] }))).eras.find((e) => s.year >= e.start && s.year <= e.end);
   const key = era ? "bible/" + era.id : null;
   if (key === media.musicKey) return;
