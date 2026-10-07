@@ -2030,6 +2030,7 @@ const play = { on: false, timer: 0, tok: 0 };
 const stepTime = (s) => Math.min(15000, Math.max(7000, 3500 + 45 * tx(s, "text").length));
 function setPlaying(on, clip) {
   play.on = on && !!state.tour;
+  if (!play.on) media.musicNow = false;
   clearTimeout(play.timer);
   const tok = ++play.tok;
   $("tour-play").setAttribute("aria-pressed", play.on);
@@ -2239,7 +2240,7 @@ function stopNarration() {
 // While the tour plays, one looping track for the period of the step on screen, crossfading when the period changes. Volume goes through Web
 // Audio, because iOS ignores an audio element's volume (R2 sends the CORS header this needs).
 async function syncMusic() {
-  const s = media.musicOn && play.on && state.tour && state.tour.tr.steps[state.tour.i];
+  const s = media.musicOn && (play.on || media.musicNow) && state.tour && state.tour.tr.steps[state.tour.i];
   const era = s && (await loadJSON("atlas/eras.json").catch(() => ({ eras: [] }))).eras.find((e) => s.year >= e.start && s.year <= e.end);
   const key = era ? "bible/" + era.id : null;
   if (key === media.musicKey) return;
@@ -2292,6 +2293,7 @@ for (const ev of ["pointerdown", "keydown"]) addEventListener(ev, unlockSound, {
 function renderSound() {
   const b = $("tour-sound"), v = media.voice;
   b.setAttribute("aria-pressed", v !== "off");
+  b.dataset.voice = v;
   b.title = b.ariaLabel = t("soundTitle");
   b.querySelector("span").textContent = t("voice_" + v);
   b.querySelector("svg").innerHTML = v === "off" ? ICON_MUTE : ICON_SOUND;
@@ -4487,7 +4489,8 @@ async function init() {
   $("tour-next").onclick = () => (state.tour.i === state.tour.tr.steps.length - 1 ? endTour() : startTour(state.tour.tr.id, state.tour.i + 1));
   $("tour-x").onclick = endTour;
   $("tour-sound").onclick = cycleSound;
-  $("tour-music").onclick = () => setMusic(!media.musicOn);
+  // Turned on from the card, the music starts at once, without waiting for Play.
+  $("tour-music").onclick = () => { media.musicNow = !media.musicOn; setMusic(!media.musicOn); unlockSound(); media.ctx?.resume(); };
   renderMusicBtn();
   $("tour-maptg").onclick = () => setMapMode(MAP_MODES[(MAP_MODES.indexOf(tmap.mode) + 1) % MAP_MODES.length]);
   renderMapBtn();
