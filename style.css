@@ -22,7 +22,7 @@
     --bg: #151618; --panel: #1c1d21; --dock: #2a2d35; --ink: #e9e7e2; --muted: #9c9a94; --line: #32343a;
     --accent: #9fb6e2; --accent-soft: #252b38; --sel: #4a4120; --good: #8cc49c; --evil: #e39a8e; --shadow: 0 8px 24px rgba(0, 0, 0, .4);
     --sea: #1a2230; --land: #2a2925; --coast: #4a4740; --water: #5a7aa6;
-    --glow-mix: #fff4cc; --glow-ink: #2b2410;
+    --glow-mix: #fff; --glow-ink: #14202e;
     color-scheme: dark;
   }
 }
@@ -30,7 +30,7 @@
   --bg: #151618; --panel: #1c1d21; --dock: #2a2d35; --ink: #e9e7e2; --muted: #9c9a94; --line: #32343a;
   --accent: #9fb6e2; --accent-soft: #252b38; --sel: #4a4120; --good: #8cc49c; --evil: #e39a8e; --shadow: 0 8px 24px rgba(0, 0, 0, .4);
   --sea: #1a2230; --land: #2a2925; --coast: #4a4740; --water: #5a7aa6;
-  --glow-mix: #fff4cc; --glow-ink: #2b2410;
+  --glow-mix: #fff; --glow-ink: #14202e;
   color-scheme: dark;
 }
 
@@ -112,8 +112,8 @@ html.hide-orig #ctx-orig, html.hide-harmony #ctx-harmony, html.hide-topics #ctx-
 html.hide-intro #ctx-text > .intro, html.hide-mark #ctx-mark { display: none !important; }
 .tabs[hidden], .tabs button[hidden] { display: none; }
 
-/* The Tours button glows softly and brightly, like a lamp, until it is first used */
-.dock #tours-btn.new { --glow: #ffd765; color: var(--glow-ink, inherit); animation: tours-glow 2.2s ease-in-out infinite; }
+/* The Tours button glows softly and brightly until it is first used */
+.dock #tours-btn.new { --glow: #7cc8ff; color: var(--glow-ink, inherit); animation: tours-glow 2.2s ease-in-out infinite; }
 .dock #tours-btn.new svg { color: var(--glow-ink, var(--accent)); }
 @keyframes tours-glow {
   0%, 100% { background: color-mix(in srgb, var(--glow) 18%, var(--glow-mix, transparent)); box-shadow: 0 0 8px 1px color-mix(in srgb, var(--glow) 40%, transparent); }
@@ -226,6 +226,9 @@ body:not(.playing) .tour-bar { visibility: hidden; }
 .tour-item b { color: var(--ink); }
 .tour-item span { font-size: 12px; color: var(--muted); }
 .tour-item small { font-size: 13px; color: var(--muted); line-height: 1.4; }
+.tour-text { display: grid; align-content: start; gap: 2px; min-width: 0; }
+.tour-item.has-thumb { grid-template-columns: 96px 1fr; gap: 12px; align-items: start; }
+.tour-thumb { width: 96px; height: 72px; object-fit: cover; border-radius: 7px; background: var(--line); }
 .tours-hint { margin-top: 28px; }
 
 /* Context panel */
