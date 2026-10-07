@@ -337,6 +337,8 @@ body:not(.playing) .tour-bar { visibility: hidden; }
 .map-box iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 1px solid var(--line); border-radius: 10px; opacity: 0; pointer-events: none; transition: opacity .3s; background: var(--sea); }
 .map-box.live iframe { opacity: 1; pointer-events: auto; }
 .map-box.live #map-fallback { visibility: hidden; }
+.map-box.waiting { background: var(--sea); border-radius: 10px; }
+.map-box.waiting #map-fallback, .tour-route.waiting > svg.map { visibility: hidden; }
 .map-box[hidden] { display: none; }
 .map .sea { fill: var(--sea); }
 .map .land { fill: var(--land); stroke: var(--coast); stroke-width: 1; }
