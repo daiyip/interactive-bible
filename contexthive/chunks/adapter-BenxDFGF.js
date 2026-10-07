@@ -1,0 +1,1 @@
+var e=class extends Error{id;expectedRev;actualRev;constructor(e,t,n){super(`Annotation ${e} is at rev ${n}, expected ${t}`),this.id=e,this.expectedRev=t,this.actualRev=n,this.name=`ConflictError`}},t=class extends Error{id;constructor(e){super(`Annotation ${e} not found`),this.id=e,this.name=`NotFoundError`}};export{t as n,e as t};

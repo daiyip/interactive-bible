@@ -19,6 +19,7 @@ The data and the atlas pack are open:
 | `data/basemap.json` | [Natural Earth](https://www.naturalearthdata.com/) | Public domain |
 | `atlas/` (except `plugins/`) | The Bible Lands data pack for the atlas | CC BY-SA 4.0 |
 | `atlas/plugins/` | The pack's atlas plugins | [MIT](atlas/plugins/LICENSE) |
+| `contexthive/` | The bundled [ContextHive](https://github.com/free-solo/contexthive) SDK, its built-in UI and Cloud adapter, with [markdown-it](https://github.com/markdown-it/markdown-it) and [Floating UI](https://github.com/floating-ui/floating-ui) | [MIT](https://github.com/free-solo/contexthive/blob/main/LICENSE) |
 | `img/` | The logo and icons | Not licensed: the name and logo identify the official site |
 
 **Your own content and plugins are yours.** Reading plans, packs or plugins you build for the reader are not

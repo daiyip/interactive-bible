@@ -159,11 +159,22 @@ On a Mac the card shows too. In Safari 17 or later it points to File › Add to 
 the install icon in the address bar and adds a one-click **Install** button when the browser offers one. Firefox and
 older Safari can't install web apps, so nothing shows there.
 
+**Notes on the text** (the person in the top bar) are kept on [ContextHive](https://contexthive.dev), the one
+part of the site with a backend. Signed out, it only looks up the chapter's public notes (there are none yet).
+**Sign in** opens ContextHive's
+sign-in in a popup; then select words in a chapter for **Comment** or **Highlight**, and the notes button at the
+bottom right lists the chapter's notes. Notes belong to a chapter whatever the translation: a note on a verse stays
+with that verse in another translation, while the words it quotes are marked only in the translation it was written
+in. Your notes are private to you, and the [ContextHive hub](https://contexthive.dev) shows them together with your
+notes on other sites. `notes.js` sets it up; `contexthive/` is ContextHive's SDK, bundled by
+`tools/contexthive/build.mjs` from a built checkout of [free-solo/contexthive](https://github.com/free-solo/contexthive)
+(its packages are not on npm yet).
+
 An installed app has no browser toolbar, so the top bar gains **‹** and **›** to go back and forward through the
 passages you've visited, handy after following cross-references. The chapter buttons there become **⌃** and **⌄**
 for the previous and next chapter. In the browser the top bar is unchanged.
 
-It is a static site with no build step and no backend, served by GitHub Pages. `sw.js` is the service worker that
+It is a static site with no build step and no backend of its own (notes are ContextHive's), served by GitHub Pages. `sw.js` is the service worker that
 keeps it working offline, and `manifest.webmanifest` makes it installable.
 
 ## The Bible on the atlas
