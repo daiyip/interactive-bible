@@ -106,7 +106,7 @@ const L = {
     voiceMore: "More voices can be added in your device's settings (Accessibility › Spoken Content on iPhone and Mac).",
     picTitle: "AI-generated picture · tap to see it whole", soundTitle: "Narration and music: male voice, female voice or off",
     voice_Charon: "Male", voice_Kore: "Female", voice_off: "Off",
-    settings: "Settings", setContext: "Context panel", setTours: "Tours", setMusic: "Background music", setAutoplay: "Auto play",
+    settings: "Settings", setContext: "Context panel", setTours: "Tours", setMusic: "Background music", setAutoplay: "Auto play", ctxBack: "Show the verse", ctxBig: "Open large", ctxSmall: "Back to the panel",
     setReading: "Reading", setPage: "Page", setFont: "Font", setSpacing: "Line spacing",
     page_auto: "Auto", page_paper: "Paper", page_sepia: "Sepia", page_night: "Night",
     font_serif: "Serif", font_sans: "Sans", font_kai: "Kai 楷",
@@ -238,7 +238,7 @@ const L = {
     voiceMore: "可在设备设置中添加更多声音（iPhone 与 Mac：辅助功能 › 朗读内容）。",
     picTitle: "AI 生成的插图 · 轻点查看全图", soundTitle: "旁白与音乐：男声、女声或关闭",
     voice_Charon: "男声", voice_Kore: "女声", voice_off: "静音",
-    settings: "设置", setContext: "上下文面板", setTours: "导览", setMusic: "背景音乐", setAutoplay: "自动播放",
+    settings: "设置", setContext: "上下文面板", setTours: "导览", setMusic: "背景音乐", setAutoplay: "自动播放", ctxBack: "显示经文", ctxBig: "放大查看", ctxSmall: "还原",
     setReading: "阅读", setPage: "页面", setFont: "字体", setSpacing: "行距",
     page_auto: "自动", page_paper: "白纸", page_sepia: "米黄", page_night: "夜间",
     font_serif: "宋体", font_sans: "黑体", font_kai: "楷体",
@@ -577,12 +577,32 @@ function setChapterCtx(on) {
 }
 const closeCtx = () => state.verse != null ? (location.hash = hashFor(state.book, state.chapter)) : setChapterCtx(false);
 
+// More room for the tabs. Opening a tab folds the verse, topics and commentary away ("focus", until the back arrow or
+// another selection), and the expand button opens the panel as a big window over the page, the map beside the list.
+const room = { focus: null, big: false }; // focus: the selection it was set for
+function setFocus(on) {
+  room.focus = on ? selKey() : null;
+  $("context").classList.toggle("focus", on);
+  $("ctx-back").hidden = !on;
+}
+function setBig(on) {
+  room.big = on;
+  $("context").classList.toggle("big", on);
+  $("ctx-veil").hidden = !on;
+  document.body.classList.toggle("ctx-big", on);
+  const b = $("ctx-big");
+  b.title = b.ariaLabel = t(on ? "ctxSmall" : "ctxBig");
+  b.querySelector("path").setAttribute("d", on ? "M13.5 6.5h-4v-4M2.5 9.5h4v4M9.5 6.5 14 2M6.5 9.5 2 14" : "M9.5 2.5h4v4M6.5 13.5h-4v-4M13.5 2.5 9 7M2.5 13.5 7 9");
+}
+
 async function renderContext() {
   const scope = ctxScope(), open = scope != null, chapter = scope === "chapter";
   $("ctx-empty").hidden = open;
   $("ctx-body").hidden = !open;
   $("context").classList.toggle("open", open);
   document.body.classList.toggle("sheet-open", open);
+  if (room.focus && room.focus !== selKey()) setFocus(false);
+  if (!open && room.big) setBig(false);
   $("chapter-btn").setAttribute("aria-pressed", chapter);
   const b = state.byId[state.book], c = state.chapter;
   $("ctx-chapter").textContent = t("showChapter", `${bname(b)} ${c}`);
@@ -1848,8 +1868,9 @@ function drawMap(pts, base, o = {}) {
 const PACK = "https://bible.daiyip.com/atlas/manifest.json";
 const loadTours = () => loadJSON("atlas/tours.json");
 
-// Tours come grouped by period (each tour's "group"), in the order of atlas/tours.json.
-async function fillTourList(list) {
+// Tours come grouped by period (each tour's "group"), in the order of atlas/tours.json. In the Tours window (tabbed)
+// each group is a tab, remembered, starting on the group of the tour last taken.
+async function fillTourList(list, tabbed) {
   const tours = await loadTours(), groups = new Map();
   for (const tr of tours) {
     const g = tr.group || "";
@@ -1857,6 +1878,29 @@ async function fillTourList(list) {
     groups.get(g).push(tr);
   }
   const pics = await mediaIndex("pictures");
+  if (tabbed && groups.size > 1) {
+    const last = state.tour?.tr.group || tours.find((tr) => tr.id === store.get("bible-tour")?.[0])?.group;
+    let at = [store.get("bible-tour-group"), last].find((g) => groups.has(g)) || [...groups.keys()][0];
+    const bar = el("nav", "tour-tabs"), body = el("div", "tour-tabbed");
+    bar.setAttribute("role", "tablist");
+    const show = () => {
+      bar.querySelectorAll("button").forEach((b) => b.setAttribute("aria-selected", b.dataset.g === at));
+      const sec = el("section", "tour-group");
+      sec.append(...groups.get(at).map((tr) => tourItem(tr, pics)));
+      body.replaceChildren(sec);
+    };
+    for (const [g, trs] of groups) {
+      const b = el("button");
+      b.dataset.g = g;
+      b.setAttribute("role", "tab");
+      b.append(...(TOUR_ICONS[g] ? [groupIcon(g, TOUR_ICONS)] : []), el("span", "", g ? t("tg_" + g) : t("tours")), el("span", "count", trs.length));
+      b.onclick = () => { at = g; store.set("bible-tour-group", g); show(); b.scrollIntoView({ block: "nearest", inline: "nearest" }); };
+      bar.append(b);
+    }
+    list.replaceChildren(bar, body);
+    show();
+    return;
+  }
   list.replaceChildren(...[...groups].map(([g, trs]) => {
     const sec = el("section", "tour-group");
     if (g) {
@@ -1896,7 +1940,7 @@ function showTours() {
   const list = document.createElement("div");
   list.className = "tour-list";
   $("picker-body").replaceChildren(list);
-  fillTourList(list).catch(showError);
+  fillTourList(list, true).catch(showError);
 }
 function toursUsed() {
   store.set("bible-tours-used", true);
@@ -4214,8 +4258,12 @@ async function init() {
     state.tab = t;
     store.set("bible-tab", t);
     if (phone() && sheet.size !== "full") setSheet("full"); // room for the map and lists
+    setFocus(true);
     renderContext();
   });
+  $("ctx-back").onclick = () => setFocus(false);
+  $("ctx-big").onclick = () => setBig(!room.big);
+  $("ctx-veil").onclick = () => setBig(false);
   sheetControls();
   appNav();
   $("prev").onclick = $("prev2").onclick = () => step(-1);
@@ -4235,6 +4283,7 @@ async function init() {
     if (e.key === "/") { e.preventDefault(); openSearch(); return; }
     if (e.key === "ArrowLeft") step(-1);
     else if (e.key === "ArrowRight") step(1);
+    else if (e.key === "Escape" && room.big) setBig(false);
     else if (e.key === "Escape" && ctxScope()) closeCtx();
   });
   // The Tours button glows until the reader first opens it.
