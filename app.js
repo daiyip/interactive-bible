@@ -106,6 +106,9 @@ const L = {
     voiceMore: "More voices can be added in your device's settings (Accessibility › Spoken Content on iPhone and Mac).",
     picTitle: "AI-generated picture · tap to see it whole", soundTitle: "Narration and music: male voice, female voice or off",
     voice_Charon: "Male", voice_Kore: "Female", voice_off: "Off",
+    settings: "Settings", setContext: "Context panel", setTours: "Tours", setMusic: "Background music", setVoice: "Narration",
+    part_orig: "Hebrew & Greek", part_harmony: "Parallel accounts", part_topics: "Topics", part_comm: "Commentary",
+    part_intro: "About the book", part_mark: "Highlights & notes",
     play: "▶ Play", pause: "❚❚ Pause", playTitle: "Play the tour: steps move on by themselves and the map traces the route",
     card: "Card", cardTip: "A picture of this verse over a map of its places, to share", cardTitle: "Verse card",
     light: "Light", dark: "Dark", share: "Share…", download: "Download",
@@ -230,6 +233,9 @@ const L = {
     voiceMore: "可在设备设置中添加更多声音（iPhone 与 Mac：辅助功能 › 朗读内容）。",
     picTitle: "AI 生成的插图 · 轻点查看全图", soundTitle: "旁白与音乐：男声、女声或关闭",
     voice_Charon: "男声", voice_Kore: "女声", voice_off: "静音",
+    settings: "设置", setContext: "上下文面板", setTours: "导览", setMusic: "背景音乐", setVoice: "旁白",
+    part_orig: "希伯来文与希腊文", part_harmony: "平行记载", part_topics: "主题", part_comm: "注释",
+    part_intro: "书卷简介", part_mark: "标记与笔记",
     play: "▶ 播放", pause: "❚❚ 暂停", playTitle: "自动播放导览：逐站前进，地图描绘路线",
     card: "卡片", cardTip: "把这节经文配上地图做成图片分享", cardTitle: "经文卡片",
     light: "浅色", dark: "深色", share: "分享…", download: "下载",
@@ -474,6 +480,8 @@ function secondLine(text, tr) {
 // --- Context panel ----------------------------------------------------------
 
 const TABS = ["xref", "people", "places", "links"];
+// The tabs the reader kept in the settings; a tour always has its map.
+const shownTabs = () => TABS.filter((t) => !settings.hide.has(t) || (t === "places" && state.tour));
 
 // On a phone the panel is a sheet over the bottom of the text, in three sizes: "peek" (a strip with the reference,
 // leaving the text above it free to tap), "half" and "full". Its handle drags or taps between them; scrolling the
@@ -610,8 +618,14 @@ async function renderContext() {
   renderTopics(b, c, sel, chapter, key).catch((e) => console.error(e));
   renderCommentary(b, c, sel, chapter, key).catch((e) => console.error(e));
   $("ctx-text").classList.toggle("chapter", chapter);
-  document.querySelectorAll(".tabs button").forEach((t) => t.setAttribute("aria-selected", t.dataset.tab === state.tab));
-  for (const t of TABS) $("tab-" + t).hidden = t !== state.tab;
+  const shown = shownTabs();
+  if (shown.length && !shown.includes(state.tab)) state.tab = shown[0];
+  document.querySelector(".tabs").hidden = !shown.length;
+  document.querySelectorAll(".tabs button").forEach((t) => {
+    t.hidden = !shown.includes(t.dataset.tab);
+    t.setAttribute("aria-selected", t.dataset.tab === state.tab);
+  });
+  for (const t of TABS) $("tab-" + t).hidden = t !== state.tab || !shown.includes(t);
   renderLinks(b, c, chapter ? null : span.replace("–", "-"));
   renderPeople(b, c, sel, key).catch((e) => console.error(e));
   renderPlaces(b, c, sel, key).catch((e) => console.error(e));
@@ -1847,7 +1861,12 @@ function showTours() {
   $("picker-body").replaceChildren(list);
   fillTourList(list).catch(showError);
 }
+function toursUsed() {
+  store.set("bible-tours-used", true);
+  $("tours-btn").classList.remove("new");
+}
 async function startTour(id, i) {
+  toursUsed();
   const tr = (await loadTours()).find((t) => t.id === id);
   if (!tr) return endTour();
   i = Math.max(0, Math.min(tr.steps.length - 1, i));
@@ -1905,6 +1924,7 @@ function setPlaying(on, clip) {
   const bar = $("tour-progress");
   bar.style.transition = "none";
   bar.style.width = "0";
+  syncMusic();
   if (!play.on) return stopNarration();
   const { tr, i } = state.tour;
   (clip || narrate(tr, i)).then((clipMs) => {
@@ -1937,7 +1957,7 @@ function lightVerses() {
 const MEDIA = "https://data.atlas.daiyip.com/apps/bible/", MUSIC_VOL = 0.25;
 const VOICES = ["Charon", "Kore", "off"];
 const media = { voice: VOICES.includes(store.get("bible-tour-voice")) ? store.get("bible-tour-voice") : "Charon",
-  el: null, music: null, musicKey: null, ctx: null, unlocked: false };
+  musicOn: store.get("bible-tour-music") !== false, el: null, music: null, musicKey: null, ctx: null, unlocked: false };
 const mediaIndex = (name) => loadJSON(`atlas/media/${name}.json`).catch(() => ({}));
 const crc32 = (str) => {
   let c, crc = -1;
@@ -1979,10 +1999,10 @@ function stopNarration() {
   duck(false);
 }
 
-// One looping track for the period of the step on screen, crossfading when the period changes. Volume goes through Web
+// While the tour plays, one looping track for the period of the step on screen, crossfading when the period changes. Volume goes through Web
 // Audio, because iOS ignores an audio element's volume (R2 sends the CORS header this needs).
 async function syncMusic() {
-  const s = media.voice !== "off" && state.tour && state.tour.tr.steps[state.tour.i];
+  const s = media.musicOn && play.on && state.tour && state.tour.tr.steps[state.tour.i];
   const era = s && (await loadJSON("atlas/eras.json").catch(() => ({ eras: [] }))).eras.find((e) => s.year >= e.start && s.year <= e.end);
   const key = era ? "bible/" + era.id : null;
   if (key === media.musicKey) return;
@@ -2023,7 +2043,7 @@ const duck = (on) => media.music && fade(media.music, on ? MUSIC_VOL * 0.35 : MU
 // both play later on their own.
 const SILENT = "data:audio/wav;base64,UklGRiYAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQIAAACAgA==";
 function unlockSound() {
-  if (media.unlocked || media.voice === "off") return;
+  if (media.unlocked || (media.voice === "off" && !media.musicOn)) return;
   media.unlocked = true;
   const el = media.el ||= new Audio();
   if (!el.src || el.paused) { el.src = SILENT; el.play().catch(() => (media.unlocked = false)); }
@@ -2041,12 +2061,13 @@ function renderSound() {
 }
 const ICON_SOUND = '<path d="M2.5 6h2.5l3.5-3v10L5 10H2.5Z" fill="currentColor"/><path d="M10.6 5.4a3.6 3.6 0 0 1 0 5.2M12.4 3.6a6.2 6.2 0 0 1 0 8.8" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>';
 const ICON_MUTE = '<path d="M2.5 6h2.5l3.5-3v10L5 10H2.5Z" fill="currentColor"/><path d="M10.5 6l4 4M14.5 6l-4 4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>';
-// Male voice, female voice, off.
-function cycleSound() {
-  media.voice = VOICES[(VOICES.indexOf(media.voice) + 1) % VOICES.length];
-  store.set("bible-tour-voice", media.voice);
+// Male voice, female voice, off: cycled by the tour card's button, or picked in the settings.
+const cycleSound = () => setVoice(VOICES[(VOICES.indexOf(media.voice) + 1) % VOICES.length]);
+function setVoice(v) {
+  media.voice = v;
+  store.set("bible-tour-voice", v);
+  if (!state.tour) return;
   renderSound();
-  syncMusic();
   const { tr, i } = state.tour;
   const clip = narrate(tr, i);
   if (play.on) setPlaying(true, clip);
@@ -3915,27 +3936,75 @@ const SIZES = [15, 17, 19, 22, 25, 28];
 function nearestSize(px) {
   return SIZES.reduce((a, z) => (Math.abs(z - px) < Math.abs(a - px) ? z : a));
 }
-function renderSizeMenu() {
-  const menu = $("size-menu");
-  menu.replaceChildren();
-  const now = nearestSize(state.size);
-  SIZES.forEach((px, i) => {
-    const b = el("button", null);
-    b.setAttribute("role", "menuitemradio");
-    b.setAttribute("aria-checked", px === now);
-    const a = el("span", "aa", "Aa");
-    a.style.fontSize = px + "px";
-    b.append(a, el("span", null, t("sizes")[i]));
-    b.onclick = () => { setSize(px); showSizeMenu(false); };
-    menu.append(b);
-  });
+
+// --- Settings -------------------------------------------------------------------
+// A panel from the gear button: text size, the parts of the context panel to show, and the tours' music and voice.
+const PARTS = ["orig", "harmony", "topics", "comm", "intro", "mark", "xref", "people", "places", "links"];
+const settings = { hide: new Set((store.get("bible-hide") || []).filter((p) => PARTS.includes(p))) };
+function applyHidden() {
+  for (const p of PARTS) document.documentElement.classList.toggle("hide-" + p, settings.hide.has(p));
 }
-function showSizeMenu(on) {
-  $("size-menu").hidden = !on;
-  $("size-btn").setAttribute("aria-expanded", on);
+function renderSettings() {
+  const box = $("settings"), head = make("div", "settings-head"), x = make("button", "icon", "×");
+  x.title = x.ariaLabel = t("close");
+  x.onclick = () => { showSettings(false); $("settings-btn").focus(); };
+  const title = make("h2", "", t("settings"));
+  title.id = "settings-title";
+  head.append(title, x);
+  const section = (label, ...kids) => {
+    const sec = make("section");
+    sec.append(make("h3", "", label), ...kids);
+    return sec;
+  };
+  // A chip whose text is the switch: lit when on.
+  const check = (label, on, set) => {
+    const b = make("button", "settings-chip", label);
+    b.setAttribute("aria-pressed", on);
+    b.onclick = () => { on = !on; b.setAttribute("aria-pressed", on); set(on); };
+    return b;
+  };
+  // Text size: each size shown at its own size.
+  const sizes = make("div", "seg settings-sizes"), now = nearestSize(state.size);
+  SIZES.forEach((px, i) => {
+    const b = make("button", "", "Aa");
+    b.style.fontSize = px + "px";
+    b.title = b.ariaLabel = t("sizes")[i];
+    b.setAttribute("aria-pressed", px === now);
+    b.onclick = () => { setSize(px); sizes.querySelectorAll("button").forEach((o) => o.setAttribute("aria-pressed", o === b)); };
+    sizes.append(b);
+  });
+  const parts = make("div", "settings-parts");
+  for (const p of PARTS) {
+    const label = TABS.includes(p) ? t(p) : t("part_" + p);
+    parts.append(check(label, !settings.hide.has(p), (on) => {
+      settings.hide[on ? "delete" : "add"](p);
+      store.set("bible-hide", [...settings.hide]);
+      applyHidden();
+      if (ctxScope()) renderContext();
+    }));
+  }
+  const voices = make("div", "seg");
+  for (const v of VOICES) {
+    const b = make("button", "", t("voice_" + v));
+    b.setAttribute("aria-pressed", v === media.voice);
+    b.onclick = () => { setVoice(v); voices.querySelectorAll("button").forEach((o) => o.setAttribute("aria-pressed", o === b)); };
+    voices.append(b);
+  }
+  const voiceRow = make("div", "settings-row");
+  voiceRow.append(make("span", "", t("setVoice")), voices);
+  const music = check(t("setMusic"), media.musicOn, (on) => {
+    media.musicOn = on;
+    store.set("bible-tour-music", on);
+    syncMusic();
+  });
+  box.replaceChildren(head, section(t("textSize"), sizes), section(t("setContext"), parts), section(t("setTours"), music, voiceRow));
+}
+function showSettings(on) {
+  $("settings").hidden = !on;
+  $("settings-btn").setAttribute("aria-expanded", on);
   if (on) {
-    renderSizeMenu();
-    $("size-menu").querySelector("[aria-checked=true]").focus();
+    renderSettings();
+    $("settings").querySelector(".settings-sizes [aria-pressed=true]").focus();
   }
 }
 function step(dir) {
@@ -4002,6 +4071,7 @@ async function init() {
   state.books = await loadJSON("data/books.json");
   for (const b of state.books) state.byId[b.id] = b;
   setSize(store.get("bible-size") || 19);
+  applyHidden();
   // The translation: remembered, or 和合本 for a browser set to Chinese.
   const v = store.get("bible-version");
   state.version = validVersion(v) ? v : /^zh\b/i.test(navigator.language) ? "cuv" : "kjv";
@@ -4062,15 +4132,10 @@ async function init() {
   appNav();
   $("prev").onclick = $("prev2").onclick = () => step(-1);
   $("next").onclick = $("next2").onclick = () => step(1);
-  $("size-btn").onclick = () => showSizeMenu($("size-menu").hidden);
-  document.addEventListener("click", (e) => { if (!e.target.closest(".size-wrap")) showSizeMenu(false); });
-  $("size-menu").addEventListener("keydown", (e) => {
-    const items = [...$("size-menu").children], i = items.indexOf(document.activeElement);
-    if (e.key === "Escape") { e.stopPropagation(); showSizeMenu(false); $("size-btn").focus(); }
-    else if (e.key === "ArrowDown" || e.key === "ArrowUp") {
-      e.preventDefault(); e.stopPropagation();
-      items[(i + (e.key === "ArrowDown" ? 1 : items.length - 1)) % items.length].focus();
-    }
+  $("settings-btn").onclick = () => showSettings($("settings").hidden);
+  document.addEventListener("click", (e) => { if (!$("settings").hidden && !e.target.closest(".settings-wrap")) showSettings(false); });
+  $("settings").addEventListener("keydown", (e) => {
+    if (e.key === "Escape") { e.stopPropagation(); showSettings(false); $("settings-btn").focus(); }
   });
   $("picker-btn").onclick = () => { showBooks(); $("picker").showModal(); };
   $("picker-x").onclick = () => $("picker").close();
@@ -4084,7 +4149,9 @@ async function init() {
     else if (e.key === "ArrowRight") step(1);
     else if (e.key === "Escape" && ctxScope()) closeCtx();
   });
-  $("tours-btn").onclick = () => { showTours(); $("picker").showModal(); };
+  // The Tours button glows until the reader first opens it.
+  $("tours-btn").classList.toggle("new", !store.get("bible-tours-used"));
+  $("tours-btn").onclick = () => { toursUsed(); showTours(); $("picker").showModal(); };
   listenControls();
   $("mine-btn").onclick = () => openMine();
   const showTimeline = (on) => {
