@@ -34,6 +34,16 @@
   color-scheme: dark;
 }
 
+/* Sepia: a warm light page, picked in the settings */
+:root[data-page="sepia"] {
+  --bg: #f3ead7; --panel: #f9f2e3; --dock: #fdf8ee; --ink: #3a2e22; --muted: #7a6a58; --line: #e2d5bc;
+  --accent: #7a4b2a; --accent-soft: #efe0c8; --sel: #f3dc9a; --land: #efe5cf;
+}
+/* Words of Jesus, when red letters are on */
+:root { --wj: #b3261e; }
+:root[data-theme="dark"] { --wj: #f08a7e; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --wj: #f08a7e; } }
+
 * { box-sizing: border-box; }
 html, body { height: 100%; margin: 0; }
 /* No pinch or double-tap zoom: the app sizes its own text (the Aa menu). The atlas map in its frame still zooms. */
@@ -165,6 +175,17 @@ html.hide-intro #ctx-text > .intro, html.hide-mark #ctx-mark { display: none !im
   .chapter.both .v2:lang(zh) { font-size: .97em; }
 }
 .v sup { font: 600 .55em "IBM Plex Sans", sans-serif; color: var(--accent); margin: 0 .25em 0 .1em; vertical-align: .55em; }
+/* Reading choices from the settings: font, line spacing, verse numbers, a verse per line, red letters */
+:root { --read-lh: 1.75; }
+:root[data-spacing="compact"] { --read-lh: 1.5; }
+:root[data-spacing="relaxed"] { --read-lh: 2.05; }
+.chapter { line-height: var(--read-lh); }
+:root[data-font="sans"] .chapter, :root[data-font="sans"] .chapter:lang(zh) { font-family: "IBM Plex Sans", "Noto Sans SC", "PingFang SC", system-ui, sans-serif; }
+:root[data-font="kai"] .chapter:lang(zh), :root[data-font="kai"] .chapter .v2:lang(zh) { font-family: "Kaiti SC", "STKaiti", "KaiTi", "BiauKai", "Noto Serif SC", serif; }
+:root.no-vnum .chapter .v > sup { font-size: 0; margin: 0; }
+:root.no-vnum .chapter .v.noted > sup::after { font-size: calc(var(--read-size) * .55); }
+:root.verse-lines .chapter .v { display: block; margin-bottom: .35em; }
+:root.red-letters .wj { color: var(--wj); }
 .chapter-foot { max-width: 680px; margin: 40px auto 0; display: flex; justify-content: space-between; gap: 8px; }
 .pill { border: 1px solid var(--line); background: var(--panel); border-radius: 999px; padding: 6px 14px; color: var(--muted); }
 .pill:hover { border-color: var(--accent); color: var(--accent); }
