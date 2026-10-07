@@ -4113,6 +4113,9 @@ async function init() {
   $("tour-x").onclick = endTour;
   $("tour-sound").onclick = cycleSound;
   $("tour-pic").onclick = () => $("tour-pic").classList.toggle("big");
+  // Picture layout trial: ?tourpic=banner|side|cover (the current small one when absent).
+  const tp = new URLSearchParams(location.search).get("tourpic");
+  if (["banner", "side", "cover"].includes(tp)) document.documentElement.dataset.tourpic = tp;
   renderSound();
   $("tour-play").onclick = () => {
     if (!play.on && state.tour.i === state.tour.tr.steps.length - 1) { setPlaying(true); return startTour(state.tour.tr.id, 0); } // play again
