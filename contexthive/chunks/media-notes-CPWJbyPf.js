@@ -1,4 +1,4 @@
-import{i as e}from"./media-BkmSXBXx.js";import{a as t,n,r}from"./dom-BM5Au_xS.js";import{t as i}from"./parts-CEciOg9h.js";import{t as a}from"./clock-DXWY9K3R.js";function o({time:e}){return e.end===void 0?`Note at ${a(e.start)}`:`Note from ${a(e.start)} to ${a(e.end)}`}function s(e){let{layer:a}=e,s=a.ownerDocument,c=s.defaultView,l=e.label??o,u=n(s,`div`,{class:`ctx-media`,part:i.pins});u.append(t(s,`
+import{i as e}from"./media-BkmSXBXx.js";import{a as t,n,r}from"./dom-BM5Au_xS.js";import{t as i}from"./parts-CXDuB2ge.js";import{t as a}from"./clock-DXWY9K3R.js";function o({time:e}){return e.end===void 0?`Note at ${a(e.start)}`:`Note from ${a(e.start)} to ${a(e.end)}`}function s(e){let{layer:a}=e,s=a.ownerDocument,c=s.defaultView,l=e.label??o,u=n(s,`div`,{class:`ctx-media`,part:i.pins});u.append(t(s,`
 .ctx-media-strip {
   position: absolute;
   height: 12px;

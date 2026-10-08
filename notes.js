@@ -63,6 +63,40 @@ function mountAccount() {
   render();
 }
 
+// The notes UI in the reader's look: style.css gives it the theme's colours (on contexthive-root, so
+// it follows light, dark and sepia), and this styles its parts. The page's custom properties
+// (--panel, --dock, ...) reach inside it.
+const NOTES_CSS = `
+  [part~="launcher"] {
+    background: var(--dock); color: var(--ink); font: 500 14px/1 inherit; padding: 9px 15px;
+    border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--line));
+  }
+  [part~="launcher"]:hover { filter: none; color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, var(--dock)); }
+  [part~="panel"] { width: min(400px, 100vw); }
+  [part~="panel"] h2 { font-size: 16px; }
+  .ctx-panel-tabs { gap: 2px; margin: 10px 14px 4px; padding: 2px; width: max-content; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); }
+  .ctx-panel-tab { padding: 4px 12px; border: 0; border-radius: 999px; font-weight: 500; }
+  .ctx-panel-tab[aria-selected="true"] { background: var(--panel); color: var(--ink); box-shadow: 0 1px 2px rgba(0, 0, 0, .12); }
+  .ctx-panel-item:hover { background: var(--accent-soft); }
+  .ctx-quote { font-family: "Source Serif 4", "Noto Serif SC", serif; font-size: 14px; border-left-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+  @media (max-width: 800px) {
+    /* Above the dock, which runs along the bottom of the reader on phones */
+    [part~="launcher"] { bottom: calc(124px + env(safe-area-inset-bottom)); }
+    /* A sheet from the bottom, like the reader's own */
+    [part~="panel"] {
+      top: auto; width: 100vw; height: min(70vh, 560px); border: 1px solid var(--line); border-bottom: 0;
+      border-radius: 16px 16px 0 0;
+    }
+  }
+`;
+
+/** The color scheme the reader shows: the one picked in its settings, or the device's. */
+const scheme = () => document.documentElement.dataset.theme ?? "auto";
+new MutationObserver(() => document.querySelector("contexthive-root")?.setAttribute("color-scheme", scheme())).observe(
+  document.documentElement,
+  { attributes: true, attributeFilter: ["data-theme"] },
+);
+
 // The SDK runs only while someone is signed in, so a reader who never signs in sends nothing.
 let ctx = null;
 let starting = null;
@@ -77,7 +111,7 @@ async function start() {
       documentId: chapterId,
       // A note picked under "All my notes" in the notes panel: go to its chapter, where its card
       // opens once the chapter's notes have loaded.
-      ui: { openDocument: (id) => (location.hash = "#" + id) },
+      ui: { openDocument: (id) => (location.hash = "#" + id), colorScheme: scheme(), css: NOTES_CSS },
     },
     { ui: builtInUi },
   );

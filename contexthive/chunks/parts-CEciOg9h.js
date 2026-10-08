@@ -1,1 +1,0 @@
-const e={layer:`layer`,pins:`pins`,pin:`pin`,card:`card`,panel:`panel`,selectionToolbar:`selection-toolbar`,composer:`composer`};export{e as t};
