@@ -1,5 +1,6 @@
 // Notes on the text, kept on ContextHive Cloud (https://contexthive.dev): select words in a chapter to
-// comment on them or highlight them, and open the notes button for the chapter's notes. Signing in
+// comment on them or highlight them, and open the notes button for the chapter's notes (and, under
+// "All my notes", every note you wrote here, each opening its chapter). Signing in
 // goes through the ContextHive hub in a popup. Signed out, nothing loads and nothing is sent.
 //
 // Notes belong to a chapter, whatever the translation: each is kept under the chapter's reference
@@ -74,6 +75,9 @@ async function start() {
       root: document.getElementById("chapter"),
       // Read live: a hash change is not a navigation to the SDK, so chapterrendered switches.
       documentId: chapterId,
+      // A note picked under "All my notes" in the notes panel: go to its chapter, where its card
+      // opens once the chapter's notes have loaded.
+      ui: { openDocument: (id) => (location.hash = "#" + id) },
     },
     { ui: builtInUi },
   );
