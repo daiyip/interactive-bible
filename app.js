@@ -1992,7 +1992,17 @@ async function startTour(id, i, auto) {
   store.set("bible-tour", [id, i]);
   if ($("picker").open) $("picker").close();
   if ($("mine").open) $("mine").close();
-  // The step's verses are set in the card itself, so the chapter behind it stays where the reader left it.
+  // The step's verses are set in the card itself. The chapter behind it (and the top bar's title) moves to the step's
+  // chapter quietly, without a hashchange, so the tour goes on and ending it leaves the reader there.
+  const at = parseRef(tr.steps[i].ref);
+  if (at && (at.book !== state.book || at.chapter !== state.chapter || state.verse != null)) {
+    history.replaceState(null, "", location.pathname + location.search + hashFor(at.book, at.chapter));
+    Object.assign(state, { book: at.book, chapter: at.chapter, verse: null, to: null });
+    store.set("bible-pos", `${at.book}.${at.chapter}`);
+    renderTour();
+    renderTimeline().catch((e) => console.error(e));
+    return renderChapter().then(() => renderContext()).catch(showError);
+  }
   renderTour();
   if (!was) renderContext(); // Places steps aside for the card's map
 }
